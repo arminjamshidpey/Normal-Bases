@@ -6,6 +6,8 @@
 
 \newcommand{\osum}[2]{\alpha_{#1,#2}}
 \newcommand{\osumcost}{O(n^{3/4 \omega(4/3)})}
+\newcommand{\osumcosttilde}{\tilde{O}(n^{3/4 \omega(4/3)})}
+
 {
       \theoremstyle{acmplain}
       \newtheorem{assumption}{Assumption}
@@ -298,7 +300,7 @@ By know we have the problem of invertiblity of $M_G(\alpha)$ to $l(\osum{G}{K}) 
 projection $l$. In this section we present algorithms to compute $\alpha_{G,K}$ in case that $G$ is either abelian or metacyclic. 
 We begin by the simplest case which is the cyclic one. Assume $G = \langle g \rangle$ where $\mathrm{Ord}(g) = n$. 
 
-The following lemma is a variant of \cite[Lemma 3]{Kaltofen}, with a slight modification in the proof.
+The following lemmas are variants of \cite[Lemma 3 $\&$ Lemma 4]{Kaltofen}, with a slight modification in the proofs.
 
 \begin{lemma}\cite{Kaltofen}\label{modcom}
 Assume $K$ is a field, $f\in K[x]$ is of degree $n$ and $s = \lceil\sqrt{n}\rceil$. Given $g_1, \ldots , g_{s}$ and 
@@ -320,18 +322,36 @@ for $x^t$ and performing a Horner evaluation scheme. The dominant term in this c
 is $O(n^{3/4 \omega(4/3)})$.
 \end{proof}
 
-\begin{lemma}
-Assume $K$ is a field, $f\in K[x]$ is of degree $n = n_1 \cdots n_r$ and $s_i = \lfloor\sqrt{n_i}\rfloor$. Given 
+\begin{lemma}\cite{Kaltofen}
+Assume $K$ is a field, $f\in K[x]$ is of degree $n = n_1 \cdots n_r$ and $s_i = \lceil\sqrt{n_i}\rceil$. Given 
 $g_1, \ldots , g_{r}$ and $h \in K[x]$ of degree less than $n$, $$g_1^{i_1}\cdots g_r^{i_r}(h) \mod f, 1 \leq j \leq r, 
 0 \leq i_j \leq s_i$$ can be 
-computed in $\tilde{O}(n^{\frac{3}{4}\omega(\frac{4}{3})})$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
+computed in $\osumcosttilde$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
 multiplication as introduced in \cite{LeGall}. 
 \end{lemma}
 
 \begin{proof}
 At first assume we have computed $g_1(x), \ldots , g_1^m(x) \mod f$. Then we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by
 computing $g_1(g_1^m(x)), \ldots , g_1^m(g_1^m(x)) \mod f$ using Lemma \ref{modcom}. Hence by repeating the doubling method 
-$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $\log s_1 \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by computing $g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $2 \log s_1 \times \osumcost$
+$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $O(\log s_1) \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compute $g_1^{m+1}(h), \ldots , g_1^{2m}(h)$ by computing $g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $ O(\log s_1) \times \osumcost$ using the above doubling method.
+
+The next step is to apply $g_2^i$ to $g_1(h), \ldots , g_1^{s_1}(h)$ for $0\leq i \leq s_2$. In order to do so we compute 
+$$g_2(g_1(h)), \ldots , g_2(g_1^{s_1}(h))$$
+using the fact that $g_2(g_1^i(h)) = g_1^i(g_2(h))$ and applying Lemma \ref{modcom} which costs $\osumcost$. At this point we have 
+$$\begin{array}{lll} g_1(h)& \ldots & g_1^{s_1}(h)\\ g_2(g_1(h))& \ldots & g_2(g_1^{s_1}(h))\end{array}$$
+and by applying $g_2^2$ (using the above method) we get 
+$$\begin{array}{lll} g_1(h)& \ldots & g_1^{s_1}(h)\\ g_2(g_1(h))& \ldots & g_2(g_1^{s_1}(h))\\
+g_2^2(g_1(h))& \ldots & g_2^2(g_1^{s_1}(h))\\g_2^3(g_1(h))& \ldots & g_2^3(g_1^{s_1}(h))
+\end{array}$$
+and by doing the same for $g_2^4, \ldots $ we get
+$$g_2^{i_2}(g_1^{i_1}(h)), \, 0\leq i_1\leq s_1, 0 \leq i_2 \leq s_2,$$
+using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ which is  $O(\log (s_1s_2))\osumcost$. 
+
+Doing the same for $g_3 , \ldots , g_r$ we see the cost of the computation is 
+$$O(\log (s_1\cdots s_r))\osumcost = \osumcosttilde.$$
+
+Note that for each $g_i$ we have to compute $g_i^j$ for $0 \leq j \leq s_i$ but this can be carried out with less operations than what 
+we have stated for the other computations.
 \end{proof}
 
 
