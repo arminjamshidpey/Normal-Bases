@@ -139,7 +139,7 @@ is called normal if the set of Galois conjugates of $\alpha$ forms a basis for $
  known for a long time.
 
 There are several algorithms for finding a normal element in zero characteristic and finite fields. Due to the applications of
-finite fields, normalelement in this case is more popular. H. W. Lenstra in \cite{LenstraNormal} introduced an determenistic 
+finite fields, normal element in this case is more popular. H. W. Lenstra in \cite{LenstraNormal} introduced an deterministic 
 algorithm which uses $O(n^{O(1)})$ operations over the smaller field where $n$ is the degree of the extension. To the best of
 our knowledge, the algorithm introduced by Augot and Camion (cite) is the most efficient deterministic one with $O(n^3+n^2\log q)$
 where $q$ is size of the base field. Randomized algorithems for finite fileds are introduced in \cite{Giesbrecht} with cost
@@ -196,7 +196,7 @@ g_n g_1(x) & g_n g_2(x) & \cdots & g_n g_n(x) \\
  test is done by means of finding the gcd of an associated polynomial to $M_G(\alpha)$ and $x^n-1$, since in the cyclic
  case $M_G(\alpha)$ is circulant.
  
- In order to give an explicit randomized algorithem based on the Algorithm (\ref{Alg:Naive}), we need to know 
+ In order to give an explicit randomized algorithm based on the Algorithm (\ref{Alg:Naive}), we need to know 
  the probability of success. Since we are working over characteristic zero, we are able to consider a finite subset
  of $K \cong F^n$ such that the probability of failure is $\dfrac{1}{n}$, using 
  Schwartz-Zippel lemma.
@@ -230,11 +230,11 @@ Now $\det(M_G(x)) \in K[x_1, \ldots , x_n]$ is a polynomial of total degree $n$ 
  
  A close look at $M_G(x)$ tells us it is exactly the matrix of (left) multiplication by $$\alpha_{G,K} = \sum_{g \in G} g(\alpha)g \in K[G].$$  This gives an idea to modify Algorithm \ref{Alg:Naive}. Instead of writing $M_G(x)$ and test its invertiblity, 
  we can write $u_\alpha$ and test if it is invertible in $K[G]$. Note that if $G$ is cyclic then $K[G] \cong K[x]/(x^n-1)$,
- $\osum{G}{K}$ is the accociated polynomial to $M_G(\alpha)$ and $M_G(\alpha)$ is invertible if and only if 
+ $\osum{G}{K}$ is the associated polynomial to $M_G(\alpha)$ and $M_G(\alpha)$ is invertible if and only if 
  $\gcd (\osum{G}{K},x^n-1) = 1 $.
  
 \begin{assumption}
-$K/F$ is afinite Galois extension given by $ F[x]/f$ for an irreducible polynomial $f\in F[x]$ of degree $n$, with
+$K/F$ is a finite Galois extension given by $ F[x]/f$ for an irreducible polynomial $f\in F[x]$ of degree $n$, with
  $G = \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action of $g \in G$ on $K$ is given by a
  polynomial in $F[x]$ of degree less than $n$. For simplicity we use the same notation $g$ for the mentioned 
  polynomial.
@@ -296,12 +296,12 @@ Lemma \ref{Lem:Proj} enables us to test invertibility of a random projection of 
 
 By know we have the problem of invertiblity of $M_G(\alpha)$ to $l(\osum{G}{K}) \in K[G]$ for a generic
 projection $l$. In this section we present algorithms to compute $\alpha_{G,K}$ in case that $G$ is either abelian or metacyclic. 
-We begin by the simpleest case which is the cyclic one. Assume $G = \langle g \rangle$ where $\mathrm{Ord}(g) = n$. 
+We begin by the simplest case which is the cyclic one. Assume $G = \langle g \rangle$ where $\mathrm{Ord}(g) = n$. 
 
 The following lemma is a variant of \cite[Lemma 3]{Kaltofen}, with a slight modification in the proof.
 
 \begin{lemma}\cite{Kaltofen}\label{modcom}
-Assume $K$ is a field, $f\in K[x]$ is of degree $n$ and $s = \lfloor\sqrt{n}\rfloor$. Given $g_1, \ldots , g_{s}$ and 
+Assume $K$ is a field, $f\in K[x]$ is of degree $n$ and $s = \lceil\sqrt{n}\rceil$. Given $g_1, \ldots , g_{s}$ and 
 $h \in K[x]$ of degree less than $n$, $g_1(h), \ldots g_{s}(h)\,\,\,\mod\,\,\, f$ can be computed in
 $O(n^{\frac{3}{4}\omega(\frac{4}{3})})$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
 multiplication as introduced in \cite{LeGall}. 
@@ -314,10 +314,10 @@ Now $g_{ij}$'s are polynomials of degree less than $t$. The next step is to comp
 Having $H_i$'s in hand one can form the matrix $H = \left[ H_1 \vert \cdots \vert H_t \right]^T$ where each column is the vector of 
 the element $H_i$ (with coefficients in $F$) so the matrix $H$ is of size $t \times n$. We form 
 $A = \left[\bar{g}_{10}\vert \cdots \vert \bar{g}_{1(n/t-1)}\vert \cdots \vert \bar{g}_{s0}\vert \cdots \vert \bar{g}_{s(n/t-1)}\right]^T,$
-where $\bar{g}_{ij}$ is the coefficeint vector of $g_{ij}$. In order to compute $g_{ij}(h)$ one can compute $A \cdot H$. Using 
+where $\bar{g}_{ij}$ is the  vector of $g_{ij}$. In order to compute $g_{ij}(h)$ one can compute $A \cdot H$. Using 
 results from \cite{LeGall}, this can be done in $O(n^{3/4 \omega(4/3)})$. The last step to get $g_i(h)$, is to substitute $H_t$ 
 for $x^t$ and performing a Horner evaluation scheme. The dominant term in this calculation is the cost of computing $AH$ which
-is $O(n^{3/4 \omega(4/3)})$ 
+is $O(n^{3/4 \omega(4/3)})$.
 \end{proof}
 
 \begin{lemma}
@@ -329,30 +329,18 @@ multiplication as introduced in \cite{LeGall}.
 \end{lemma}
 
 \begin{proof}
-At first assume we have computed $g_1(x), \ldots , g_1^m(x) \mod f$. Then we can compuet $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by
+At first assume we have computed $g_1(x), \ldots , g_1^m(x) \mod f$. Then we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by
 computing $g_1(g_1^m(x)), \ldots , g_1^m(g_1^m(x)) \mod f$ using Lemma \ref{modcom}. Hence by repeating the doubling method 
-$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $\log s_1 \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compuet $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by computing $g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $2 \log s_1 \times \osumcost$
+$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $\log s_1 \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by computing $g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $2 \log s_1 \times \osumcost$
 \end{proof}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 We do the computations in 3 steps:
 
-\textbf{step 1.} compuet $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma 4 this can be done in 
+\textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma 4 this can be done in 
 $O(n^{\frac{1}{2}\omega(\frac{4}{3})}).$
 
-\textbf{step 2.} compute $\sqrt{n}$ elements $h_i = \sum_{j = 1}^ {\sqrt{n}-1}a_{ij}g^{j}(\alpha)$ which is actually a rctangular matrix multiplication which uses $O(n^{\frac{1}{2}\omega(\frac{4}{3})}).$ operations in $F$.
+\textbf{step 2.} compute $\sqrt{n}$ elements $h_i = \sum_{j = 1}^ {\sqrt{n}-1}a_{ij}g^{j}(\alpha)$ which is actually a rectangular matrix multiplication which uses $O(n^{\frac{1}{2}\omega(\frac{4}{3})}).$ operations in $F$.
 
 \subsection{Abelian Groups}
 Assume $G = \langle g_1, \ldots , g_n: g_{1}^{e_1} = \cdots = g_{n}^{e_n} = 1 \rangle$ where $ e_i \in \mathbb{N}$
@@ -365,11 +353,11 @@ $(a_1, \ldots , a_n)$ represents $g_1^{a_1}, \ldots g_n^{a_n}$. If this is the c
 partition the $n$-cell $$[0,e_1] \times \cdots \times [0, e_n]$$ into $n$-cells of the same size as 
 $$[0,\lceil \sqrt{e_1} \rceil] \times \cdots \times [0, \lceil \sqrt{e_n} \rceil],$$ 
 then we can start to compute the automrphism evaluations in the $n$-cell containing the origin. After that each time we apply one 
-ot the generators we are moving to another $n$-cell.
+of the generators we are moving to another $n$-cell.
 
 We compute the projection of the orbit sum of $\alpha$ in 3 steps.
 
-\textbf{step 1. Compute the actions of the points in the $n$-cell containin the origin on $\alpha$}. At first we compuet 
+\textbf{step 1. Compute the actions of the points in the $n$-cell containing the origin on $\alpha$}. At first we compute 
 $g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ in $O(\sqrt{\vert G \vert}^{\omega({\frac{3}{4}})})$ operations in $F$, by lemma 4. Now
 we apply 
 
@@ -402,7 +390,7 @@ Note that computing
 $$g_2^{j}(g_1(\alpha)), \ldots , g_2^{j}(g_1^{t_1}(\alpha))$$
 is equivalent of computing 
 $$g_1(g_2^{j}(\alpha)), \ldots , g_1^{t_1}(g_2^{j}(\alpha)).$$
-This shows that above computation can be done in $(\log \sqrt{t_2})(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$ operations in $F$. By doing simillar operations for $g_3, \ldots, g_n$ on all the outputs we can compuet the corresponding images to the elements
+This shows that above computation can be done in $(\log \sqrt{t_2})(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$ operations in $F$. By doing similar operations for $g_3, \ldots, g_n$ on all the outputs we can compute the corresponding images to the elements
 of the $n$-cell containing the origin in $\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$
 
 \textbf{step2. computing automorphism evaluations in the $n$-cell containing the origin.}
