@@ -3,6 +3,7 @@
 \usepackage{booktabs} % For formal tables
 \usepackage{tikz}
 \usepackage{mathdots}
+\usepackage{esvect}
 
 \newcommand{\osum}[2]{\alpha_{#1,#2}}
 \newcommand{\osumcost}{O(n^{3/4 \omega(4/3)})}
@@ -298,7 +299,8 @@ Lemma \ref{Lem:Proj} enables us to test invertibility of a random projection of 
 
 By know we have the problem of invertiblity of $M_G(\alpha)$ to $l(\osum{G}{K}) \in K[G]$ for a generic
 projection $l$. In this section we present algorithms to compute $\alpha_{G,K}$ in case that $G$ is either abelian or metacyclic. 
-We begin by the simplest case which is the cyclic one. Assume $G = \langle g \rangle$ where $\mathrm{Ord}(g) = n$. 
+Before presenting the algorithm for the mentioned groups we need to provide some tools. Afterwards we explain an algorithm
+for a cyclic extension which is similar to the algorithm introduced in \cite{Kaltofen}.
 
 The following lemmas are variants of \cite[Lemma 3 $\&$ Lemma 4]{Kaltofen}, with a slight modification in the proofs.
 
@@ -322,7 +324,7 @@ for $x^t$ and performing a Horner evaluation scheme. The dominant term in this c
 is $O(n^{3/4 \omega(4/3)})$.
 \end{proof}
 
-\begin{lemma}\cite{Kaltofen}
+\begin{lemma}\cite{Kaltofen}\label{lem:selfcomp}
 Assume $K$ is a field, $f\in K[x]$ is of degree $n = n_1 \cdots n_r$ and $s_i = \lceil\sqrt{n_i}\rceil$. Given 
 $g_1, \ldots , g_{r}$ and $h \in K[x]$ of degree less than $n$, $$g_1^{i_1}\cdots g_r^{i_r}(h) \mod f, 1 \leq j \leq r, 
 0 \leq i_j \leq s_i$$ can be 
@@ -333,7 +335,7 @@ multiplication as introduced in \cite{LeGall}.
 \begin{proof}
 At first assume we have computed $g_1(x), \ldots , g_1^m(x) \mod f$. Then we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by
 computing $g_1(g_1^m(x)), \ldots , g_1^m(g_1^m(x)) \mod f$ using Lemma \ref{modcom}. Hence by repeating the doubling method 
-$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $O(\log s_1) \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compute $g_1^{m+1}(h), \ldots , g_1^{2m}(h)$ by computing $g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $ O(\log s_1) \times \osumcost$ using the above doubling method.
+$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $O(\log s_1) \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compute \newline $g_1^{m+1}(h), \ldots , g_1^{2m}(h)$ by computing $g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $ O(\log s_1) \times \osumcost$ using the above doubling method.
 
 The next step is to apply $g_2^i$ to $g_1(h), \ldots , g_1^{s_1}(h)$ for $0\leq i \leq s_2$. In order to do so we compute 
 $$g_2(g_1(h)), \ldots , g_2(g_1^{s_1}(h))$$
@@ -355,12 +357,54 @@ we have stated for the other computations.
 \end{proof}
 
 
-We do the computations in 3 steps:
+Now we have enough tools for computing the automorphism evaluation in the cyclic case where $G = \langle g: g^n =1 \rangle$. 
+Moreover assume $P(x) = \sum_{0 \leq i \leq n-1} c_ix^i$ is given where $c_i \in F$. The goal is to compute 
+$$(P(g))(\alpha) = \sum_{i = 0}^{n} c_i g^i(\alpha) = \sum_{j = 0}^{n/\lceil \sqrt{n} \rceil} 
+g^{j\lceil \sqrt{n} \rceil}(\sum_{i= 0}^{\lceil \sqrt{n} \rceil -1} c_{ti} g^i(\alpha)) $$
+for a given $\alpha \in K$.  
 
-\textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma 4 this can be done in 
-$O(n^{\frac{1}{2}\omega(\frac{4}{3})}).$
+This computation can be done in 3 steps:
 
-\textbf{step 2.} compute $\sqrt{n}$ elements $h_i = \sum_{j = 1}^ {\sqrt{n}-1}a_{ij}g^{j}(\alpha)$ which is actually a rectangular matrix multiplication which uses $O(n^{\frac{1}{2}\omega(\frac{4}{3})}).$ operations in $F$.
+\textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma \ref{lem:selfcomp}.
+
+\textbf{step 2.} compute $n/\lceil \sqrt{n} \rceil$ elements $h_i = \sum_{j = 1}^ {\lceil \sqrt{n} \rceil-1}c_{ij}g^{j}(\alpha)$ which is actually a rectangular matrix multiplication 
+\begin{equation}
+\left(\begin{array}{llll}
+c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
+c_{10} & c_{11} & \cdots & c_{1\lceil \sqrt{n} \rceil -1}\\
+\vdots & \vdots & \vdots & \vdots \\
+c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
+\end{array}\right)\cdot 
+\left(\begin{array}{l}
+\vv{g^0(\alpha)}\\
+\vv{g^1(\alpha)}\\
+\vdots\\
+\vv{g^{\lceil \sqrt{n} \rceil -1}(\alpha)}
+\end{array}\right),
+\end{equation}
+where $\vv{g^i(\alpha)} \in F^n$ is the vector of coefficients of $g^i(\alpha)$ in $F$. The multiplication can be 
+carried out using $\osumcost$ operations in $F$.
+
+\textbf{step 3.} Finally we want $\sum_{i = 0}^{n/\lceil \sqrt{n} \rceil} g^{i\lceil \sqrt{n} \rceil}(h_i)$. Let
+$\bar{g} = g^{\lceil \sqrt{n} \rceil}$ which is computed in step 1 already. We apply $\bar{g}$ to 
+\begin{footnotesize}
+$$
+\begin{array}{lllllllll}
+&h_0 & h_1 & h_2 & h_3 & h_4 & h_5 & h_6 &  \cdots \\
+\bar{g} \rightarrow &	& \downarrow & & \downarrow & & \downarrow & &  \cdots \\
+&h_0 & g(h_1) & h_2 & g(h_3) & h_4 & g(h_5) & h_6 &  \cdots \\	
+\bar{g}^2 \rightarrow &	&  & \downarrow& \downarrow & &  &\downarrow &  \cdots \\
+&h_0 & g(h_1) & g^2(h_2) & g^3(h_3) & h_4 & g(h_5) & g^2(h_6) & \cdots \\	
+\bar{g}^4 \rightarrow&	&  & &  & \downarrow& \downarrow &\downarrow & \cdots \\
+&h_0 & g(h_1) & g^2(h_2) & g^3(h_3) & g^4(h_4) & g^5(h_5) & g^6(h_6) &  \cdots \\		
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots 
+\end{array}
+$$
+\end{footnotesize}
+This means we do $O(\log \sqrt{n})$ times $\osumcost$ or equivalently $\osumcosttilde$ operations in $F$. 
+
+In the next section
+we present a generalized version of the above algorithm which works for abelian extensions.
 
 \subsection{Abelian Groups}
 Assume $G = \langle g_1, \ldots , g_n: g_{1}^{e_1} = \cdots = g_{n}^{e_n} = 1 \rangle$ where $ e_i \in \mathbb{N}$
