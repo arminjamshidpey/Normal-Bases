@@ -236,7 +236,7 @@ Now $\det(M_G(x)) \in K[x_1, \ldots , x_n]$ is a polynomial of total degree $n$ 
  $\osum{G}{K}$ is the associated polynomial to $M_G(\alpha)$ and $M_G(\alpha)$ is invertible if and only if 
  $\gcd (\osum{G}{K},x^n-1) = 1 $.
  
-\begin{assumption}
+\begin{assumption}\label{assum}
 $K/F$ is a finite Galois extension given by $ F[x]/f$ for an irreducible polynomial $f\in F[x]$ of degree $n$, with
  $G = \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action of $g \in G$ on $K$ is given by a
  polynomial in $F[x]$ of degree less than $n$. For simplicity we use the same notation $g$ for the mentioned 
@@ -473,11 +473,22 @@ for $s = 1, 2, 4 , \ldots, t_1$ to $T_{i_1, \ldots , i_n}$ which can be done usi
 
 \subsection{Metacyclic Groups}
 
-It is known that a metacyclic group can be presented as $\langle a,b: a^m = 1, b^{-1}ab = b^r, b^n = x^s \rangle$
-where $m,n,r,s \in \mathbb{N}, r,s \leq m,$ and $r^n = 1 \mod m , rs = s \mod m$. Moreover we know that all element of a metacyclic group can be presented by 
-$$a^ib^j, \,\,\, 0\leq i \leq m-1, 0\leq j \leq n-1$$ 
-See \cite[P.88, Proposition 1]{Johnson}, \cite[P.334]{Curtis} for more details.
-
+A Group $G$ is called metacyclic if it has a normal cyclic subgroup, $H$, such that $G/H$ is cyclic. It is known that any group
+with a square free order, is metacyclic and elements of a metacyclic group can be presented as 
+\begin{equation}\label{eq:metacyclic}
+\langle a,b: a^m = 1, b^{-1}ab = b^r, b^n = x^s \rangle
+\end{equation}
+where $m,n,r,s \in \mathbb{N}, r,s \leq m,$ and $r^n = 1 \mod m , rs = s \mod m$. Moreover we know that all element of a metacyclic
+ group can be presented by $$a^ib^j, \,\,\, 0\leq i \leq m-1, 0\leq j \leq n-1,$$ 
+see \cite[P.88, Proposition 1]{Johnson}, \cite[P.334]{Curtis} for more details. Dihedral group 
+$$D_{2n} = \langle a,b: a^n =s^2 = 1, ab = ba^{-1} \rangle, $$
+is an example of metacyclic groups. another well-known metacyclic group is generalizewd quaternion
+ group which can be presented as
+ $$Q_n = \langle a,b: a^n =b^2, bab^{-1} = a^{-1} \rangle.$$
+ We know that elements of $Q_n$ are of the form 
+ $$a^ib^j, 0 \leq i \leq 2n-1 , 0\leq j \leq 1.$$
+ 
+ Assume $G$ is given by Equation \ref{eq:metacyclic} and Assumption \ref{assum} holds.
 
 \section{Testing Invertiblity of an Element of the Group Algebra}
 
