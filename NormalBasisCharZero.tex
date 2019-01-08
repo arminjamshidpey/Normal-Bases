@@ -476,19 +476,24 @@ for $s = 1, 2, 4 , \ldots, t_1$ to $T_{i_1, \ldots , i_n}$ which can be done usi
 A Group $G$ is called metacyclic if it has a normal cyclic subgroup, $H$, such that $G/H$ is cyclic. It is known that any group
 with a square free order, is metacyclic and elements of a metacyclic group can be presented as 
 \begin{equation}\label{eq:metacyclic}
-\langle a,b: a^m = 1, b^{-1}ab = b^r, b^n = x^s \rangle
+\langle \sigma,\tau: \sigma^n = 1, \tau^{-1}\sigma \tau = \sigma^r, \tau ^m = \sigma^s \rangle
 \end{equation}
-where $m,n,r,s \in \mathbb{N}, r,s \leq m,$ and $r^n = 1 \mod m , rs = s \mod m$. Moreover we know that all element of a metacyclic
- group can be presented by $$a^ib^j, \,\,\, 0\leq i \leq m-1, 0\leq j \leq n-1,$$ 
+where $m,n,r,s \in \mathbb{N}, r,s \leq n,$ and $r^m = 1 \mod n , rs = s \mod n$. Moreover we know that all element of a metacyclic
+ group can be presented by $$\sigma^i \tau^j, \,\,\, 0\leq i \leq m-1, 0\leq j \leq n-1,$$ 
 see \cite[P.88, Proposition 1]{Johnson}, \cite[P.334]{Curtis} for more details. Dihedral group 
-$$D_{2n} = \langle a,b: a^n =s^2 = 1, ab = ba^{-1} \rangle, $$
+$$D_{2n} = \langle \sigma,\tau: \sigma^n =\tau^2 = 1, \sigma \tau = \tau \sigma^{-1} \rangle, $$
 is an example of metacyclic groups. another well-known metacyclic group is generalizewd quaternion
  group which can be presented as
- $$Q_n = \langle a,b: a^n =b^2, bab^{-1} = a^{-1} \rangle.$$
+ $$Q_n = \langle \sigma,\tau: \sigma^n =\tau^2, \tau \sigma \tau^{-1} = \sigma^{-1} \rangle.$$
  We know that elements of $Q_n$ are of the form 
- $$a^ib^j, 0 \leq i \leq 2n-1 , 0\leq j \leq 1.$$
+ $$\sigma^i\tau^j, 0 \leq i \leq 2n-1 , 0\leq j \leq 1.$$
  
- Assume $G$ is given by Equation \ref{eq:metacyclic} and Assumption \ref{assum} holds.
+ Assume $G$ is given by Equation \ref{eq:metacyclic}, Assumption \ref{assum} holds and 
+ $$P(x,y) = \sum_{i= 0}^n \sum_{j=0}^m c_{ij}x^iy^j = \sum_{i= 0}^n x^i\left(\sum_{j=0}^m c_{ij}y^j \right) \in F[x,y]. $$
+ We want to get $(P(\sigma,\tau))(\alpha)$. Based on the fact that, elements in $G$ can also be presented as $b^i a^j$, 
+ without loss of generality we may assume $n \leq m$. Assume $H_i = \sum_{j=0}^m c_{ij}y^j$. We start by computing 
+ $$\tau(\alpha), \tau^2(\alpha), \ldots , \tau^{\sqrt{mn}}(\alpha)$$
+ By Lemma \ref{lem:selfcomp} this can be done using $\osumcosttilde$ operations in $F$
 
 \section{Testing Invertiblity of an Element of the Group Algebra}
 
