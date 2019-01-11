@@ -8,6 +8,7 @@
 \newcommand{\osum}[2]{\alpha_{#1,#2}}
 \newcommand{\osumcost}{O(n^{3/4 \omega(4/3)})}
 \newcommand{\osumcosttilde}{\tilde{O}(n^{3/4 \omega(4/3)})}
+\newcommand{\thecost}{\tilde{O}(\vert G \vert ^{3/4 \omega(4/3)})}
 
 {
       \theoremstyle{acmplain}
@@ -297,7 +298,7 @@ Lemma \ref{Lem:Proj} enables us to test invertibility of a random projection of 
 
 \section{Computing projections of the orbit sum}
 
-By know we have the problem of invertiblity of $M_G(\alpha)$ to $l(\osum{G}{K}) \in K[G]$ for a generic
+By know we have the problem of invertiblity of $M_G(\alpha)$ to $l(\osum{G}{K}) \in F[G]$ for a generic
 projection $l$. In this section we present algorithms to compute $\alpha_{G,K}$ in case that $G$ is either abelian or metacyclic. 
 Before presenting the algorithm for the mentioned groups we need to provide some tools. Afterwards we explain an algorithm
 for a cyclic extension which is similar to the algorithm introduced in \cite{Kaltofen}.
@@ -410,7 +411,7 @@ we present a generalized version of the above algorithm which works for abelian 
 Assume $G = \langle g_1, \ldots , g_n: g_{1}^{e_1} = \cdots = g_{n}^{e_n} = 1 \rangle$ where $ e_i \in \mathbb{N}$
 is the order of $g_i$. Let us re write the sum as 
 $$\sum_{\substack{0 \leq i_1 \leq e_1/t_1 \\ \vdots \\ 0 \leq i_n \leq e_n/t_n}} \hat{g}_1^{i_1} \cdots \hat{g}_n^{i_n}(\sum_{\substack{0 \leq j_1 \leq t_1-1\\ \vdots \\ 0 \leq j_n \leq t_n-1}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha))$$
-where $t_i = \lceil \sqrt{e_i}\rceil$ and $\hat{g_i} = g_i ^{t_i}.$
+where $t_i = \lceil \sqrt{e_i}\rceil$ and $\hat{g_i} = g_i^{t_i}.$
 
 It is simpler to think of monomials in $g_i$'s as integral points of $\mathbb{R}^n$ space, i.e.
 $(a_1, \ldots , a_n)$ represents $g_1^{a_1}, \ldots g_n^{a_n}$. If this is the case then the above equation suggests to 
@@ -469,7 +470,15 @@ $\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})}$.
 We have already computed $\hat{g}_i$ in step 1. Similar to step 1, we can apply $g_i^s$ 
 for $s = 1, 2, 4 , \ldots, t_1$ to $T_{i_1, \ldots , i_n}$ which can be done using $(\log t_i)(\vert G \vert^{\frac{1}{2}\omega
 (\frac{4}{3})})$ operations in $F$. Thus this step can be carried out by $\tilde{O}(\vert G \vert^{\frac{1}{2}\omega
-(\frac{4}{3})})$ operations in $F$.
+(\frac{4}{3})})$ operations in $F$. \begin{proposition}
+Suppose Assumption \ref{assum} holds and $G$ is acyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
+operations in $F$.
+\end{proposition}
+
+\begin{proposition}
+Suppose Assumption \ref{assum} holds and $G$ is an abelian group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
+operations in $F$.
+\end{proposition}
 
 \subsection{Metacyclic Groups}
 
@@ -517,6 +526,14 @@ c_{n0} & \cdots & c_{ns}
  multiplication can be done with cost $O((mn)^{1/2 \omega(2)})$. Note that the total number of $T_{ij}$ is $n\cdot\dfrac{m}{s} = 
  \sqrt{mn}$. So using the similar idea to the abelian case we can apply powers of $\tau^s$ to them, so that we get 
  $T_0, \ldots, T_n$ and the cost is $\tilde{O}((mn)^{3/4\omega(4/3)})$.
+ 
+ The final step is to compute $$\sigma^0(T_0), \sigma^1(T_1) , \ldots , \sigma^n (T_n).$$
+Note that since $n \leq \sqrt{mn}$, this computation can be done using $\thecost$ operations in $F$, using the same ideas from the abelian case. Now we have proved the following theorem.
+
+\begin{proposition}
+Suppose Assumption \ref{assum} holds and $G$ is a metacyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
+operations in $F$.
+\end{proposition}
 
 \section{Testing Invertiblity of an Element of the Group Algebra}
 
