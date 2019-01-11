@@ -490,10 +490,33 @@ is an example of metacyclic groups. another well-known metacyclic group is gener
  
  Assume $G$ is given by Equation \ref{eq:metacyclic}, Assumption \ref{assum} holds and 
  $$P(x,y) = \sum_{i= 0}^n \sum_{j=0}^m c_{ij}x^iy^j = \sum_{i= 0}^n x^i\left(\sum_{j=0}^m c_{ij}y^j \right) \in F[x,y]. $$
- We want to get $(P(\sigma,\tau))(\alpha)$. Based on the fact that, elements in $G$ can also be presented as $b^i a^j$, 
- without loss of generality we may assume $n \leq m$. Assume $H_i = \sum_{j=0}^m c_{ij}y^j$. We start by computing 
- $$\tau(\alpha), \tau^2(\alpha), \ldots , \tau^{\sqrt{mn}}(\alpha)$$
- By Lemma \ref{lem:selfcomp} this can be done using $\osumcosttilde$ operations in $F$
+ We want to get $(P(\sigma,\tau))(\alpha)$. Let $H = \langle x \rangle$ is a normal subgroup of $G$ such that $G/H = \langle yH
+  \rangle$. Since $yxy^{-1}$ belong to $H$, elements in $G$ also be presented as $b^i a^j$. Hence 
+ without loss of generality we may assume $n \leq m$. Assume $s = \lceil \sqrt{mn} \rceil$ and
+ $$H_i = (\sum_{j=0}^m c_{ij}\tau^j)(\alpha) = \sum_{j=0}^{m/ s} \tau^{js}\left(\sum_{t= 0}^{s}c'_{it}\tau^j(\alpha)\right).$$
+ Suppose $T_{ij} = \sum_{t= 0}^{s}c'_{it}\tau^j(\alpha)$. In order to compute each $T_{ij}$ we start by computing 
+ $$\tau(\alpha), \tau^2(\alpha), \ldots , \tau^{s}(\alpha).$$
+ By Lemma \ref{lem:selfcomp} this can be done using $\tilde{O}((mn)^{3/4 \omega(4/3)}$ operations in $F$. Then to get $T_{it}$, we compute
+ $$
+\left(\begin{array}{lll}
+c'_{00} & \cdots & c'_{0s}\\
+\vdots & \vdots & \vdots\\
+c_{m/s0} & \cdots & c_{m/ss}\\
+\vdots & \vdots & \vdots\\
+c_{n0} & \cdots & c_{ns}
+\end{array} \right)
+\cdot
+\left( \begin{array}{l}
+\vv{\tau^0(\alpha)}\\
+\vdots\\
+\vv{\tau^s(\alpha)}
+\end{array}
+\right)
+ $$
+ where the left matrix is of the size $\sqrt{mn} \times \sqrt{mn}$ and the right one is of the size $\sqrt{mn} \times mn$. Thus the 
+ multiplication can be done with cost $O((mn)^{1/2 \omega(2)})$. Note that the total number of $T_{ij}$ is $n\cdot\dfrac{m}{s} = 
+ \sqrt{mn}$. So using the similar idea to the abelian case we can apply powers of $\tau^s$ to them, so that we get 
+ $T_0, \ldots, T_n$ and the cost is $\tilde{O}((mn)^{3/4\omega(4/3)})$.
 
 \section{Testing Invertiblity of an Element of the Group Algebra}
 
