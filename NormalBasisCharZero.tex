@@ -178,9 +178,9 @@ Finally in the last section we do what?!
 
 
 \section{Preliminaries} \label{sec:pre}
-One of the well-known proofs suggests a randomized algorithm for finding such an element. 
-Assume $K/F$ is a finite Galois extension with Galois group $G = \lbrace g_1 , \ldots ,
- g_n \rbrace$. If $x \in K$ is a normal element, 
+One of the well-known proofs of the existence of a normal element for a finite Galois extension, suggests a randomized 
+algorithm for finding such an element. We state a part of such proof up to the point that we need (see \cite[Theorem 6.13.1]{Lang} for the complete proof). Assume $K/F$ is a finite Galois extension with Galois group $G = \lbrace g_1 , \ldots ,
+ g_n \rbrace$. If $x \in K$ is a normal element, then
  \begin{equation}\label{eq:fstrow}
  \sum_{j=1}^n 
  c_j g_j(x)=0, \,\,\, c_j \in F 
@@ -190,24 +190,22 @@ Assume $K/F$ is a finite Galois extension with Galois group $G = \lbrace g_1 , \
  \sum_{j=1}^n 
  c_j g_i g_j(x)=0.
  \end{equation}
- Using equations \ref{eq:fstrow} and \ref{eq:otherrow} one can form a linear system with 
- matrix 
+ Using equations \ref{eq:fstrow} and \ref{eq:otherrow} one can form a linear system $M_G(\alpha)\textbf{v} = \textbf{0}$ where 
  $$ M_G(x) =
 \begin{bmatrix}
 g_1 g_1(x) & g_1 g_2(x) & \cdots & g_1 g_n(x) \\
 g_2 g_1(x) & g_2 g_2(x) & \cdots & g_2 g_n(x) \\
 \vdots		& \vdots	& \vdots & \vdots \\
 g_n g_1(x) & g_n g_2(x) & \cdots & g_n g_n(x) \\
-\end{bmatrix} 
+\end{bmatrix}. 
  $$
- such that $M_G(x)$ is invertible. It is known that there exists $\alpha \in K$ with 
- $\det(M_G(\alpha))\neq 0$  (see \cite[Theorem 6.13.1]{Lang}).
+ Equation \ref{eq:otherrow} shows that $M_G(x)$ is non-singular. The rest of the proof shows that there exists $\alpha \in K$ with $\det(M_G(\alpha))\neq 0$.
  
  
- Based on above discussion one can see there exists a randomized algorithm for finding a
+ Above discussion can be used as the basic idea of a randomized algorithm for finding a
  normal element.\\
  \\
- \textbf{Algorithm 1.} \label{Alg:Naive}
+ \textbf{Algorithm 1.} \label{alg:naive}
  The algorithm takes a finite Galois extension $K/F$ with 
  $G =  \mathrm{Gal}(K/F) = \lbrace g_1, g_2, \ldots , g_n \rbrace$ and returns a normal
  element $\alpha \in K$.
@@ -221,17 +219,16 @@ g_n g_1(x) & g_n g_2(x) & \cdots & g_n g_n(x) \\
  \hspace{5cm} go to step 1.\\  
  \end{description}
  
- Clearly the main concerns are step 2 and step 3. In \cite{Giesbrecht} instead of writing the matrix, the invertibility
- test is done by means of finding the gcd of an associated polynomial to $M_G(\alpha)$ and $x^n-1$, since in the cyclic
- case $M_G(\alpha)$ is circulant.
+ Clearly the main concerns are step 2 and step 3. As a naive way, one can compute all the entries of the matrix and then 
+ use linear algebra to compute the determinant of $M_G(x)$ which uses $O(n^3)$ operations. However, since this is not efficient
+ enough, we want to avoid writing the matrix and computing determinants. Before explaining how we can check the invertiblity 
+ in an efficient way,it is worth talking about the probability of success for a random choice of $\alpha$.
  
- In order to give an explicit randomized algorithm based on the Algorithm (\ref{Alg:Naive}), we need to know 
- the probability of success. Since we are working over characteristic zero, we are able to consider a finite subset
+ Since we are working over characteristic zero, we are able to consider a finite subset
  of $K \cong F^n$ such that the probability of failure is $\dfrac{1}{n}$, using 
- Schwartz-Zippel lemma.
- \\
- \\
- If $\lbrace a_1, \ldots , a_n \rbrace$ is an $F$-basis for $K$, then in equations
+ Schwartz-Zippel lemma (Proposition \ref{thm:zippel}).
+ 
+ If $\lbrace a_1, \ldots , a_n \rbrace$ is an $F$-basis for $K$, then in Equations
    \ref{eq:fstrow} and \ref{eq:otherrow}, $x$ can be written as $\sum_{i = 1}^nx_i
     a_i$. Now we can rewrite 
     $$
@@ -248,19 +245,25 @@ $$
 \end{bmatrix}    
     $$ 
  The following theorem enables us to talk about probability of success (or failure).
- \begin{theorem}\cite[Proposition 98]{Zippel} \label{Thm:Zippel}
+ \begin{proposition}\cite[Proposition 98]{Zippel} \label{thm:zippel}
 Let $P \in A[X_1, \ldots, X_n]$ be a polynomial with total degree $D$ over an integral domain $A$. Let $S$ be a subset of $A$ of cardinality $B$. Then $$Pr(P(x_1, \ldots , x_n)=0:x_i \in S) \leq \dfrac{D}{B}.$$
-\end{theorem}
+\end{proposition}
 
 Now $\det(M_G(x)) \in K[x_1, \ldots , x_n]$ is a polynomial of total degree $n$ and $K$ is a field. If $char(K) =0$, then by considering $S \subset F \subset K$ where $|S| = n^2$ and applying the above proposition we get $$Pr(\det(M_G(r_1,\ldots , r_n)) = 0 : r_i \in S)\leq \dfrac{n}{n^2}= \dfrac{1}{n}.$$
-
-%For Steps 2 and 3 various algorithms are introduced by other authors in positive
-% characteristic. The references will be given in the next section.
  
- A close look at $M_G(x)$ tells us it is exactly the matrix of (left) multiplication by $$\alpha_{G,K} = \sum_{g \in G} g(\alpha)g \in K[G].$$  This gives an idea to modify Algorithm \ref{Alg:Naive}. Instead of writing $M_G(x)$ and test its invertiblity, 
- we can write $u_\alpha$ and test if it is invertible in $K[G]$. Note that if $G$ is cyclic then $K[G] \cong K[x]/(x^n-1)$,
- $\osum{G}{K}$ is the associated polynomial to $M_G(\alpha)$ and $M_G(\alpha)$ is invertible if and only if 
- $\gcd (\osum{G}{K},x^n-1) = 1 $.
+Now let us take a look at steps 2 and 3 in Algorithm \ref{alg:naive}. Since in the cyclic case $M_G(\alpha)$ is circulant,
+ in \cite{Giesbrecht} instead of writing the matrix, the invertibility test is done by means of finding the gcd of an 
+ associated polynomial 
+$$P(x) = \sum_{i = 1}^n g_ig_1(\alpha)x^{i-1}$$ 
+ to $M_G(\alpha)$ and $x^n-1$. Note that in this case the group ring of $G$ over $K$, $K[G]$ is isomorphic to $K[x]/(x^n-1)$,
+ $P(x)$ is the isomorphic copy of the orbit sum of $\alpha$ over $K[G]$, namely
+ $$\alpha_{G,K} = \sum_{g \in G} g(\alpha)g \in K[G].$$
+ Moreover, invertibility of $\osum{G}{K}\in K[G]$ is equivalent of having $\gcd (P(x),x^n-1) =1.$
+ 
+ A close look at $M_G(x)$ tells us it is exactly the matrix of (left) multiplication by $$\osum{G}{K} \in K[G].$$  This gives an idea to modify Algorithm \ref{Alg:Naive}. Instead of writing $M_G(x)$ and test its  invertiblity, 
+ we can write $\osum{G}{K}$ and test if it is invertible in $K[G]$. Although testing the invertibility of $\osum{G}{K}$ might be efficient in
+ comparison to computing the determinant of a matrix in $K$, we prefer to do the computations over $F$ rather than $K$. The  following lemma
+ comes handy to pass the computations from $K$ to $F$.
 
 
 \begin{lemma}\label{Lem:Proj}
@@ -276,8 +279,8 @@ $(\Rightarrow)$ Since $K = F(\theta)$, for a fixed $\alpha$, any entry of $M_G(\
 \end{equation}
  and the corresponding entry in $l(M_G(\alpha))$ (for a random projection $l$)
  can be written $\sum_{k= 0}^{n-1} a_{ijk}l_k$ with $l_k\in F$. If we replace this specific choice of $l_k$'s by 
- indeterminates $x_k$'s, we can see $\det(X(M_G(\alpha))$ is a polynomial in $F[x_1, \ldots, x_n].$ Let 
- $$P(x_1, \ldots, x_n) = \det(X(M_G(\alpha)).$$ 
+ indeterminates $x_k$'s, we can see $\det(x(M_G(\alpha))$ is a polynomial in $F[x_1, \ldots, x_n].$ Let 
+ $$P(x_1, \ldots, x_n) = \det(x(M_G(\alpha)).$$ 
  Considering $P \in K[x_1, \ldots , x_n]$, one can verify that 
  \begin{equation}\label{Eq:Det}
  det(M_G(\alpha))= P(1, \theta, \ldots, \theta^{n-1}) \neq 0
@@ -305,14 +308,14 @@ $(\Rightarrow)$ Since $K = F(\theta)$, for a fixed $\alpha$, any entry of $M_G(\
  Now we show that $l(M_G(\alpha))$ is not invertible for all
  choices of $l$. By Equation \ref{Eq:PrimElm} we can write 
  $$M_G(\alpha) = \sum_{j = 1}^n M^{(j)} \theta^j$$ 
- where $M^{j} \in M_{n \times n}(F)$. Since $M_G(\alpha)$ is singular, 
+ where $M^{j} \in M_{n \times n}(F)$. 
  
  Now $M_G(\alpha) \textbf{u} =0$ yields $M^{(j)}\textbf{u} = 0$ for $j \in \lbrace 1, \ldots , n \rbrace$. Hence
  $$\sum_{j = 1}^n M^{(j)} l_j \textbf{u} = 0$$ for any choice of $l_j$'s in $F$. So $l(M_G(\alpha))$ is not invertible for any choice of $l$.
 \end{proof} 
 Lemma \ref{Lem:Proj} enables us to test invertibility of a random projection of $l(u_{G,K}) $ i.e. $\sum_{g \in G}
  l(g(\alpha))g \in F[G]$. Although we can avoid writing $M_G(\alpha)$, we still need to compute $l(u_{G,K})$ which
- we call it orbit sum projection problem.
+ we call it the orbit sum projection problem.
 
 
 \section{Computing projections of the orbit sum}\label{sec:osum}
