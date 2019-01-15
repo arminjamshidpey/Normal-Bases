@@ -320,16 +320,27 @@ Lemma \ref{Lem:Proj} enables us to test invertibility of a random projection of 
 
 \section{Computing projections of the orbit sum}\label{sec:osum}
 
-By know we have the problem of invertiblity of $M_G(\alpha)$ to $l(\osum{G}{K}) \in F[G]$ for a generic
-projection $l$. In this section we present algorithms to compute $\alpha_{G,K}$ in case that $G$ is either abelian or metacyclic. 
+So far we have reduced the problem of invertiblity of $M_G(\alpha)$ to $l(\osum{G}{K}) \in F[G]$ for a generic
+projection $l$. In order to compute $l(\osum{G}{K})$ we need $l(g(\alpha)) \in F$ for $g \in G$. In \cite{Kaltofen} the problem of
+computing $l(g(\alpha))$'s for all $g \in G$ is called automorphism projection problem. In loc. cit. a transformation of this problem
+is defined as the automorphism evaluation problem. For a given $P = \sum_{g \in G}a_g g \in K[G]$ the automorphism evaluation problem
+is computing $P(\alpha) = \sum_{g \in G}a_g g(\alpha)$. Moreover in \cite{Kaltofen} it is proven that the above problems are
+ computationally equivalent. Hence instead of solving the automorphism projection problem directly, we can solve the automorphism
+ evaluation problem.
+
+In this section we present algorithms to compute $\osum{G}{K}$ in case that $G$ is either abelian or metacyclic. 
 Before presenting the algorithm for the mentioned groups we need to provide some tools. Afterwards we explain an algorithm
-for a cyclic extension which is similar to the algorithm introduced in \cite{Kaltofen}.
+for a cyclic extension which is similar to the algorithm introduced in \cite{Kaltofen}. Then we present a generalized version 
+of the algorithm for cyclic case, which soves the problem for an abelian extension. Finally based on the ideas for cyclic and 
+abelian cases we introduce an algorithm which solves the problem for any group ehich can be presented as 
+$$\lbrace a^ib^j: 0 \leq i \leq n,  0\leq j \leq m, n \leq m \rbrace.$$ 
+As an specific case the mentioned algorithm works for metacyclic groups.
 
 The following lemmas are variants of \cite[Lemma 3 $\&$ Lemma 4]{Kaltofen}, with a slight modification in the proofs.
 
 \begin{lemma}\cite{Kaltofen}\label{modcom}
 Assume $K$ is a field, $f\in K[x]$ is of degree $n$ and $s = \lceil\sqrt{n}\rceil$. Given $g_1, \ldots , g_{s}$ and 
-$h \in K[x]$ of degree less than $n$, $g_1(h), \ldots g_{s}(h)\,\,\,\mod\,\,\, f$ can be computed in
+$h \in K[x]$ of degree less than $n$, $$g_1(h), \ldots g_{s}(h) \mod f$$ can be computed in
 $O(n^{\frac{3}{4}\omega(\frac{4}{3})})$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
 multiplication as introduced in \cite{LeGall}. 
 \end{lemma}
@@ -339,17 +350,16 @@ Let $t = \lceil n^{3/4} \rceil$ and rewrite $g_1 , \ldots , g_s$ as
 $$g_i = \sum_{j= 0}^{n/t} g_{ij}x^{tj}.$$
 Now $g_{ij}$'s are polynomials of degree less than $t$. The next step is to compute $H_i = h^i \mod f$ for $i = 0 , \ldots , t$.
 Having $H_i$'s in hand one can form the matrix $H = \left[ H_1 \vert \cdots \vert H_t \right]^T$ where each column is the vector of 
-the element $H_i$ (with coefficients in $F$) so the matrix $H$ is of size $t \times n$. We form 
-$A = \left[\bar{g}_{10}\vert \cdots \vert \bar{g}_{1(n/t-1)}\vert \cdots \vert \bar{g}_{s0}\vert \cdots \vert \bar{g}_{s(n/t-1)}\right]^T,$
+the element $H_i$ (with coefficients in $K$) so the matrix $H$ is of size $t \times n$. We form 
+$$A = \left[\bar{g}_{10}\vert \cdots \vert \bar{g}_{1(n/t-1)}\vert \cdots \vert \bar{g}_{s0}\vert \cdots \vert \bar{g}_{s(n/t-1)}\right]^T,$$
 where $\bar{g}_{ij}$ is the  vector of $g_{ij}$. In order to compute $g_{ij}(h)$ one can compute $A \cdot H$. Using 
 results from \cite{LeGall}, this can be done in $O(n^{3/4 \omega(4/3)})$. The last step to get $g_i(h)$, is to substitute $H_t$ 
-for $x^t$ and performing a Horner evaluation scheme. The dominant term in this calculation is the cost of computing $AH$ which
-is $O(n^{3/4 \omega(4/3)})$.
+for $x^t$ and performing a Horner evaluation scheme. The dominant term in the cost of this calculation, is the cost of computing $AH$ which can be carried out using $O(n^{3/4 \omega(4/3)})$ operations in $K$.
 \end{proof}
 
 \begin{lemma}\cite{Kaltofen}\label{lem:selfcomp}
 Assume $K$ is a field, $f\in K[x]$ is of degree $n = n_1 \cdots n_r$ and $s_i = \lceil\sqrt{n_i}\rceil$. Given 
-$g_1, \ldots , g_{r}$ and $h \in K[x]$ of degree less than $n$, $$g_1^{i_1}\cdots g_r^{i_r}(h) \mod f, 1 \leq j \leq r, 
+$g_1, \ldots , g_{r}$ and $h \in K[x]$ of degrees less than $n$, $$g_1^{i_1}\cdots g_r^{i_r}(h) \mod f, 1 \leq j \leq r, 
 0 \leq i_j \leq s_i$$ can be 
 computed in $\osumcosttilde$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
 multiplication as introduced in \cite{LeGall}. 
@@ -357,32 +367,34 @@ multiplication as introduced in \cite{LeGall}.
 
 \begin{proof}
 At first assume we have computed $g_1(x), \ldots , g_1^m(x) \mod f$. Then we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by
-computing $g_1(g_1^m(x)), \ldots , g_1^m(g_1^m(x)) \mod f$ using Lemma \ref{modcom}. Hence by repeating the doubling method 
-$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $O(\log s_1) \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compute \newline $g_1^{m+1}(h), \ldots , g_1^{2m}(h)$ by computing $g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $ O(\log s_1) \times \osumcost$ using the above doubling method.
+computing $$g_1(g_1^m(x)), \ldots , g_1^m(g_1^m(x)) \mod f$$ using Lemma \ref{modcom}. Hence by repeating the doubling method 
+$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $O(\log s_1) \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compute  $g_1^{m+1}(h), \ldots , g_1^{2m}(h)$ by computing $$g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $ O(\log s_1) \times \osumcost$ using the above doubling method.
 
-The next step is to apply $g_2^i$ to $g_1(h), \ldots , g_1^{s_1}(h)$ for $0\leq i \leq s_2$. In order to do so we compute 
+The next step is to apply $g_2^i$ to $g_1(h), \ldots , g_1^{s_1}(h)$ for $0\leq i \leq s_2$. Assume $K = F(\beta)$ and 
+$g_1(h) = \sum_{i} a_i \beta^i$. Then $$g_2(g_1(x)) = \sum_{i} a_i g_2(\beta)^i = g_1(g_2(\beta)).$$
+Using the above fact we compute 
 $$g_2(g_1(h)), \ldots , g_2(g_1^{s_1}(h))$$
-using the fact that $g_2(g_1^i(h)) = g_1^i(g_2(h))$ and applying Lemma \ref{modcom} which costs $\osumcost$. At this point we have 
+by applying Lemma \ref{modcom} which costs $\osumcost$. At this point we have 
 $$\begin{array}{lll} g_1(h)& \ldots & g_1^{s_1}(h)\\ g_2(g_1(h))& \ldots & g_2(g_1^{s_1}(h))\end{array}$$
 and by applying $g_2^2$ (using the above method) we get 
 $$\begin{array}{lll} g_1(h)& \ldots & g_1^{s_1}(h)\\ g_2(g_1(h))& \ldots & g_2(g_1^{s_1}(h))\\
 g_2^2(g_1(h))& \ldots & g_2^2(g_1^{s_1}(h))\\g_2^3(g_1(h))& \ldots & g_2^3(g_1^{s_1}(h))
 \end{array}$$
-and by doing the same for $g_2^4, \ldots $ we get
+then by doing the same for $g_2^4, \ldots $ we get
 $$g_2^{i_2}(g_1^{i_1}(h)), \, 0\leq i_1\leq s_1, 0 \leq i_2 \leq s_2,$$
 using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ which is  $O(\log (s_1s_2))\osumcost$. 
 
 Doing the same for $g_3 , \ldots , g_r$ we see the cost of the computation is 
 $$O(\log (s_1\cdots s_r))\osumcost = \osumcosttilde.$$
 
-Note that for each $g_i$ we have to compute $g_i^j$ for $0 \leq j \leq s_i$ but this can be carried out with less operations than what 
-we have stated for the other computations.
+Note that for each $g_i$ we have to compute $g_i^j$ for $0 \leq j \leq s_i$ but this is just a one time computation for each $g_i$
+which does not change the total cost.
 \end{proof}
 
 
 Now we have enough tools for computing the automorphism evaluation in the cyclic case where $G = \langle g: g^n =1 \rangle$. 
-Moreover assume $P(x) = \sum_{0 \leq i \leq n-1} c_ix^i$ is given where $c_i \in F$. The goal is to compute 
-$$(P(g))(\alpha) = \sum_{i = 0}^{n} c_i g^i(\alpha) = \sum_{j = 0}^{n/\lceil \sqrt{n} \rceil} 
+Assume $P(x) = \sum_{0 \leq i \leq n-1} c_ix^i$ is given where $c_i \in F$. The goal is to compute 
+$$(P(g))(\alpha) = \sum_{i = 0}^{n} c_i g^i(\alpha) = \sum_{0 \leq j < n/\lceil \sqrt{n} \rceil} 
 g^{j\lceil \sqrt{n} \rceil}(\sum_{i= 0}^{\lceil \sqrt{n} \rceil -1} c_{ti} g^i(\alpha)) $$
 for a given $\alpha \in K$.  
 
@@ -409,7 +421,8 @@ where $\vv{g^i(\alpha)} \in F^n$ is the vector of coefficients of $g^i(\alpha)$ 
 carried out using $\osumcost$ operations in $F$.
 
 \textbf{step 3.} Finally we want $\sum_{i = 0}^{n/\lceil \sqrt{n} \rceil} g^{i\lceil \sqrt{n} \rceil}(h_i)$. Let
-$\bar{g} = g^{\lceil \sqrt{n} \rceil}$ which is computed in step 1 already. We apply $\bar{g}$ to 
+$\bar{g} = g^{\lceil \sqrt{n} \rceil}$ which is computed in step 1 already. We apply powers of $\bar{g}$ $h_i$'s in
+the following way: 
 \begin{footnotesize}
 $$
 \begin{array}{lllllllll}
@@ -430,9 +443,12 @@ In the next section
 we present a generalized version of the above algorithm which works for abelian extensions.
 
 \subsection{Abelian Groups}
-Assume $G = \langle g_1, \ldots , g_n: g_{1}^{e_1} = \cdots = g_{n}^{e_n} = 1 \rangle$ where $ e_i \in \mathbb{N}$
-is the order of $g_i$. Let us re write the sum as 
-$$\sum_{\substack{0 \leq i_1 \leq e_1/t_1 \\ \vdots \\ 0 \leq i_n \leq e_n/t_n}} \hat{g}_1^{i_1} \cdots \hat{g}_n^{i_n}(\sum_{\substack{0 \leq j_1 \leq t_1-1\\ \vdots \\ 0 \leq j_n \leq t_n-1}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha))$$
+Assume $G$ is an abelian group presented as 
+$$ \langle g_1, \ldots , g_n: g_{1}^{e_1} = \cdots = g_{n}^{e_n} = 1 \rangle$$
+ where $ e_i \in \mathbb{N}$
+is the order of $g_i$. Our goal is to compute $S = (P(g_1,  \ldots, g_n))(\alpha)$ where $P(x_1, \ldots,x_n) \in F[x_1, \dots , x_n].$
+We can rewrite $S$ as 
+$$\sum_{\substack{0 \leq i_1 < e_1/t_1 \\ \vdots \\ 0 \leq i_n < e_n/t_n}} \hat{g}_1^{i_1} \cdots \hat{g}_n^{i_n}(\sum_{\substack{0 \leq j_1 \leq t_1-1\\ \vdots \\ 0 \leq j_n \leq t_n-1}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha))$$
 where $t_i = \lceil \sqrt{e_i}\rceil$ and $\hat{g_i} = g_i^{t_i}.$
 
 It is simpler to think of monomials in $g_i$'s as integral points of $\mathbb{R}^n$ space, i.e.
@@ -445,7 +461,7 @@ of the generators we are moving to another $n$-cell.
 We compute the projection of the orbit sum of $\alpha$ in 3 steps.
 
 \textbf{step 1. Compute the actions of the points in the $n$-cell containing the origin on $\alpha$}. At first we compute 
-$g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ in $O(\sqrt{\vert G \vert}^{\omega({\frac{3}{4}})})$ operations in $F$, by lemma 4. Now
+$g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ in $\tilde{O}(\sqrt{\vert G \vert}^{\omega({\frac{3}{4}})})$ operations in $F$, by lemma 4. Now
 we apply 
 
  $g_2$ to $g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ then after applying $g_2^2$ to
@@ -473,10 +489,9 @@ If we continue by applying $g_2^4, \ldots$ we are able to get
  g_2^{t_2}(g_1(\alpha))& \ldots & g_2^{t_2}(g_1^{t_1}(\alpha)) \\
 \end{array} 
 \]
-Note that computing 
+Note that for computing 
 $$g_2^{j}(g_1(\alpha)), \ldots , g_2^{j}(g_1^{t_1}(\alpha))$$
-is equivalent of computing 
-$$g_1(g_2^{j}(\alpha)), \ldots , g_1^{t_1}(g_2^{j}(\alpha)).$$
+we use the similar idea which is used in the proof of Lemma \ref{lem:selfcomp}.
 This shows that above computation can be done in $(\log \sqrt{t_2})(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$ operations in $F$. By doing similar operations for $g_3, \ldots, g_n$ on all the outputs we can compute the corresponding images to the elements
 of the $n$-cell containing the origin in $\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$
 
@@ -484,18 +499,15 @@ of the $n$-cell containing the origin in $\tilde{O}(\vert G \vert ^{\frac{1}{2}\
 
 We want to compute
 $$T_{i_1, \ldots, i_n} = \sum_{\substack{0 \leq j_1 \leq t_1\\ \vdots \\ 0 \leq j_n \leq t_n}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha)$$
-for $0 \leq i_1-1 \leq t_1, \ldots , 0 \leq i_n \leq t_n-1$ which can be carried out by a $\langle \sqrt{\vert G \vert}, \langle \sqrt{\vert G \vert}, \vert G \vert$ rectangular matrix multiplication which can be done by 
-$\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})}$.
+for $0 \leq i_1-1 \leq t_1, \ldots , 0 \leq i_n \leq t_n-1$ which can be done by a rectangular matrix multiplication with cost
+$\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$.
 
 \textbf{step 3. applying $\hat{g}_i$'s.}
 
 We have already computed $\hat{g}_i$ in step 1. Similar to step 1, we can apply $g_i^s$ 
 for $s = 1, 2, 4 , \ldots, t_1$ to $T_{i_1, \ldots , i_n}$ which can be done using $(\log t_i)(\vert G \vert^{\frac{1}{2}\omega
 (\frac{4}{3})})$ operations in $F$. Thus this step can be carried out by $\tilde{O}(\vert G \vert^{\frac{1}{2}\omega
-(\frac{4}{3})})$ operations in $F$. \begin{proposition}
-Suppose Assumption \ref{assum} holds and $G$ is acyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
-operations in $F$.
-\end{proposition}
+(\frac{4}{3})})$ operations in $F$. 
 
 \begin{proposition}
 Suppose Assumption \ref{assum} holds and $G$ is an abelian group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
