@@ -163,8 +163,7 @@ for future references .
 
 \begin{assumption}\label{assum}
 $K/F$ is a finite Galois extension given by $ F[x]/f$ for an irreducible polynomial $f\in F[x]$ of degree $n$, with
- $G = \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action of generators of $ G$, such as $g$, on $K$ is given by a polynomial in $F[x]$ of degree less than $n$. For simplicity we use the same notation $g$ for the mentioned 
- polynomial.
+ $G = \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action of generators of $ G$, such as $g$, on $K$ is given by its action on $\bar{x} = x mod f.$ In other words, $g(\bar{x})$ is given for any generator $g$ of $G$.
 \end{assumption}
 
 under the Assumption \ref{assum} we choose a random element $\alpha$ of $K$. We use a known fact that, $\alpha$ is normal 
@@ -347,7 +346,7 @@ multiplication as introduced in \cite{LeGall}.
 
 \begin{proof}
 Let $t = \lceil n^{3/4} \rceil$ and rewrite $g_1 , \ldots , g_s$ as 
-$$g_i = \sum_{j= 0}^{n/t} g_{ij}x^{tj}.$$
+$$g_i = \sum_{0 \leq j < n/t} g_{ij}x^{tj}.$$
 Now $g_{ij}$'s are polynomials of degree less than $t$. The next step is to compute $H_i = h^i \mod f$ for $i = 0 , \ldots , t$.
 Having $H_i$'s in hand one can form the matrix $H = \left[ H_1 \vert \cdots \vert H_t \right]^T$ where each column is the vector of 
 the element $H_i$ (with coefficients in $K$) so the matrix $H$ is of size $t \times n$. We form 
@@ -358,31 +357,42 @@ for $x^t$ and performing a Horner evaluation scheme. The dominant term in the co
 \end{proof}
 
 \begin{lemma}\cite{Kaltofen}\label{lem:selfcomp}
-Assume $K$ is a field, $f\in K[x]$ is of degree $n = n_1 \cdots n_r$ and $s_i = \lceil\sqrt{n_i}\rceil$. Given 
-$g_1, \ldots , g_{r}$ and $h \in K[x]$ of degrees less than $n$, $$g_1^{i_1}\cdots g_r^{i_r}(h) \mod f, 1 \leq j \leq r, 
+Assume $K = F[x]/f$ is a finite Galois extension of $F$, for an irreducible $f\in F[x]$ of degree $n = n_1 \cdots n_r$ and $s_i = \lceil\sqrt{n_i}\rceil$. Given $g_1, \ldots , g_{r}$ as generators of $G = \mathrm{Gal}(K/F)$ with their actions on 
+$\bar{x}=x \mod f$ and $\alpha \in K$,
+$$g_1^{i_1}\cdots g_r^{i_r}(\alpha) \mod f, 1 \leq j \leq r, 
 0 \leq i_j \leq s_i$$ can be 
 computed in $\osumcosttilde$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
 multiplication as introduced in \cite{LeGall}. 
 \end{lemma}
 
 \begin{proof}
-At first assume we have computed $g_1(x), \ldots , g_1^m(x) \mod f$. Then we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by
-computing $$g_1(g_1^m(x)), \ldots , g_1^m(g_1^m(x)) \mod f$$ using Lemma \ref{modcom}. Hence by repeating the doubling method 
-$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $O(\log s_1) \times \osumcost$. Now if we have computed $g_1(h), \ldots , g_1^m(h) \mod f$, we can compute  $g_1^{m+1}(h), \ldots , g_1^{2m}(h)$ by computing $$g_1(g_1^m(h)), \ldots , g_1^m(g_1^m(h)) \mod f$$ using Lemma \ref{modcom}, thus the computation of $g_1(h), \ldots , g_1^{s_1}(h) \mod f$ can be done in $ O(\log s_1) \times \osumcost$ using the above doubling method.
+% At first assume we have computed 
+%$g_1(x), \ldots , g_1^m(x) \mod f$. Then we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by
+%computing $$g_1^{m+1}(g_1(x)), \ldots , g_1^{m+1}(g_1^m(x)) \mod f$$ using Lemma \ref{modcom}. Hence by repeating the doubling method 
+%$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $O(\log s_1) \times \osumcost$. Now if we have computed
+Suppose $\alpha = \sum_{0\leq i \leq n-1} a_i \bar{x}^i$. For any $g_j$ we have 
+\begin{equation}\label{eq:comute}
+g_j^t(\alpha) = \sum_{0\leq i \leq n-1} a_i g_j^t(\bar{x}^i) = \alpha(g_j^t(\bar{x}))
+\end{equation}
+since $g_j$ acts trivially on $a_i$. Now assume we have computed 
+ $$g_1(\alpha), \ldots , g_1^m(\alpha).$$ Then we can compute  $g_1^{m+1}(\alpha), \ldots , g_1^{2m}(\alpha)$ by computing $$g_1^m(g_1(\alpha)), \ldots , g_1^m(g_1^m(\alpha)) $$ using Lemma \ref{modcom} and Equation \ref{eq:comute}. By applying the above 
+ doubling method, the computation of $g_1(\alpha), \ldots , g_1^{s_1}(\alpha) \mod f$ can be done in $ O(\log s_1) \times \osumcost$.
+ Note that here we need to compute the action of even powers of $g_1$ on $\bar{x}$ as well. However, it is just a one time
+ computation and does not change the complexity. 
 
-The next step is to apply $g_2^i$ to $g_1(h), \ldots , g_1^{s_1}(h)$ for $0\leq i \leq s_2$. Assume $K = F(\beta)$ and 
-$g_1(h) = \sum_{i} a_i \beta^i$. Then $$g_2(g_1(x)) = \sum_{i} a_i g_2(\beta)^i = g_1(g_2(\beta)).$$
+The next step is to apply $g_2^i$ to $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ for $0\leq i \leq s_2$. Again 
+$g_1^j(\alpha) = \sum_{i} a_{ij} \bar{x}^i$ and $$g_2^t(g_1^j(\alpha)) = \sum_{i} a_{ij} (g_2^t(\bar{x}))^i = g_1^j(\alpha)(g_2^t(\bar{x})).$$
 Using the above fact we compute 
-$$g_2(g_1(h)), \ldots , g_2(g_1^{s_1}(h))$$
+$$g_2(g_1(\alpha)), \ldots , g_2(g_1^{s_1}(\alpha))$$
 by applying Lemma \ref{modcom} which costs $\osumcost$. At this point we have 
-$$\begin{array}{lll} g_1(h)& \ldots & g_1^{s_1}(h)\\ g_2(g_1(h))& \ldots & g_2(g_1^{s_1}(h))\end{array}$$
+$$\begin{array}{lll} g_1(\alpha)& \ldots & g_1^{s_1}(\alpha)\\ g_2(g_1(\alpha))& \ldots & g_2(g_1^{s_1}(\alpha))\end{array}$$
 and by applying $g_2^2$ (using the above method) we get 
-$$\begin{array}{lll} g_1(h)& \ldots & g_1^{s_1}(h)\\ g_2(g_1(h))& \ldots & g_2(g_1^{s_1}(h))\\
-g_2^2(g_1(h))& \ldots & g_2^2(g_1^{s_1}(h))\\g_2^3(g_1(h))& \ldots & g_2^3(g_1^{s_1}(h))
+$$\begin{array}{lll} g_1(\alpha)& \ldots & g_1^{s_1}(\alpha)\\ g_2(g_1(\alpha))& \ldots & g_2(g_1^{s_1}(\alpha))\\
+g_2^2(g_1(\alpha))& \ldots & g_2^2(g_1^{s_1}(\alpha))\\g_2^3(g_1(\alpha))& \ldots & g_2^3(g_1^{s_1}(\alpha))
 \end{array}$$
-then by doing the same for $g_2^4, \ldots $ we get
-$$g_2^{i_2}(g_1^{i_1}(h)), \, 0\leq i_1\leq s_1, 0 \leq i_2 \leq s_2,$$
-using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ which is  $O(\log (s_1s_2))\osumcost$. 
+then by repeating the above doubling method we get
+$$g_2^{i_2}(g_1^{i_1}(\alpha)), \, 0\leq i_1\leq s_1, 0 \leq i_2 \leq s_2,$$
+using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ operations in $F$ (in total), which is  $O(\log (s_1s_2))\osumcost$. 
 
 Doing the same for $g_3 , \ldots , g_r$ we see the cost of the computation is 
 $$O(\log (s_1\cdots s_r))\osumcost = \osumcosttilde.$$
