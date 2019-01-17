@@ -357,9 +357,9 @@ for $x^t$ and performing a Horner evaluation scheme. The dominant term in the co
 \end{proof}
 
 \begin{lemma}\cite{Kaltofen}\label{lem:selfcomp}
-Assume $K = F[x]/f$ is a finite Galois extension of $F$, for an irreducible $f\in F[x]$ of degree $n = n_1 \cdots n_r$ and $s_i = \lceil\sqrt{n_i}\rceil$. Given $g_1, \ldots , g_{r}$ as generators of $G = \mathrm{Gal}(K/F)$ with their actions on 
+Assume $K = F[x]/f$ is a finite Galois extension of $F$, for an irreducible $f\in F[x]$ of degree $n = n_1 \cdots n_r$ and $s_i = \lceil\sqrt{n_i}\rceil$. Given $g_1, \ldots , g_{r} \in G = \mathrm{Gal}(K/F)$ (with $\mathrm{ord}(g_i) = n_i$) with their actions on 
 $\bar{x}=x \mod f$ and $\alpha \in K$,
-$$g_1^{i_1}\cdots g_r^{i_r}(\alpha) \mod f, 1 \leq j \leq r, 
+$$g_1^{i_1}\cdots g_r^{i_r}(\alpha) , 1 \leq j \leq r, 
 0 \leq i_j \leq s_i$$ can be 
 computed in $\osumcosttilde$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
 multiplication as introduced in \cite{LeGall}. 
@@ -376,8 +376,8 @@ g_j^t(\alpha) = \sum_{0\leq i \leq n-1} a_i g_j^t(\bar{x}^i) = \alpha(g_j^t(\bar
 \end{equation}
 since $g_j$ acts trivially on $a_i$. Now assume we have computed 
  $$g_1(\alpha), \ldots , g_1^m(\alpha).$$ Then we can compute  $g_1^{m+1}(\alpha), \ldots , g_1^{2m}(\alpha)$ by computing $$g_1^m(g_1(\alpha)), \ldots , g_1^m(g_1^m(\alpha)) $$ using Lemma \ref{modcom} and Equation \ref{eq:comute}. By applying the above 
- doubling method, the computation of $g_1(\alpha), \ldots , g_1^{s_1}(\alpha) \mod f$ can be done in $ O(\log s_1) \times \osumcost$.
- Note that here we need to compute the action of even powers of $g_1$ on $\bar{x}$ as well. However, it is just a one time
+ doubling method, the computation of $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ can be done in $ O(\log s_1) \times \osumcost$.
+ Note that here we need to compute the action of (even) powers of $g_1$ on $\bar{x}$ as well. However, it is just a one time
  computation and does not change the complexity. 
 
 The next step is to apply $g_2^i$ to $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ for $0\leq i \leq s_2$. Again 
@@ -392,7 +392,7 @@ g_2^2(g_1(\alpha))& \ldots & g_2^2(g_1^{s_1}(\alpha))\\g_2^3(g_1(\alpha))& \ldot
 \end{array}$$
 then by repeating the above doubling method we get
 $$g_2^{i_2}(g_1^{i_1}(\alpha)), \, 0\leq i_1\leq s_1, 0 \leq i_2 \leq s_2,$$
-using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ operations in $F$ (in total), which is  $O(\log (s_1s_2))\osumcost$. 
+using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ operations in $F$ (in total), which is equal to $O(\log (s_1s_2))\osumcost$. 
 
 Doing the same for $g_3 , \ldots , g_r$ we see the cost of the computation is 
 $$O(\log (s_1\cdots s_r))\osumcost = \osumcosttilde.$$
