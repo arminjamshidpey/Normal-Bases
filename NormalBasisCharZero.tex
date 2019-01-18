@@ -50,7 +50,7 @@
 
 
 \begin{document}
-\title{Randomized Algorithms for Normal Bases}
+\title{Subquadratic Probabilistic Algorithms for Normal Bases}
 %\titlenote{Produces the permission block, and
 %  copyright information}
 %\subtitle{Extended Abstract}
@@ -88,11 +88,17 @@ University of Waterloo}
 
 
 \begin{abstract}
-It is known that for a finite Galois extension $K/F$ with $G = \mathrm{Gal}(K/F)$, there exists an element $\alpha \in K$, 
-such that its orbit, $G\cdot\alpha$, forms an $F$-basis of $K$. Such an element $\alpha$, is called normal and 
-$G\cdot \alpha$ is called a normal basis. In this paper we introduce a probablistic algorithm for finding a normal element 
-when $G$ is either a finite abelian or metacyclic group. The algorithm is based on the fact that deciding whether a random 
-element $\alpha \in K$ is normal, can be reduced to the decision problem of whether $\sum_{\sigma \in G} \sigma(\alpha)\sigma \in K[G]$ is invertible.   
+  It is known that for a finite Galois extension $K/F$ with
+  $G = \mathrm{Gal}(K/F)$, there exists an element $\alpha \in K$,
+  such that its orbit, $G\cdot\alpha$, forms an $F$-basis of $K$. Such
+  an element $\alpha$, is called normal and $G\cdot \alpha$ is called
+  a normal basis. In this paper we introduce a probablistic algorithm
+  for finding a normal element when $G$ is either a finite abelian or
+  metacyclic group. The algorithm is based on the fact that deciding
+  whether a random element $\alpha \in K$ is normal, can be reduced to
+  the decision problem of whether
+  $\sum_{\sigma \in G} \sigma(\alpha)\sigma \in K[G]$ is invertible.
+  The cost of our algorithm is subquadratic in the input size.
 \end{abstract}
 
 %
@@ -606,3 +612,8 @@ operations in $F$.
 \bibliography{bibliography} 
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
