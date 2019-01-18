@@ -88,9 +88,11 @@ University of Waterloo}
 
 
 \begin{abstract}
-It is known that for any finite Galois extension $K/F$ there exists an element $\alpha$, such that its Galois 
-Conjugates form a $F$-basis of $K$. In this paper we introduce a randomized algorithm for finding such an 
-element in a given finite Galois extension.   
+It is known that for a finite Galois extension $K/F$ with $G = \mathrm{Gal}(K/F)$, there exists an element $\alpha \in K$, 
+such that its orbit, $G\cdot\alpha$, forms an $F$-basis of $K$. Such an element $\alpha$, is called normal and 
+$G\cdot \alpha$ is called a normal basis. In this paper we introduce a probablistic algorithm for finding a normal element 
+when $G$ is either a finite abelian or metacyclic group. The algorithm is based on the fact that deciding whether a random 
+element $\alpha \in K$ is normal, can be reduced to the decision problem of whether $\sum_{\sigma \in G} \sigma(\alpha)\sigma \in K[G]$ is invertible.   
 \end{abstract}
 
 %
@@ -153,7 +155,7 @@ algorithm to construct a normal element which uses $O(n^{O(1)})$ operations over
 our knowledge, the algorithm introduced by Augot and Camion (cite) is the most efficient deterministic one with cost 
 $O(n^3+n^2\log q)$
 where $q$ is size of the base field. Randomized algorithems for finite fileds are introduced in \cite{Giesbrecht} with cost
-$O(n^2+n\log q)$ and \cite{Kaltoefen} with cost $O(n^{1.8})$. In characteristic zero, A. Poli gave an algorithm for abelian extensions in \cite{Poli} with $O(n^{O(1)})$ and Schlickewei and Stepanov introduced an algorithm in the cyclic case with
+$O(n^2+n\log q)$ and \cite{Kaltofen} with cost $O(n^{1.8})$. In characteristic zero, A. Poli gave an algorithm for abelian extensions in \cite{Poli} with $O(n^{O(1)})$ and Schlickewei and Stepanov introduced an algorithm in the cyclic case with
 $O(n^{O(1)})$ as the computation cost \cite{Stepanov}. Girstmair has an algorithm which uses $O(n^4)$ operations over the base field to construct a normal element for a general finite Galois extension in characteristic zero \cite{Girstmair}. 
 
 In this paper we will introduce a randomized algorithm for finding a normal element in case of abelian and metacyclic extensions
@@ -163,7 +165,7 @@ for future references .
 
 \begin{assumption}\label{assum}
 $K/F$ is a finite Galois extension given by $ F[x]/f$ for an irreducible polynomial $f\in F[x]$ of degree $n$, with
- $G = \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action of generators of $ G$, such as $g$, on $K$ is given by its action on $\bar{x} = x mod f.$ In other words, $g(\bar{x})$ is given for any generator $g$ of $G$.
+ $G = \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action of generators of $ G$, such as $g$, on $K$ is given by its action on $\bar{x} = x \mod f.$ In other words, $g(\bar{x})$ is given for any generator $g$ of $G$.
 \end{assumption}
 
 under the Assumption \ref{assum} we choose a random element $\alpha$ of $K$. We use a known fact that, $\alpha$ is normal 
@@ -402,15 +404,18 @@ which does not change the total cost.
 \end{proof}
 
 
-Now we have enough tools for computing the automorphism evaluation in the cyclic case where $G = \langle g: g^n =1 \rangle$. 
-Assume $P(x) = \sum_{0 \leq i \leq n-1} c_ix^i$ is given where $c_i \in F$. The goal is to compute 
-$$(P(g))(\alpha) = \sum_{i = 0}^{n} c_i g^i(\alpha) = \sum_{0 \leq j < n/\lceil \sqrt{n} \rceil} 
-g^{j\lceil \sqrt{n} \rceil}(\sum_{i= 0}^{\lceil \sqrt{n} \rceil -1} c_{ti} g^i(\alpha)) $$
-for a given $\alpha \in K$.  
+Now we have enough tools for computing the automorphism projection in the cyclic case where $G = \langle g: g^n =1 \rangle$
+Which is basically \cite[Algorithm AP]{Kaltofen}. 
+Assume $L = \begin{bmatrix}
+l_1 & l_2 & \ldots & l_n
+\end{bmatrix}$ is given where $l_i \in F$. The goal is to compute 
+\begin{equation}\label{eq:autproj}
+L(g^i(\alpha)) = L(g^{j \lceil \sqrt{n} \rceil})\cdot (g^i(\alpha)), 0 \leq j < \lceil \sqrt{n} \rceil, 0 \leq i \leq \lceil \sqrt{n} \rceil -1, 
+\end{equation}
+for a given $\alpha \in K$. Let $T_j = L(g^{j \lceil \sqrt{n} \rceil})$. This computation can be done in 3 steps:
 
-This computation can be done in 3 steps:
-
-\textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma \ref{lem:selfcomp}.
+\textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma \ref{lem:selfcomp} this 
+can be carried out by doing $\osumcosttilde$ operations in $F$.
 
 \textbf{step 2.} compute $n/\lceil \sqrt{n} \rceil$ elements $h_i = \sum_{j = 1}^ {\lceil \sqrt{n} \rceil-1}c_{ij}g^{j}(\alpha)$ which is actually a rectangular matrix multiplication 
 \begin{equation}
@@ -430,24 +435,38 @@ c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
 where $\vv{g^i(\alpha)} \in F^n$ is the vector of coefficients of $g^i(\alpha)$ in $F$. The multiplication can be 
 carried out using $\osumcost$ operations in $F$.
 
-\textbf{step 3.} Finally we want $\sum_{i = 0}^{n/\lceil \sqrt{n} \rceil} g^{i\lceil \sqrt{n} \rceil}(h_i)$. Let
-$\bar{g} = g^{\lceil \sqrt{n} \rceil}$ which is computed in step 1 already. We apply powers of $\bar{g}$ $h_i$'s in
-the following way: 
-\begin{footnotesize}
+\textbf{step 3.} So far we have computed $T_j$'s and $g^i(\alpha)$'s. The result can be acheived by doing the following 
+rectangular matrix multiplication:
+
 $$
-\begin{array}{lllllllll}
-&h_0 & h_1 & h_2 & h_3 & h_4 & h_5 & h_6 &  \cdots \\
-\bar{g} \rightarrow &	& \downarrow & & \downarrow & & \downarrow & &  \cdots \\
-&h_0 & g(h_1) & h_2 & g(h_3) & h_4 & g(h_5) & h_6 &  \cdots \\	
-\bar{g}^2 \rightarrow &	&  & \downarrow& \downarrow & &  &\downarrow &  \cdots \\
-&h_0 & g(h_1) & g^2(h_2) & g^3(h_3) & h_4 & g(h_5) & g^2(h_6) & \cdots \\	
-\bar{g}^4 \rightarrow&	&  & &  & \downarrow& \downarrow &\downarrow & \cdots \\
-&h_0 & g(h_1) & g^2(h_2) & g^3(h_3) & g^4(h_4) & g^5(h_5) & g^6(h_6) &  \cdots \\		
-\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots 
-\end{array}
+\begin{bmatrix}
+T_0 & \vert & \cdots & \vert &T_{\lceil \sqrt{n} \rceil -1}
+\end{bmatrix}^T \cdot
+\begin{bmatrix}
+\vv{g^0(\alpha)} & \vert & \cdots & \vert & \vv{g^{\lceil \sqrt{n} \rceil -1}}
+\end{bmatrix}.
 $$
-\end{footnotesize}
-This means we do $O(\log \sqrt{n})$ times $\osumcost$ or equivalently $\osumcosttilde$ operations in $F$. 
+Since the left matrix is of size $\lceil \sqrt{n} \rceil \times n$ and the right matrix is of size $n \times \lceil \sqrt{n} \rceil$,
+using results from \cite{LeGall} this can be done by performing $O(n^{1/2\omega(2)})$ operations in $F$.
+
+%\textbf{step 3.} Finally we want $\sum_{i = 0}^{n/\lceil \sqrt{n} \rceil} g^{i\lceil \sqrt{n} \rceil}(h_i)$. Let
+%$\bar{g} = g^{\lceil \sqrt{n} \rceil}$ which is computed in step 1 already. We apply powers of $\bar{g}$ $h_i$'s in
+%the following way: 
+%\begin{footnotesize}
+%$$
+%\begin{array}{lllllllll}
+%&h_0 & h_1 & h_2 & h_3 & h_4 & h_5 & h_6 &  \cdots \\
+%\bar{g} \rightarrow &	& \downarrow & & \downarrow & & \downarrow & &  \cdots \\
+%&h_0 & g(h_1) & h_2 & g(h_3) & h_4 & g(h_5) & h_6 &  \cdots \\	
+%\bar{g}^2 \rightarrow &	&  & \downarrow& \downarrow & &  &\downarrow &  \cdots \\
+%&h_0 & g(h_1) & g^2(h_2) & g^3(h_3) & h_4 & g(h_5) & g^2(h_6) & \cdots \\	
+%\bar{g}^4 \rightarrow&	&  & &  & \downarrow& \downarrow &\downarrow & \cdots \\
+%&h_0 & g(h_1) & g^2(h_2) & g^3(h_3) & g^4(h_4) & g^5(h_5) & g^6(h_6) &  \cdots \\		
+%\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots 
+%\end{array}
+%$$
+%\end{footnotesize}
+%This means we do $O(\log \sqrt{n})$ times $\osumcost$ or equivalently $\osumcosttilde$ operations in $F$. 
 
 In the next section
 we present a generalized version of the above algorithm which works for abelian extensions.
