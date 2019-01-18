@@ -403,6 +403,32 @@ Note that for each $g_i$ we have to compute $g_i^j$ for $0 \leq j \leq s_i$ but 
 which does not change the total cost.
 \end{proof}
 
+%\begin{lemma}\label{lem:transmodcomp}
+%Assume $K = F[x]/f = F[\bar{x}]$ is a cyclic extension of $F$ where $f$ is of degree $n$, and $g \in \mathrm{Gal}(K/F)$  
+% and $L: K\rightarrow F$ is a linear projection. we can compute
+%$L \circ g^j$ for all $0 \leq j < \sqrt{n}$ using $\osumcosttilde$ operations in $F$. 
+%\end{lemma}
+%
+%\begin{proof}
+%for a fixed $j$, $L \circ g^j$ is determined by its image on $\bar{x}$. So our goal is to compute $T_j = L \circ g^j(\bar{x})
+% = s^j\cdot L$ where $s = g(\bar{x})$.
+% 
+%If we have $T_1, \ldots , T_m$, then we can compute $T_{m+1}, \ldots, T_{2m}$ in the following way.
+%At first we compute $s_1 , \ldots, s_{\lceil n^{3/4} \rceil}$ and form the matrix 
+%$S = \begin{bmatrix}
+%s^0 & \vert & \cdots & \vert & s_{\lceil n^{3/4} \rceil}^t
+%\end{bmatrix}
+%$
+%which is of size $\lceil n^{3/4} \rceil \times n$. Then we form the matrix
+%$$T = 
+%\left[ \begin{array}{c|c|c|c|c|c|c}
+%s^0T_1 & \cdots & s^{\lceil n^{1/4} \rceil -1} & \cdots &  s^0T_m &  \cdots & s^{\lceil n^{1/4} \rceil -1} T_m
+%\end{array} \right]
+%$$
+%which is of the size $n \times \lceil n^{3/4} \rceil$. finally we compute $S \cdot T$ using rectangular matrix multiplication 
+%result of \citep{LeGall} which gives the desired complexity.
+%\end{proof} 
+
 
 Now we have enough tools for computing the automorphism projection in the cyclic case where $G = \langle g: g^n =1 \rangle$
 Which is basically \cite[Algorithm AP]{Kaltofen}. 
@@ -410,30 +436,69 @@ Assume $L = \begin{bmatrix}
 l_1 & l_2 & \ldots & l_n
 \end{bmatrix}$ is given where $l_i \in F$. The goal is to compute 
 \begin{equation}\label{eq:autproj}
-L(g^i(\alpha)) = L(g^{j \lceil \sqrt{n} \rceil})\cdot (g^i(\alpha)), 0 \leq j < \lceil \sqrt{n} \rceil, 0 \leq i \leq \lceil \sqrt{n} \rceil -1, 
+L(g^i(\alpha)) = (L \circ g^{j \lceil \sqrt{n} \rceil})\cdot (g^i(\alpha)), 0 \leq j < \lceil \sqrt{n} \rceil, 0 \leq i \leq \lceil \sqrt{n} \rceil -1, 
 \end{equation}
-for a given $\alpha \in K$. Let $T_j = L(g^{j \lceil \sqrt{n} \rceil})$. This computation can be done in 3 steps:
+for a given $\alpha \in K$. 
+%For a given polynomials $h,f \in F[x]$ and projection $L$, computing $L(h^i \mod f)$ for
+%$0\leq i \leq r$ is called transposed modular composition. In order to do such computation in \cite{Shoup} has defined a subtask which is called transposed modular multiplication and 
+Let $T_j = L\circ g^{j \lceil \sqrt{n} \rceil}$.
+%and this operation is called  note that in \cite{Shoup} . 
+This computation can be done in 3 steps:
 
 \textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma \ref{lem:selfcomp} this 
 can be carried out by doing $\osumcosttilde$ operations in $F$.
 
-\textbf{step 2.} compute $n/\lceil \sqrt{n} \rceil$ elements $h_i = \sum_{j = 1}^ {\lceil \sqrt{n} \rceil-1}c_{ij}g^{j}(\alpha)$ which is actually a rectangular matrix multiplication 
-\begin{equation}
-\left(\begin{array}{llll}
-c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
-c_{10} & c_{11} & \cdots & c_{1\lceil \sqrt{n} \rceil -1}\\
-\vdots & \vdots & \vdots & \vdots \\
-c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
-\end{array}\right)\cdot 
-\left(\begin{array}{l}
-\vv{g^0(\alpha)}\\
-\vv{g^1(\alpha)}\\
-\vdots\\
-\vv{g^{\lceil \sqrt{n} \rceil -1}(\alpha)}
-\end{array}\right),
+\textbf{step 2.} If we have $T_1, \ldots , T_m$, then we can get $T_{m+1}, \ldots T_{2m}$ by computing $T_i \circ g^{m\sqrt{n}}$
+which is equivalent of computing 
+\begin{equation}\label{eq:projdoubling}
+\tilde{T_i} = \begin{bmatrix} s^0 \cdot T_i & \cdots & s^{n-1}\cdot T_i \end{bmatrix}
 \end{equation}
-where $\vv{g^i(\alpha)} \in F^n$ is the vector of coefficients of $g^i(\alpha)$ in $F$. The multiplication can be 
-carried out using $\osumcost$ operations in $F$.
+where $s_m = g^{m\sqrt{n}}(\bar{x})$. In order to compute row vector presented in \ref{eq:projdoubling} for a fixed $i$, let 
+$r = n^{1/4}$ and compute 
+$$
+\bar{T_i} = \left[\begin{array}{c|c|c}
+s_m^0T_1 & \cdots & s_m^{r-1}T_i
+\end{array} \right]
+$$
+and multiply it by 
+$$S = \left[
+\begin{array}{c}
+s_m^0\\
+\hline
+s_m^{r}\\
+\hline
+s_m^{2r}\\
+\hline
+\vdots\\
+\hline
+s_m^{(n^{3/4}-1)r}
+\end{array} \right].
+$$
+Note that in the above computation one can use the algorithm given in \cite{Shoup}
+for transposed modular composition. 
+One can see $\tilde{T_i} = S \cdot \bar{T_i}$ and $T_{m+1}, \ldots, T_{2m}$ can be computed by doing
+$$ S \cdot \begin{bmatrix} \bar{T_1}\vline & \cdots \vline & \bar{T_m} \end{bmatrix}$$
+where the second matrix is of size $n \times m$. This completes the doubling method. In the last step of the doubling method
+$m = \sqrt{n}/2$ so the matrix product can be computed using $\osumcost$ operations in $F$ which gives the cost $\osumcosttilde$
+for this step.
+
+%\textbf{step 2.} compute $n/\lceil \sqrt{n} \rceil$ elements $h_i = \sum_{j = 1}^ {\lceil \sqrt{n} \rceil-1}c_{ij}g^{j}(\alpha)$ which is actually a rectangular matrix multiplication 
+%\begin{equation}
+%\left(\begin{array}{llll}
+%c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
+%c_{10} & c_{11} & \cdots & c_{1\lceil \sqrt{n} \rceil -1}\\
+%\vdots & \vdots & \vdots & \vdots \\
+%c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
+%\end{array}\right)\cdot 
+%\left(\begin{array}{l}
+%\vv{g^0(\alpha)}\\
+%\vv{g^1(\alpha)}\\
+%\vdots\\
+%\vv{g^{\lceil \sqrt{n} \rceil -1}(\alpha)}
+%\end{array}\right),
+%\end{equation}
+%where $\vv{g^i(\alpha)} \in F^n$ is the vector of coefficients of $g^i(\alpha)$ in $F$. The multiplication can be 
+%carried out using $\osumcost$ operations in $F$.
 
 \textbf{step 3.} So far we have computed $T_j$'s and $g^i(\alpha)$'s. The result can be acheived by doing the following 
 rectangular matrix multiplication:
