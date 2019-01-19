@@ -18,7 +18,7 @@ As an specific case the mentioned algorithm works for metacyclic groups.
 
 The following lemmas are variants of \cite[Lemma 3 $\&$ Lemma 4]{Kaltofen}, with a slight modification in the proofs.
 
-\begin{lemma}\cite{Kaltofen}\label{modcom}
+\begin{lemma}\cite{Kaltofen}\label{lem:modcom}
 Assume $K$ is a field, $f\in K[x]$ is of degree $n$ and $s = \lceil\sqrt{n}\rceil$. Given $g_1, \ldots , g_{s}$ and 
 $h \in K[x]$ of degree less than $n$, $$g_1(h), \ldots g_{s}(h) \mod f$$ can be computed in
 $O(n^{\frac{3}{4}\omega(\frac{4}{3})})$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
@@ -47,67 +47,97 @@ multiplication as introduced in \cite{LeGall}.
 \end{lemma}
 
 \begin{proof}
-% At first assume we have computed 
-%$g_1(x), \ldots , g_1^m(x) \mod f$. Then we can compute $g_1^{m+1}(x), \ldots , g_1^{2m}(x)$ by
-%computing $$g_1^{m+1}(g_1(x)), \ldots , g_1^{m+1}(g_1^m(x)) \mod f$$ using Lemma \ref{modcom}. Hence by repeating the doubling method 
-%$\log s_1$ times, we can compute $g_1(x), \ldots , g_1^{s_1}(x) \mod f$ in $O(\log s_1) \times \osumcost$. Now if we have computed
 Suppose $\alpha = \sum_{0\leq i \leq n-1} a_i \bar{x}^i$. For any $g_j$ we have 
 \begin{equation}\label{eq:comute}
 g_j^t(\alpha) = \sum_{0\leq i \leq n-1} a_i g_j^t(\bar{x}^i) = \alpha(g_j^t(\bar{x}))
 \end{equation}
-since $g_j$ acts trivially on $a_i$. Now assume we have computed 
- $$g_1(\alpha), \ldots , g_1^m(\alpha).$$ Then we can compute  $g_1^{m+1}(\alpha), \ldots , g_1^{2m}(\alpha)$ by computing $$g_1^m(g_1(\alpha)), \ldots , g_1^m(g_1^m(\alpha)) $$ using Lemma \ref{modcom} and Equation \ref{eq:comute}. By applying the above 
- doubling method, the computation of $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ can be done in $ O(\log s_1) \times \osumcost$.
- Note that here we need to compute the action of (even) powers of $g_1$ on $\bar{x}$ as well. However, it is just a one time
- computation and does not change the complexity. 
+since $g_j$ acts trivially on $a_i$. 
 
-The next step is to apply $g_2^i$ to $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ for $0\leq i \leq s_2$. Again 
-$g_1^j(\alpha) = \sum_{i} a_{ij} \bar{x}^i$ and $$g_2^t(g_1^j(\alpha)) = \sum_{i} a_{ij} (g_2^t(\bar{x}))^i = g_1^j(\alpha)(g_2^t(\bar{x})).$$
-Using the above fact we compute 
-$$g_2(g_1(\alpha)), \ldots , g_2(g_1^{s_1}(\alpha))$$
-by applying Lemma \ref{modcom} which costs $\osumcost$. At this point we have 
-$$\begin{array}{lll} g_1(\alpha)& \ldots & g_1^{s_1}(\alpha)\\ g_2(g_1(\alpha))& \ldots & g_2(g_1^{s_1}(\alpha))\end{array}$$
-and by applying $g_2^2$ (using the above method) we get 
-$$\begin{array}{lll} g_1(\alpha)& \ldots & g_1^{s_1}(\alpha)\\ g_2(g_1(\alpha))& \ldots & g_2(g_1^{s_1}(\alpha))\\
-g_2^2(g_1(\alpha))& \ldots & g_2^2(g_1^{s_1}(\alpha))\\g_2^3(g_1(\alpha))& \ldots & g_2^3(g_1^{s_1}(\alpha))
-\end{array}$$
-then by repeating the above doubling method we get
-$$g_2^{i_2}(g_1^{i_1}(\alpha)), \, 0\leq i_1\leq s_1, 0 \leq i_2 \leq s_2,$$
-using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ operations in $F$ (in total), which is equal to $O(\log (s_1s_2))\osumcost$. 
+Assume we have computed $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) , 1 \leq j \leq r, 
+0 \leq i_j \leq k_j.$$
+Then we can get $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) , j \in \lbrace 1, \ldots , r \rbrace \setminus \lbrace t \rbrace , 
+0 \leq i_j \leq k_j, 0 \leq i_t \leq 2k_t,$$
+by computing 
+$$g_t^{k_t}(g_1^{i_1}\cdots g_r^{i_r}(\alpha)) , 1 \leq j \leq r, 
+0 \leq i_j \leq k_j,$$
+which can be carried out using $\osumcost$ operations in $F$ by applying Lemma \ref{lem:modcom} and using Equation \ref{eq:comute}.
+Using above doubling method for $g_i$, we have to do $O(\log s_i)$ iterations with $\osumcost$ operations in $F$. Hence the total cost of this 
+computation is $\osumcosttilde$
 
-Doing the same for $g_3 , \ldots , g_r$ we see the cost of the computation is 
-$$O(\log (s_1\cdots s_r))\osumcost = \osumcosttilde.$$
+%
+%
+%Now assume we have computed 
+% $$g_1(\alpha), \ldots , g_1^m(\alpha).$$ Then we can compute  $g_1^{m+1}(\alpha), \ldots , g_1^{2m}(\alpha)$ by computing $$g_1^m(g_1(\alpha)), \ldots , g_1^m(g_1^m(\alpha)) $$ using Lemma \ref{modcom} and Equation \ref{eq:comute}. By applying the above 
+% doubling method, the computation of $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ can be done in $ O(\log s_1) \times \osumcost$.
+% Note that here we need to compute the action of (even) powers of $g_1$ on $\bar{x}$ as well. However, it is just a one time
+% computation and does not change the complexity. 
+%
+%The next step is to apply $g_2^i$ to $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ for $0\leq i \leq s_2$. Again 
+%$g_1^j(\alpha) = \sum_{i} a_{ij} \bar{x}^i$ and $$g_2^t(g_1^j(\alpha)) = \sum_{i} a_{ij} (g_2^t(\bar{x}))^i = g_1^j(\alpha)(g_2^t(\bar{x})).$$
+%Using the above fact we compute 
+%$$g_2(g_1(\alpha)), \ldots , g_2(g_1^{s_1}(\alpha))$$
+%by applying Lemma \ref{modcom} which costs $\osumcost$. At this point we have 
+%$$\begin{array}{lll} g_1(\alpha)& \ldots & g_1^{s_1}(\alpha)\\ g_2(g_1(\alpha))& \ldots & g_2(g_1^{s_1}(\alpha))\end{array}$$
+%and by applying $g_2^2$ (using the above method) we get 
+%$$\begin{array}{lll} g_1(\alpha)& \ldots & g_1^{s_1}(\alpha)\\ g_2(g_1(\alpha))& \ldots & g_2(g_1^{s_1}(\alpha))\\
+%g_2^2(g_1(\alpha))& \ldots & g_2^2(g_1^{s_1}(\alpha))\\g_2^3(g_1(\alpha))& \ldots & g_2^3(g_1^{s_1}(\alpha))
+%\end{array}$$
+%then by repeating the above doubling method we get
+%$$g_2^{i_2}(g_1^{i_1}(\alpha)), \, 0\leq i_1\leq s_1, 0 \leq i_2 \leq s_2,$$
+%using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ operations in $F$ (in total), which is equal to $O(\log (s_1s_2))\osumcost$. 
+%
+%Doing the same for $g_3 , \ldots , g_r$ we see the cost of the computation is 
+%$$O(\log (s_1\cdots s_r))\osumcost = \osumcosttilde.$$
 
 Note that for each $g_i$ we have to compute $g_i^j$ for $0 \leq j \leq s_i$ but this is just a one time computation for each $g_i$
 which does not change the total cost.
 \end{proof}
 
-%\begin{lemma}\label{lem:transmodcomp}
-%Assume $K = F[x]/f = F[\bar{x}]$ is a cyclic extension of $F$ where $f$ is of degree $n$, and $g \in \mathrm{Gal}(K/F)$  
-% and $L: K\rightarrow F$ is a linear projection. we can compute
-%$L \circ g^j$ for all $0 \leq j < \sqrt{n}$ using $\osumcosttilde$ operations in $F$. 
-%\end{lemma}
-%
-%\begin{proof}
-%for a fixed $j$, $L \circ g^j$ is determined by its image on $\bar{x}$. So our goal is to compute $T_j = L \circ g^j(\bar{x})
-% = s^j\cdot L$ where $s = g(\bar{x})$.
-% 
-%If we have $T_1, \ldots , T_m$, then we can compute $T_{m+1}, \ldots, T_{2m}$ in the following way.
-%At first we compute $s_1 , \ldots, s_{\lceil n^{3/4} \rceil}$ and form the matrix 
-%$S = \begin{bmatrix}
-%s^0 & \vert & \cdots & \vert & s_{\lceil n^{3/4} \rceil}^t
-%\end{bmatrix}
-%$
-%which is of size $\lceil n^{3/4} \rceil \times n$. Then we form the matrix
-%$$T = 
-%\left[ \begin{array}{c|c|c|c|c|c|c}
-%s^0T_1 & \cdots & s^{\lceil n^{1/4} \rceil -1} & \cdots &  s^0T_m &  \cdots & s^{\lceil n^{1/4} \rceil -1} T_m
-%\end{array} \right]
-%$$
-%which is of the size $n \times \lceil n^{3/4} \rceil$. finally we compute $S \cdot T$ using rectangular matrix multiplication 
-%result of \citep{LeGall} which gives the desired complexity.
-%\end{proof} 
+\begin{lemma}\label{lem:transmodcomp}
+Assume $K = F[x]/f = F[\bar{x}]$ is a finite Galois extension of $F$ where $f$ is irreducible of degree $n = n_1\cdots n_r$. Moreover,
+let $\mathrm{Gal}(K/F) = \langle g_i \rangle_{1\leq i \leq r} $, $\mathrm{Ord}(g_i) = n_i$, $s_i = \lceil \sqrt{n_i} \rceil$
+ and $L: K\rightarrow F$ is a linear projection. The linear maps
+$$L \circ g_1^{i_1} \cdots g_r^{i_r}, \,\, 0\leq j \leq r, 0 \leq i_j \leq s_i, $$ can be computed using $\osumcosttilde$ operations in $F$. 
+\end{lemma} 
 
+\begin{proof}
+Let $T_{i_1\cdots i_r} = L \circ g_1^{i_1}\cdots g_r^{i_r}$ for appropriate $i_j$'s. Here we use a doubling method. Assume we have have access to 
+$$T_{i_1\cdots i_r}, \, \mathrm{for}\,\, 0\leq j \leq r, 0 \leq i_j \leq k_j.$$
+Then we can compute 
+$$T_{i_1\cdots i_r}, \, \mathrm{for}\,\, j \in \lbrace 0, \ldots, r\rbrace \setminus \lbrace t \rbrace, 0 \leq i_j \leq k_j, 0 \leq i_t \leq 2k_t$$
+in the following way. We compute $T_{i_1 \cdots j \cdots i_r} \circ g_t^{k_t s_t}$, where $0\leq j \leq 2k_t$ is the $t$-th index. In other words the mentioned linear forms are row vectors
+\begin{equation}\label{eq:projvec}
+\begin{bmatrix} T_{i_1 \cdots j \cdots i_r}(s_{t,k_t}^0) & \cdots & T_{i_1 \cdots j \cdots i_r}(s_{t,k_t}^{n-1}) \end{bmatrix}
+\end{equation}
+where $s_{t,k_t} = g_t^{k_t\sqrt{n}}(\bar{x})$. In order to compute the above row vector for a fixed index $i_1 \cdots j \cdots i_r$, let $r = \lceil n^{1/4} \rceil$ and compute
+$$\overline{T_{i_1 \cdots j \cdots i_r}} = \left[\begin{array}{c|c|c}
+s_{t,k_t}^0\cdot T_{i_1 \cdots j \cdots i_r} & \cdots & s_{t,k_t}^{r-1}\cdot T_{i_1 \cdots j \cdots i_r}
+\end{array} \right]$$
+and multiply it by 
+$$S = \left[
+\begin{array}{c}
+s_{t,k_t}^0\\
+\hline
+s_{t,k_t}^{r}\\
+\hline
+s_{t,k_t}^{2r}\\
+\hline
+\vdots\\
+\hline
+s_{t,k_t}^{(n^{3/4}-1)r}
+\end{array} \right].$$
+In the above computation vectors $s_{t,k_t}^i \cdot T_{i_1 \cdots j \cdots i_r}$, can be computed by applying the algorithm introduced in 
+\cite{Shoup} for doing transposed modular multiplication. This completes the doubling method. It is clear that $S$ is of size 
+$n^{3/4} \times n$ and $\overline{T_{i_1 \cdots j \cdots i_r}}$ is an $n \times n^{1/4}$. Finally the vector in Equation \ref{eq:projvec}
+is equal to
+$$S \cdot \left[\begin{array}{c|c|c}
+\overline{T_{i_1 \cdots 1 \cdots i_r}} & \cdots & \overline{T_{i_1 \cdots k_t \cdots i_r}}
+\end{array}\right]
+$$
+Note that in the last step of above doubling method for a fixed index $t$ we have $k_t = s_t/2$. Hence for $g_t$ the above computation can be done 
+using $O(\log s_t)$ times the cost of the matrix multiplication which is $\osumcost$. Since we should repeat the above process for each $g_t$ the total cost is
+$\osumcosttilde$ 
+\end{proof}
 
 Now we have enough tools for computing the automorphism projection in the cyclic case where $G = \langle g: g^n =1 \rangle$
 Which is basically \cite[Algorithm AP]{Kaltofen}. 
@@ -127,39 +157,42 @@ This computation can be done in 3 steps:
 \textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma \ref{lem:selfcomp} this 
 can be carried out by doing $\osumcosttilde$ operations in $F$.
 
-\textbf{step 2.} If we have $T_1, \ldots , T_m$, then we can get $T_{m+1}, \ldots T_{2m}$ by computing $T_i \circ g^{m\sqrt{n}}$
-which is equivalent of computing 
-\begin{equation}\label{eq:projdoubling}
-\tilde{T_i} = \begin{bmatrix} s^0 \cdot T_i & \cdots & s^{n-1}\cdot T_i \end{bmatrix}
-\end{equation}
-where $s_m = g^{m\sqrt{n}}(\bar{x})$. In order to compute row vector presented in \ref{eq:projdoubling} for a fixed $i$, let 
-$r = n^{1/4}$ and compute 
-$$
-\bar{T_i} = \left[\begin{array}{c|c|c}
-s_m^0T_1 & \cdots & s_m^{r-1}T_i
-\end{array} \right]
-$$
-and multiply it by 
-$$S = \left[
-\begin{array}{c}
-s_m^0\\
-\hline
-s_m^{r}\\
-\hline
-s_m^{2r}\\
-\hline
-\vdots\\
-\hline
-s_m^{(n^{3/4}-1)r}
-\end{array} \right].
-$$
-Note that in the above computation one can use the algorithm given in \cite{Shoup}
-for transposed modular composition. 
-One can see $\tilde{T_i} = S \cdot \bar{T_i}$ and $T_{m+1}, \ldots, T_{2m}$ can be computed by doing
-$$ S \cdot \begin{bmatrix} \bar{T_1}\vline & \cdots \vline & \bar{T_m} \end{bmatrix}$$
-where the second matrix is of size $n \times m$. This completes the doubling method. In the last step of the doubling method
-$m = \sqrt{n}/2$ so the matrix product can be computed using $\osumcost$ operations in $F$ which gives the cost $\osumcosttilde$
-for this step.
+\textbf{step 2.} apply the algorithm in Lemma \ref{lem:transmodcomp} to get the linear projections 
+$$L \circ g^{j \lceil \sqrt{n} \rceil}, \,\, 0 \leq j < \lceil \sqrt{n} \rceil.$$ 
+
+%\textbf{step 2.} If we have $T_1, \ldots , T_m$, then we can get $T_{m+1}, \ldots T_{2m}$ by computing $T_i \circ g^{m\sqrt{n}}$
+%which is equivalent of computing 
+%\begin{equation}\label{eq:projdoubling}
+%\tilde{T_i} = \begin{bmatrix} s^0 \cdot T_i & \cdots & s^{n-1}\cdot T_i \end{bmatrix}
+%\end{equation}
+%where $s_m = g^{m\sqrt{n}}(\bar{x})$. In order to compute row vector presented in \ref{eq:projdoubling} for a fixed $i$, let 
+%$r = n^{1/4}$ and compute 
+%$$
+%\bar{T_i} = \left[\begin{array}{c|c|c}
+%s_m^0T_1 & \cdots & s_m^{r-1}T_i
+%\end{array} \right]
+%$$
+%and multiply it by 
+%$$S = \left[
+%\begin{array}{c}
+%s_m^0\\
+%\hline
+%s_m^{r}\\
+%\hline
+%s_m^{2r}\\
+%\hline
+%\vdots\\
+%\hline
+%s_m^{(n^{3/4}-1)r}
+%\end{array} \right].
+%$$
+%Note that in the above computation one can use the algorithm given in \cite{Shoup}
+%for transposed modular composition. 
+%One can see $\tilde{T_i} = S \cdot \bar{T_i}$ and $T_{m+1}, \ldots, T_{2m}$ can be computed by doing
+%$$ S \cdot \begin{bmatrix} \bar{T_1}\vline & \cdots \vline & \bar{T_m} \end{bmatrix}$$
+%where the second matrix is of size $n \times m$. This completes the doubling method. In the last step of the doubling method
+%$m = \sqrt{n}/2$ so the matrix product can be computed using $\osumcost$ operations in $F$ which gives the cost $\osumcosttilde$
+%for this step.
 
 %\textbf{step 2.} compute $n/\lceil \sqrt{n} \rceil$ elements $h_i = \sum_{j = 1}^ {\lceil \sqrt{n} \rceil-1}c_{ij}g^{j}(\alpha)$ which is actually a rectangular matrix multiplication 
 %\begin{equation}
@@ -193,6 +226,8 @@ $$
 Since the left matrix is of size $\lceil \sqrt{n} \rceil \times n$ and the right matrix is of size $n \times \lceil \sqrt{n} \rceil$,
 using results from \cite{LeGall} this can be done by performing $O(n^{1/2\omega(2)})$ operations in $F$.
 
+One can verify that the dominant term in the cost of computations is the cost of step 2 which uses $\osumcosttilde$.
+
 %\textbf{step 3.} Finally we want $\sum_{i = 0}^{n/\lceil \sqrt{n} \rceil} g^{i\lceil \sqrt{n} \rceil}(h_i)$. Let
 %$\bar{g} = g^{\lceil \sqrt{n} \rceil}$ which is computed in step 1 already. We apply powers of $\bar{g}$ $h_i$'s in
 %the following way: 
@@ -217,70 +252,111 @@ we present a generalized version of the above algorithm which works for abelian 
 
 \subsection{Abelian Groups}
 Assume $G$ is an abelian group presented as 
-$$ \langle g_1, \ldots , g_n: g_{1}^{e_1} = \cdots = g_{n}^{e_n} = 1 \rangle$$
+$$ \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1 \rangle$$
  where $ e_i \in \mathbb{N}$
-is the order of $g_i$. Our goal is to compute $S = (P(g_1,  \ldots, g_n))(\alpha)$ where $P(x_1, \ldots,x_n) \in F[x_1, \dots , x_n].$
-We can rewrite $S$ as 
-$$\sum_{\substack{0 \leq i_1 < e_1/t_1 \\ \vdots \\ 0 \leq i_n < e_n/t_n}} \hat{g}_1^{i_1} \cdots \hat{g}_n^{i_n}(\sum_{\substack{0 \leq j_1 \leq t_1-1\\ \vdots \\ 0 \leq j_n \leq t_n-1}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha))$$
-where $t_i = \lceil \sqrt{e_i}\rceil$ and $\hat{g_i} = g_i^{t_i}.$
+is the order of $g_i$ and $n = n_1 \cdots n_r$. Our goal is to compute 
+\begin{equation}\label{eq:abelian}
+L \circ g_1^{i_1},  \ldots, g_r^{i_r}(\alpha), \, 1 \leq j \leq r, 0 \leq i_j \leq e_j
+\end{equation}
+ where $L = \begin{bmatrix} l_1 & \cdots l_n \end{bmatrix}$ is a given projection from $K$ to $F$ 
+The elements in \eqref{eq:abelian} can be presented as 
+\begin{equation}
+\begin{split}
+(L \circ g_1^{s_1j_1} \cdots g_r^{s_rj_s})\cdot (g_1^{i_1} \cdots g_r^{i_r}(\alpha))\\ 1\leq m \leq r, 0\leq i_m \leq s_m, 0 \leq j_m \leq s_m
+\end{split}
+\end{equation}
+note that $T_{i_1\cdots l_r} = L \circ g_1^{s_1j_1} \cdots g_r^{s_rj_s})\cdot (g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ are linear projections 
+presented as row vectors and $g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ are field elements presented as column vectors. All elements in \eqref{eq:abelian} can be computed in 3 steps.
 
-It is simpler to think of monomials in $g_i$'s as integral points of $\mathbb{R}^n$ space, i.e.
-$(a_1, \ldots , a_n)$ represents $g_1^{a_1}, \ldots g_n^{a_n}$. If this is the case then the above equation suggests to 
-partition the $n$-cell $$[0,e_1] \times \cdots \times [0, e_n]$$ into $n$-cells of the same size as 
-$$[0,\lceil \sqrt{e_1} \rceil] \times \cdots \times [0, \lceil \sqrt{e_n} \rceil],$$ 
-then we can start to compute the automrphism evaluations in the $n$-cell containing the origin. After that each time we apply one 
-of the generators we are moving to another $n$-cell.
+\textbf{step 1.} Apply Lemma \ref{lem:selfcomp} to get $g_1^{i_1} \cdots g_r^{i_r}(\alpha)$.
 
-We compute the projection of the orbit sum of $\alpha$ in 3 steps.
+\textbf{step 2.} Use Lemma \ref{lem:transmodcomp} to compute $T_{i_1\cdots l_r}$.
 
-\textbf{step 1. Compute the actions of the points in the $n$-cell containing the origin on $\alpha$}. At first we compute 
-$g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ in $\tilde{O}(\sqrt{\vert G \vert}^{\omega({\frac{3}{4}})})$ operations in $F$, by lemma 4. Now
-we apply 
+\textbf{step 3.} The last step is to the following matrix multiplication
 
- $g_2$ to $g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ then after applying $g_2^2$ to
-\[
- \begin{array}{lll}
- g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
- g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) 
-\end{array} 
-\]
-we have computed
-\[
- \begin{array}{lll}
- g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
- g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) \\
- g_2^2(g_1(\alpha))& \ldots & g_2^2(g_1^{t_1}(\alpha)) \\
- g_2^3(g_1(\alpha))& \ldots & g_2^3(g_1^{t_1}(\alpha))
-\end{array} 
-\]
-If we continue by applying $g_2^4, \ldots$ we are able to get
-\[
- \begin{array}{lll}
- g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
- g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) \\
- \vdots & \vdots & \vdots\\
- g_2^{t_2}(g_1(\alpha))& \ldots & g_2^{t_2}(g_1^{t_1}(\alpha)) \\
-\end{array} 
-\]
-Note that for computing 
-$$g_2^{j}(g_1(\alpha)), \ldots , g_2^{j}(g_1^{t_1}(\alpha))$$
-we use the similar idea which is used in the proof of Lemma \ref{lem:selfcomp}.
-This shows that above computation can be done in $(\log \sqrt{t_2})(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$ operations in $F$. By doing similar operations for $g_3, \ldots, g_n$ on all the outputs we can compute the corresponding images to the elements
-of the $n$-cell containing the origin in $\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$
-
-\textbf{step2. computing automorphism evaluations in the $n$-cell containing the origin.}
-
-We want to compute
-$$T_{i_1, \ldots, i_n} = \sum_{\substack{0 \leq j_1 \leq t_1\\ \vdots \\ 0 \leq j_n \leq t_n}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha)$$
-for $0 \leq i_1-1 \leq t_1, \ldots , 0 \leq i_n \leq t_n-1$ which can be done by a rectangular matrix multiplication with cost
-$\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$.
-
-\textbf{step 3. applying $\hat{g}_i$'s.}
-
-We have already computed $\hat{g}_i$ in step 1. Similar to step 1, we can apply $g_i^s$ 
-for $s = 1, 2, 4 , \ldots, t_1$ to $T_{i_1, \ldots , i_n}$ which can be done using $(\log t_i)(\vert G \vert^{\frac{1}{2}\omega
-(\frac{4}{3})})$ operations in $F$. Thus this step can be carried out by $\tilde{O}(\vert G \vert^{\frac{1}{2}\omega
-(\frac{4}{3})})$ operations in $F$. 
+$$
+\left[ \begin{array}{c}
+T_{00\cdots 0}\\
+\hline
+T_{10\cdots 0}\\
+\hline
+\vdots\\
+\hline
+T_{s_1 \cdots s_r}
+\end{array} \right]
+\cdot
+\left[\begin{array}{c}
+g_1^{0}\cdots g_r^{0}(\alpha) \\
+\hline
+g_1^{1}\cdots g_r^{0}(\alpha) \\
+\hline
+\cdots \\
+\hline
+g_1^{s_1}\cdots g_r^{s_r}(\alpha)  
+\end{array}\right]^t.
+$$
+Using results for rectangular matrix multiplication we can compute the above product in $O(n^{1/2\omega(2)})$ operations in $F$.
+%
+%$$\sum_{\substack{0 \leq i_1 < e_1/t_1 \\ \vdots \\ 0 \leq i_n < e_n/t_n}} \hat{g}_1^{i_1} \cdots \hat{g}_n^{i_n}(\sum_{\substack{0 \leq j_1 \leq t_1-1\\ \vdots \\ 0 \leq j_n \leq t_n-1}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha))$$
+%where $t_i = \lceil \sqrt{e_i}\rceil$ and $\hat{g_i} = g_i^{t_i}.$
+%
+%It is simpler to think of monomials in $g_i$'s as integral points of $\mathbb{R}^n$ space, i.e.
+%$(a_1, \ldots , a_n)$ represents $g_1^{a_1}, \ldots g_n^{a_n}$. If this is the case then the above equation suggests to 
+%partition the $n$-cell $$[0,e_1] \times \cdots \times [0, e_n]$$ into $n$-cells of the same size as 
+%$$[0,\lceil \sqrt{e_1} \rceil] \times \cdots \times [0, \lceil \sqrt{e_n} \rceil],$$ 
+%then we can start to compute the automorphism evaluations in the $n$-cell containing the origin. After that each time we apply one 
+%of the generators we are moving to another $n$-cell.
+%
+%We compute the projection of the orbit sum of $\alpha$ in 3 steps.
+%
+%\textbf{step 1. Compute the actions of the points in the $n$-cell containing the origin on $\alpha$}. At first we compute 
+%$g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ in $\tilde{O}(\sqrt{\vert G \vert}^{\omega({\frac{3}{4}})})$ operations in $F$, by lemma 4. Now
+%we apply 
+%
+% $g_2$ to $g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ then after applying $g_2^2$ to
+%\[
+% \begin{array}{lll}
+% g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
+% g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) 
+%\end{array} 
+%\]
+%we have computed
+%\[
+% \begin{array}{lll}
+% g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
+% g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) \\
+% g_2^2(g_1(\alpha))& \ldots & g_2^2(g_1^{t_1}(\alpha)) \\
+% g_2^3(g_1(\alpha))& \ldots & g_2^3(g_1^{t_1}(\alpha))
+%\end{array} 
+%\]
+%If we continue by applying $g_2^4, \ldots$ we are able to get
+%\[
+% \begin{array}{lll}
+% g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
+% g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) \\
+% \vdots & \vdots & \vdots\\
+% g_2^{t_2}(g_1(\alpha))& \ldots & g_2^{t_2}(g_1^{t_1}(\alpha)) \\
+%\end{array} 
+%\]
+%Note that for computing 
+%$$g_2^{j}(g_1(\alpha)), \ldots , g_2^{j}(g_1^{t_1}(\alpha))$$
+%we use the similar idea which is used in the proof of Lemma \ref{lem:selfcomp}.
+%This shows that above computation can be done in $(\log \sqrt{t_2})(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$ operations in $F$. By doing similar operations for $g_3, \ldots, g_n$ on all the outputs we can compute the corresponding images to the elements
+%of the $n$-cell containing the origin in $\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$
+%
+%\textbf{step2. computing automorphism evaluations in the $n$-cell containing the origin.}
+%
+%We want to compute
+%$$T_{i_1, \ldots, i_n} = \sum_{\substack{0 \leq j_1 \leq t_1\\ \vdots \\ 0 \leq j_n \leq t_n}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha)$$
+%for $0 \leq i_1-1 \leq t_1, \ldots , 0 \leq i_n \leq t_n-1$ which can be done by a rectangular matrix multiplication with cost
+%$\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$.
+%
+%\textbf{step 3. applying $\hat{g}_i$'s.}
+%
+%We have already computed $\hat{g}_i$ in step 1. Similar to step 1, we can apply $g_i^s$ 
+%for $s = 1, 2, 4 , \ldots, t_1$ to $T_{i_1, \ldots , i_n}$ which can be done using $(\log t_i)(\vert G \vert^{\frac{1}{2}\omega
+%(\frac{4}{3})})$ operations in $F$. Thus this step can be carried out by $\tilde{O}(\vert G \vert^{\frac{1}{2}\omega
+%(\frac{4}{3})})$ operations in $F$. 
 
 \begin{proposition}
 Suppose Assumption \ref{assum} holds and $G$ is an abelian group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
