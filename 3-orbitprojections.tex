@@ -95,45 +95,50 @@ which does not change the total cost.
 
 \begin{lemma}\label{lem:transmodcomp}
 Assume $K = F[x]/f = F[\bar{x}]$ is a finite Galois extension of $F$ where $f$ is irreducible of degree $n = n_1\cdots n_r$. Moreover,
-let $\mathrm{Gal}(K/F) = \langle g_i \rangle_{1\leq i \leq r} $, $\mathrm{Ord}(g_i) = n_i$, $s_i = \lceil \sqrt{n_i} \rceil$
+let $ \lbrace g_i \rbrace_{1\leq i \leq r} \subset \mathrm{Gal}(K/F) $, $s_i = \lceil \sqrt{n_i} \rceil$
  and $L: K\rightarrow F$ is a linear projection. The linear maps
-$$L \circ g_1^{i_1} \cdots g_r^{i_r}, \,\, 0\leq j \leq r, 0 \leq i_j \leq s_i, $$ can be computed using $\osumcosttilde$ operations in $F$. 
+$$L \circ g_1^{i_1} \cdots g_r^{i_r}, \,\, 1\leq j \leq r, 0 \leq i_j < s_j, $$ can be computed using $\osumcosttilde$ operations in $F$. 
 \end{lemma} 
 
 \begin{proof}
-Let $T_{i_1\cdots i_r} = L \circ g_1^{i_1}\cdots g_r^{i_r}$ for appropriate $i_j$'s. Here we use a doubling method. Assume we have have access to 
-$$T_{i_1\cdots i_r}, \, \mathrm{for}\,\, 0\leq j \leq r, 0 \leq i_j \leq k_j.$$
+Let $T_{i_1\cdots i_r} = L \circ g_1^{i_1}\cdots g_r^{i_r}$. Here we use a doubling method. Assume we have have access to 
+$$T_{i_1\cdots i_r}, \, \mathrm{for}\,\, 1\leq j \leq r, 0 \leq i_j \leq k_j.$$
 Then we can compute 
-$$T_{i_1\cdots i_r}, \, \mathrm{for}\,\, j \in \lbrace 0, \ldots, r\rbrace \setminus \lbrace t \rbrace, 0 \leq i_j \leq k_j, 0 \leq i_t \leq 2k_t$$
-in the following way. We compute $T_{i_1 \cdots j \cdots i_r} \circ g_t^{k_t s_t}$, where $0\leq j \leq 2k_t$ is the $t$-th index. In other words the mentioned linear forms are row vectors
+$$T_{i_1\cdots i_r}, \, \mathrm{for}\,\, j \in \lbrace 1, \ldots, r\rbrace \setminus \lbrace t \rbrace, 0 \leq i_j \leq k_j, 0 \leq i_t \leq 2k_t$$
+in the following way. We compute 
+$T_{i_1 \cdots i_r} \circ g_t^{k_t}, \,\, 1\leq j \leq r, 0 \leq i_j \leq k_j.$
+, where $0\leq j \leq k_t$ is the $t$-th index. Since a linear projection is determined by its action on a basis, such as 
+$\lbrace\bar{x}^i: 0\leq i \leq n-1 \rbrace$, the corresponding row vector to $T_{i_1 \cdots i_r} \circ g_t^{k_t}$ is 
 \begin{equation}\label{eq:projvec}
-\begin{bmatrix} T_{i_1 \cdots j \cdots i_r}(s_{t,k_t}^0) & \cdots & T_{i_1 \cdots j \cdots i_r}(s_{t,k_t}^{n-1}) \end{bmatrix}
+\begin{bmatrix} T_{i_1 \cdots i_r}(u_{t,k_t}^0) & \cdots & T_{i_1 \cdots i_r}(u_{t,k_t}^{n-1}) \end{bmatrix}
 \end{equation}
-where $s_{t,k_t} = g_t^{k_t\sqrt{n}}(\bar{x})$. In order to compute the above row vector for a fixed index $i_1 \cdots j \cdots i_r$, let $r = \lceil n^{1/4} \rceil$ and compute
+where $u_{t,k_t} = g_t^{k_t}(\bar{x})$. In order to compute the above row vector for a fixed index $i_1 \cdots i_r$, let $r = \lceil n^{1/4} \rceil$, compute
 $$\overline{T_{i_1 \cdots j \cdots i_r}} = \left[\begin{array}{c|c|c}
-s_{t,k_t}^0\cdot T_{i_1 \cdots j \cdots i_r} & \cdots & s_{t,k_t}^{r-1}\cdot T_{i_1 \cdots j \cdots i_r}
+u_{t,k_t}^0\cdot T_{i_1 \cdots j \cdots i_r} & \cdots & u_{t,k_t}^{r-1}\cdot T_{i_1 \cdots j \cdots i_r}
 \end{array} \right]$$
 and multiply it by 
-$$S = \left[
+$$ U = \left[
 \begin{array}{c}
-s_{t,k_t}^0\\
+u_{t,k_t}^0\\
 \hline
-s_{t,k_t}^{r}\\
+u_{t,k_t}^{r}\\
 \hline
-s_{t,k_t}^{2r}\\
+u_{t,k_t}^{2r}\\
 \hline
 \vdots\\
 \hline
-s_{t,k_t}^{(n^{3/4}-1)r}
+u_{t,k_t}^{(n^{3/4}-1)r}
 \end{array} \right].$$
-In the above computation vectors $s_{t,k_t}^i \cdot T_{i_1 \cdots j \cdots i_r}$, can be computed by applying the algorithm introduced in 
-\cite{Shoup} for doing transposed modular multiplication. This completes the doubling method. It is clear that $S$ is of size 
-$n^{3/4} \times n$ and $\overline{T_{i_1 \cdots j \cdots i_r}}$ is an $n \times n^{1/4}$. Finally the vector in Equation \ref{eq:projvec}
-is equal to
-$$S \cdot \left[\begin{array}{c|c|c}
-\overline{T_{i_1 \cdots 1 \cdots i_r}} & \cdots & \overline{T_{i_1 \cdots k_t \cdots i_r}}
-\end{array}\right]
+Note that the term $u_{t,k_t}^i \cdot T_{i_1 \cdots j \cdots i_r}$, is the so called transposed modular multiplication and one can apply the algorithm
+ introduced in \cite{Shoup} for doing to compute it. It is clear that $U$ is of size 
+$n^{3/4} \times n$ and $\overline{T_{i_1 \cdots i_r}}$ is an $n \times n^{1/4}$. Finally the vectors in \eqref{eq:projvec}
+is given by
+$$U \cdot \left[\begin{array}{c|c|c}
+\overline{T_{i_1 \cdots i_{t-1},1, i_{t+1} \cdots i_r}} & \cdots & \overline{T_{i_1 \cdots i_{t-1},k_t,i_{t+1} \cdots i_r}}
+\end{array}\right].
 $$
+This completes the doubling method.
+
 Note that in the last step of above doubling method for a fixed index $t$ we have $k_t = s_t/2$. Hence for $g_t$ the above computation can be done 
 using $O(\log s_t)$ times the cost of the matrix multiplication which is $\osumcost$. Since we should repeat the above process for each $g_t$ the total cost is
 $\osumcosttilde$ 
@@ -157,19 +162,19 @@ This computation can be done in 3 steps:
 \textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma \ref{lem:selfcomp} this 
 can be carried out by doing $\osumcosttilde$ operations in $F$.
 
-\textbf{step 2.} apply the algorithm in Lemma \ref{lem:transmodcomp} to get the linear projections 
+\textbf{step 2.} apply the algorithm in Lemma \ref{lem:transmodcomp} with $g^ {\lceil \sqrt{n} \rceil} \in G$ to get the linear projections 
 $$L \circ g^{j \lceil \sqrt{n} \rceil}, \,\, 0 \leq j < \lceil \sqrt{n} \rceil.$$ 
 
 %\textbf{step 2.} If we have $T_1, \ldots , T_m$, then we can get $T_{m+1}, \ldots T_{2m}$ by computing $T_i \circ g^{m\sqrt{n}}$
 %which is equivalent of computing 
 %\begin{equation}\label{eq:projdoubling}
-%\tilde{T_i} = \begin{bmatrix} s^0 \cdot T_i & \cdots & s^{n-1}\cdot T_i \end{bmatrix}
+%\begin{bmatrix}  T_i(s^0) & \cdots & T_i(s^{n-1}) \end{bmatrix}
 %\end{equation}
 %where $s_m = g^{m\sqrt{n}}(\bar{x})$. In order to compute row vector presented in \ref{eq:projdoubling} for a fixed $i$, let 
-%$r = n^{1/4}$ and compute 
+%$r = \lceil n^{1/4} \rceil$ and compute 
 %$$
-%\bar{T_i} = \left[\begin{array}{c|c|c}
-%s_m^0T_1 & \cdots & s_m^{r-1}T_i
+%\overline{T_i} = \left[\begin{array}{c|c|c}
+%s_m^0\cdot T_1 & \cdots & s_m^{r-1}\cdot T_i
 %\end{array} \right]
 %$$
 %and multiply it by 
@@ -188,8 +193,8 @@ $$L \circ g^{j \lceil \sqrt{n} \rceil}, \,\, 0 \leq j < \lceil \sqrt{n} \rceil.$
 %$$
 %Note that in the above computation one can use the algorithm given in \cite{Shoup}
 %for transposed modular composition. 
-%One can see $\tilde{T_i} = S \cdot \bar{T_i}$ and $T_{m+1}, \ldots, T_{2m}$ can be computed by doing
-%$$ S \cdot \begin{bmatrix} \bar{T_1}\vline & \cdots \vline & \bar{T_m} \end{bmatrix}$$
+%One can see $\tilde{T_i} = S \cdot \overline{T_i}$ and $T_{m+1}, \ldots, T_{2m}$ can be computed by doing
+%$$ S \cdot \begin{bmatrix} \overline{T_1}\vline & \cdots \vline & \overline{T_m} \end{bmatrix}$$
 %where the second matrix is of size $n \times m$. This completes the doubling method. In the last step of the doubling method
 %$m = \sqrt{n}/2$ so the matrix product can be computed using $\osumcost$ operations in $F$ which gives the cost $\osumcosttilde$
 %for this step.
@@ -380,38 +385,87 @@ is an example of metacyclic groups. another well-known metacyclic group is gener
  We know that elements of $Q_n$ are of the form 
  $$\sigma^i\tau^j, 0 \leq i \leq 2n-1 , 0\leq j \leq 1.$$
  
- Assume $G$ is given by Equation \ref{eq:metacyclic}, Assumption \ref{assum} holds and 
- $$P(x,y) = \sum_{i= 0}^n \sum_{j=0}^m c_{ij}x^iy^j = \sum_{i= 0}^n x^i\left(\sum_{j=0}^m c_{ij}y^j \right) \in F[x,y]. $$
- We want to get $(P(\sigma,\tau))(\alpha)$. Let $H = \langle x \rangle$ is a normal subgroup of $G$ such that $G/H = \langle yH
-  \rangle$. Since $yxy^{-1}$ belong to $H$, elements in $G$ also be presented as $b^i a^j$. Hence 
- without loss of generality we may assume $n \leq m$. Assume $s = \lceil \sqrt{mn} \rceil$ and
- $$H_i = (\sum_{j=0}^m c_{ij}\tau^j)(\alpha) = \sum_{j=0}^{m/ s} \tau^{js}\left(\sum_{t= 0}^{s}c'_{it}\tau^j(\alpha)\right).$$
- Suppose $T_{ij} = \sum_{t= 0}^{s}c'_{it}\tau^j(\alpha)$. In order to compute each $T_{ij}$ we start by computing 
- $$\tau(\alpha), \tau^2(\alpha), \ldots , \tau^{s}(\alpha).$$
- By Lemma \ref{lem:selfcomp} this can be done using $\tilde{O}((mn)^{3/4 \omega(4/3)}$ operations in $F$. Then to get $T_{it}$, we compute
- $$
-\left(\begin{array}{lll}
-c'_{00} & \cdots & c'_{0s}\\
-\vdots & \vdots & \vdots\\
-c_{m/s0} & \cdots & c_{m/ss}\\
-\vdots & \vdots & \vdots\\
-c_{n0} & \cdots & c_{ns}
-\end{array} \right)
-\cdot
-\left( \begin{array}{l}
-\vv{\tau^0(\alpha)}\\
+Assume $G = \mathrm{Gal(K/F})$ is a group presentable as
+$$G = \lbrace \sigma^i \tau^j: 0\leq i \leq n-1, 0 \leq j \leq m-1, m\leq n \rbrace,$$
+and $\alpha\in K$. The goal is to compute 
+$L(\sigma^i\tau^j (\alpha), \,\, 0\leq i < n, 0 \leq j <m.$
+This can be done in three steps.
+
+\textbf{step 1.} apply Lemma \ref{lem:selfcomp} to compute 
+$$\alpha_j = \tau^j(\alpha), 0 \leq j < m$$
+note that $m \leq \sqrt{mn}$.
+
+\textbf{step 2.} compute $$T_j = L \circ \sigma^{j\sqrt{mn}}, \,\, 0\leq j < \sqrt{mn}$$
+using Lemma	\ref{lem:transmodcomp}.
+
+\textbf{step 3.} compute $$\sigma^i (\alpha_j), 0\leq i < n/\sqrt{mn} = \sqrt{m}/\sqrt{n}, 0\leq j <m$$ using Lemma \ref{lem:selfcomp}.
+
+\textbf{step 4.} at this point we want to compute 
+$$L(\sigma^i\tau^j(\alpha)) = T_k\cdot(\sigma^i(\alpha_j)).$$
+This can be carried out with a rectangular matrix multiplication
+$$
+\left[ \begin{array}{c}
+T_0\\
+\hline
+T_1\\
+\hline
 \vdots\\
-\vv{\tau^s(\alpha)}
+\hline
+T_{\sqrt{mn}-1}
+\end{array} 
+\right]
+\cdot
+\left[\begin{array}{l}
+\sigma^0(\alpha_0) \\
+\hline
+ \vdots \\
+ \hline
+ \sigma^{0}(\alpha_m) \\
+ \hline
+\vdots \\
+\hline
+\sigma^{\sqrt{n}/\sqrt{m}}(\alpha_0) \\
+\hline
+\vdots \\
+\hline
+\sigma^{\sqrt{n}/\sqrt{m}}(\alpha_m)
 \end{array}
-\right)
- $$
- where the left matrix is of the size $\sqrt{mn} \times \sqrt{mn}$ and the right one is of the size $\sqrt{mn} \times mn$. Thus the 
- multiplication can be done with cost $O((mn)^{1/2 \omega(2)})$. Note that the total number of $T_{ij}$ is $n\cdot\dfrac{m}{s} = 
- \sqrt{mn}$. So using the similar idea to the abelian case we can apply powers of $\tau^s$ to them, so that we get 
- $T_0, \ldots, T_n$ and the cost is $\tilde{O}((mn)^{3/4\omega(4/3)})$.
+\right]^t
+$$
+which is a $\langle \sqrt{mn},n,\sqrt{mn}\rangle$ multiplication.  
  
- The final step is to compute $$\sigma^0(T_0), \sigma^1(T_1) , \ldots , \sigma^n (T_n).$$
-Note that since $n \leq \sqrt{mn}$, this computation can be done using $\thecost$ operations in $F$, using the same ideas from the abelian case. Now we have proved the following theorem.
+% Assume $G$ is given by Equation \ref{eq:metacyclic}, Assumption \ref{assum} holds and 
+% $$P(x,y) = \sum_{i= 0}^n \sum_{j=0}^m c_{ij}x^iy^j = \sum_{i= 0}^n x^i\left(\sum_{j=0}^m c_{ij}y^j \right) \in F[x,y]. $$
+% We want to get $(P(\sigma,\tau))(\alpha)$. Let $H = \langle x \rangle$ is a normal subgroup of $G$ such that $G/H = \langle yH
+%  \rangle$. Since $yxy^{-1}$ belong to $H$, elements in $G$ also be presented as $b^i a^j$. Hence 
+% without loss of generality we may assume $n \leq m$. Assume $s = \lceil \sqrt{mn} \rceil$ and
+% $$H_i = (\sum_{j=0}^m c_{ij}\tau^j)(\alpha) = \sum_{j=0}^{m/ s} \tau^{js}\left(\sum_{t= 0}^{s}c'_{it}\tau^j(\alpha)\right).$$
+% Suppose $T_{ij} = \sum_{t= 0}^{s}c'_{it}\tau^j(\alpha)$. In order to compute each $T_{ij}$ we start by computing 
+% $$\tau(\alpha), \tau^2(\alpha), \ldots , \tau^{s}(\alpha).$$
+% By Lemma \ref{lem:selfcomp} this can be done using $\tilde{O}((mn)^{3/4 \omega(4/3)}$ operations in $F$. Then to get $T_{it}$, we compute
+% $$
+%\left(\begin{array}{lll}
+%c'_{00} & \cdots & c'_{0s}\\
+%\vdots & \vdots & \vdots\\
+%c_{m/s0} & \cdots & c_{m/ss}\\
+%\vdots & \vdots & \vdots\\
+%c_{n0} & \cdots & c_{ns}
+%\end{array} \right)
+%\cdot
+%\left( \begin{array}{l}
+%\vv{\tau^0(\alpha)}\\
+%\vdots\\
+%\vv{\tau^s(\alpha)}
+%\end{array}
+%\right)
+% $$
+% where the left matrix is of the size $\sqrt{mn} \times \sqrt{mn}$ and the right one is of the size $\sqrt{mn} \times mn$. Thus the 
+% multiplication can be done with cost $O((mn)^{1/2 \omega(2)})$. Note that the total number of $T_{ij}$ is $n\cdot\dfrac{m}{s} = 
+% \sqrt{mn}$. So using the similar idea to the abelian case we can apply powers of $\tau^s$ to them, so that we get 
+% $T_0, \ldots, T_n$ and the cost is $\tilde{O}((mn)^{3/4\omega(4/3)})$.
+% 
+% The final step is to compute $$\sigma^0(T_0), \sigma^1(T_1) , \ldots , \sigma^n (T_n).$$
+%Note that since $n \leq \sqrt{mn}$, this computation can be done using $\thecost$ operations in $F$, using the same ideas from the abelian case. Now we have proved the following theorem.
 
 \begin{proposition}
 Suppose Assumption \ref{assum} holds and $G$ is a metacyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
