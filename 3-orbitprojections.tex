@@ -72,31 +72,6 @@ which can be carried out using $\osumcost$ operations in $F$ by applying Lemma \
 Using above doubling method for $g_i$, we have to do $O(\log s_i)$ iterations with $\osumcost$ operations in $F$. Hence the total cost of this 
 computation is $\osumcosttilde$
 
-%
-%
-%Now assume we have computed 
-% $$g_1(\alpha), \ldots , g_1^m(\alpha).$$ Then we can compute  $g_1^{m+1}(\alpha), \ldots , g_1^{2m}(\alpha)$ by computing $$g_1^m(g_1(\alpha)), \ldots , g_1^m(g_1^m(\alpha)) $$ using Lemma \ref{modcom} and Equation \ref{eq:comute}. By applying the above 
-% doubling method, the computation of $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ can be done in $ O(\log s_1) \times \osumcost$.
-% Note that here we need to compute the action of (even) powers of $g_1$ on $\bar{x}$ as well. However, it is just a one time
-% computation and does not change the complexity. 
-%
-%The next step is to apply $g_2^i$ to $g_1(\alpha), \ldots , g_1^{s_1}(\alpha)$ for $0\leq i \leq s_2$. Again 
-%$g_1^j(\alpha) = \sum_{i} a_{ij} \bar{x}^i$ and $$g_2^t(g_1^j(\alpha)) = \sum_{i} a_{ij} (g_2^t(\bar{x}))^i = g_1^j(\alpha)(g_2^t(\bar{x})).$$
-%Using the above fact we compute 
-%$$g_2(g_1(\alpha)), \ldots , g_2(g_1^{s_1}(\alpha))$$
-%by applying Lemma \ref{modcom} which costs $\osumcost$. At this point we have 
-%$$\begin{array}{lll} g_1(\alpha)& \ldots & g_1^{s_1}(\alpha)\\ g_2(g_1(\alpha))& \ldots & g_2(g_1^{s_1}(\alpha))\end{array}$$
-%and by applying $g_2^2$ (using the above method) we get 
-%$$\begin{array}{lll} g_1(\alpha)& \ldots & g_1^{s_1}(\alpha)\\ g_2(g_1(\alpha))& \ldots & g_2(g_1^{s_1}(\alpha))\\
-%g_2^2(g_1(\alpha))& \ldots & g_2^2(g_1^{s_1}(\alpha))\\g_2^3(g_1(\alpha))& \ldots & g_2^3(g_1^{s_1}(\alpha))
-%\end{array}$$
-%then by repeating the above doubling method we get
-%$$g_2^{i_2}(g_1^{i_1}(\alpha)), \, 0\leq i_1\leq s_1, 0 \leq i_2 \leq s_2,$$
-%using $O(\log s_2)\cdot \osumcost + O(\log s_1)\cdot \osumcost$ operations in $F$ (in total), which is equal to $O(\log (s_1s_2))\osumcost$. 
-%
-%Doing the same for $g_3 , \ldots , g_r$ we see the cost of the computation is 
-%$$O(\log (s_1\cdots s_r))\osumcost = \osumcosttilde.$$
-
 Note that for each $g_i$ we have to compute $g_i^j$ for $0 \leq j \leq s_i$ but this is just a one time computation for each $g_i$
 which does not change the total cost.
 \end{proof}
@@ -152,113 +127,6 @@ using $O(\log s_t)$ times the cost of the matrix multiplication which is $\osumc
 $\osumcosttilde$ 
 \end{proof}
 
-%Now we have enough tools for computing the automorphism projection in the cyclic case where $G = \langle g: g^n =1 \rangle$
-%Which is basically \cite[Algorithm AP]{Kaltofen}. 
-%Assume $L = \begin{bmatrix}
-%l_1 & l_2 & \ldots & l_n
-%\end{bmatrix}$ is given where $l_i \in F$. The goal is to compute 
-%\begin{equation}\label{eq:autproj}
-%L(g^i(\alpha)) = (L \circ g^{j \lceil \sqrt{n} \rceil})\cdot (g^i(\alpha)), 0 \leq j < \lceil \sqrt{n} \rceil, 0 \leq i \leq \lceil \sqrt{n} \rceil -1, 
-%\end{equation}
-%for a given $\alpha \in K$. 
-%%For a given polynomials $h,f \in F[x]$ and projection $L$, computing $L(h^i \mod f)$ for
-%%$0\leq i \leq r$ is called transposed modular composition. In order to do such computation in \cite{Shoup} has defined a subtask which is called transposed modular multiplication and 
-%Let $T_j = L\circ g^{j \lceil \sqrt{n} \rceil}$.
-%%and this operation is called  note that in \cite{Shoup} . 
-%This computation can be done in 3 steps:
-%
-%\textbf{step 1.} compute $g^i(\alpha)$ for $i = 1, \ldots , \lceil \sqrt{n} \rceil$. Using Lemma \ref{lem:selfcomp} this 
-%can be carried out by doing $\osumcosttilde$ operations in $F$.
-%
-%\textbf{step 2.} apply the algorithm in Lemma \ref{lem:transmodcomp} with $g^ {\lceil \sqrt{n} \rceil} \in G$ to get the linear projections 
-%$$L \circ g^{j \lceil \sqrt{n} \rceil}, \,\, 0 \leq j < \lceil \sqrt{n} \rceil.$$ 
-
-%\textbf{step 2.} If we have $T_1, \ldots , T_m$, then we can get $T_{m+1}, \ldots T_{2m}$ by computing $T_i \circ g^{m\sqrt{n}}$
-%which is equivalent of computing 
-%\begin{equation}\label{eq:projdoubling}
-%\begin{bmatrix}  T_i(s^0) & \cdots & T_i(s^{n-1}) \end{bmatrix}
-%\end{equation}
-%where $s_m = g^{m\sqrt{n}}(\bar{x})$. In order to compute row vector presented in \ref{eq:projdoubling} for a fixed $i$, let 
-%$r = \lceil n^{1/4} \rceil$ and compute 
-%$$
-%\overline{T_i} = \left[\begin{array}{c|c|c}
-%s_m^0\cdot T_1 & \cdots & s_m^{r-1}\cdot T_i
-%\end{array} \right]
-%$$
-%and multiply it by 
-%$$S = \left[
-%\begin{array}{c}
-%s_m^0\\
-%\hline
-%s_m^{r}\\
-%\hline
-%s_m^{2r}\\
-%\hline
-%\vdots\\
-%\hline
-%s_m^{(n^{3/4}-1)r}
-%\end{array} \right].
-%$$
-%Note that in the above computation one can use the algorithm given in \cite{Shoup}
-%for transposed modular composition. 
-%One can see $\tilde{T_i} = S \cdot \overline{T_i}$ and $T_{m+1}, \ldots, T_{2m}$ can be computed by doing
-%$$ S \cdot \begin{bmatrix} \overline{T_1}\vline & \cdots \vline & \overline{T_m} \end{bmatrix}$$
-%where the second matrix is of size $n \times m$. This completes the doubling method. In the last step of the doubling method
-%$m = \sqrt{n}/2$ so the matrix product can be computed using $\osumcost$ operations in $F$ which gives the cost $\osumcosttilde$
-%for this step.
-
-%\textbf{step 2.} compute $n/\lceil \sqrt{n} \rceil$ elements $h_i = \sum_{j = 1}^ {\lceil \sqrt{n} \rceil-1}c_{ij}g^{j}(\alpha)$ which is actually a rectangular matrix multiplication 
-%\begin{equation}
-%\left(\begin{array}{llll}
-%c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
-%c_{10} & c_{11} & \cdots & c_{1\lceil \sqrt{n} \rceil -1}\\
-%\vdots & \vdots & \vdots & \vdots \\
-%c_{00} & c_{01} & \cdots & c_{0\lceil \sqrt{n} \rceil -1}\\
-%\end{array}\right)\cdot 
-%\left(\begin{array}{l}
-%\vv{g^0(\alpha)}\\
-%\vv{g^1(\alpha)}\\
-%\vdots\\
-%\vv{g^{\lceil \sqrt{n} \rceil -1}(\alpha)}
-%\end{array}\right),
-%\end{equation}
-%where $\vv{g^i(\alpha)} \in F^n$ is the vector of coefficients of $g^i(\alpha)$ in $F$. The multiplication can be 
-%carried out using $\osumcost$ operations in $F$.
-
-%\textbf{step 3.} So far we have computed $T_j$'s and $g^i(\alpha)$'s. The result can be acheived by doing the following 
-%rectangular matrix multiplication:
-%
-%$$
-%\begin{bmatrix}
-%T_0 & \vert & \cdots & \vert &T_{\lceil \sqrt{n} \rceil -1}
-%\end{bmatrix}^T \cdot
-%\begin{bmatrix}
-%\vv{g^0(\alpha)} & \vert & \cdots & \vert & \vv{g^{\lceil \sqrt{n} \rceil -1}}
-%\end{bmatrix}.
-%$$
-%Since the left matrix is of size $\lceil \sqrt{n} \rceil \times n$ and the right matrix is of size $n \times \lceil \sqrt{n} \rceil$,
-%using results from \cite{LeGall} this can be done by performing $O(n^{1/2\omega(2)})$ operations in $F$.
-%
-%One can verify that the dominant term in the cost of computations is the cost of step 2 which uses $\osumcosttilde$.
-
-%\textbf{step 3.} Finally we want $\sum_{i = 0}^{n/\lceil \sqrt{n} \rceil} g^{i\lceil \sqrt{n} \rceil}(h_i)$. Let
-%$\bar{g} = g^{\lceil \sqrt{n} \rceil}$ which is computed in step 1 already. We apply powers of $\bar{g}$ $h_i$'s in
-%the following way: 
-%\begin{footnotesize}
-%$$
-%\begin{array}{lllllllll}
-%&h_0 & h_1 & h_2 & h_3 & h_4 & h_5 & h_6 &  \cdots \\
-%\bar{g} \rightarrow &	& \downarrow & & \downarrow & & \downarrow & &  \cdots \\
-%&h_0 & g(h_1) & h_2 & g(h_3) & h_4 & g(h_5) & h_6 &  \cdots \\	
-%\bar{g}^2 \rightarrow &	&  & \downarrow& \downarrow & &  &\downarrow &  \cdots \\
-%&h_0 & g(h_1) & g^2(h_2) & g^3(h_3) & h_4 & g(h_5) & g^2(h_6) & \cdots \\	
-%\bar{g}^4 \rightarrow&	&  & &  & \downarrow& \downarrow &\downarrow & \cdots \\
-%&h_0 & g(h_1) & g^2(h_2) & g^3(h_3) & g^4(h_4) & g^5(h_5) & g^6(h_6) &  \cdots \\		
-%\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots 
-%\end{array}
-%$$
-%\end{footnotesize}
-%This means we do $O(\log \sqrt{n})$ times $\osumcost$ or equivalently $\osumcosttilde$ operations in $F$. 
 
 At this point we have enough tools to see how the computation is done in the cyclic case. Moreover, we can use the above lemmas
 to give an algorithm for a more general case, namely the abelian case. With a little bit more work we can state an algorithm 
@@ -290,7 +158,7 @@ with cost $\osumcosttilde$
 
 \textbf{Step 2.} Use Lemma \ref{lem:transmodcomp} to compute 
 $$T_{j_1\cdots j_r}, \,\, 1\leq m \leq r, 0 \leq j_m < s_m,$$
-with cost $\osumtilde$
+with cost $\osumcosttilde$
 
 \textbf{Step 3.} The last step is to the following matrix multiplication
 
@@ -316,67 +184,10 @@ g_1^{s_1}\cdots g_r^{s_r}(\alpha)
 \end{array}\right]^t.
 $$
 Using results for rectangular matrix multiplication we can compute the above product in $O(n^{1/2\omega(2)})$ operations in $F$.
-%
-%$$\sum_{\substack{0 \leq i_1 < e_1/t_1 \\ \vdots \\ 0 \leq i_n < e_n/t_n}} \hat{g}_1^{i_1} \cdots \hat{g}_n^{i_n}(\sum_{\substack{0 \leq j_1 \leq t_1-1\\ \vdots \\ 0 \leq j_n \leq t_n-1}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha))$$
-%where $t_i = \lceil \sqrt{e_i}\rceil$ and $\hat{g_i} = g_i^{t_i}.$
-%
-%It is simpler to think of monomials in $g_i$'s as integral points of $\mathbb{R}^n$ space, i.e.
-%$(a_1, \ldots , a_n)$ represents $g_1^{a_1}, \ldots g_n^{a_n}$. If this is the case then the above equation suggests to 
-%partition the $n$-cell $$[0,e_1] \times \cdots \times [0, e_n]$$ into $n$-cells of the same size as 
-%$$[0,\lceil \sqrt{e_1} \rceil] \times \cdots \times [0, \lceil \sqrt{e_n} \rceil],$$ 
-%then we can start to compute the automorphism evaluations in the $n$-cell containing the origin. After that each time we apply one 
-%of the generators we are moving to another $n$-cell.
-%
-%We compute the projection of the orbit sum of $\alpha$ in 3 steps.
-%
-%\textbf{step 1. Compute the actions of the points in the $n$-cell containing the origin on $\alpha$}. At first we compute 
-%$g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ in $\tilde{O}(\sqrt{\vert G \vert}^{\omega({\frac{3}{4}})})$ operations in $F$, by lemma 4. Now
-%we apply 
-%
-% $g_2$ to $g_1(\alpha), \ldots , g_1^{t_1}(\alpha)$ then after applying $g_2^2$ to
-%\[
-% \begin{array}{lll}
-% g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
-% g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) 
-%\end{array} 
-%\]
-%we have computed
-%\[
-% \begin{array}{lll}
-% g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
-% g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) \\
-% g_2^2(g_1(\alpha))& \ldots & g_2^2(g_1^{t_1}(\alpha)) \\
-% g_2^3(g_1(\alpha))& \ldots & g_2^3(g_1^{t_1}(\alpha))
-%\end{array} 
-%\]
-%If we continue by applying $g_2^4, \ldots$ we are able to get
-%\[
-% \begin{array}{lll}
-% g_1(\alpha)& \ldots & g_1^{t_1}(\alpha)\\
-% g_2(g_1(\alpha))& \ldots & g_2(g_1^{t_1}(\alpha)) \\
-% \vdots & \vdots & \vdots\\
-% g_2^{t_2}(g_1(\alpha))& \ldots & g_2^{t_2}(g_1^{t_1}(\alpha)) \\
-%\end{array} 
-%\]
-%Note that for computing 
-%$$g_2^{j}(g_1(\alpha)), \ldots , g_2^{j}(g_1^{t_1}(\alpha))$$
-%we use the similar idea which is used in the proof of Lemma \ref{lem:selfcomp}.
-%This shows that above computation can be done in $(\log \sqrt{t_2})(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$ operations in $F$. By doing similar operations for $g_3, \ldots, g_n$ on all the outputs we can compute the corresponding images to the elements
-%of the $n$-cell containing the origin in $\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$
-%
-%\textbf{step2. computing automorphism evaluations in the $n$-cell containing the origin.}
-%
-%We want to compute
-%$$T_{i_1, \ldots, i_n} = \sum_{\substack{0 \leq j_1 \leq t_1\\ \vdots \\ 0 \leq j_n \leq t_n}} a^{i_1, \ldots , i_n}_{j_1, \ldots , j_n}g_1^{j_1}\cdots g_n^{j_n}(\alpha)$$
-%for $0 \leq i_1-1 \leq t_1, \ldots , 0 \leq i_n \leq t_n-1$ which can be done by a rectangular matrix multiplication with cost
-%$\tilde{O}(\vert G \vert ^{\frac{1}{2}\omega(\frac{4}{3})})$.
-%
-%\textbf{step 3. applying $\hat{g}_i$'s.}
-%
-%We have already computed $\hat{g}_i$ in step 1. Similar to step 1, we can apply $g_i^s$ 
-%for $s = 1, 2, 4 , \ldots, t_1$ to $T_{i_1, \ldots , i_n}$ which can be done using $(\log t_i)(\vert G \vert^{\frac{1}{2}\omega
-%(\frac{4}{3})})$ operations in $F$. Thus this step can be carried out by $\tilde{O}(\vert G \vert^{\frac{1}{2}\omega
-%(\frac{4}{3})})$ operations in $F$. 
+The above computation can be done in $\osumcosttilde$ operations in $F$ which produces a $\lceil \sqrt{n} \rceil \times \lceil
+ \sqrt{n} \rceil$ matrix which contains all the projections. Concatenating the rows of the mentioned matrix forms a vector in
+ $F[G]$ which is the corresponding vector to $\osum{G}{F}$ with respect to the basis $G$. This means we have proved the following
+ proposition.
 
 \begin{proposition}
 Suppose Assumption \ref{assum} holds and $G$ is an abelian group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
@@ -391,17 +202,20 @@ with a square free order, is metacyclic and elements of a metacyclic group can b
 \langle \sigma,\tau: \sigma^n = 1, \tau^{-1}\sigma \tau = \sigma^r, \tau ^m = \sigma^s \rangle
 \end{equation}
 where $m,n,r,s \in \mathbb{N}, r,s \leq n,$ and $r^m = 1 \mod n , rs = s \mod n$. Moreover we know that all element of a metacyclic
- group can be presented by $$\sigma^i \tau^j, \,\,\, 0\leq i \leq m-1, 0\leq j \leq n-1,$$ 
-see \cite[P.88, Proposition 1]{Johnson}, \cite[P.334]{Curtis} for more details. Dihedral group 
+ group can be presented by $$\sigma^i \tau^j, \,\,\, 0\leq i \leq m-1, 0\leq j \leq n-1.$$ 
+for more details on metacyclic groups see \cite[P.88, Proposition 1]{Johnson}, \cite[P.334]{Curtis}. for constructing some 
+Metacyclic extensions see \cite{Kida}.
+
+. Dihedral group 
 $$D_{2n} = \langle \sigma,\tau: \sigma^n =\tau^2 = 1, \sigma \tau = \tau \sigma^{-1} \rangle, $$
-is an example of metacyclic groups. another well-known metacyclic group is generalizewd quaternion
+is an example of metacyclic groups. another well-known metacyclic group is generalized quaternion
  group which can be presented as
  $$Q_n = \langle \sigma,\tau: \sigma^n =\tau^2, \tau \sigma \tau^{-1} = \sigma^{-1} \rangle.$$
  We know that elements of $Q_n$ are of the form 
  $$\sigma^i\tau^j, 0 \leq i \leq 2n-1 , 0\leq j \leq 1.$$
  
 Assume $G = \mathrm{Gal(K/F})$ is a group presentable as
-$$G = \lbrace \sigma^i \tau^j: 0\leq i \leq n-1, 0 \leq j \leq m-1, m\leq n \rbrace,$$
+$$G = \lbrace \sigma^i \tau^j: 0\leq i < n, 0 \leq j < m, m\leq n \rbrace,$$
 and $\alpha\in K$. The goal is to compute 
 $L(\sigma^i\tau^j (\alpha), \,\, 0\leq i < n, 0 \leq j <m.$
 This can be done in three steps.
@@ -412,8 +226,6 @@ note that $\lceil \sqrt{n}/\sqrt{m} \rceil m \leq \lceil \sqrt{mn} \rceil$.
 
 \textbf{step 2.} compute $$T_j = L \circ \sigma^{j\sqrt{mn}}, \,\, 0\leq j < \lceil \sqrt{mn}\rceil$$
 using Lemma	\ref{lem:transmodcomp}.
-
-%\textbf{step 3.} compute $$\sigma^i (\alpha_j), 0\leq i < n/\sqrt{mn} = \sqrt{m}/\sqrt{n}, 0\leq j <m$$ using Lemma \ref{lem:selfcomp}.
 
 \textbf{step 3.} at this point we want to compute 
 $$L(\sigma^i\tau^j(\alpha)) = T_k\cdot(\sigma^i(\alpha_j)).$$
@@ -447,41 +259,16 @@ s_{\lceil \sqrt{n}/\sqrt{m} \rceil m}
 \end{array}
 \right]^t
 $$
-which is a $\langle \sqrt{mn},n,\sqrt{mn}\rangle$ multiplication.  
- 
-% Assume $G$ is given by Equation \ref{eq:metacyclic}, Assumption \ref{assum} holds and 
-% $$P(x,y) = \sum_{i= 0}^n \sum_{j=0}^m c_{ij}x^iy^j = \sum_{i= 0}^n x^i\left(\sum_{j=0}^m c_{ij}y^j \right) \in F[x,y]. $$
-% We want to get $(P(\sigma,\tau))(\alpha)$. Let $H = \langle x \rangle$ is a normal subgroup of $G$ such that $G/H = \langle yH
-%  \rangle$. Since $yxy^{-1}$ belong to $H$, elements in $G$ also be presented as $b^i a^j$. Hence 
-% without loss of generality we may assume $n \leq m$. Assume $s = \lceil \sqrt{mn} \rceil$ and
-% $$H_i = (\sum_{j=0}^m c_{ij}\tau^j)(\alpha) = \sum_{j=0}^{m/ s} \tau^{js}\left(\sum_{t= 0}^{s}c'_{it}\tau^j(\alpha)\right).$$
-% Suppose $T_{ij} = \sum_{t= 0}^{s}c'_{it}\tau^j(\alpha)$. In order to compute each $T_{ij}$ we start by computing 
-% $$\tau(\alpha), \tau^2(\alpha), \ldots , \tau^{s}(\alpha).$$
-% By Lemma \ref{lem:selfcomp} this can be done using $\tilde{O}((mn)^{3/4 \omega(4/3)}$ operations in $F$. Then to get $T_{it}$, we compute
-% $$
-%\left(\begin{array}{lll}
-%c'_{00} & \cdots & c'_{0s}\\
-%\vdots & \vdots & \vdots\\
-%c_{m/s0} & \cdots & c_{m/ss}\\
-%\vdots & \vdots & \vdots\\
-%c_{n0} & \cdots & c_{ns}
-%\end{array} \right)
-%\cdot
-%\left( \begin{array}{l}
-%\vv{\tau^0(\alpha)}\\
-%\vdots\\
-%\vv{\tau^s(\alpha)}
-%\end{array}
-%\right)
-% $$
-% where the left matrix is of the size $\sqrt{mn} \times \sqrt{mn}$ and the right one is of the size $\sqrt{mn} \times mn$. Thus the 
-% multiplication can be done with cost $O((mn)^{1/2 \omega(2)})$. Note that the total number of $T_{ij}$ is $n\cdot\dfrac{m}{s} = 
-% \sqrt{mn}$. So using the similar idea to the abelian case we can apply powers of $\tau^s$ to them, so that we get 
-% $T_0, \ldots, T_n$ and the cost is $\tilde{O}((mn)^{3/4\omega(4/3)})$.
-% 
-% The final step is to compute $$\sigma^0(T_0), \sigma^1(T_1) , \ldots , \sigma^n (T_n).$$
-%Note that since $n \leq \sqrt{mn}$, this computation can be done using $\thecost$ operations in $F$, using the same ideas from the abelian case. Now we have proved the following theorem.
+which is a $\langle \sqrt{mn},n,\sqrt{mn}\rangle$ multiplication. 
 
+We note the above algorithm works for a class of groups which includes metacyclic case. Since if $G$ is metacyclic, 
+$H = \langle \sigma \rangle \unlhd G$ and $G/H = \langle \tau H \rangle$, then both $\tau \sigma \tau^{-1}$ and 
+$\tau^{-1} \sigma \tau$ belong to $H$. This implies elements of $G$ can be presented either as $\sigma^i\tau^j$
+or $\tau^j\sigma^i$. Thus without loss of generality we can assume the $\textrm{Ord}(\tau) \leq \textrm{Ord}(\sigma)$.
+
+Similar to the abelian case the final output of the above algorithm is a $\lceil \sqrt{n} \rceil \times \lceil \sqrt{n} \rceil $
+matrix and $l(\osum{G}{K})$ can be calculated in the same way. Hence we have proved the following proposition.
+ 
 \begin{proposition}
 Suppose Assumption \ref{assum} holds and $G$ is a metacyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
 operations in $F$.
