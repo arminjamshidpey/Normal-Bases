@@ -44,10 +44,8 @@ for $x^t$ and performing a Horner evaluation scheme. The dominant term in the co
 \end{proof}
 
 \begin{lemma}\cite{Kaltofen}\label{lem:selfcomp}
-Assume $K = F[x]/f$ is a finite Galois extension of $F$, for an irreducible $f\in F[x]$ of degree $n $. Given 
-$\lbrace s_1, \ldots s_r \rbrace \subset \mathbb{N}$
-such that $\prod_{i = 1}^r s_i = \lceil\sqrt{n}\rceil$, $g_1, \ldots , g_{r} \in G = \mathrm{Gal}(K/F)$ with their actions on 
-$\bar{x}=x \mod f$ and $\alpha \in K$,
+Under Assumption \ref{assum}, for $\lbrace s_1, \ldots s_r \rbrace \subset \mathbb{N}$
+such that $\prod_{i = 1}^r s_i = \lceil\sqrt{n}\rceil$ and $g_1, \ldots , g_{r} \in G = \mathrm{Gal}(K/F)$ 
 $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) , 1 \leq j \leq r, 
 0 \leq i_j \leq s_i$$ can be 
 computed in $\osumcosttilde$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
@@ -55,20 +53,14 @@ multiplication as introduced in \cite{LeGall}.
 \end{lemma}
 
 \begin{proof}
-Suppose $\beta = \sum_{0\leq i \leq n-1} a_i \bar{x}^i \in F[\bar{x}]$. For any $g_j$ we have 
-\begin{equation}\label{eq:comute}
-g_j^t(\beta) = \sum_{0\leq i \leq n-1} a_i g_j^t(\bar{x}^i) = \beta(g_j^t(\bar{x}))
-\end{equation}
-since $g_j$ acts trivially on $a_i$. 
-
-Assume we have computed $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) , 1 \leq j \leq r, 
-0 \leq i_j \leq k_j, \prod_{j = 1}^r k_j \leq \lceil \sqrt{n} \rceil/2$$
-Then we can get $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) , j \in \lbrace 1, \ldots , r \rbrace \setminus \lbrace t \rbrace , 
-0 \leq i_j \leq k_j, 0 \leq i_t \leq 2k_t,$$
+Suppose $1 \leq m \leq r$ is fixed and we have computed $$g_m^{i_m}\cdots g_1^{i_1}(\alpha) ,\,  1 \leq j \leq r, 
+0 \leq i_j \leq k_j, \prod_{j = 1}^m k_j \leq \lceil \sqrt{n} \rceil/2$$
+Then we can get $$g_m^{i_m}\cdots g_1^{i_1}(\alpha) , 1 \leq j < m, 
+0 \leq i_j \leq k_j, 0 \leq i_m \leq 2k_m,$$
 by computing 
-$$g_t^{k_t}(g_1^{i_1}\cdots g_r^{i_r}(\alpha)) , 1 \leq j \leq r, 
+$$g_m^{k_m}(g_m^{i_m}\cdots g_1^{i_1}(\alpha)) , 1 \leq j \leq r, 
 0 \leq i_j \leq k_j,$$
-which can be carried out using $\osumcost$ operations in $F$ by applying Lemma \ref{lem:modcom} and using \eqref{eq:comute}.
+which can be carried out using $\osumcost$ operations in $F$ by applying Lemma \ref{lem:modcom} and using Remark \ref{rmk:comute}.
 Using above doubling method for $g_i$, we have to do $O(\log s_i)$ iterations with $\osumcost$ operations in $F$. Hence the total cost of this 
 computation is $\osumcosttilde$
 
@@ -77,47 +69,47 @@ which does not change the total cost.
 \end{proof}
 
 \begin{lemma}\label{lem:transmodcomp}
-Assume $K = F[x]/f = F[\bar{x}]$ is a finite Galois extension of $F$ where $f$ is irreducible of degree $n$. Moreover,
-let $ \lbrace g_i \rbrace_{1\leq i \leq r} \subset \mathrm{Gal}(K/F) $, $\lbrace s_1, \ldots, s_r \rbrace \subset \mathbb{N}$
+Under Assumption \ref{assum}, for $\lbrace s_1, \ldots, s_r \rbrace \subset \mathbb{N}$
 such that $\prod_{i = 1}^r s_i \leq \lceil \sqrt{n_i} \rceil$
  and $L: K\rightarrow F$ is a linear projection. The linear maps
 $$L \circ g_1^{i_1} \cdots g_r^{i_r}, \,\, 1\leq j \leq r, 0 \leq i_j < s_j, $$ can be computed using $\osumcosttilde$ operations in $F$. 
 \end{lemma} 
 
 \begin{proof}
-Let $T_{i_1\cdots i_r} = L \circ g_1^{i_1}\cdots g_r^{i_r}$. Here we use a doubling method. Assume we have have access to 
-$$T_{i_1\cdots i_r}, \, \mathrm{for}\,\, 1\leq j \leq r, 0 \leq i_j \leq k_j.$$
+Let $T_{i_1\cdots i_r} = L \circ g_1^{i_1}\cdots g_r^{i_r}$. Here we use a doubling method. Assume $1 \leq m \leq r$ is fixed and we have have access to 
+$$T_{i_1\cdots i_m}, \, \mathrm{for}\,\, 1\leq j \leq r, 0 \leq i_j \leq k_j, \prod_{j = 1}^m k_j \leq \lceil \sqrt{n} \rceil/2.$$
 Then we can compute 
-$$T_{i_1\cdots i_r}, \, \mathrm{for}\,\, j \in \lbrace 1, \ldots, r\rbrace \setminus \lbrace t \rbrace, 0 \leq i_j \leq k_j, 0 \leq i_t \leq 2k_t$$
+$$T_{i_1\cdots i_m}, \, , 1 \leq j < m, 0 \leq i_j \leq k_j, 0 \leq i_m \leq 2k_m,$$
 in the following way. We compute 
-$T_{i_1 \cdots i_r} \circ g_t^{k_t}, \,\, 1\leq j \leq r, 0 \leq i_j \leq k_j.$
-, where $0\leq j \leq k_t$ is the $t$-th index. Since a linear projection is determined by its action on a basis, such as 
-$\lbrace\bar{x}^i: 0\leq i \leq n-1 \rbrace$, the corresponding row vector to $T_{i_1 \cdots i_r} \circ g_t^{k_t}$ is 
+$T_{i_1 \cdots i_m} \circ g_m^{k_m}, \,\, 1\leq j \leq m, 0 \leq i_j \leq k_j.$
+ Since a linear projection is determined by its action on a basis, such as 
+$\lbrace\bar{x}^i: 0\leq i \leq n-1 \rbrace$, the corresponding row vector to $T_{i_1 \cdots i_m} \circ g_m^{k_m}$ is 
 \begin{equation}\label{eq:projvec}
-\begin{bmatrix} T_{i_1 \cdots i_r}(u_{t,k_t}^0) & \cdots & T_{i_1 \cdots i_r}(u_{t,k_t}^{n-1}) \end{bmatrix}
+\begin{bmatrix} T_{i_1 \cdots i_m}(u_{m,k_m}^0) & \cdots & T_{i_1 \cdots i_m}(u_{m,k_m}^{n-1}) \end{bmatrix}
 \end{equation}
-where $u_{t,k_t} = g_t^{k_t}(\bar{x})$. In order to compute the above row vector for a fixed index $i_1 \cdots i_r$, let $r = \lceil n^{1/4} \rceil$, compute
-$$\overline{T_{i_1 \cdots i_r}} = \left[\begin{array}{c|c|c}
-u_{t,k_t}^0\cdot T_{i_1 \cdots i_r} & \cdots & u_{t,k_t}^{r-1}\cdot T_{i_1 \cdots i_r}
+where $u_{m,k_m} = g_m^{k_m}(\bar{x})$. In order to compute the above row vector for a fixed index $i_1 \cdots i_m$, let $s = \lceil n^{1/4} \rceil$, compute
+$$\overline{T_{i_1 \cdots i_m}} = \left[\begin{array}{c|c|c}
+u_{m,k_m}^0\cdot T_{i_1 \cdots i_m} & \cdots & u_{m,k_m}^{s-1}\cdot T_{i_1 \cdots i_m}
 \end{array} \right]$$
 and multiply it by 
 $$ U = \left[
 \begin{array}{c}
-u_{t,k_t}^0\\
+u_{m,k_m}^0\\
 \hline
-u_{t,k_t}^{r}\\
+u_{m,k_m}^{s}\\
 \hline
-u_{t,k_t}^{2r}\\
+u_{m,k_m}^{2s}\\
 \hline
 \vdots\\
 \hline
-u_{t,k_t}^{(\lceil n^{3/4} \rceil-1)r}
+u_{m,k_m}^{(\lceil n^{3/4} \rceil-1)s}
 \end{array} \right].$$
-Note that the term $u_{t,k_t}^i \cdot T_{i_1 \cdots j \cdots i_r}$, is the so called transposed modular multiplication and one can apply the algorithm introduced in \cite{Shoup} to compute it. It is clear that $U$ is of size 
-$\lceil n^{3/4} \rceil \times n$ and $\overline{T_{i_1 \cdots i_r}}$ is an $n \times n^{1/4}$. Finally the vectors in \eqref{eq:projvec}
+Note that the term $u_{m,k_m}^i \cdot T_{i_1 \cdots i_m}$, is the so called transposed modular multiplication and one can apply the algorithm introduced in \cite{Shoup} to compute it. It is clear that $U$ is of size 
+$\lceil n^{3/4} \rceil \times n$ and $\overline{T_{i_1 \cdots i_m}}$ is an $n \times n^{1/4}$. Finally the vectors in \eqref{eq:projvec}
 is given by
-$$U \cdot \left[\begin{array}{c|c|c}
-\overline{T_{i_1 \cdots i_{t-1},1, i_{t+1} \cdots i_r}} & \cdots & \overline{T_{i_1 \cdots i_{t-1},k_t,i_{t+1} \cdots i_r}}
+$$
+U \cdot \left[\begin{array}{c|c|c|c|c}
+\overline{T_{0 \cdots 0}} & \cdots &\overline{T_{i_1 \cdots i_{m-1}0}} & \cdots & \overline{T_{k_1 \cdots k_m}}
 \end{array}\right].
 $$
 This completes the doubling method.

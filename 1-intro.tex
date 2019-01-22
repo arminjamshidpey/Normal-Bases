@@ -30,6 +30,15 @@ $K/F$ is a finite Galois extension given by $ F[x]/f$ for an irreducible polynom
  $G = \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action of generators of $ G$, such as $g$, on $K$ is given by its action on $\bar{x} = x \mod f.$ In other words, $g(\bar{x})$ is given for any generator $g$ of $G$.
 \end{assumption}
 
+\begin{remark}
+With the above assumption, suppose $$\beta = \sum_{0\leq i \leq n-1} a_i \bar{x}^i \in F[\bar{x}]$$. For any $g \in G$ and integer 
+$t,$ we have 
+\begin{equation}\label{rmk:comute}
+g^t(\beta) = \sum_{0\leq i \leq n-1} a_i g^t(\bar{x}^i) = \beta(g^t(\bar{x}))
+\end{equation}
+since $g$ acts trivially on $a_i$.
+\end{remark}
+
 under the Assumption \ref{assum} we choose a random element $\alpha$ of $K$. We use a known fact that, $\alpha$ is normal 
 if $M_G(\alpha) \in M_{n\times n}(K)$, an associated matrix to $\alpha$ (see Section 2 for the definition), is invertible. 
 Afterwards we reduce the invertiblity of $M_G(\alpha)$ to invertiblity of a random projection an associated element 
