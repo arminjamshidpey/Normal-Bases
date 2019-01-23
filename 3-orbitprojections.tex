@@ -45,43 +45,41 @@ for $x^t$ and performing a Horner evaluation scheme. The dominant term in the co
 
 \begin{lemma}\cite{Kaltofen}\label{lem:selfcomp}
 Under Assumption \ref{assum}, for $\lbrace s_1, \ldots s_r \rbrace \subset \mathbb{N}$
-such that $\prod_{i = 1}^r s_i = \lceil\sqrt{n}\rceil$ and $g_1, \ldots , g_{r} \in G = \mathrm{Gal}(K/F)$ 
+such that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $g_1, \ldots , g_{r} \in G = \mathrm{Gal}(K/F)$ 
 $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) , 1 \leq j \leq r, 
-0 \leq i_j \leq s_i$$ can be 
+0 \leq i_j \leq s_j$$ can be 
 computed in $\osumcosttilde$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
 multiplication as introduced in \cite{LeGall}. 
 \end{lemma}
 
 \begin{proof}
-Suppose $1 \leq m \leq r$ is fixed and we have computed $$g_m^{i_m}\cdots g_1^{i_1}(\alpha) ,\,  1 \leq j \leq r, 
-0 \leq i_j \leq k_j, \prod_{j = 1}^m k_j \leq \lceil \sqrt{n} \rceil/2$$
-Then we can get $$g_m^{i_m}\cdots g_1^{i_1}(\alpha) , 1 \leq j < m, 
-0 \leq i_j \leq k_j, 0 \leq i_m \leq 2k_m,$$
+Suppose $1 \leq m \leq r$ is fixed and we have computed $$g_m^{i_m}\cdots g_1^{i_1}(\alpha) ,\,  1 \leq j < m, \, 
+0 \leq i_j \leq s_j, \, 0 \leq i_m \leq k_m.$$
+Then we can get $$g_m^{i_m}\cdots g_1^{i_1}(\alpha) ,\, 1 \leq j < m, \, 0 \leq i_j \leq s_j,\, 0 \leq i_m \leq 2k_m,$$
 by computing 
-$$g_m^{k_m}(g_m^{i_m}\cdots g_1^{i_1}(\alpha)) , 1 \leq j \leq r, 
-0 \leq i_j \leq k_j,$$
+$$g_m^{k_m}(g_m^{i_m}\cdots g_1^{i_1}(\alpha)),\, 1 \leq j \leq r,\, 0 \leq i_j \leq s_j,\, 0 \leq i_m \leq k_m$$
 which can be carried out using $\osumcost$ operations in $F$ by applying Lemma \ref{lem:modcom} and using Remark \ref{rmk:comute}.
 Using above doubling method for $g_i$, we have to do $O(\log s_i)$ iterations with $\osumcost$ operations in $F$. Hence the total cost of this 
 computation is $\osumcosttilde$
 
-Note that for each $g_i$ we have to compute $g_i^j$ for $0 \leq j \leq s_i$ but this is just a one time computation for each $g_i$
+Note that for each $g_i$ we have to compute $g_i^{2^j}$ for $0 \leq j \leq \log(s_i)$ but this is just a one time computation for each $g_i$
 which does not change the total cost.
 \end{proof}
 
 \begin{lemma}\label{lem:transmodcomp}
 Under Assumption \ref{assum}, for $\lbrace s_1, \ldots, s_r \rbrace \subset \mathbb{N}$
-such that $\prod_{i = 1}^r s_i \leq \lceil \sqrt{n_i} \rceil$
+such that $\prod_{i = 1}^r s_i = O(\sqrt{n})$
  and $L: K\rightarrow F$ is a linear projection. The linear maps
 $$L \circ g_1^{i_1} \cdots g_r^{i_r}, \,\, 1\leq j \leq r, 0 \leq i_j < s_j, $$ can be computed using $\osumcosttilde$ operations in $F$. 
 \end{lemma} 
 
 \begin{proof}
 Let $T_{i_1\cdots i_r} = L \circ g_1^{i_1}\cdots g_r^{i_r}$. Here we use a doubling method. Assume $1 \leq m \leq r$ is fixed and we have have access to 
-$$T_{i_1\cdots i_m}, \, \mathrm{for}\,\, 1\leq j \leq r, 0 \leq i_j \leq k_j, \prod_{j = 1}^m k_j \leq \lceil \sqrt{n} \rceil/2.$$
+$$T_{i_1\cdots i_m}, \, \mathrm{for}\,\, 1\leq j < m, 0 \leq i_j \leq s_j, 0 \leq i_m \leq k_m.$$
 Then we can compute 
-$$T_{i_1\cdots i_m}, \, , 1 \leq j < m, 0 \leq i_j \leq k_j, 0 \leq i_m \leq 2k_m,$$
+$$T_{i_1\cdots i_m}, \, , 1 \leq j < m, 0 \leq i_j \leq s_j, 0 \leq i_m \leq 2k_m,$$
 in the following way. We compute 
-$T_{i_1 \cdots i_m} \circ g_m^{k_m}, \,\, 1\leq j \leq m, 0 \leq i_j \leq k_j.$
+$T_{i_1 \cdots i_m} \circ g_m^{k_m}, \,\, 1\leq j \leq m, 0 \leq i_j \leq s_j.$
  Since a linear projection is determined by its action on a basis, such as 
 $\lbrace\bar{x}^i: 0\leq i \leq n-1 \rbrace$, the corresponding row vector to $T_{i_1 \cdots i_m} \circ g_m^{k_m}$ is 
 \begin{equation}\label{eq:projvec}
