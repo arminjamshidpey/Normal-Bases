@@ -5,10 +5,26 @@
 \usepackage{mathdots}
 \usepackage{esvect}
 
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0,.35,0}
+\definecolor{darkblue}{rgb}{0,0,.5}
+\definecolor{darkred}{rgb}{.6,0,0}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Mark Giesbrecht, Armin Jamshidpey, Eric Schost},
+  pdftitle={Subquadratic Probabilistic Algorithms for Normal Bases},
+  bookmarksnumbered=true,colorlinks,linkcolor=darkblue,
+ citecolor=darkgreen, urlcolor=darkred}
+%]{hyperref}
+
+\citestyle{acmauthoryear}
+
 \newcommand{\osum}[2]{\alpha_{#1,#2}}
 \newcommand{\osumcost}{O(n^{3/4 \omega(4/3)})}
 \newcommand{\osumcosttilde}{\tilde{O}(n^{3/4 \omega(4/3)})}
 \newcommand{\thecost}{\tilde{O}(\vert G \vert ^{3/4 \omega(4/3)})}
+
+\newcommand{\FF}{\mathbb{F}}
 
 {
       \theoremstyle{acmplain}
@@ -93,17 +109,17 @@ University of Waterloo}
 
 
 \begin{abstract}
-  It is known that for a finite Galois extension $K/F$ with
-  $G = \mathrm{Gal}(K/F)$, there exists an element $\alpha \in K$,
-  such that its orbit, $G\cdot\alpha$, forms an $F$-basis of $K$. Such
-  an element $\alpha$, is called normal and $G\cdot \alpha$ is called
-  a normal basis. In this paper we introduce a probablistic algorithm
-  for finding a normal element when $G$ is either a finite abelian or
-  metacyclic group. The algorithm is based on the fact that deciding
-  whether a random element $\alpha \in K$ is normal, can be reduced to
-  the decision problem of whether
-  $\sum_{\sigma \in G} \sigma(\alpha)\sigma \in K[G]$ is invertible.
-  The cost of our algorithm is subquadratic in the input size.
+  It is well known that for any finite Galois extension field $K/F$, with
+  Galois group $G = \mathrm{Gal}(K/F)$, there exists an element
+  $\alpha \in K$, such that its orbit, $G\cdot\alpha$, forms an $F$-basis
+  of $K$. Such an element $\alpha$, is called \emph{normal} and
+  $G\cdot \alpha$ is called a normal basis. In this paper we introduce a
+  probabilistic algorithm for finding a normal element when $G$ is either a
+  finite abelian or a metacyclic group. The algorithm is based on the fact
+  that deciding whether a random element $\alpha \in K$ is normal, can be
+  reduced to the decision problem of whether
+  $\sum_{\sigma \in G} \sigma(\alpha)\sigma \in K[G]$ is invertible.  The
+  cost of our algorithm is subquadratic in the input size.
 \end{abstract}
 
 %

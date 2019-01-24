@@ -1,52 +1,80 @@
 \section{Introduction}
 
-For a finite Galois extension $K/F$ with $G = \mathrm{Gal}(K/F)$, an element $\alpha \in K$
-is called normal if the set of Galois conjugates of $\alpha$ forms a basis for $K$ as a
- vector space over $F$. The existence of normal element for any finite Galois extension is 
- known for a long time.
+For a finite Galois extension $K/F$ with $G = \mathrm{Gal}(K/F)$, an
+element $\alpha \in K$ is called \emph{normal} if the set of Galois
+conjugates of $\alpha$ forms a basis for $K$ as a vector space over
+$F$. The existence of normal element for any finite Galois extension is
+known for a long time.
  
-There is a wide range of applications of normal bases in finite fields. Fast exponentiation 
-or computing the action of the Frobenius and point counting on elliptic curves are some of their applications. There are also 
-applications of normal elements in characteristic zero. For a given permutation lattice and appropriate Galois extension
-a normal basis is useful in computing the multiplicative invariants explicitly (see \cite{Armin} for more details).   
+There is a wide range of applications of normal bases in finite
+fields. Fast exponentiation or computing the action of the Frobenius and
+point counting on elliptic curves are some of their applications. There are
+also applications of normal elements in characteristic zero. For example,
+for a given permutation lattice and appropriate Galois extension a normal
+basis is useful in computing the multiplicative invariants explicitly (see
+\cite{Armin} for more details).
 
-There are several algorithms for finding a normal element in zero characteristic and finite fields. Due to the applications of
-finite fields, normal element in this case is more popular. H. W. Lenstra in \cite{LenstraNormal} introduced a deterministic 
-algorithm to construct a normal element which uses $O(n^{O(1)})$ operations over the smaller field where $n$ is the degree of the
- extension. To the best of
-our knowledge, the algorithm introduced by Augot and Camion (cite) is the most efficient deterministic one with cost 
-$O(n^3+n^2\log q)$
-where $q$ is size of the base field. Randomized algorithems for finite fileds are introduced in \cite{Giesbrecht} with cost
-$O(n^2+n\log q)$ and \cite{Kaltofen} with cost $O(n^{1.8})$. In characteristic zero, A. Poli gave an algorithm for abelian extensions in \cite{Poli} with $O(n^{O(1)})$ and Schlickewei and Stepanov introduced an algorithm in the cyclic case with
-$O(n^{O(1)})$ as the computation cost \cite{Stepanov}. Girstmair has an algorithm which uses $O(n^4)$ operations over the base field to construct a normal element for a general finite Galois extension in characteristic zero \cite{Girstmair}. 
+There are a number of available algorithms for finding a normal element in
+characteristic zero fields and finite fields.  Because of their immediate
+applications in finite fields, algorithms for determining normal elements
+in this case has seen the most activity.  A fast randomized algorithems for
+determining a normal element in a finite field $\FF_{q^n}$ with $q^n$
+elements (for any prime power $q$ and integer $n>1$), is presented by
+\citeN{Giesbrecht} with a cost of $O(n^2+n\log q)$.  A faster randomized
+algorithm is introduced by \citeN{Kaltofen}, with a cost of $O(n^{1.8})$
+operations in $\FF_q$.  \citeN{LenstraNormal} introduced a
+deterministic algorithm to construct a normal element which uses
+$O(n^{O(1)})$ operations in $\FF_q$.  To the best of our knowledge, the
+algorithm of \citeN{AugCam??} is the most efficient
+deterministic method, with a cost of $O(n^3+n^2\log q)$ operations in
+$\FF_q$.
 
-In this paper we will introduce a randomized algorithm for finding a normal element in case of abelian and metacyclic extensions
- which is subquadratic in the degree of the extension. The idea behind the algorithm is similar to ideas of 
-\cite{Giesbrecht,Kaltofen}. Since a part of the assumptions in the results of this paper is the same, we state it here 
-for future references .
+In characteristic zero, \citeN{Poli} gives an algorithm for abelian
+extensions in with $O(n^{O(1)})$.  \citeN{Stepanov} introduce an algorithm
+in the cyclic case with $O(n^{O(1)})$ as the computation cost.
+\citeN{Girstmair} gives an algorithm which requires $O(n^4)$ operations
+over the base field to construct a normal element for a general finite
+Galois extension in characteristic zero.
 
-\begin{assumption}\label{assum}
-$K/F$ is a finite Galois extension given by $ F[x]/f$ for an irreducible polynomial $f\in F[x]$ of degree $n$, with
- $G = \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action of generators of $ G$, such as $g$, on $K$ is given by its action on $\bar{x} = x \mod f.$ In other words, $g(\bar{x})$ is given for any generator $g$ of $G$.
+In this paper we will introduce a randomized algorithm for finding a normal
+element in case of abelian and metacyclic extensions which is subquadratic
+in the degree of the extension. The idea behind the algorithm is similar to
+ideas in \cite{Giesbrecht,Kaltofen}. Since one of the of the assumptions in the
+results of this paper is the same, we state it here for future references .
+
+\begin{assumption}
+  \label{assum}
+  $K/F$ is a finite Galois extension given by $ F[x]/f$ for an irreducible
+  polynomial $f\in F[x]$ of degree $n$, with $G =
+  \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action
+  of generators of $ G$, such as $g$, on $K$ is given by its action on
+  $\bar{x} = x \mod f.$ In other words, $g(\bar{x})$ is given for any
+  generator $g$ of $G$.
 \end{assumption}
 
 \begin{remark}
-With the above assumption, suppose $$\beta = \sum_{0\leq i \leq n-1} a_i \bar{x}^i \in F[\bar{x}]$$. For any $g \in G$ and integer 
-$t,$ we have 
+  With the above assumption, suppose
+  $$\beta = \sum_{0\leq i \leq n-1} a_i \bar{x}^i \in F[\bar{x}]$$. For any
+  $g \in G$ and integer $t,$ we have
 \begin{equation}\label{rmk:comute}
 g^t(\beta) = \sum_{0\leq i \leq n-1} a_i g^t(\bar{x}^i) = \beta(g^t(\bar{x}))
 \end{equation}
 since $g$ acts trivially on $a_i$.
 \end{remark}
 
-under the Assumption \ref{assum} we choose a random element $\alpha$ of $K$. We use a known fact that, $\alpha$ is normal 
-if $M_G(\alpha) \in M_{n\times n}(K)$, an associated matrix to $\alpha$ (see Section 2 for the definition), is invertible. 
-Afterwards we reduce the invertiblity of $M_G(\alpha)$ to invertiblity of a random projection an associated element 
-$\osum{G}{K} \in K[G]$ which lies in $F[G]$, the group ring of $G$ over $F$. 
+Under the Assumption \ref{assum} we choose a random element $\alpha$ of
+$K$. We use a known fact that, $\alpha$ is normal if
+$M_G(\alpha) \in M_{n\times n}(K)$, an associated matrix to $\alpha$ (see
+Section 2 for the definition), is invertible.  Afterwards we reduce the
+invertiblity of $M_G(\alpha)$ to invertiblity of a random projection an
+associated element $\osum{G}{K} \in K[G]$ which lies in $F[G]$, the group
+ring of $G$ over $F$.
 
-Section \ref{sec:pre} of this paper is devoted to provide the definitions and preliminary discussions. In Section \ref{sec:osum} 
-the orbit sum problem is discussed and two algorithms are presented which can be applied to compute projections of orbit sums.
-Finally in the last section we do what?!
+Section \ref{sec:pre} of this paper is devoted to provide the definitions
+and preliminary discussions. In Section \ref{sec:osum} the orbit sum
+problem is discussed and two algorithms are presented which can be applied
+to compute projections of orbit sums.  Finally in the last section we do
+what?!
 
 %%% Local Variables:
 %%% mode: latex
