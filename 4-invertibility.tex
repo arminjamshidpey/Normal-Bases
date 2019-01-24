@@ -1,5 +1,47 @@
 \section{Testing Invertiblity of an Element of the Group Algebra}
 
+
+\subsection{Abelian case}
+
+\subsection{Metacyclic case}
+
+\begin{proposition}
+Suppose $G = \langle \sigma , \tau : \sigma^n = 1, \tau^m = \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$ is the Galois group 
+of $K/F$, where $n$ is a prime integer. The map 
+\begin{equation}
+\begin{split}
+\varphi: K[G] \longrightarrow M_{m}(F(\xi))\\
+\sigma \longrightarrow M_{\sigma} = \mathrm{Diag}(\xi, \xi^r, \ldots , \xi^{r^{m-1}})\\
+\tau \longrightarrow 
+M_{\tau} = \left[ \begin{array}{l|l}
+0 & 1\\
+\hline
+I_{m-1}& 0
+\end{array} \right] 
+\end{split}
+\end{equation}
+where $\xi$ is $n$-th root of unity, is an isomorphism.
+\end{proposition}
+
+\begin{proof}
+It is not hard to verify that 
+$$\varphi(\sigma)^n = I_m$$
+$$\varphi(\tau)^m = I_m$$
+$$\varphi(\tau)^{-1}\varphi(\sigma) \varphi(\tau) = \varphi(\sigma)^r$$
+which shows that $\varphi$ is a well defined homomorphism.
+
+
+
+({\color{red} not complete})
+\end{proof}
+
+\begin{proposition}
+Under Assumption \ref{assum}, let $G$ be a metacyclic group. The invertibility of $l(\osum{G}{K}) \in F[G]$ can be decided in 
+subquadratic time ({\color{red} should become explicit}) in the size of input, for a linear projection $l: K\rightarrow F$.
+\end{proposition}
+
+
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "NormalBasisCharZero"
