@@ -6,7 +6,7 @@ conjugates of $\alpha$ forms a basis for $K$ as a vector space over
 $F$. The existence of normal element for any finite Galois extension is
 known for a long time.
  
-There is a wide range of applications of normal bases in finite
+There are a wide range of applications of normal bases in finite
 fields. Fast exponentiation or computing the action of the Frobenius and
 point counting on elliptic curves are some of their applications. There are
 also applications of normal elements in characteristic zero. For example,
@@ -17,17 +17,17 @@ basis is useful in computing the multiplicative invariants explicitly (see
 There are a number of available algorithms for finding a normal element in
 characteristic zero fields and finite fields.  Because of their immediate
 applications in finite fields, algorithms for determining normal elements
-in this case has seen the most activity.  A fast randomized algorithems for
-determining a normal element in a finite field $\FF_{q^n}$ with $q^n$
-elements (for any prime power $q$ and integer $n>1$), is presented by
-\citeN{Giesbrecht} with a cost of $O(n^2+n\log q)$.  A faster randomized
-algorithm is introduced by \citeN{Kaltofen}, with a cost of $O(n^{1.8})$
-operations in $\FF_q$.  \citeN{LenstraNormal} introduced a
-deterministic algorithm to construct a normal element which uses
-$O(n^{O(1)})$ operations in $\FF_q$.  To the best of our knowledge, the
-algorithm of \citeN{AugCam??} is the most efficient
-deterministic method, with a cost of $O(n^3+n^2\log q)$ operations in
-$\FF_q$.
+in this case has seen the most activity.  A fast randomized algorithm for
+determining a normal element in a finite field $\FF_{q^n}/\FF_q$, where
+$\FF_{q^n}$ is the finite field with $q^n$ elements, for any prime power
+$q$ and integer $n>1$, is presented by \citeN{Giesbrecht} with a cost of
+$O(n^2+n\log q)$ operations in $\FF_q$.  A faster randomized algorithm is
+introduced by \citeN{Kaltofen}, with a cost of $O(n^{1.8})$ operations in
+$\FF_q$.  \citeN{LenstraNormal} introduced a deterministic algorithm to
+construct a normal element which uses $O(n^{O(1)})$ operations in
+$\FF_{q^n}/\FF_q$.  To the best of our knowledge, the algorithm of
+\citeN{AugCam??} is the most efficient deterministic method, with a cost of
+$O(n^3+n^2\log q)$ operations in $\FF_q$.
 
 In characteristic zero, \citeN{Poli} gives an algorithm for abelian
 extensions in with $O(n^{O(1)})$.  \citeN{Stepanov} introduce an algorithm
@@ -36,11 +36,12 @@ in the cyclic case with $O(n^{O(1)})$ as the computation cost.
 over the base field to construct a normal element for a general finite
 Galois extension in characteristic zero.
 
-In this paper we will introduce a randomized algorithm for finding a normal
+In this paper we present a new randomized algorithm for finding a normal
 element in case of abelian and metacyclic extensions which is subquadratic
 in the degree of the extension. The idea behind the algorithm is similar to
-ideas in \cite{Giesbrecht,Kaltofen}. Since one of the of the assumptions in the
-results of this paper is the same, we state it here for future references .
+ideas in \cite{Giesbrecht,Kaltofen}. Since one of the of the assumptions in
+the results of this paper is the same, we state it here for future
+references .
 
 \begin{assumption}
   \label{assum}
