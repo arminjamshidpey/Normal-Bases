@@ -198,43 +198,71 @@ $\F[G]$ to a product of $\B'$'s}
 
 
 
-\subsection{Abelian case}
-
 \subsection{Metacyclic case}
 
-\begin{proposition}
+
+\begin{lemma}\label{lem:metinjection}
 Suppose $G = \langle \sigma , \tau : \sigma^n = 1, \tau^m = \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$ is the Galois group 
-of $K/F$, where $n$ is a prime integer. The map 
+of $K/F$, where $n$ is a prime integer. The map $\varphi = \varphi_1 \oplus \varphi_2$ where,
 \begin{equation}
 \begin{split}
-\varphi: K[G] \longrightarrow M_{m}(F(\xi))\\
-\sigma \longrightarrow M_{\sigma} = \mathrm{Diag}(\xi, \xi^r, \ldots , \xi^{r^{m-1}})\\
+\varphi_1: K[G] \longrightarrow M_{m}(F(\zeta))\\
+\sigma \longrightarrow \mathrm{Diag}(\zeta, \zeta^r, \ldots , \zeta^{r^{m-1}})\\
 \tau \longrightarrow 
-M_{\tau} = \left[ \begin{array}{l|l}
+\left[ \begin{array}{l|l}
+0 & 1\\
+\hline
+I_{m-1}& 0
+\end{array} \right] \\
+\varphi_2: K[G] \longrightarrow M_m(F) \\
+\sigma \longrightarrow I_m \\
+\tau \longrightarrow 
+\left[ \begin{array}{l|l}
 0 & 1\\
 \hline
 I_{m-1}& 0
 \end{array} \right] 
 \end{split}
 \end{equation}
-where $\xi$ is $n$-th root of unity, is an isomorphism.
-\end{proposition}
+where $\zeta$ is a primitive $n$-th root of unity, is an injective homomorphism.
+\end{lemma}
 
 \begin{proof}
 It is not hard to verify that 
 $$\varphi(\sigma)^n = I_m$$
-$$\varphi(\tau)^m = I_m$$
-$$\varphi(\tau)^{-1}\varphi(\sigma) \varphi(\tau) = \varphi(\sigma)^r$$
-which shows that $\varphi$ is a well defined homomorphism.
+$$\varphi(\tau)^m = \varphi(\sigma)^t$$
+$$\varphi(\tau)^{-1}\varphi_i(\sigma) \varphi_i(\tau) = \varphi_i(\sigma)^r$$
+which shows that $\varphi$ is a well defined homomorphism. 
 
-
-
-({\color{red} not complete})
+Assume $u = \sum_{j = 0}^m \left( \sum_{i = 0}^n u_{ij} \sigma^i \right) \tau^j \in \mathrm{Ker}(\varphi).$ If
+$F_j(x) = \sum_{i = 0}^n u_{ij}x^i$, $F_{i,j} = F_i(\zeta^{r^j})$ and $\bar{F_i} = F_i(1)$, then 
+$$\varphi_1(u) = 
+\left[\begin{array}{lllll}
+F_{0,0} & F_{m-1,1}	& \cdots	&	F_{2,0} & F_{1,0}\\
+F_{1,1} & F_{0,1}& F_{m-1,2} &\cdots & F_{2,1}\\
+F_{2,3} & F_{1,2}& F_{0,2} &\cdots & F_{3,m-1}\\
+&\ddots & \ddots & \ddots&\\
+F_{m-1,0}	&	&	& F_{1,m-1}	& F_{0,m-1}
+\end{array}
+\right].
+$$
+Hence we get $F_i(\zeta^{r^j}) =0$. On the other hand by applying $\varphi_2$ we get
+$$\varphi_1(u) = 
+\left[\begin{array}{lllll}
+\bar{F}_{0} & \bar{F}_{m-1}	& \cdots	&	\bar{F}_{2} & \bar{F}_{1}\\
+\bar{F}_{1} & \bar{F}_{0}& \bar{F}_{m-1} &\cdots & \bar{F}_{2}\\
+\bar{F}_{2} & \bar{F}_{1}& \bar{F}_{0} &\cdots & \bar{F}_{3}\\
+&\ddots & \ddots & \ddots&\\
+\bar{F}_{m-1}	&	&	& \bar{F}_{1}	& \bar{F}_{0}
+\end{array}
+\right].
+$$
+$F_i(1) = 0$. Hence
+$F_i = 0$ for $0 \leq i \leq m-1$, which means that $\varphi$ is injective.
 \end{proof}
 
 \begin{proposition}
-Under Assumption \ref{assum}, let $G$ be a metacyclic group. The invertibility of $l(\osum{G}{K}) \in F[G]$ can be decided in 
-subquadratic time ({\color{red} should become explicit}) in the size of input, for a linear projection $l: K\rightarrow F$.
+Under Assumption \ref{assum}, let $G$ be a metacyclic group presented in Lemma \ref{lem:metinjection}. The invertibility of $l(\osum{G}{K}) \in F[G]$ can be decided using $O(m^2n)$ operations in $F$, for a linear projection $l: K\rightarrow F$.
 \end{proposition}
 
 
