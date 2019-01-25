@@ -4,6 +4,7 @@
 \usepackage{tikz}
 \usepackage{mathdots}
 \usepackage{esvect}
+\usepackage{bbm}
 
 \usepackage{xcolor}
 \definecolor{darkgreen}{rgb}{0,.35,0}
@@ -57,7 +58,7 @@
 %Conference
 \acmConference[ISSAC 2019]{ACM Woodstock conference}{July 2019}{Beijing, China} 
 \acmYear{2019}
-\copyrightyear{2016}
+\copyrightyear{2019}
 
 
 \acmArticle{4}
@@ -104,6 +105,15 @@ University of Waterloo}
 
 % The default list of authors is too long for headers.
 \renewcommand{\shortauthors}{M. Giesbrecht et al.}
+
+\def\F{\mathbb{F}}
+\def\N{\mathbb{N}}
+\def\K{\mathbb{K}}
+\def\A{\mathbb{A}}
+\def\B{\mathbb{B}}
+\def\Z{\mathbb{Z}}
+\def\C{\mathbb{C}}
+\def\Q{\mathbb{Q}}
 
 
 
@@ -169,6 +179,7 @@ University of Waterloo}
 \input{4-invertibility}
 
 
+\citestyle{acmauthoryear}
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{NormalBasisCharZero} 
 
