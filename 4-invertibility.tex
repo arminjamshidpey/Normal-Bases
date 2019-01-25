@@ -37,11 +37,48 @@ bla bla bla.
 
 \subsection{Abelian groups}
 
-\noindent{\bf Decomposing the tensor product of two cyclotomic
-  algebras.}  Let $p$ be a prime, fixed throughout this paragraph and
-the next one. Then, for $j \ge 0$, let $F_j:=\Phi_{p^j}$ be the
-$p^j$-th cyclotomic polynomial, seen as a polynomial in $\F[x]$. Thus
-all $F_j$'s are squarefree, but they may not be irreducible.
+\noindent{\bf Tensor product of two cyclotomic rings of coprime orders.}
+Let $m,m'$ be two coprime integers and define
+$$\mathbbm{h}:=\F[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle,$$
+where for $i \ge 0$, $\Phi_i$ is the cyclotomic polynomial of order
+$i$. In what follows, $\varphi$ is Euler's totient function, so that
+$\varphi(i) = \deg(\Phi_i)$ for all~$i$.
+\begin{lemma}
+  There exist an $\F$-algebra isomorphism $\gamma: \mathbbm{h} \to
+  \F[z]/\langle\Phi_{mm'}(z)\rangle$ given by $xx' \mapsto z$. 
+  Given $\Phi
+Both
+  $\gamma$ and its inverse can be computed in time
+  $\tilde{O}(\varphi(mm'))$.
+\end{lemma}
+\begin{proof}
+  Without loss of generality, we prove the first claim over $\Q$; the
+  result over $\F$ follows by scalar extension. In the field \sloppy
+  $\Q[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle$, $xx'$ is
+  cancelled by $\Phi_{mm'}$. Since this polynomial is irreducible, it
+  is the minimal polynomial of $xx'$, which is thus a primitive
+  element for $\Q[x,x']/\langle \Phi_{m}(x),
+  \Phi_{m'}(x')\rangle$. This proves the first claim.
+
+  For the second claim, we first determine the images of $x$ and $x'$
+  by $\gamma$. Let $\bar z$ be the image Start from a B\'ezout
+  relation $am+ a'm'=1$, for some $a,a'$ in $\Z$.  Since $x^m =
+  {x'}^{m'}=1$ in $\mathbbm{h}$, we deduce that $\gamma(x)=z^{u}$
+  and $\gamma(x') = z^{v}$, with $u:=am$ and $v:=a'm'$.  
+
+  Hence, to compute $\gamma(P)$, for some $P$ in $\mathbbm{h}$, we
+  first compute $P(z^u, z^v)$, keeping all exponents reduced modulo
+  $mm'$. This requires no arithmetic operations and results in a
+  polynomial of degree less than $mm'$, which we reduce modulo 
+\end{proof}
+
+
+
+\noindent{\bf Tensor product of two cyclotomic
+  algebras of equal .}  Let $p$ be a prime. Then, for $j \ge 0$, we let
+$F_j:=\Phi_{p^j}$ be the $p^j$-th cyclotomic polynomial, seen as a
+polynomial in $\F[x]$. Thus all $F_j$'s are squarefree, but they may
+not be irreducible. For $j=-1$, we write $F_{-1} = x-1$.
 
 The key to the following algorithms is the elementary remark below.
 Let $c,c'$ be positive integers, with $c \ge c'$, and let $y$ be
@@ -54,7 +91,7 @@ though $\mathbbm{a}$ may not be a field, since all linear factors of
 $F_{c'}(y)$ are pairwise coprime, the Chinese Remainder theorem
 implies that the algebra
 $$\mathbbm{b}:=\F[x,y]/\langle F_c(x), F_{c'}(y)\rangle = \mathbbm{a}[y]/F_{c'}(y)$$
-is isomorphic to $\mathbbm{a}^{\varphi(p^{c'})}$, where $\varphi$ is Euler's totient function.
+is isomorphic to $\mathbbm{a}^{\varphi(p^{c'})}$
 The isomorphism is given by
 $$\begin{array}{cccc}
 \Theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a} \\
@@ -197,6 +234,10 @@ $\F[G]$ to a product of $\B'$'s}
 
 
 
+<<<<<<< HEAD
+=======
+\subsection{Abelian case}
+>>>>>>> 092f710a8357e5708485d4ad7913668c61677f6b
 
 \subsection{Metacyclic case}
 
