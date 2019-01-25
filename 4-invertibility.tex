@@ -45,11 +45,10 @@ $i$. In what follows, $\varphi$ is Euler's totient function, so that
 $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
 \begin{lemma}
   There exist an $\F$-algebra isomorphism $\gamma: \mathbbm{h} \to
-  \F[z]/\langle\Phi_{mm'}(z)\rangle$ given by $xx' \mapsto z$. 
-  Given $\Phi
-Both
-  $\gamma$ and its inverse can be computed in time
-  $\tilde{O}(\varphi(mm'))$.
+  \F[z]/\langle\Phi_{mm'}(z)\rangle$ given by $xx' \mapsto z$.  Given
+  $\Phi_m$ and $\Phi_{m'}$, $\Phi_{mm'}$ can be computed in time
+  $\tilde{O}(\varphi(mm'))$, and one can apply $\gamma$ and its
+  inverse to any inputs in time $\tilde{O}(\varphi(mm'))$.
 \end{lemma}
 \begin{proof}
   Without loss of generality, we prove the first claim over $\Q$; the
@@ -69,7 +68,16 @@ Both
   Hence, to compute $\gamma(P)$, for some $P$ in $\mathbbm{h}$, we
   first compute $P(z^u, z^v)$, keeping all exponents reduced modulo
   $mm'$. This requires no arithmetic operations and results in a
-  polynomial of degree less than $mm'$, which we reduce modulo 
+  polynomial $\bar P$ of degree less than $mm'$, which we reduce modulo
+  $\Phi_{mm'}$ (the latter is obtained by the composed product
+  algorithm of~\cite{BoFlSaSc06} in quasi-linear time).
+
+  By~\cite[Theorem~8.8.7]{BaSh96}, $s = O(\varphi(s) \log(\log(s)))$,
+  so that $s$ is in $\tilde{O}(\varphi(s))$. Thus, we can reduce 
+  $\bar P$ modulo $\Phi_{mm'}$ in $\tilde{O}(\varphi(mm'))$ operations. 
+
+
+
 \end{proof}
 
 
