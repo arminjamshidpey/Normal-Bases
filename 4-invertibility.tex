@@ -37,7 +37,29 @@ bla bla bla.
 
 \subsection{Abelian groups}
 
-\noindent{\bf Tensor product of two cyclotomic rings of coprime orders.}
+Because an abelian group is a product of cyclic groups, the group
+algebra $\F[G]$ of such a group is the tensor product of algebras of the
+form $\F[x_i]/\langle {x_i}^{n_i}-1 \rangle$. Given an element $A$ in
+$\F[G]$, seen as a multivariate polynomial, our problem in
+this section is to determine whether $A$ is a unit.
+
+The complexity of arithmetic operations in an $\F$-algebra such as
+$\A:=\F[x_1,\dots,x_t]/\langle P_1(x_1),\dots,P_t(x_t)\rangle$ is
+difficult to pin down exactly. For general $P_i$'s, the cost of
+multiplication in $\A$ is known to be $O(\dim(\A)^{1+\varepsilon})$, for
+any $\varepsilon > 0$~\cite[Theorem~2]{LiMoSc09}; from this, it may be
+possible to deduce similar upper bounds on the complexity of invertibility 
+tests, following~\cite{DaMMMScXi06}, but this seems non-trivial.
+
+Instead, we give an algorithm with softly linear runtime, that uses
+the factorization properties of cyclotomic polynomials and Chinese
+remaindering techniques to turn our problem into that of invertibility
+testing in algebras of the form $\F[x]/P$, for various polynomials
+$P$.
+
+\smallskip
+
+\noindent{\bf Tensor product of two cyclotomic rings: coprime orders.}
 Let $m,m'$ be two coprime integers and define
 $$\mathbbm{h}:=\F[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle,$$
 where for $i \ge 0$, $\Phi_i$ is the cyclotomic polynomial of order
@@ -47,8 +69,9 @@ $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
   There exist an $\F$-algebra isomorphism $\gamma: \mathbbm{h} \to
   \F[z]/\langle\Phi_{mm'}(z)\rangle$ given by $xx' \mapsto z$.  Given
   $\Phi_m$ and $\Phi_{m'}$, $\Phi_{mm'}$ can be computed in time
-  $\tilde{O}(\varphi(mm'))$, and one can apply $\gamma$ and its
-  inverse to any inputs in time $\tilde{O}(\varphi(mm'))$.
+  $\tilde{O}(\varphi(mm'))$; knowing all these polynomials, one can
+  apply $\gamma$ and its inverse to any input in time
+  $\tilde{O}(\varphi(mm'))$.
 \end{lemma}
 \begin{proof}
   Without loss of generality, we prove the first claim over $\Q$; the
@@ -60,49 +83,82 @@ $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
   \Phi_{m'}(x')\rangle$. This proves the first claim.
 
   For the second claim, we first determine the images of $x$ and $x'$
-  by $\gamma$. Let $\bar z$ be the image Start from a B\'ezout
-  relation $am+ a'm'=1$, for some $a,a'$ in $\Z$.  Since $x^m =
-  {x'}^{m'}=1$ in $\mathbbm{h}$, we deduce that $\gamma(x)=z^{u}$
-  and $\gamma(x') = z^{v}$, with $u:=am$ and $v:=a'm'$.  
+  by $\gamma$. Start from a B\'ezout relation $am+ a'm'=1$, for some
+  $a,a'$ in $\Z$.  Since $x^m = {x'}^{m'}=1$ in $\mathbbm{h}$, we
+  deduce that $\gamma(x)=z^{u}$ and $\gamma(x') = z^{v}$, with $u:=am
+  \bmod mm'$ and $v:=a'm' \bmod mm'$. To compute $\gamma(P)$, for some
+  $P$ in $\mathbbm{h}$, we first compute $P(z^u, z^v)$, keeping all
+  exponents reduced modulo $mm'$. This requires no arithmetic
+  operations and results in a polynomial $\bar P$ of degree less than
+  $mm'$, which we eventually reduce modulo $\Phi_{mm'}$ (the latter is
+  obtained by the composed product algorithm of~\cite{BoFlSaSc06} in
+  quasi-linear time).  By~\cite[Theorem~8.8.7]{BaSh96}, we have the
+  bound $s = O(\varphi(s) \log(\log(s)))$, so that $s$ is in
+  $\tilde{O}(\varphi(s))$. Thus, we can reduce $\bar P$ modulo
+  $\Phi_{mm'}$ in $\tilde{O}(\varphi(mm'))$ operations, establishing
+  the cost bound for $\gamma$.
 
-  Hence, to compute $\gamma(P)$, for some $P$ in $\mathbbm{h}$, we
-  first compute $P(z^u, z^v)$, keeping all exponents reduced modulo
-  $mm'$. This requires no arithmetic operations and results in a
-  polynomial $\bar P$ of degree less than $mm'$, which we reduce modulo
-  $\Phi_{mm'}$ (the latter is obtained by the composed product
-  algorithm of~\cite{BoFlSaSc06} in quasi-linear time).
-
-  By~\cite[Theorem~8.8.7]{BaSh96}, $s = O(\varphi(s) \log(\log(s)))$,
-  so that $s$ is in $\tilde{O}(\varphi(s))$. Thus, we can reduce 
-  $\bar P$ modulo $\Phi_{mm'}$ in $\tilde{O}(\varphi(mm'))$ operations. 
-
-
-
+Conversely, given $Q$ in $\F[z]/\langle\Phi_{mm'}(z)\rangle$, we
+obtain its preimage by replacing powers of $z$ by powers of $xx'$,
+reducing all exponents in $x$ modulo $m$, and all exponents in $x'$
+modulo $m'$; then, we reduce the result modulo both $\Phi_m(x)$ and
+$\Phi_{m'}(x')$.  By the same argument as above, the cost is softly
+linear in $\varphi(mm')$.
 \end{proof}
 
+\noindent{\bf Extension to several cyclotomic rings.}  The
+natural generalization of the algorithm above starts with pairwise
+distinct primes $p_1,\dots,p_t$, non-negative exponent $c_1,\dots,c_t$
+and variables $x_1,\dots,x_t$ over $\F$. Now, we define
+$$\H:=\F[x_1,\dots,x_t]/\langle
+\Phi_{\mu_1}(x_1),\dots,\Phi_{\mu_t}(x_t)\rangle,$$ with
+$\mu_i={p_i}^{c_i}$ for all $i$; when needed, we will write
+$\H_{p_1,c_1,\dots,p_t,c_t}$. Finally, we let  $\mu:=\mu_1\cdots \mu_t$;
+then, the dimension $\dim(\H)$ is $\varphi(\mu)$
 
+\begin{lemma}
+ There exist an $\F$-algebra isomorphism $\Gamma: \H \to
+ \F[z]/\langle\Phi_{\mu}(z)\rangle$ given by $x_1 \cdots x_t \mapsto
+ z$.  One can apply $\Gamma$ and its inverse to any input in time
+ $\tilde{O}(\dim(\H))$.
+\end{lemma}
+\begin{proof}
+  We proceed iteratively. First, note that the cyclotomic polynomials
+  $\Phi_{\mu_i}$ can all be computed in time $O(\varphi(\mu))$. 
+  Then, the isomorphism
+  $\gamma: \F[x_1,x_2]/\langle \Phi_{\mu_1}(x_1),
+  \Phi_{\mu_2}(x_2)\rangle \to \F[z]/\langle
+  \Phi_{\mu_1\mu_2}(z)\rangle$
+given in the previous paragraph extends coordinate-wise to an
+  isomorphim
+  $$\Gamma_1: \H \to \F[z,x_3,\dots,x_t]/\langle
+  \Phi_{\mu_1\mu_2}(z),\Phi_{\mu_3}(x_3),\dots,\Phi_{\mu_t}(x_t)\rangle.$$
+  By the previous lemma, $\Gamma_1$ and its inverse can be applied to
+  any input in time $\tilde{O}(\varphi(\mu))$. Iterate this process
+  another $t-2$ times, to obtain $\Gamma$ as a product
+  $\Gamma_{t-1} \circ \cdots \circ \Gamma_1$. Since $t$ is logarithmic 
+  in $\varphi(\mu)$, the proof is complete.
+\end{proof}
 
-\noindent{\bf Tensor product of two cyclotomic
-  algebras of equal .}  Let $p$ be a prime. Then, for $j \ge 0$, we let
-$F_j:=\Phi_{p^j}$ be the $p^j$-th cyclotomic polynomial, seen as a
-polynomial in $\F[x]$. Thus all $F_j$'s are squarefree, but they may
-not be irreducible. For $j=-1$, we write $F_{-1} = x-1$.
+\noindent{\bf Tensor product of two cyclotomic rings with same $p$.}
+In the following two paragraphs, we discuss the opposite situation as
+above: we now work with cyclotomic polynomials of prime power
+orders for a common prime $p$. As above, we start with two such polynomials.
 
-The key to the following algorithms is the elementary remark below.
-Let $c,c'$ be positive integers, with $c \ge c'$, and let $y$ be
-another indeterminate over $\F$. Define $\mathbbm{a}:=\F[x]/F_c(x)$,
-and let $\bar x$ be the residue class of $x$ in $\A$. Then, in
-$\mathbbm{a}[y]$, $F_{c'}(y)$ factors as
-$$F_{c'}(y) =\prod_{\substack{1 \le i\le p^{c'}-1\\ \gcd(i,p) =1}}
+Let thus $p$ be a prime. The key to the following algorithms is the
+elementary remark below.  Let $c,c'$ be positive integers, with $c \ge
+c'$, and let $y$ be another indeterminate over $\F$. Define
+$\mathbbm{a}:=\F[x]/\Phi_{p^c}(x)$, and let $\bar x$ be the residue class of
+$x$ in $\A$. Then, in $\mathbbm{a}[y]$, $\Phi_{p^{c'}}(y)$ factors as
+$$\Phi_{p^{c'}}(y) =\prod_{\substack{1 \le i\le p^{c'}-1\\ \gcd(i,p) =1}}
 (y-\rho_i),$$ with $\rho_i:={\bar x}^{i p^{c-c'}}$ for all $i$.  Even
-though $\mathbbm{a}$ may not be a field, since all linear factors of
-$F_{c'}(y)$ are pairwise coprime, the Chinese Remainder theorem
+though $\mathbbm{a}$ may not be a field, the Chinese Remainder theorem
 implies that the algebra
-$$\mathbbm{b}:=\F[x,y]/\langle F_c(x), F_{c'}(y)\rangle = \mathbbm{a}[y]/F_{c'}(y)$$
-is isomorphic to $\mathbbm{a}^{\varphi(p^{c'})}$
-The isomorphism is given by
+$$\mathbbm{b}:=\F[x,y]/\langle \Phi_{p^c}(x), \Phi_{p^{c'}}(y)\rangle = \mathbbm{a}[y]/\Phi_{p^{c'}}(y)$$
+is isomorphic to $\mathbbm{a}^{\varphi(p^{c'})}$;
+the isomorphism is given by
 $$\begin{array}{cccc}
-\Theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a} \\
+\theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a} \\
         & P & \mapsto& (P(\bar x,\rho_1),\dots,P(\bar x,\rho_{\varphi(p^{c'})}).
 \end{array}$$
 In terms of complexity, arithmetic operations $(+,-,\times)$ in $\mathbbm{a}$
@@ -113,41 +169,41 @@ $\tilde{O}(\varphi(p^c) \varphi(p^{c'}))$ operations in $\mathbbm{b}$.  We
 rewrite this as $\tilde{O}(\deg(\mathbbm{b}))$, where $\dim(\mathbbm{b}):=\varphi(p^c)
 \varphi(p^{c'})$ is the dimension of $\mathbbm{b}$ as an $\F$-vector space.
 
-Applying $\Theta$ and its inverse is done by means of fast evaluation
-and interpolation~\cite[Chapter~11]{vzGathen13} in $\tilde{O}(\varphi(p^{c'}))$
+Applying $\theta$ and its inverse is done by means of fast evaluation
+and interpolation~\cite[Chapter~10]{vzGathen13} in $\tilde{O}(\varphi(p^{c'}))$
 operations in $\mathbbm{a}$, that is, $\tilde{O}(\deg(\mathbbm{b}))$ operations in $\F$
 (the algorithms do not require that $\mathbbm{a}$ be a field).
 
-
 \smallskip\noindent{\bf Extension to several cyclotomic algebras.}
-Let $p$ and the $F_j$'s be as before, and consider now positive integers
+Let $p$ be as before, and consider now positive integers
 $c_1,\dots,c_t$ and variables $x_1,\dots,x_t$. We define the
 $\F$-algebra
-$$\A:=\F[x_1,\dots,x_t]/\langle F_{c_1}(x_1), \dots,
-F_{c_t}(x_t)\rangle,$$ which we will sometimes write
+$$\A:=\F[x_1,\dots,x_t]/\langle \Phi_{p^{c_1}}(x_1), \dots,
+\Phi_{p^{c_t}}(x_t)\rangle,$$ which we will sometimes write
 $\A_{p,c_1,\dots,c_t}$ to make the dependency on $p$ and the $c_i$'s
 clear. Up to reordering the $c_i$'s, we can assume that $c_1 \ge c_i$
 holds for all $i$, and define as before
-$\mathbbm{a}:=\F[x_1]/F_{c_1}(x_1)$.
+$\mathbbm{a}:=\F[x_1]/\Phi_{p^{c_1}}(x_1)$.
 
 \begin{lemma}\label{lemma:A}
   There exists an $\F$-algebra isomorphism $\Theta: \A \to
   \mathbbm{a}^{\dim(\A)/\dim(\mathbbm{a})}$. This isomorphism and its
-  inverse can be computed in $\tilde{O}(\dim(\A))$ operations in $\F$.
+  inverse can be applied to any inputs in $\tilde{O}(\dim(\A))$
+  operations in $\F$.
 \end{lemma}
 \begin{proof}
 We proceed iteratively. First, rewrite $\A$ as
-$$\A=\mathbbm{a}[x_2,x_3,\dots,x_t]/\langle F_{c_2}(x_2), F_{c_3}(x_3), \dots,
+$$\A=\mathbbm{a}[x_2,x_3,\dots,x_t]/\langle \Phi_{p^{c_2}}(x_2), \Phi_{p^{c_3}}(x_3), \dots,
 F_{c_t}(x_t)\rangle.$$ 
 The isomorphism 
-$\theta: \mathbbm{a}[x_2]/F_{c_2}(x_2) \to \mathbbm{a}^{\varphi(p^{c_2})}$
+$\theta: \mathbbm{a}[x_2]/\Phi_{p^{c_2}}(x_2) \to \mathbbm{a}^{\varphi(p^{c_2})}$
 introduced in the previous paragraph extends coordinate-wise
 to an isomorphism 
-$$\Theta_1: \A \to (\mathbbm{a}[x_3,\dots,x_t]/\langle F_{c_3}(x_3),
-\dots, F_{c_t}(x_t)\rangle)^{\varphi(p^{c_2})};$$ $\Theta_1$ and its
+$$\Theta_1: \A \to (\mathbbm{a}[x_3,\dots,x_t]/\langle \Phi_{p^{c_3}}(x_3),
+\dots, \Phi_{p^{c_t}}(x_t)\rangle)^{\varphi(p^{c_2})};$$ $\Theta_1$ and its
 inverse can be evaluated in quasi-linear time $\tilde{O}(\dim(\A))$.
 We now work in all copies of $\mathbbm{a}[x_3,\dots,x_t]/\langle
-F_{c_3}(x_3), \dots, F_{c_t}(x_t)\rangle$ independently, and apply the
+\Phi_{p^{c_3}}(x_3), \dots, \Phi_{p^{c_t}}(x_t)\rangle$ independently, and apply the
 procedure above to each of them. Altogether, we have $t-1$ such 
 steps to perform, giving us an isomorphism 
 $$\Theta = \Theta_{t-1} \circ \cdots \circ \Theta_1:
@@ -155,35 +211,39 @@ $$\Theta = \Theta_{t-1} \circ \cdots \circ \Theta_1:
 \mathbbm{a}^{\varphi(p^{c_2}) \cdots \varphi(p^{c_t})}.$$
 The exponent can be rewritten as $ \dim(\A)/\dim(\mathbbm{a})$, as claimed.
 In terms of complexity, all $\Theta_i$'s and their inverses can be computed
-in quasi-lienar time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
+in quasi-linear time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
 where $t$ is $O(\log(\dim(\A)))$. The proof is complete.
 \end{proof}
 
-\noindent{\bf Decomposing certain $p$-group algebras.}
-The prime $p$, polynomials $F_j$ and indeterminates $x_1,\dots,x_t$
-are as before; we now consider positive integers $b_1 \ge \cdots \ge b_t$,
-and the $\F$-algebra
+\noindent{\bf Decomposing certain $p$-group algebras.}  The prime $p$
+and indeterminates $x_1,\dots,x_t$ are as before; we now consider
+positive integers $b_1 \ge \cdots \ge b_t$, and the $\F$-algebra
 $$
 \begin{array}{ccc}
 \B&:=&\F[x_1,\dots,x_t]/\langle x_1^{p^{b_1}}-1,\dots,x_t^{p^{b_t}}-1\rangle\\$$
 &=& \F[x_1]/\langle x_1^{p^{b_1}}-1 \rangle \otimes \cdots \otimes \F[x_t]/\langle x_t^{p^{b_t}}-1 \rangle;
 \end{array}$$
 if needed, we will write $\B_{p,b_1,\dots,b_t}$ to make the dependency
-on $p$ and the $b_i$'s clear. Note that this is the $\F$-group algebra
+on $p$ and the $b_i$'s clear. This is the $\F$-group algebra
 of $\Z/p^{b_1}\Z \times \cdots \times \Z/p^{b_t}\Z$.
 
-For $i \le t$, $x_i^{p^{b_i}}-1$ factors as $(x_i-1) F_0(x_i)
-F_1(x_i) \cdots F_{b_i-1}(x_i)$. The factors may not be irreducible,
+For $i \le t$, we have the  factorization 
+$$x_i^{p^{b_i}}-1 = (x_i-1) \Phi_p(x_i)
+\Phi_{p^2}(x_i) \cdots \Phi_{p^{b_i}}(x_i).$$ The factors may not be irreducible,
 but they are pairwise coprime, so that we have a Chinese Remainder
 isomorphism
 $$\lambda_i: \F[x_i]/\langle x_i^{p^{b_i}}-1 \rangle \to \F[x_i]/\langle x_i-1\rangle
-\times \cdots \times  \F[x_i]/\langle F_{b_i-1}(x_i)\rangle;$$
-it can be computed (together with its inverse) 
-in $\tilde{O}(p^{b_i})$ operations in $\F$. By distributivity of the tensor
-product, 
+\times \cdots \times  \F[x_i]/\langle \Phi_{p^{b_i}}(x_i)\rangle;$$
+together with its inverse, it can be computed  
+in $\tilde{O}(p^{b_i})$ operations in $\F$~\cite[Chapter~10]{vzGathen13}. By distributivity of the tensor
+product over direct products, 
 this gives an $\F$-algebra isomorphism
-$$\lambda: \B \to \prod_{c_1=-1}^{b_i-1} \cdots \prod_{c_t=-1}^{b_t-1} \A_{t,c_1,\dots,c_t}$$
-which can be computed in $\tilde{O}(\dim(\B))$ operations in $\F$ (together with its inverse).
+$$\lambda: \B \to \prod_{c_1=0}^{b_i} \cdots \prod_{c_t=0}^{b_t} \A_{p,\boldsymbol{c}'};$$
+in this expression, $\boldsymbol{c}'$ is obtained from
+$\boldsymbol{c}=(c_1,\dots,c_t)$ by removing all $c_i$ equal to $0$;
+they correspond to the factor $x_i-1$, and $\F[x_i]/\langle x_i-1\rangle$
+is simply equal to $\F$. Together with its inverse, 
+$\lambda$ can be computed in $\tilde{O}(\dim(\B))$ operations in $\F$.
 Composing with the result in Lemma~\ref{lemma:A}, this gives
 us an isomorphim
 $$\Lambda: \B \to \B':=\prod_{c_1=-1}^{b_i-1} \cdots \prod_{c_t=-1}^{b_t-1}
