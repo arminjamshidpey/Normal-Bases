@@ -1,40 +1,45 @@
 \section{Introduction}
 
-For a finite Galois extension $K/F$ with $G = \mathrm{Gal}(K/F)$, an
-element $\alpha \in K$ is called \emph{normal} if the set of Galois
-conjugates of $\alpha$ forms a basis for $K$ as a vector space over
-$F$. The existence of normal element for any finite Galois extension is
-known for a long time.
+For a finite Galois extension field $K/F$, with Galaois group
+$G = \mathrm{Gal}(K/F)$, an element $\alpha \in K$ is called \emph{normal}
+if the set of Galois conjugates of $\alpha$, $\{g\in G: g(\alpha)\}$, forms
+a basis for $K$ as a vector space over $F$. The existence of normal element
+for any finite Galois extension is classical, and constructive proofs are
+provided in most abstract algebra texts (see, e.g., \cite{Wae70},
+Section~8.11).
  
 There are a wide range of applications of normal bases in finite
 fields. Fast exponentiation or computing the action of the Frobenius and
 point counting on elliptic curves are some of their applications. There are
 also applications of normal elements in characteristic zero. For example,
-for a given permutation lattice and appropriate Galois extension a normal
+for a given permutation lattice and appropriate Galois extension, a normal
 basis is useful in computing the multiplicative invariants explicitly (see
 \cite{Armin} for more details).
 
-There are a number of available algorithms for finding a normal element in
+A number of algorithms are available for finding a normal element in
 characteristic zero fields and finite fields.  Because of their immediate
 applications in finite fields, algorithms for determining normal elements
 in this case has seen the most activity.  A fast randomized algorithm for
 determining a normal element in a finite field $\FF_{q^n}/\FF_q$, where
-$\FF_{q^n}$ is the finite field with $q^n$ elements, for any prime power
-$q$ and integer $n>1$, is presented by \citeN{Giesbrecht} with a cost of
+$\FF_{q^n}$ is the finite field with $q^n$ elements for any prime power
+$q$ and integer $n>1$, is presented by \citeN{Giesbrecht}, with a cost of
 $O(n^2+n\log q)$ operations in $\FF_q$.  A faster randomized algorithm is
 introduced by \citeN{Kaltofen}, with a cost of $O(n^{1.8})$ operations in
 $\FF_q$.  \citeN{LenstraNormal} introduced a deterministic algorithm to
 construct a normal element which uses $O(n^{O(1)})$ operations in
 $\FF_{q^n}/\FF_q$.  To the best of our knowledge, the algorithm of
-\citeN{AugCam??} is the most efficient deterministic method, with a cost of
+\citeN{AugCam94} is the most efficient deterministic method, with a cost of
 $O(n^3+n^2\log q)$ operations in $\FF_q$.
 
-In characteristic zero, \citeN{Poli} gives an algorithm for abelian
-extensions in with $O(n^{O(1)})$.  \citeN{Stepanov} introduce an algorithm
-in the cyclic case with $O(n^{O(1)})$ as the computation cost.
-\citeN{Girstmair} gives an algorithm which requires $O(n^4)$ operations
-over the base field to construct a normal element for a general finite
-Galois extension in characteristic zero.
+In characteristic zero, \citeN{SchSte93} gives an algorithm for finding a
+normal basis of a number field over $\QQ$ with a cyclic Galois group which
+requires $O(n^{O(1)})$ operations in $\QQ$.  \citeN{Pol94} gives an
+algorithm for the more general case of finding a normal basis in an abelian
+extension $K/F$ which requires $O(n^{O(1)})$ in $\F$.  More generally in
+characteristic zero, for any Galois extension $K/F$ of degree $n$ with
+Galois group given by a collection of $n$ matrices, \citeN{Girstmair} gives
+an algorithm which requires $O(n^4)$ operations in $F$ to construct a
+normal element in $K$.
 
 In this paper we present a new randomized algorithm for finding a normal
 element in case of abelian and metacyclic extensions which is subquadratic
@@ -45,22 +50,23 @@ references .
 
 \begin{assumption}
   \label{assum}
-  $K/F$ is a finite Galois extension given by $ F[x]/f$ for an irreducible
-  polynomial $f\in F[x]$ of degree $n$, with $G =
-  \mathrm{Gal}(K/F)$. Moreover $\alpha$ is an element of $K$ and the action
-  of generators of $ G$, such as $g$, on $K$ is given by its action on
-  $\bar{x} = x \mod f.$ In other words, $g(\bar{x})$ is given for any
-  generator $g$ of $G$.
+  Let $K/F$ be a finite Galois extension presented as$F[x]/(f)$ for an
+  irreducible polynomial $f\in F[x]$ of degree $n$, and
+  $G = \mathrm{Gal}(K/F)$. Moreover, let $\alpha$ be an element of $K$ and
+  the action of generators of $G$, such as $g$, on $K$ is given by its
+  action on $\bar{x} = x \mod f.$ In other words, $g(\bar{x})$ is given for
+  any generator $g$ of $G$.
 \end{assumption}
 
 \begin{remark}
   With the above assumption, suppose
   $$\beta = \sum_{0\leq i \leq n-1} a_i \bar{x}^i \in F[\bar{x}]$$. For any
   $g \in G$ and integer $t,$ we have
-\begin{equation}\label{rmk:comute}
-g^t(\beta) = \sum_{0\leq i \leq n-1} a_i g^t(\bar{x}^i) = \beta(g^t(\bar{x}))
-\end{equation}
-since $g$ acts trivially on $a_i$.
+  \begin{equation}
+    \label{rmk:comute}
+    g^t(\beta) = \sum_{0\leq i \leq n-1} a_i g^t(\bar{x}^i) = \beta(g^t(\bar{x}))
+  \end{equation}
+  since $g$ acts trivially on $a_i$.
 \end{remark}
 
 Under the Assumption \ref{assum} we choose a random element $\alpha$ of
