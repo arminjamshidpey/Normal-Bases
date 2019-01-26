@@ -4,21 +4,21 @@
 One of the well-known proofs of the existence of a normal element for a
 finite Galois extension, suggests a randomized algorithm for finding such
 an element; see \cite[Theorem 6.13.1]{Lang} for the complete proof.  We
-state a part of such a proof up to the point that we need. Assume $\K/\F$ is
-a finite Galois extension with Galois group
-$G = \lbrace g_1 , \ldots , g_n \rbrace$. If $x \in \K$ is a normal element,
-then
+state a part of such a proof up to the point that we need. Assume $\K/\F$
+is a finite Galois extension with Galois group
+$G = \lbrace g_1 , \ldots , g_n \rbrace$. If $x \in \K$ is a normal
+element, then clearly 
 \begin{equation}
   \label{eq:fstrow}
   \sum_{j=1}^n 
   c_j g_j(x)=0, \,\,\, c_j \in \F 
 \end{equation} 
-implies $(c_1, \ldots ,c_n) = 0$. For each $i \in \lbrace 1, \ldots , n\rbrace$, applying $g_i$ to equation (\ref{eq:fstrow}) yields
+implies $(c_1, \ldots ,c_n) = 0$.For each $i \in \lbrace 1, \ldots , n\rbrace$, applying $g_i$ to equation \eqref{eq:fstrow} yields
 \begin{equation} \label{eq:otherrow}
  \sum_{j=1}^n 
  c_j g_i g_j(x)=0.
 \end{equation}
-Using \ref{eq:fstrow} and \ref{eq:otherrow} one can form a linear system $M_G(\alpha)\textbf{v} = \textbf{0}$ where 
+Using \eqref{eq:fstrow} and \eqref{eq:otherrow} one can form a linear system $M_G(\alpha)\textbf{v} = \textbf{0}$ where 
  $$ M_G(x) =
 \begin{bmatrix}
 g_1 g_1(x) & g_1 g_2(x) & \cdots & g_1 g_n(x) \\
@@ -27,7 +27,7 @@ g_2 g_1(x) & g_2 g_2(x) & \cdots & g_2 g_n(x) \\
 g_n g_1(x) & g_n g_2(x) & \cdots & g_n g_n(x) \\
 \end{bmatrix}. 
  $$
- Equation \ref{eq:otherrow} shows that $M_G(x)$ is non-singular. The rest of the proof shows that there exists $\alpha \in \K$ with $\det(M_G(\alpha))\neq 0$.
+ Equation \eqref{eq:otherrow} shows that $M_G(x)$ is non-singular. The rest of the proof shows that there exists $\alpha \in \K$ with $\det(M_G(\alpha))\neq 0$.
  
  
  Above discussion can be used as the basic idea of a randomized algorithm for finding a
@@ -57,7 +57,7 @@ g_n g_1(x) & g_n g_2(x) & \cdots & g_n g_n(x) \\
  Schwartz-Zippel lemma (Proposition \ref{thm:zippel}).
  
  If $\lbrace a_1, \ldots , a_n \rbrace$ is an $\F$-basis for $\K$, then in Equations
-   \ref{eq:fstrow} and \ref{eq:otherrow}, $x$ can be written as $\sum_{i = 1}^nx_i
+   \eqref{eq:fstrow} and \eqref{eq:otherrow}, $x$ can be written as $\sum_{i = 1}^nx_i
     a_i$. Now we can rewrite 
     $$
 M_G(x) = M_G(x_1,\ldots,x_n) =  $$
@@ -113,7 +113,7 @@ $(\Rightarrow)$ Since $\K = \F(\theta)$, for a fixed $\alpha$, any entry of $M_G
  \begin{equation}\label{Eq:Det}
  det(M_G(\alpha))= P(1, \theta, \ldots, \theta^{n-1}) \neq 0
  \end{equation}
- since $M_G(\alpha)$ is invertible. Equation \ref{Eq:Det} implies that $P(x_1, \ldots, x_n)$ is not identically zero over $\F$. Hence applying Theorem \ref{Thm:Zippel} with appropriate choice of parameters, we can see 
+ since $M_G(\alpha)$ is invertible. Equation \eqref{Eq:Det} implies that $P(x_1, \ldots, x_n)$ is not identically zero over $\F$. Hence applying Theorem \ref{Thm:Zippel} with appropriate choice of parameters, we can see 
  the projection of $M_G(\alpha)$ is invertible for a generic choice of projection. 
  
  $(\Leftarrow)$  Note that elements of $G$ can act on 
@@ -134,7 +134,7 @@ $(\Rightarrow)$ Since $\K = \F(\theta)$, for a fixed $\alpha$, any entry of $M_G
  
  
  Now we show that $l(M_G(\alpha))$ is not invertible for all
- choices of $l$. By Equation \ref{Eq:PrimElm} we can write 
+ choices of $l$. By Equation \eqref{Eq:PrimElm} we can write 
  $$M_G(\alpha) = \sum_{j = 1}^n M^{(j)} \theta^j$$ 
  where $M^{j} \in M_{n \times n}(\F)$. 
  
