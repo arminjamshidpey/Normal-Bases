@@ -395,9 +395,22 @@ homomorphism which allows to compute the images efficiently. Hence the first ste
 If $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s = \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$ is the Galois group 
 of $\K/\F$ where $r^s = 1 \mod m$ and $rt = t \mod m$, then
 \begin{enumerate}
-\item The map $\psi $ where,
+\item The map 
+
+\begin{equation}
+\begin{split}
+\psi: \F [G] \rightarrow M_s(R) \\
+\sigma \rightarrow Diag(\bar{x}, \bar{x}^r , \ldots, \bar{x}^{r^{s-1}})\\
+\tau \rightarrow 
+\left[ \begin{array}{l|l}
+0 & \bar{x}\\
+I_{s-1} & 0
+\end{array}
+\right]
+\end{split}
+\end{equation} 
  
-where $\bar{x}$ is the image of $x \in R = \F[x]/(x^m-1)$, is an injective homomorphism.
+where $\bar{x}$ is the image of $x$ in $R = \F[x]/(x^m-1)$, is an injective homomorphism.
 \item For any $u \in \F[G]$, $\psi(u)$ can be computed using $O(s^2m)$ operations over $\F$.
 \item Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
 exponent of matrix multiplication.
