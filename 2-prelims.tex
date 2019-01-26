@@ -16,39 +16,29 @@ implies $(c_1, \ldots ,c_n) = 0$. For each $i \in \lbrace 1, \ldots , n\rbrace$,
  \sum_{j=1}^n 
  c_j g_i g_j(x)=0.
 \end{equation}
-Using \eqref{eq:fstrow} and \eqref{eq:otherrow}, one can form a linear system $\mat{M}_G(\alpha)\textbf{v} = \textbf{0}$ where 
- $$ M_G(x) =
+Using \eqref{eq:fstrow} and \eqref{eq:otherrow}, one can form a linear system $\mat{M}_G(\alpha)\textbf{v} = \textbf{0}$ where,
+for $\alpha$ in $\K$,
+ $$ \mat M_G(\alpha) =
 \begin{bmatrix}
-g_1 g_1(x) & g_1 g_2(x) & \cdots & g_1 g_n(x) \\
-g_2 g_1(x) & g_2 g_2(x) & \cdots & g_2 g_n(x) \\
+g_1 g_1(\alpha) & g_1 g_2(\alpha) & \cdots & g_1 g_n(\alpha) \\
+g_2 g_1(\alpha) & g_2 g_2(\alpha) & \cdots & g_2 g_n(\alpha) \\
 \vdots		& \vdots	& \vdots & \vdots \\
-g_n g_1(x) & g_n g_2(x) & \cdots & g_n g_n(x) \\
+g_n g_1(\alpha) & g_n g_2(\alpha) & \cdots & g_n g_n(\alpha) \\
 \end{bmatrix}. 
- $$
- Equation \ref{eq:otherrow} shows that $M_G(x)$ is non-singular. The rest of the proof shows that there exists $\alpha \in \K$ with $\det(M_G(\alpha))\neq 0$.
+$$ Classical proofs then proceed to show that there exists $\alpha \in \K$ with
+$\det(\mat M_G(\alpha))\neq 0$.
  
+This discussion can be used as the basis of a randomized algorithm for
+finding a normal element: choose a random element $\alpha$ in $\K$
+until we find one such that $ \mat M_G(\alpha)$.
  
- Above discussion can be used as the basic idea of a randomized algorithm for finding a
- normal element.\\
- \\
- \textbf{Algorithm 1.} \label{alg:naive}
- The algorithm takes a finite Galois extension $\K/\F$ with 
- $G =  \mathrm{Gal}(\K/\F) = \lbrace g_1, g_2, \ldots , g_n \rbrace$ and returns a normal
- element $\alpha \in \K$.
- \begin{description}
- \item \textbf{step 1.} choose a random element $\alpha$ in $\K$.
- \item \textbf{step 2.} write the matrix $M_G(\alpha)$.
- \item \textbf{step 3.} if $ M_G(\alpha)$ is invertible\\
-% \hspace{2cm} if $r = n$ \\
- \hspace{10cm} return $\alpha$\\
- \hspace{2cm} else \\
- \hspace{5cm} go to step 1.\\  
- \end{description}
- 
- Clearly the main concerns are step 2 and step 3. As a naive way, one can compute all the entries of the matrix and then 
- use linear algebra to compute the determinant of $M_G(x)$ which uses $O(n^3)$ operations. However, since this is not efficient
- enough, we want to avoid writing the matrix and computing determinants. Before explaining how we can check the invertiblity 
- in an efficient way,it is worth talking about the probability of success for a random choice of $\alpha$.
+A direct implementation computes all the entries of the matrix and
+then use linear algebra to compute its determinant of $M_G(x)$ which
+uses $O(n^3)$ operations. However, since this is not efficient enough,
+we want to avoid writing the matrix and computing determinants. Before
+explaining how we can check the invertiblity in an efficient way,it is
+worth talking about the probability of success for a random choice of
+$\alpha$.
  
  Since we are working over characteristic zero, we are able to consider a finite subset
  of $\K \cong \F^n$ such that the probability of failure is $\dfrac{1}{n}$, using 
