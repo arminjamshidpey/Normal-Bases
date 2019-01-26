@@ -389,14 +389,14 @@ In the previous section we studied the invertibility problem in $\F[G]$ in the a
 group algebra and a tensor product of cyclic algebras. In this brief section we study the same problem for a metacyclic group $G$.
 Although for a group algebra for an abelian group we used an isomorphism, it is actually enough to have an explicit injective
 homomorphism which allows to compute the images efficiently. Hence the first step to solve the problem for a metacylic group, $G$,
- is to find an injective homomorphism from $\F[G]$ to $\oplus_{i}M_{d_i}(D_i)$ where $D_i$'s are division algebras over $\F$. 
+ is to find an injective homomorphism from $\F[G]$ to $\oplus_{i}M_{d_i}(D_i)$ where $D_i$'s are division algebras over $\F$. The
+ following theorem presents an injection of $\F[G]$. This map is similar to the one used in \cite[\S 47]{Curtis}.
 
 \begin{proposition}\label{prop:metinjection}
 If $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s = \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$ is the Galois group 
 of $\K/\F$ where $r^s = 1 \mod m$ and $rt = t \mod m$, then
 \begin{enumerate}
 \item The map 
-
 \begin{equation}
 \begin{split}
 \psi: \F [G] \rightarrow M_s(R) \\
@@ -404,18 +404,17 @@ of $\K/\F$ where $r^s = 1 \mod m$ and $rt = t \mod m$, then
 \tau \rightarrow 
 \left[ \begin{array}{l|l}
 0 & \bar{x}\\
+\hline
 I_{s-1} & 0
 \end{array}
 \right]
 \end{split}
 \end{equation} 
- 
 where $\bar{x}$ is the image of $x$ in $R = \F[x]/(x^m-1)$, is an injective homomorphism.
 \item For any $u \in \F[G]$, $\psi(u)$ can be computed using $O(s^2m)$ operations over $\F$.
 \item Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
 exponent of matrix multiplication.
 \end{enumerate}
-
 \end{proposition}
 
 \begin{proof}
