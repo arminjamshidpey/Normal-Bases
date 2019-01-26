@@ -392,73 +392,100 @@ homomorphism which allows to compute the images efficiently. Hence the first ste
  is to find an injective homomorphism from $\F[G]$ to $\oplus_{i}M_{d_i}(D_i)$ where $D_i$'s are division algebras over $\F$. 
 
 \begin{proposition}\label{prop:metinjection}
-Suppose $G = \langle \sigma , \tau : \sigma^n = 1, \tau^m = \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$ is the Galois group 
-of $\K/\F$. The map $\varphi = \underset{d \vert n}{\oplus} \varphi_d$ where,
-\begin{equation}
-\begin{split}
-\varphi_1: \F[G] \longrightarrow M_m(\F) \\
-\sigma \longrightarrow I_m \\
-\tau \longrightarrow 
-\left[ \begin{array}{l|l}
-0 & 1\\
-\hline
-I_{m-1}& 0
-\end{array} \right] \\
-\varphi_d: \F[G] \longrightarrow M_{m}(\F(\zeta_d))\\
-\sigma \longrightarrow \mathrm{Diag}(\zeta_d, \zeta_d^r, \ldots , \zeta_d^{r^{m-1}})\\
-\tau \longrightarrow 
-\left[ \begin{array}{l|l}
-0 & 1\\
-\hline
-I_{m-1}& 0
-\end{array} \right]
-\end{split}
-\end{equation}
-where $\zeta_d$ is a primitive $d$-th root of unity, is an injective homomorphism.
+If $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s = \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$ is the Galois group 
+of $\K/\F$ where $r^s = 1 \mod m$ and $rt = t \mod m$, then
+\begin{enumerate}
+\item The map $\psi $ where,
+ 
+where $\bar{x}$ is the image of $x \in R = \F[x]/(x^m-1)$, is an injective homomorphism.
+\item For any $u \in \F[G]$, $\psi(u)$ can be computed using $O(s^2m)$ operations over $\F$.
+\item Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
+exponent of matrix multiplication.
+\end{enumerate}
+
 \end{proposition}
 
 \begin{proof}
 It is not hard to verify that 
-$$\varphi(\sigma)^n = I_m$$
-$$\varphi(\tau)^m = \varphi(\sigma)^t$$
-$$\varphi(\tau)^{-1}\varphi_i(\sigma) \varphi_i(\tau) = \varphi_i(\sigma)^r$$
-which shows that $\varphi$ is a well defined homomorphism. 
+$$\psi(\sigma)^n = I_m$$
+$$\psi(\tau)^m = \psi(\sigma)^t$$
+$$\psi(\tau)^{-1}\psi_i(\sigma) \psi_i(\tau) = \psi_i(\sigma)^r$$
+which shows that $\psi$ is a well defined homomorphism. 
 
-Assume $u = \sum_{j = 0}^m \left( \sum_{i = 0}^n u_{ij} \sigma^i \right) \tau^j \in \mathrm{Ker}(\varphi).$ If
-$F_j(x) = \sum_{i = 0}^n u_{ij}x^i$, $F^{(d)}_{i,j} = F_i(\zeta_d^{r^j})$ and $\bar{F_i} = F_i(1)$, then 
-$$\varphi_d(u) = 
-\left[\begin{array}{lllll}
-F^{(d)}_{0,0} & F^{(d)}_{m-1,1}	& \cdots	&	F^{(d)}_{2,0} & F^{(d)}_{1,0}\\
-F^{(d)}_{1,1} & F^{(d)}_{0,1}& F^{(d)}_{m-1,2} &\cdots & F^{(d)}_{2,1}\\
-F^{(d)}_{2,3} & F^{(d)}_{1,2}& F^{(d)}_{0,2} &\cdots & F^{(d)}_{3,m-1}\\
-&\ddots & \ddots & \ddots&\\
-F^{(d)}_{m-1,0}	&	&	& F^{(d)}_{1,m-1}	& F^{(d)}_{0,m-1}
+Assume $u = \sum_{j = 0}^m \left( \sum_{i = 0}^n u_{ij} \sigma^i \right) \tau^j \in \mathrm{Ker}(\psi).$ If
+$F_j(x) = \sum_{i = 0}^n u_{ij}x^i$, $F_{i,j} = F_{i-1}(\bar{x}^{r^{j-1}})$ for $1 \leq i,j \leq s$, then 
+\begin{equation}\label{eq:injection}
+\psi_d(u) = 
+\left[\begin{array}{llll}
+F_{1,1} &  \cdots	&	\bar{x}F_{2,s-1} & \bar{x}F_{1,0}\\
+F_{2,1} & F_{1,2}& \cdots & \bar{x}F_{2,s}\\
+\vdots &\ddots & \ddots& \vdots\\
+F_{s,1}& \cdots & F_{2,s-2}	& F_{1,s}
 \end{array}
 \right].
-$$
-Hence we get $F_i(\zeta_d^{r^j}) =0$ which implies that all the Galois conjugates of $\zeta_d$ are zeros of $F_i$. On the other hand by applying $\varphi_2$ we get
-$$\varphi_1(u) = 
-\left[\begin{array}{lllll}
-\bar{F}_{0} & \bar{F}_{m-1}	& \cdots	&	\bar{F}_{2} & \bar{F}_{1}\\
-\bar{F}_{1} & \bar{F}_{0}& \bar{F}_{m-1} &\cdots & \bar{F}_{2}\\
-\bar{F}_{2} & \bar{F}_{1}& \bar{F}_{0} &\cdots & \bar{F}_{3}\\
-&\ddots & \ddots & \ddots&\\
-\bar{F}_{m-1}	&	&	& \bar{F}_{1}	& \bar{F}_{0}
-\end{array}
-\right].
-$$
-$F_i(1) = 0$. Since $F_i$ and $x^n-1$ share the same roots while $deg(F_i) = n-1$, 
-$F_i = 0$ for $0 \leq i \leq m-1$, which means that $\varphi$ is injective.
+\end{equation}
+Hence we get $F_i(\bar{x}) =0$ which implies $F_i = 0$ for $0 \leq i \leq s$. this finishes the proof of (1). 
+
+For (2), we note that $\bar{x}^{r^i} = \bar{x}^{r^i \mod m}$ which can be computed easily. Then we have to compute
+$F_{i,j}(\bar{x}^i)$ for $1 \leq i,j \leq s$, which can be done in linear time on the size of input, that is $m$,
+Hence the matrix can be computed in $O(s^2m)$.
+
+One can get $\psi(u)$ by using (2) and then its determinant is computable using $O(s^\omega m)$ operations over $\F$. 
 \end{proof}
 
-\begin{proposition}
-Under Assumption \ref{assum}, let $G$ be a metacyclic group presented in Lemma \ref{lem:metinjection}. The invertibility of $l(\osum{G}{K}) \in \F[G]$ can be decided using $O(m^2n)$ operations in $\F$, for a linear projection $l: K\rightarrow F$.
-\end{proposition}
+%In the previous section we studied the invertibility problem in $\F[G]$ in the abelian case, based on the isomorphism between the
+%group algebra and a tensor product of cyclic algebras. In this brief section we study the same problem for a metacyclic group $G$.
+%Although for a group algebra for an abelian group we used an isomorphism, it is actually enough to have an explicit injective
+%homomorphism which allows to compute the images efficiently. Hence the first step to solve the problem for a metacylic group, $G$,
+% is to find an injective homomorphism from $\F[G]$ to $\oplus_{i}M_{d_i}(D_i)$ where $D_i$'s are division algebras over $\F$. 
+%
+%\begin{proposition}\label{prop:metinjection}
+%If $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s = \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$ is the Galois group 
+%of $\K/\F$ where $r^s = 1 \mod m$ and $rt = t \mod m$, then
+%\begin{itemize}
+%\item The map $\psi $ where,
+%% 
+%where $\bar{x}$ is the image of $x \in R = \F[x]/(x^m-1)$, is an injective homomorphism.
+%\item For any $u \in \F[G]$, $\varphi(u)$ can be computed using $O(s^2m)$ operations over $\F$.
+%\item Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
+%exponent of matrix multiplication.
+%\end{itemize}
 
-\begin{proof}
-Let $\varphi$ be the map defined in Lemma \ref{lem:metinjection}. At first we compute $\varphi(l(\osum{G}{K}) \in M_m(F) \oplus M_m(F(\zeta))$. Suppose $l(\osum{G}{K}) = \sum_{j = 1}^m\left( \sum{i = 1}^n l_{ij}\sigma^i \right)\tau^j.$ We have 
-$$\varphi(l(\osum{G}{K}) = \sum_{j = 1}^m\left( \sum{i = 1}^n l_{ij}M_{\sigma}^i \right)M_{\tau}^j$$
-\end{proof}
+%\end{proposition}
+
+%\begin{proof}
+%It is not hard to verify that 
+%$$\psi(\sigma)^n = I_m$$
+%$$\varphi(\tau)^m = \varphi(\sigma)^t$$
+%$$\varphi(\tau)^{-1}\varphi_i(\sigma) \varphi_i(\tau) = \varphi_i(\sigma)^r$$
+%which shows that $\varphi$ is a well defined homomorphism. 
+%
+%Assume $u = \sum_{j = 0}^m \left( \sum_{i = 0}^n u_{ij} \sigma^i \right) \tau^j \in \mathrm{Ker}(\varphi).$ If
+%$F_j(x) = \sum_{i = 0}^n u_{ij}x^i$, $F^{(d)}_{i,j} = F_i(\zeta_d^{r^j})$ and $\bar{F_i} = F_i(1)$, then 
+%$$\varphi_d(u) = 
+%\left[\begin{array}{lllll}
+%F^{(d)}_{0,0} & F^{(d)}_{m-1,1}	& \cdots	&	F^{(d)}_{2,0} & F^{(d)}_{1,0}\\
+%F^{(d)}_{1,1} & F^{(d)}_{0,1}& F^{(d)}_{m-1,2} &\cdots & F^{(d)}_{2,1}\\
+%F^{(d)}_{2,3} & F^{(d)}_{1,2}& F^{(d)}_{0,2} &\cdots & F^{(d)}_{3,m-1}\\
+%&\ddots & \ddots & \ddots&\\
+%F^{(d)}_{m-1,0}	&	&	& F^{(d)}_{1,m-1}	& F^{(d)}_{0,m-1}
+%\end{array}
+%\right].
+%$$
+%Hence we get $F_i(\zeta_d^{r^j}) =0$ which implies that all the Galois conjugates of $\zeta_d$ are zeros of $F_i$. On the other hand by applying $\varphi_2$ we get
+%$$\varphi_1(u) = 
+%\left[\begin{array}{lllll}
+%\bar{F}_{0} & \bar{F}_{m-1}	& \cdots	&	\bar{F}_{2} & \bar{F}_{1}\\
+%\bar{F}_{1} & \bar{F}_{0}& \bar{F}_{m-1} &\cdots & \bar{F}_{2}\\
+%\bar{F}_{2} & \bar{F}_{1}& \bar{F}_{0} &\cdots & \bar{F}_{3}\\
+%&\ddots & \ddots & \ddots&\\
+%\bar{F}_{m-1}	&	&	& \bar{F}_{1}	& \bar{F}_{0}
+%\end{array}
+%\right].
+%$$
+%$F_i(1) = 0$. Since $F_i$ and $x^n-1$ share the same roots while $deg(F_i) = n-1$, 
+%$F_i = 0$ for $0 \leq i \leq m-1$, which means that $\varphi$ is injective.
+%\end{proof}
 
 
 
