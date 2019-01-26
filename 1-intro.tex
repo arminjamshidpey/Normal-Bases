@@ -1,87 +1,115 @@
 \section{Introduction}
 
-For a finite Galois extension field $K/F$, with Galaois group
-$G = \mathrm{Gal}(K/F)$, an element $\alpha \in K$ is called \emph{normal}
-if the set of Galois conjugates of $\alpha$, $\{g\in G: g(\alpha)\}$, forms
-a basis for $K$ as a vector space over $F$. The existence of normal element
-for any finite Galois extension is classical, and constructive proofs are
-provided in most abstract algebra texts (see, e.g., \cite{Wae70},
-Section~8.11).
+For a finite Galois extension field $\K/\F$, with Galois group $G =
+\mathrm{Gal}(\K/\F)$, an element $\alpha \in K$ is called
+\emph{normal} if the set of its Galois conjugates $G \cdot \alpha =
+\{g\in G: g(\alpha)\}$ forms a basis for $\K$ as a vector space over
+$\F$. The existence of normal element for any finite Galois extension
+is classical, and constructive proofs are provided in several texts
+(see, e.g., \cite{Wae70}, Section~8.11).
  
-There are a wide range of applications of normal bases in finite
-fields. Fast exponentiation or computing the action of the Frobenius and
-point counting on elliptic curves are some of their applications. There are
-also applications of normal elements in characteristic zero. For example,
-for a given permutation lattice and appropriate Galois extension, a normal
-basis is useful in computing the multiplicative invariants explicitly (see
-\cite{Armin} for more details).
+While there is a wide range of well-known applications of normal
+bases in finite fields, such as fast
+exponentiation~\cite{GaGaPaSh00}, there are also exist applications of
+normal elements in characteristic zero; for instance, in
+multiplicative invariant theory, for a given permutation lattice and
+related Galois extension, a normal basis is useful in computing the
+multiplicative invariants explicitly~\cite{Armin}.
 
 A number of algorithms are available for finding a normal element in
-characteristic zero fields and finite fields.  Because of their immediate
-applications in finite fields, algorithms for determining normal elements
-in this case has seen the most activity.  A fast randomized algorithm for
-determining a normal element in a finite field $\FF_{q^n}/\FF_q$, where
-$\FF_{q^n}$ is the finite field with $q^n$ elements for any prime power
-$q$ and integer $n>1$, is presented by \citeN{Giesbrecht}, with a cost of
-$O(n^2+n\log q)$ operations in $\FF_q$.  A faster randomized algorithm is
-introduced by \citeN{Kaltofen}, with a cost of $O(n^{1.8})$ operations in
-$\FF_q$.  \citeN{LenstraNormal} introduced a deterministic algorithm to
-construct a normal element which uses $O(n^{O(1)})$ operations in
-$\FF_{q^n}/\FF_q$.  To the best of our knowledge, the algorithm of
-\citeN{AugCam94} is the most efficient deterministic method, with a cost of
-$O(n^3+n^2\log q)$ operations in $\FF_q$.
+characteristic zero fields and finite fields.  Because of their
+immediate applications in finite fields, algorithms for determining
+normal elements in this case are most commonly seen.  A fast
+randomized algorithm for determining a normal element in a finite
+field $\FF_{q^n}/\FF_q$, where $\FF_{q^n}$ is the finite field with
+$q^n$ elements for any prime power $q$ and integer $n>1$, is presented
+by \citeN{Giesbrecht}, with a cost of $O(n^2+n\log q)$ operations in
+$\FF_q$.  A faster randomized algorithm is introduced by
+\citeN{Kaltofen}, with a cost of $O(n^{1.815}\log q)$ operations in
+$\FF_q$; in a bit complexity model, Kedlaya and Umans showed how to
+reduce the exponent of $n$ to $1.5+\varepsilon$ (for any $varepsilon >
+0$), by leveraging their quasi-linear time algorithm for {\em modular
+  composition}~\cite{KeUm11}. \citeN{LenstraNormal} introduced a
+deterministic algorithm to construct a normal element which uses
+$O(n^{O(1)})$ operations in $\FF_{q^n}/\FF_q$.  To the best of our
+knowledge, the algorithm of \citeN{AugCam94} is the most efficient
+deterministic method, with a cost of $O(n^3+n^2\log q)$ operations in
+$\FF_q$.
 
-In characteristic zero, \citeN{SchSte93} gives an algorithm for finding a
-normal basis of a number field over $\QQ$ with a cyclic Galois group which
-requires $O(n^{O(1)})$ operations in $\QQ$.  \citeN{Pol94} gives an
-algorithm for the more general case of finding a normal basis in an abelian
-extension $K/F$ which requires $O(n^{O(1)})$ in $\F$.  More generally in
-characteristic zero, for any Galois extension $K/F$ of degree $n$ with
-Galois group given by a collection of $n$ matrices, \citeN{Girstmair} gives
-an algorithm which requires $O(n^4)$ operations in $F$ to construct a
-normal element in $K$.
+In characteristic zero, \citeN{SchSte93} gave an algorithm for finding
+a normal basis of a number field over $\QQ$ with a cyclic Galois group
+of cardinality $n$ which requires $O(n^{O(1)})$ operations in $\QQ$.
+\citeN{Pol94} gives an algorithm for the more general case of finding
+a normal basis in an abelian extension $\K/\F$ which requires
+$O(n^{O(1)})$ in $\F$.  More generally in characteristic zero, for any
+Galois extension $\K/\F$ of degree $n$ with Galois group given by a
+collection of $n$ matrices, \citeN{Girstmair} gives an algorithm which
+requires $O(n^4)$ operations in $\F$ to construct a normal element in
+$\K$.
 
-In this paper we present a new randomized algorithm for finding a normal
-element in case of abelian and metacyclic extensions which is subquadratic
-in the degree of the extension. The idea behind the algorithm is similar to
-ideas in \cite{Giesbrecht,Kaltofen}. Since one of the of the assumptions in
-the results of this paper is the same, we state it here for future
-references .
-
+In this paper we present a new randomized algorithm for finding a
+normal element for abelian and metacyclic extensions, with a runtime
+subquadratic in the degree $n$ of the extension. The costs of all
+algorithms are measured by counting arithmetic operations in $\F$ at
+unit cost; the questions related to the bit-complexity of our
+algorithms are challenging, and far from the scope of this paper.  Our
+main conventions are the following.
 \begin{assumption}
   \label{assum}
-  Let $K/F$ be a finite Galois extension presented as$F[x]/(f)$ for an
-  irreducible polynomial $f\in F[x]$ of degree $n$, and
-  $G = \mathrm{Gal}(K/F)$. Moreover, let $\alpha$ be an element of $K$ and
-  the action of generators of $G$, such as $g$, on $K$ is given by its
-  action on $\bar{x} = x \mod f.$ In other words, $g(\bar{x})$ is given for
-  any generator $g$ of $G$.
+  Let $\K/\F$ be a finite Galois extension presented as
+  $\K=\F[x]/\langle F(x)\rangle$, for an irreducible polynomial $F\in
+  \F[x]$ of degree $n$. Then,
+  \begin{itemize}
+  \item elements of $\K$ are written on the power basis $1,\bar x,\dots,\bar x^{n-1}$,
+    where $\bar x = x \mod F$;
+  \item elements of $G$ are represented by their action on $\bar x$.
+  \end{itemize}
 \end{assumption}
+In particular, for $\sigma \in G$ given by means of
+$\gamma:=\sigma(\bar x) \in \K$, $\sigma$ being an $\F$-automorphism
+implies that $\sigma(\beta)$ is equal to $\beta(\gamma)$.
 
-\begin{remark}
-  With the above assumption, suppose
-  $$\beta = \sum_{0\leq i \leq n-1} a_i \bar{x}^i \in F[\bar{x}]$$. For any
-  $g \in G$ and integer $t,$ we have
-  \begin{equation}
-    \label{rmk:comute}
-    g^t(\beta) = \sum_{0\leq i \leq n-1} a_i g^t(\bar{x}^i) = \beta(g^t(\bar{x}))
-  \end{equation}
-  since $g$ acts trivially on $a_i$.
-\end{remark}
+Our algorithms combine techniques and ideas due
+to~\cite{Giesbrecht,Kaltofen}: $\alpha \in \K$ is normal if and only
+if the element $S_\alpha := \sum_{\sigma \in G} \sigma(\alpha)\sigma
+\in \K[G]$ is invertible in the group algebra $\K[G]$. The algorithms
+choose $\alpha$ at random; a generic choice is normal (so we expect
+$O(1)$ random trials to be sufficient); however, writing down
+$S_\alpha$ involves $\Theta(n^2)$ elements in $\F$, which precludes a
+subquadratic runtime. Knowing $\alpha$, the algorithms use a
+randomized reduction to a similar question in $\F[G]$, that amounts to
+applying a random projection $\K\to\F$ to all entries of $S_\alpha$;
+in that, we adapt algorithms from~\cite{Kaltofen} that were written
+for Galois groups of finite fields.
 
-Under the Assumption \ref{assum} we choose a random element $\alpha$ of
-$K$. We use a known fact that, $\alpha$ is normal if
-$M_G(\alpha) \in M_{n\times n}(K)$, an associated matrix to $\alpha$ (see
-Section 2 for the definition), is invertible.  Afterwards we reduce the
-invertiblity of $M_G(\alpha)$ to invertiblity of a random projection an
-associated element $\osum{G}{K} \in K[G]$ which lies in $F[G]$, the group
-ring of $G$ over $F$.
 
-Section \ref{sec:pre} of this paper is devoted to provide the definitions
-and preliminary discussions. In Section \ref{sec:osum} the orbit sum
-problem is discussed and two algorithms are presented which can be applied
-to compute projections of orbit sums.  Finally in the last section we do
-what?!
+Section \ref{sec:pre} of this paper is devoted to definitions and
+preliminary discussions; in Section \ref{sec:osum} two
+subquadratic-time algorithms are presented for the randomize reduction
+of our main question to invertibility testing in $\F[G]$, for
+respectively abelian and metacyclic groups.  Finally, in the last
+section, we show that the latter problem can be solved in subquadratic
+time as well for the families of groups we consider.
+
+This paper is written under the point of view of asymptotic complexity
+estimates. Since our main goal is to highlight the exponent (in $n$)
+in our runtime analyses, costs are given using the soft-O notation:
+$S(n)$ is in $\tilde{O}(T(n))$ if it is in $O(T(n) \log(T(n))^c)$, for
+some constant $c$. Our algorithms make extensive of known algorithms
+for polynomial and matrix arithmetic; in particular, we use repeatedly
+the fact that polynomials of degree $d$ in $\F[x]$, for any field $\F$
+of characterisic zero, can be multiplied in $\tilde{O}(n)$ operations
+in $\F$~\cite{ScSt71}. 
+
+For matrix arithmetic, we will rely on some non-trivial results about
+rectangular matrix multiplication initiated~\cite{LoRo83}. For $k \in
+\mathbb{R}$, we denote by $\omega(k)$ a constant such that over any
+ring, matrices of sizes $(n,n)$ by $(n,\lceil n^k \rceil)$ can be
+multiplied in $O(n^{\omega(k)})$ ring operations (so $\omega(1)$ is
+the usual cost of matrix multiplication).  The sharpest values known
+to date are from~\cite{LeGall}.
+
+
 
 %%% Local Variables:
 %%% mode: latex
