@@ -1,68 +1,102 @@
 \section{Computing projections of the orbit sum}\label{sec:osum}
 
-So far we have reduced the problem of invertiblity of $M_G(\alpha)$ to $l(\osum{G}{K}) \in F[G]$ for a generic
-projection $l$. In order to compute $l(\osum{G}{K})$ we need $l(g(\alpha)) \in F$ for $g \in G$. In this section we present 
-algorithms to compute the mentioned terms which lead to compute $\osum{G}{K}$ in case that $G$ is either abelian or metacyclic. 
-The best way to start is to take a look at the simplest case which is the cyclic one. 
+In this section we present algorithms to compute $s_{\alpha,\ell}$,
+when $G$ is either abelian or metacyclic. We start by sketching our
+ideas in simplest case, cyclic groups; we will see that they follow
+closely ideas used in \cite{Kaltofen} over finite fields.
 
-Suppose $G = \langle g \rangle$
-where $g$ is the Frobenius map. In \cite{Kaltofen} the problem of
-computing 
+Suppose $G = \langle g \rangle$, so that given $\alpha$ in $K$ and
+$\ell: \K \to \F$, our goal is to compute
 \begin{equation}\label{eq:cycproj}
-l(g^i(\alpha)), 0 \leq i \leq n-1,
+  \ell(g^i(\alpha)), 0 \leq i \leq n-1.
 \end{equation}
-is called automorphism projection problem and an algorithm to solve 
-the problem is introduced. Here we briefly explain the idea of the mentioned algorithm and later on we introduce a
-generalized version of it which works for any finite abelian group.
-
-With $l,g,G$ as above, $\alpha \in K$ and $Q$ as the corresponding matrix to Frobenius map, the values in \eqref{eq:cycproj} is rewritten as
-$$(lQ^{tj})\cdot(Q^i\alpha), \,\, 0 \leq j <m, 0 \leq i <t$$
- for a chosen value $t$, can be computed in three steps. The first step is to compute $Q^i\alpha$ for $0 \leq i <t$. Afterwards
- compute $lQ^{tj}$ for $0 \leq j <m$ by doing $m-1$ transposed modular composition which in turn uses an algorithm given
- in \cite{Shoup}. At the end the terms in \eqref{eq:cycproj} can be computed by a matrix multiplication.
+Kaltofen and Shoup called this the {\em automorphism projection}
+problem and gave an algorithm to solve it in subquadratic time, when
+$g$ is the $q$-power Frobenius $\F_{q^n} \to \F_{q^n}$. 
+The key idea in their algorithm is to use baby steps and giant step
+techniques: for a suitable parameter $t$, the values in \eqref{eq:cycproj} can be rewritten as
+$$(\ell \circ g^{tj})(g^i(\alpha)), \quad 0 \leq j < m:=\lceil n/t
+\rceil,\quad 0 \leq i <t.$$ First, we compute all $G_i:=g^i(\alpha)$
+for $0 \leq i <t$; then all $L_j:=\ell \circ g^{tj}$ for $0 \leq j
+<m$, where the $L_j$'s are themselves linear mappings $\K \to \F$;
+finally, a matrix product yields all values $L_j(G_i)$.
  
-the details of above computations in \cite{Kaltofen} is presented useing 3 lemmas. At this point we provide the following 
-lemmas which are variants of \cite[Lemma 3, Lemma 4 $\&$ Lemma 8]{Kaltofen}, with a slight modification in the proofs.
+The original algorithm relies on the properties of the Frobenius
+mapping to achieve subquadratic runtime. In our case, we cannot apply
+these results directly; instead, we have to revisit the proofs
+of~\cite[Lemmata 3, 4 $\&$~ 8]{Kaltofen}, introducing
+considerations about rectangular matrix multiplication.
 
-\begin{lemma}\cite{Kaltofen}\label{lem:modcom}
-Assume $K$ is a field, $f\in K[x]$ is of degree $n$ and $s = \lceil\sqrt{n}\rceil$. Given $g_1, \ldots , g_{s}$ and 
-$h \in K[x]$ of degree less than $n$, $$g_1(h), \ldots g_{s}(h) \mod f$$ can be computed in
-$O(n^{\frac{3}{4}\omega(\frac{4}{3})})$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
-multiplication as introduced in \cite{LeGall}. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Multiple automorphim evaluation and applications}
+
+The key to these algorithms is the remark following
+Assumption~\ref{assum}, which reduces automorphism evaluation to
+composition of polynomials (over finite fields, this idea goes back
+to~\cite{GaSh92}, where it was credited to Kaltofen).
+
+\begin{lemma}\label{lem:modcom}
+  Given $\alpha_1,\dots,\alpha_s$ in $\K$ and $g$ in $G =
+  \mathrm{Gal}(\K/\F)$, with $s = O(\sqrt{n})$, we can compute
+  $g(\alpha_1),\dots,g(\alpha_s)$ in $\tilde
+  O(n^{{3}/{4}\omega({4}/{3})})$ operations in $\F$.
 \end{lemma}
-
 \begin{proof}
-Let $t = \lceil n^{3/4} \rceil$ and rewrite $g_1 , \ldots , g_s$ as 
-$$g_i = \sum_{0 \leq j < n/t} g_{ij}x^{tj}.$$
-Now $g_{ij}$'s are polynomials of degree less than $t$. The next step is to compute $H_i = h^i \mod f$ for $i = 0 , \ldots , t$.
-Having $H_i$'s in hand one can form the matrix $H = \left[ H_1 \vert \cdots \vert H_t \right]^T$ where each column is the vector of 
-the element $H_i$ (with coefficients in $K$) so the matrix $H$ is of size $t \times n$. We form 
-$$A = \left[\bar{g}_{10}\vert \cdots \vert \bar{g}_{1(n/t-1)}\vert \cdots \vert \bar{g}_{s0}\vert \cdots \vert \bar{g}_{s(n/t-1)}\right]^T,$$
-where $\bar{g}_{ij}$ is the  vector of $g_{ij}$. In order to compute $g_{ij}(h)$ one can compute $A \cdot H$. Using 
-results from \cite{LeGall}, this can be done in $O(n^{3/4 \omega(4/3)})$. The last step to get $g_i(h)$, is to substitute $H_t$ 
-for $x^t$ and performing a Horner evaluation scheme. The dominant term in the cost of this calculation, is the cost of computing $AH$ which can be carried out using $O(n^{3/4 \omega(4/3)})$ operations in $K$.
+(Compare \cite[Lemma~3]{Kaltofen}.) As noted above, for $i\le s$,
+  $g(\alpha_i) = \alpha_i(\gamma)$, with $\gamma := g(\bar x) \in \K$.
+
+  Let $t := \lceil n^{3/4} \rceil$, $m:=\lceil n/t\rceil$, and rewrite $\alpha_1 , \ldots , \alpha_s$ as 
+$$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\bar x^{tj},$$ where the
+  $a_{i,j}$'s are polynomials of degree less than $t$. The next step
+  is to compute $\Gamma_i := \gamma^i$, for $i = 0 , \ldots , t$;
+  there are $t$ products in $\K$ to do, so this amounts to
+  $\tilde{O}(n^{7/4})$ operations in $\F$.
+
+  Having $H_i$'s in hand one can form the matrix $H = \left[ H_1 \vert
+    \cdots \vert H_t \right]^T$ where each column is the vector of the
+  element $H_i$ (with coefficients in $K$) so the matrix $H$ is of
+  size $t \times n$. We form
+$$A = \left[\bar{g}_{10}\vert \cdots \vert \bar{g}_{1(n/t-1)}\vert
+  \cdots \vert \bar{g}_{s0}\vert \cdots \vert
+  \bar{g}_{s(n/t-1)}\right]^T,$$ where $\bar{g}_{ij}$ is the vector of
+$g_{ij}$. In order to compute $g_{ij}(h)$ one can compute $A \cdot
+H$. Using results from \cite{LeGall}, this can be done in $O(n^{3/4
+  \omega(4/3)})$. The last step to get $g_i(h)$, is to substitute
+$H_t$ for $x^t$ and performing a Horner evaluation scheme. The
+dominant term in the cost of this calculation, is the cost of
+computing $AH$ which can be carried out using $O(n^{3/4 \omega(4/3)})$
+operations in $\F$.
 \end{proof}
 
-\begin{lemma}\cite{Kaltofen}\label{lem:selfcomp}
-Under Assumption \ref{assum}, for $\lbrace s_1, \ldots s_r \rbrace \subset \mathbb{N}$
-such that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $g_1, \ldots , g_{r} \in G = \mathrm{Gal}(K/F)$ 
-$$g_1^{i_1}\cdots g_r^{i_r}(\alpha) , 1 \leq j \leq r, 
-0 \leq i_j \leq s_j$$ can be 
-computed in $\osumcosttilde$ where $\omega(\frac{4}{3})$ is the exponent of rectangular matrix 
-multiplication as introduced in \cite{LeGall}. 
+\begin{lemma}\label{lem:selfcomp}
+Given $\alpha$ in $\K$, $g_1, \ldots , g_{r}$ in $G =
+\mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
+that $\prod_{i = 1}^r s_i = O(\sqrt{n})$, all
+  $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) ,\quad \text{~for~} 0 \leq i_j
+  \leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$ operations in $\F$.
 \end{lemma}
-
 \begin{proof}
-Suppose $1 \leq m \leq r$ is fixed and we have computed $$g_m^{i_m}\cdots g_1^{i_1}(\alpha) ,\,  1 \leq j < m, \, 
-0 \leq i_j \leq s_j, \, 0 \leq i_m \leq k_m.$$
-Then we can get $$g_m^{i_m}\cdots g_1^{i_1}(\alpha) ,\, 1 \leq j < m, \, 0 \leq i_j \leq s_j,\, 0 \leq i_m \leq 2k_m,$$
-by computing 
-$$g_m^{k_m}(g_m^{i_m}\cdots g_1^{i_1}(\alpha)),\, 1 \leq j \leq r,\, 0 \leq i_j \leq s_j,\, 0 \leq i_m \leq k_m$$
-which can be carried out using $\osumcost$ operations in $F$ by applying Lemma \ref{lem:modcom} and using Remark \ref{rmk:comute}.
-Using above doubling method for $g_i$, we have to do $O(\log s_i)$ iterations with $\osumcost$ operations in $F$. Hence the total cost of this 
-computation is $\osumcosttilde$
+(Compare \cite[Lemma~4]{Kaltofen}) Suppose $1 \leq m \leq r$ is
+  fixed and we have computed 
+$$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
+  i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
+  the automorphism $\eta:=g_m^{k_m}$ (by means of its value at $\bar
+  x$, as per our convention).
+  
+ Then, we can get $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
+ \leq j < m$, and $0 \leq i_m < 2k_m$, by computing
+ $\eta(G_{i_1,\dots,i_m})$, for all indices $i_1,\dots,i_m$
+ available to us, that is, $0 \leq i_j \leq s_j$ if $1 \leq j < m$,
+ and $0 \leq i_m < k_m$. This can be carried out using $\osumcost$
+ operations in $\F$ by applying Lemma \ref{lem:modcom}.
 
-Note that for each $g_i$ we have to compute $g_i^{2^j}$ for $0 \leq j \leq \log(s_i)$ but this is just a one time computation for each $g_i$
+ Using above doubling method for $g_i$, we have to
+ do $O(\log s_i)$ iterations with $\osumcost$ operations in $F$. Hence
+ the total cost of this computation is $\osumcosttilde$.
+
+Note that for each $g_i$ we have to compute $g_i^{2^j}$ for $0 \leq j
+\leq \log(s_i)$ but this is just a one time computation for each $g_i$
 which does not change the total cost.
 \end{proof}
 
@@ -117,11 +151,10 @@ using $O(\log s_t)$ times the cost of the matrix multiplication which is $\osumc
 $\osumcosttilde$ 
 \end{proof}
 
-
-At this point we have enough tools to see how the computation is done in the cyclic case. Moreover, we can use the above lemmas
-to give an algorithm for a more general case, namely the abelian case. With a little bit more work we can state an algorithm 
-which solves the automorphism projection problem when $G = \lbrace a^ib^j \rbrace$ where $m \leq n$. As an specific case this
-solves the problem for metacyclic groups.
+%% At this point we have enough tools to see how the computation is done in the cyclic case. Moreover, we can use the above lemmas
+%% to give an algorithm for a more general case, namely the abelian case. With a little bit more work we can state an algorithm 
+%% which solves the automorphism projection problem when $G = \lbrace a^ib^j \rbrace$ where $m \leq n$. As an specific case this
+%% solves the problem for metacyclic groups.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
