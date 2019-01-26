@@ -104,32 +104,33 @@ University of Waterloo}
 
 
 % The default list of authors is too long for headers.
-\renewcommand{\shortauthors}{M. Giesbrecht et al.}
+\renewcommand{\shortauthors}{Giesbrecht, Jamshidpey, Schost}
 
 \def\F{\mathbb{F}}
 \def\N{\mathbb{N}}
 \def\K{\mathbb{K}}
 \def\A{\mathbb{A}}
+\def\H{\mathbb{H}}
 \def\B{\mathbb{B}}
 \def\Z{\mathbb{Z}}
 \def\C{\mathbb{C}}
 \def\Q{\mathbb{Q}}
-
-
+\def\D{\mathbb{D}}
+\newcommand{\QQ}{\mathbb{Q}}
 
 
 \begin{abstract}
-  It is well known that for any finite Galois extension field $K/F$, with
-  Galois group $G = \mathrm{Gal}(K/F)$, there exists an element
-  $\alpha \in K$, such that its orbit, $G\cdot\alpha$, forms an $F$-basis
-  of $K$. Such an element $\alpha$, is called \emph{normal} and
-  $G\cdot \alpha$ is called a normal basis. In this paper we introduce a
-  probabilistic algorithm for finding a normal element when $G$ is either a
-  finite abelian or a metacyclic group. The algorithm is based on the fact
-  that deciding whether a random element $\alpha \in K$ is normal, can be
-  reduced to the decision problem of whether
-  $\sum_{\sigma \in G} \sigma(\alpha)\sigma \in K[G]$ is invertible.  The
-  cost of our algorithm is subquadratic in the input size.
+  It is well known that for any finite Galois extension field $\K/\F$,
+  with Galois group $G = \mathrm{Gal}(\K/\F)$, there exists an element
+  $\alpha \in \K$ whose orbit $G\cdot\alpha$ forms an $\F$-basis of
+  $\K$. Such an element $\alpha$ is called \emph{normal} and
+  $G\cdot\alpha$ is called a normal basis. In this paper we introduce
+  a probabilistic algorithm for finding a normal element when $G$ is
+  either a finite abelian or a metacyclic group. The algorithm is
+  based on the fact that deciding whether a random element $\alpha \in
+  \K$ is normal can be reduced to deciding whether $\sum_{\sigma \in
+    G} \sigma(\alpha)\sigma \in \K[G]$ is invertible. In an algebraic
+  model, the cost of our algorithm is subquadratic in the size of $G$.
 \end{abstract}
 
 %
