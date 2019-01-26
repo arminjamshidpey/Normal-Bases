@@ -30,15 +30,14 @@ $\det(\mat M_G(\alpha))\neq 0$.
  
 This discussion can be used as the basis of a randomized algorithm for
 finding a normal element: choose a random element $\alpha$ in $\K$
-until we find one such that $ \mat M_G(\alpha)$.
- 
-A direct implementation computes all the entries of the matrix and
-then use linear algebra to compute its determinant of $M_G(x)$ which
-uses $O(n^3)$ operations. However, since this is not efficient enough,
-we want to avoid writing the matrix and computing determinants. Before
-explaining how we can check the invertiblity in an efficient way,it is
-worth talking about the probability of success for a random choice of
-$\alpha$.
+until we find one such that $ \mat M_G(\alpha)$. A direct
+implementation computes all the entries of the matrix and then use
+linear algebra to compute its determinant; using fast matrix
+arithmetic, this uses uses $O(n^\omega)$ operations in $\K$, that is
+$\tilde{n^{\omega+1})$ operations in $\F$. This is at last cubic in
+  $n$.
+
+The main contribution of this paper is to show how to speed up this verification;
  
  Since we are working over characteristic zero, we are able to consider a finite subset
  of $\K \cong \F^n$ such that the probability of failure is $\dfrac{1}{n}$, using 
