@@ -8,16 +8,17 @@ state a part of such a proof up to the point that we need. Assume $\K/\F$ is
 a finite Galois extension with Galois group
 $G = \lbrace g_1 , \ldots , g_n \rbrace$. If $x \in \K$ is a normal element,
 then
- \begin{equation}\label{eq:fstrow}
- \sum_{j=1}^n 
- c_j g_j(x)=0, \,\,\, c_j \in \F 
- \end{equation} 
- implies $(c_1, \ldots ,c_n) = 0$. For each $i \in \lbrace 1, \ldots , n\rbrace$, applying $g_i$ to equation (\ref{eq:fstrow}) yields
+\begin{equation}
+  \label{eq:fstrow}
+  \sum_{j=1}^n 
+  c_j g_j(x)=0, \,\,\, c_j \in \F 
+\end{equation} 
+implies $(c_1, \ldots ,c_n) = 0$. For each $i \in \lbrace 1, \ldots , n\rbrace$, applying $g_i$ to equation (\ref{eq:fstrow}) yields
 \begin{equation} \label{eq:otherrow}
  \sum_{j=1}^n 
  c_j g_i g_j(x)=0.
- \end{equation}
- Using equations \ref{eq:fstrow} and \ref{eq:otherrow} one can form a linear system $M_G(\alpha)\textbf{v} = \textbf{0}$ where 
+\end{equation}
+Using \ref{eq:fstrow} and \ref{eq:otherrow} one can form a linear system $M_G(\alpha)\textbf{v} = \textbf{0}$ where 
  $$ M_G(x) =
 \begin{bmatrix}
 g_1 g_1(x) & g_1 g_2(x) & \cdots & g_1 g_n(x) \\
