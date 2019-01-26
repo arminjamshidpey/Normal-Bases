@@ -1,13 +1,11 @@
 \section{Preliminaries}
 \label{sec:pre}
 
-One of the well-known proofs of the existence of a normal element for a
-finite Galois extension, suggests a randomized algorithm for finding such
-an element; see \cite[Theorem 6.13.1]{Lang} for the complete proof.  We
-state a part of such a proof up to the point that we need. Assume $\K/\F$ is
-a finite Galois extension with Galois group
-$G = \lbrace g_1 , \ldots , g_n \rbrace$. If $x \in \K$ is a normal element,
-then
+One of the well-known proofs of the existence of a normal element for
+a finite Galois extension \cite[Theorem 6.13.1]{Lang} suggests a
+randomized algorithm for finding such an element. Assume $\K/\F$ is a
+finite Galois extension with Galois group $G = \lbrace g_1 , \ldots ,
+g_n \rbrace$. If $x \in \K$ is a normal element, then
 \begin{equation}
   \label{eq:fstrow}
   \sum_{j=1}^n 
@@ -18,7 +16,7 @@ implies $(c_1, \ldots ,c_n) = 0$. For each $i \in \lbrace 1, \ldots , n\rbrace$,
  \sum_{j=1}^n 
  c_j g_i g_j(x)=0.
 \end{equation}
-Using \ref{eq:fstrow} and \ref{eq:otherrow} one can form a linear system $M_G(\alpha)\textbf{v} = \textbf{0}$ where 
+Using \eqref{eq:fstrow} and \eqref{eq:otherrow}, one can form a linear system $\mat{M}_G(\alpha)\textbf{v} = \textbf{0}$ where 
  $$ M_G(x) =
 \begin{bmatrix}
 g_1 g_1(x) & g_1 g_2(x) & \cdots & g_1 g_n(x) \\
