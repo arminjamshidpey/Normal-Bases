@@ -81,7 +81,23 @@ subquadratic runtime. Knowing $\alpha$, the algorithms use a
 randomized reduction to a similar question in $\F[G]$, that amounts to
 applying a random projection $\K\to\F$ to all entries of $S_\alpha$.
 For that, we adapt algorithms from~\cite{KalSho98} that were written
-for Galois groups of finite fields. The main result of this paper
+for Galois groups of finite fields. Having $S_\alpha$ in hand, we need
+to test its invertibility. In order to do so, we present an algorithm 
+in the abelian case which relies on the fact that $\F[G]$ is isomorphic 
+to a multivariate quotient polynomial ring by an ideal $(x^{e_i}_i-1)_{1 \leq i \leq m}$
+where $e_i$'s are positive integers. For metacyclic case, two algorithms
+are introduced to solve the same problem which compete according to the 
+the complexity with respect to the parameters of a given metacyclic group.
+Both algorithms are based on testing the invertiblity of an injective
+homomorphic image of $S_\alpha$ in a matrix algebra over a division ring.
+It is worth mentioning that there is a vast literature on the fast Fourier
+transform computation. we invite the reader to consult \cite{Cla89, Rock90, ClaMu04}
+and their references for details. Although we have access to such tools for 
+our computational purposes, it is not clear how we can apply these method 
+to get a quadratic time algorithm for a general field $\F$.
+
+
+The main result of this paper
 is the following theorem.
 
 \begin{theorem}
