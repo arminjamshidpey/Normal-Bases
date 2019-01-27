@@ -197,66 +197,50 @@ operations in $\F$.
 
 \subsection{Abelian Groups}\label{ssec:proj_abelian}
 
+The first main result in this section is the following proposition.
 Assume $G$ is an abelian group presented as 
-$$ \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1 \rangle$$
- where $ e_i \in \mathbb{N}$
-is the order of $g_i$ and $n = e_1 \cdots e_r$. Moreover, let $s_i = \lceil	\sqrt{e_i \rceil}$ for $ 1\leq i \leq r$.
-Our goal is to compute 
-
-\begin{equation}\label{eq:abelian}
-L (g_1^{i_1},  \ldots, g_r^{i_r}(\alpha)), \, 1 \leq j \leq r, 0 \leq i_j \leq e_j
-\end{equation}
- where $L = \begin{bmatrix} l_1 & \cdots l_n \end{bmatrix}$ is a given projection from $K$ to $F$. 
-similar to the cyclic case, the elements in \eqref{eq:abelian} can be presented as 
-\begin{equation}
-\begin{split}
-(L \circ g_1^{s_1j_1} \cdots g_r^{s_rj_s})\cdot (g_1^{i_1} \cdots g_r^{i_r}(\alpha))\\ 1\leq m \leq r, 0\leq i_m < s_m, 0 \leq j_m < s_m
-\end{split}
-\end{equation}
-note that $T_{j_1\cdots j_r} = L \circ g_1^{s_1j_1} \cdots g_r^{s_rj_s}$ are linear projections 
-presented as row vectors and $g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ are field elements presented as column vectors. All elements in \eqref{eq:abelian} can be computed in 3 steps.
-
-\textbf{Step 1.} Apply Lemma \ref{lem:selfcomp} to get 
-$$g_1^{i_1} \cdots g_r^{i_r}(\alpha), \,\, 1\leq m \leq r, 0\leq i_m < s_m,$$
-with cost $\osumcosttilde$
-
-\textbf{Step 2.} Use Lemma \ref{lem:transmodcomp} to compute 
-$$T_{j_1\cdots j_r}, \,\, 1\leq m \leq r, 0 \leq j_m < s_m,$$
-with cost $\osumcosttilde$
-
-\textbf{Step 3.} The last step is to the following matrix multiplication
-
-$$
-\left[ \begin{array}{c}
-T_{00\cdots 0}\\
-\hline
-T_{10\cdots 0}\\
-\hline
-\vdots\\
-\hline
-T_{s_1 \cdots s_r}
-\end{array} \right]
-\cdot
-\left[\begin{array}{c}
-g_1^{0}\cdots g_r^{0}(\alpha) \\
-\hline
-g_1^{1}\cdots g_r^{0}(\alpha) \\
-\hline
-\cdots \\
-\hline
-g_1^{s_1}\cdots g_r^{s_r}(\alpha)  
-\end{array}\right]^t.
-$$
-Using results for rectangular matrix multiplication we can compute the above product in $O(n^{1/2\omega(2)})$ operations in $F$.
-The above computation can be done in $\osumcosttilde$ operations in $F$ which produces a $\lceil \sqrt{n} \rceil \times \lceil
- \sqrt{n} \rceil$ matrix which contains all the projections. Concatenating the rows of the mentioned matrix forms a vector in
- $F[G]$ which is the corresponding vector to $\osum{G}{F}$ with respect to the basis $G$. This means we have proved the following
- proposition.
+$$ \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
+\rangle$$ where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n =
+e_1 \cdots e_r$; without loss of generality, we assume $e_i \ge 2$ for
+all $i$, so that $r$ is in $O(\log(n))$. 
 
 \begin{proposition}
-Suppose Assumption \ref{assum} holds and $G$ is an abelian group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
-operations in $F$.
+  With notation as above, for $\alpha$ in $\K$ and $\ell:\K\to\F$, 
+  $s_{\alpha,\ell} \in \F[G]$ is computable using  $\osumcosttilde$
+  operations in $\F$.
 \end{proposition}
+\begin{proof}
+Our goal is to compute
+\begin{equation}\label{eq:abelian}
+  \ell (g_1^{i_1},  \ldots, g_r^{i_r}(\alpha)), \, 1 \leq j \leq r, 0 \leq i_j \leq e_j,
+\end{equation}
+where $\ell$ is an $\F$-linear projection $\K\to \F$.  For $ 1\leq i
+\leq r$, define $s_i:=\lceil\sqrt{e_i \rceil}$. As we sketched in the
+cyclic case, the elements in \eqref{eq:abelian} can be expressed as
+$L_{j_1,\cdots, j_r} (G_{i_1,\dots,i_r})$, 
+for $1\leq m \leq r, 0\leq i_m < s_m, 0 \leq j_m < s_m$.
+Here, $L_{j_1\cdots j_r} :=\ell \circ (g_1^{s_1j_1} \cdots
+g_r^{s_rj_s})$ are linear projections presented as row vectors and
+$G_{i_1,\dots,i_r}:=g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ are field
+elements presented as column vectors. All elements in
+\eqref{eq:abelian} can be computed in 3 steps, the sum of whose 
+costs proves the proposition.
+
+\smallskip\noindent \textbf{Step 1.} Apply Lemma \ref{lem:selfcomp} to get 
+$$G_{i_1,\dots,i_r}=g_1^{i_1} \cdots g_r^{i_r}(\alpha), \,\, 1\leq m \leq r, 0\leq i_m < s_m,$$
+with cost $\osumcosttilde$
+
+\smallskip\noindent\textbf{Step 2.} Use Lemma \ref{lem:transmodcomp} to compute 
+$$L_{j_1,\cdots,j_r} = \ell \circ (g_1^{s_1j_1} \cdots
+g_r^{s_rj_s}), \,\, 1\leq m \leq r, 0 \leq j_m < s_m,$$
+with cost $\osumcosttilde$
+
+\smallskip\noindent\textbf{Step 3.} Multiply the matrix with rows the
+coefficients of all $L_{j_1,\cdots,j_r}$ by the matrix with columns
+the coefficients of all $G_{i_1,\dots,i_r}$; this yields all required
+values, as pointed out above. We can compute this  product in
+$O(n^{1/2\omega(2)})$ operations in $\F$, which is $\osumcost$.
+\end{proof}
 
 \subsection{Metacyclic Groups}
 
