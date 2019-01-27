@@ -9,42 +9,43 @@ application to normal bases, we believe these problems are of independent
 interest.
 
 Since we are in characteristic zero, Wedderburn's theorem implies the
-existence of an $\F$-algebra isomorphism (which we will call a Fourier Transform)
-$$\F[G] \to M_{d_1}(D_1) \times \dots \times M_{d_r}(D_r),$$ where all
-$D_i$'s are division algebras over $\F$. If we were working over
-$\F=\C$, all $D_i$'s would simply be $\C$ itself; then, a natural
-solution to test the invertibility of $\beta \in \F[G]$ would be to
-compute its Fourier transform and test whether all its components
+existence of an $\F$-algebra isomorphism (which we will refer to as a
+Fourier Transform)
+\[
+  \F[G] \to M_{d_1}(D_1) \times \dots \times M_{d_r}(D_r),
+\]
+where all $D_i$'s are division algebras over $\F$. If we were working over
+$\F=\C$, all $D_i$'s would simply be $\C$ itself; then, a natural solution
+to test the invertibility of $\beta \in \F[G]$ would be to compute its
+Fourier transform and test whether all its components
 $\beta_1 \in M_{d_1}(\C),\dots,\beta_r \in M_{d_r}(\C)$ are
 invertible. This boils down to linear algebra over $\C$, and takes
-$O(d_1^\omega + \cdots + d_r^\omega)$ operations.  Since $d_1^2 +
-\cdots + d_r^2 = |G|$, this is $O(|G|^{\omega/2})$ operations in $\C$.
+$O(d_1^\omega + \cdots + d_r^\omega)$ operations.  Since
+$d_1^2 + \cdots + d_r^2 = |G|$, this is $O(|G|^{\omega/2})$ operations in
+$\C$.
 
-However, we do not wish to make such an assumption as $\F=\C$. Since
+However, we do not wish to make such a strong assumption as $\F=\C$. Since
 we measure the cost of our algorithms in $\F$-operations, the direct
 approach that embeds $\F[G]$ into $\C[G]$ does not make it possible to
-obtain a subquadratic cost in general. If for instance $\F=\Q$ and $G$
-is cyclic of order $n=2^k$, computing the Fourier Transform of
-$\beta$ requires we work in a degree $n/2$ extension of $\Q$, whence
-a quadratic runtime.
+obtain a subquadratic cost in general. If, for instance, $\F=\Q$ and $G$ is
+cyclic of order $n=2^k$, computing the Fourier Transform of $\beta$
+requires we work in a degree $n/2$ extension of $\Q$, implying a quadratic
+runtime.
 
 In this section, we give algorithms for the problem of invertibility
-testing for the families of group seen so far, abelian and
-metacyclic. In the first case, we actually prove a stronger result:
-starting from a suitable presentation of $G$, we give a softly
-linear-time algorithm to find an isomorphic image of $\beta \in
-\F[G]$ in a product of $\F$-algebras of the form $\F[z]/\langle
-P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$ (recovering
-$\beta$ from its image is softly-linear time as well). Not only does
-this allow us to test whether $\beta$ is invertible, this would also
-make it possible to find its inverse in $\F[G]$ (or to compute
-products in $\F[G]$) in softly-linear time; we are not aware of 
-previous results of this kind.
-
-For metacyclic groups, we describe an injective $\F$-algebra
-homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic
-ring. The codomain is in general of dimension higher than $|G|$, so
-the algorithm we deduce from this is not linear-time.
+testing for the families of group seen so far, abelian and metacyclic. For
+the former, we actually prove a stronger result: starting from a suitable
+presentation of $G$, we give a softly linear-time algorithm to find an
+isomorphic image of $\beta \in \F[G]$ in a product of $\F$-algebras of the
+form $\F[z]/\langle P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$
+(recovering $\beta$ from its image is softly-linear time as well). Not only
+does this allow us to test whether $\beta$ is invertible, this would also
+make it possible to find its inverse in $\F[G]$ (or to compute products in
+$\F[G]$) in softly-linear time; we are not aware of previous results of
+this kind. For metacyclic groups, we describe an injective $\F$-algebra
+homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic ring. The
+codomain is in general of dimension higher than $|G|$, so the algorithm we
+deduce from this is not linear-time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
