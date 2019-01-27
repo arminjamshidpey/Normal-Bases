@@ -46,7 +46,7 @@ requires $O(n^4)$ operations in $\F$ to construct a normal element in
 $\K$.
 
 In this paper we present a new randomized algorithm for finding a normal
-element for abelian and metacyclic extensions, with a runtime subquadratic
+element for abelian and metacyclic extensions, with a runtime \alg
 in the degree $n$ of the extension. The costs of all algorithms are
 measured by counting \emph{arithmetic operations} in $\F$ at unit cost.
 Questions related to the bit-complexity of our algorithms are challenging,
@@ -81,15 +81,28 @@ subquadratic runtime. Knowing $\alpha$, the algorithms use a
 randomized reduction to a similar question in $\F[G]$, that amounts to
 applying a random projection $\K\to\F$ to all entries of $S_\alpha$.
 For that, we adapt algorithms from~\cite{KalSho98} that were written
-for Galois groups of finite fields.
+for Galois groups of finite fields. The main result of this paper
+is the following theorem.
+
+\begin{theorem}
+Under Assumption \ref{assum}, a normal element of $K$ can be found using
+$\thecost$ operations in $\F$, if $G$ is abelian. Moreover, the same problem 
+in the metacyclic case can be solved using $O(\vert G \vert^2)$ operations 
+in $\F$.
+\end{theorem}
+
+Although for a general metacyclic case the cost is quadratic in the 
+size of input, in many cases it will be subquadratic under specific 
+conditions on the parameters (see Section \ref{sec:invertibility}).
 
 Section \ref{sec:pre} of this paper is devoted to definitions and
 preliminary discussions.  In Section \ref{sec:osum} two subquadratic-time
 algorithms are presented for the randomize reduction of our main question
 to invertibility testing in $\F[G]$, for respectively abelian and
 metacyclic groups.  Finally, in Section \ref{sec:invertibility}, we show
-that the latter problem can be solved in subquadratic time as well for the
-families of groups we consider.
+that the latter problem can be solved in subquadratic time for an abelian group.
+Moreover, for metacyclic groups the same problem can be solved in quadratic time 
+in the size of input.
 
 This paper is written from the point of view of obtaining improved
 asymptotic complexity estimates. Since our main goal is to highlight the
