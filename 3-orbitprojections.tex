@@ -47,8 +47,8 @@ Assumption~\ref{assum}, which reduces automorphism evaluation to
 modular composition of polynomials.  Over finite fields, this idea goes back
 to~\citeN{GaSh92}, where it was credited to Kaltofen.
 
-For instance, given $g \in G$ (by means of $\gamma:=g(\bar x)$), we can
-deduce $g^2 \in G$ (again, by means of its image at $\bar x$) as
+For instance, given $g \in G$ (by means of $\gamma:=g(\xbar)$), we can
+deduce $g^2 \in G$ (again, by means of its image at $\xbar$) as
 $\gamma(\gamma)$; this can be done with $\tilde{O}(n^{(\omega+1)/2})$
 operations in $\F$ using Brent and Kung's modular composition
 algorithm~\cite{BrKu78}. The algorithms below describe similar operations
@@ -63,9 +63,9 @@ along these lines, involving several simultaneous evaluations.
 \end{lemma}
 \begin{proof}
 (Compare \cite[Lemma~3]{KalSho98}) As noted above, for $i\le s$,
-  $g(\alpha_i) = \alpha_i(\gamma)$, with $\gamma := g(\bar x) \in \K$.
+  $g(\alpha_i) = \alpha_i(\gamma)$, with $\gamma := g(\xbar) \in \K$.
   Let $t := \lceil n^{3/4} \rceil$, $m:=\lceil n/t\rceil$, and rewrite $\alpha_1 , \ldots , \alpha_s$ as 
-$$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\bar x^{tj},$$ where the
+$$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   $a_{i,j}$'s are polynomials of degree less than $t$. The next step
   is to compute $\gamma_i := \gamma^i$, for $i = 0 , \ldots , t$.
   There are $t$ products in $\K$ to perform, so this amounts to
@@ -105,8 +105,7 @@ operations in $\F$.
 (Compare \cite[Lemma~4]{KalSho98}.) For $m=1,\dots,r$, suppose we have computed 
   $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
   i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
-  the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\bar
-  x$, as per our convention).
+  the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\xbar$, as per our convention).
   
  Then, we can obtain $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
  \leq j < m$, and $0 \leq i_m < 2k_m$, by computing
@@ -144,9 +143,8 @@ sketches the construction.
   O(n^{{3}/{4}\omega({4}/{3})})$.
 \end{lemma}
 \begin{proof}
-  Given $\ell_i$ by its values on the power basis $1,\bar x,\dots,\bar
-  x^{n-1}$, $\ell_i \circ g$ is represented by its values at
-  $1,\gamma,\dots,\gamma^{n-1}$, with $\gamma := g(\bar x)$. 
+  Given $\ell_i$ by its values on the power basis $1,\xbar,\dots,\xbar^{n-1}$, $\ell_i \circ g$ is represented by its values at
+  $1,\gamma,\dots,\gamma^{n-1}$, with $\gamma := g(\xbar)$. 
 
   Let $t,m$ and $\gamma_0,\dots,\gamma_t$ be as in the proof of
   Lemma~\ref{lem:modcom}. Next, compute the ``giant steps''

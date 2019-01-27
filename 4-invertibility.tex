@@ -183,16 +183,16 @@ $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
   its inverse to any inputs using $\tilde{O}(\dim(\mathbbm{b}))$ operations in $\F$.
 \end{lemma}
 \begin{proof}
-  Let $\bar x$ be the residue class of
+  Let $\xbar$ be the residue class of
   $x$ in $\A$. Then, in $\mathbbm{a}[y]$, $\Phi_{p^{c'}}(y)$ factors as
   $$\Phi_{p^{c'}}(y) =\prod_{\substack{1 \le i\le p^{c'}-1\\ \gcd(i,p)
-      =1}} (y-\rho_i),$$ with $\rho_i:={\bar x}^{i p^{c-c'}}$ for all
+      =1}} (y-\rho_i),$$ with $\rho_i:={\xbar}^{i p^{c-c'}}$ for all
   $i$.  Even though $\mathbbm{a}$ may not be a field, the Chinese
   Remainder theorem implies that $\mathbbm{b}$ is isomorphic to
   $\mathbbm{a}^{\varphi(p^{c'})}$; the isomorphism is given by
   $$\begin{array}{cccc}
     \theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a} \\
-    & P & \mapsto& (P(\bar x,\rho_1),\dots,P(\bar x,\rho_{\varphi(p^{c'})}).
+    & P & \mapsto& (P(\xbar,\rho_1),\dots,P(\xbar,\rho_{\varphi(p^{c'})}).
   \end{array}$$
   In terms of complexity, arithmetic operations $(+,-,\times)$ in
   $\mathbbm{a}$ can all be done in $\tilde{O}(\varphi(p^c))$ operations
@@ -403,18 +403,19 @@ of the following theorem, where the map is inspired by the one used in
 
 Assume that $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s =
 \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$, where $r^s = 1
-\bmod m$ and $rt = t \bmod m$. Define $\A:=\F[z]/\langle z^m-1\rangle$
-and let $\bar{z}$ be the image of $z$ in $\A$.
+\bmod m$ and $rt = t \bmod m$; in particular, $n=|G|$ is equal to
+$ms$. Define $\A:=\F[z]/\langle z^m-1\rangle$ and let $\zbar$ be the
+image of $z$ in $\A$.
 
 \begin{lemma}\label{prop:metinjection}
 The mapping
 \[
   \begin{array}{cccc}
 \psi:& \F [G]& \to& M_s(\A) \\
-&\sigma &\mapsto& \mathrm{Diag}(\bar{z}, \bar{z}^r , \ldots, \bar{z}^{r^{s-1}})\\
+&\sigma &\mapsto& \mathrm{Diag}(\zbar, \zbar^r , \ldots, \zbar^{r^{s-1}})\\
 &\tau &\mapsto &
 \left[ \begin{array}{l|l}
-0 & \bar{z}\\
+0 & \zbar\\
 \hline
 \mat I_{s-1} & 0
 \end{array}
@@ -429,47 +430,55 @@ $\psi(\tau)^s = \psi(\sigma)^t$ and $\psi_i(\sigma) \psi_i(\tau)
 =\psi(\tau) \psi_i(\sigma)^r$; this shows that $\psi$ is a well-defined $\F$-algebras homomorphism.
 
 Take $\beta \in \F[G]$, and write it $\beta = \sum_{j = 0}^{s-1}
-\left( \sum_{i = 0}^{m-1} b_{ij} \sigma^i \right) \tau^j$. For
-$j=0,\dots,s-1$, define
-$$F_j(x)
-:= \sum_{i = 0}^{m-1} b_{i,j}x^i \in \F[x]$$ 
-and, for $1 \leq i,j \leq s$,
-$$F_{i,j} := F_{i-1}(\bar{z}^{r^{j-1}}).$$
+\left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j$. For
+$j=0,\dots,s-1$, define $F_j(x) := \sum_{i = 0}^{m-1} b_{i,j}x^i \in
+\F[x]$ and, for $1 \leq i,j \leq s$,
+$$F_{i,j} := F_{i-1}(\zbar^{r^{j-1}}).$$
 Then, $\psi(\beta)$ is the matrix
 \begin{equation}\label{eq:injection}
 \left[\begin{array}{llll}
-F_{1,1} &  \cdots	&	\bar{z}F_{2,s-1} & \bar{z}F_{1,0}\\
-F_{2,1} & F_{1,2}& \cdots & \bar{z}F_{2,s}\\
+F_{1,1} &  \cdots	&	\zbar F_{2,s-1} & \zbar F_{1,0}\\
+F_{2,1} & F_{1,2}& \cdots & \zbar F_{2,s}\\
 \vdots &\ddots & \ddots& \vdots\\
 F_{s,1}& \cdots & F_{2,s-2}	& F_{1,s}
 \end{array}
 \right].
 \end{equation}
-If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\bar{z}) =0$ which
+If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\zbar) =0$ which
 implies $F_i = 0$ (by degree reasons), for $0 \leq i < s$.
 \end{proof}
 
+We conclude this section with two algorithms that test whether
+$\psi(\beta) \in M_s(\A)$ is invertible, for a given $\beta$ in
+$\F[G]$. Minor difficulties will arise as we work over $\A$, since
+$\A$ is not a field, but a product of fields (if the irreducible
+factorization of $z^m-1$ in $\F[z]$ is available, one would simply use
+the Chinese Remainder theorem and work in field extensions of $\F$).
 
 \begin{corollary}
-  Given $\beta = \sum_{j = 0}^{s-1} \left( \sum_{i = 0}^{m-1} b_{ij}
-  \sigma^i \right) \tau^j$ in $\F[G]$, one can test if $\beta$ is a
-  unit in $\F[G]$ using $\tilde{O}(s^\omega m)$ operations in $\F$.
+  Given $\beta$ in $\F[G]$, one can test if $\beta$ is a unit in
+  $\F[G]$ using either $\tilde{O}(s^{2.7} m)$ or $\tilde{O}(n^2)$
+  operations in $\F$; the latter algorithm is Monte Carlo.
 \end{corollary}
 \begin{proof}
-  The proof of the previous lemma shows an explicit formula for
-  $\psi(\beta)$. In order to compute this matrix, we note that
-  $\bar{z}^{r^{j-1}} = \bar{z}^{r^{j-1} \mod m}$; computing this
+  The first algorithm uses fast linear algebra over the ring
+  $\A$. Here, we start from $\beta$ written as $\beta = \sum_{j =
+    0}^{s-1} \left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j
+  \in \F[G]$. Then, the proof of the previous lemma shows an explicit
+  formula for $\psi(\beta)$. In order to compute this matrix, we note
+  that $\zbar^{r^{j-1}} = \zbar^{r^{j-1} \mod m}$; computing this
   element and its powers requires no arithmetic operation, so that the
   coefficients of each $F_{i,j}$ are obtained in linear time $O(m)$.
   Hence the matrix $\psi(\beta)$ can be computed in time $O(s^2m)$.
 
   Next, we have to determine whether $\psi(\beta)$ is a unit (the
   injectivity of $\psi$ implies that this is the case if and only if
-  $\beta$ itself is a unit).
+  $\beta$ itself is a unit). This amounts to computing the determinant
+  of this matrix, which can be done in $\tilde{O}(s^{2.7} m)$
+  operations in $F$, using the determinant algorithm
+  of~\cite[Section~6]{KaVi04}.
 \end{proof}
 
-Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
-exponent of matrix multiplication.
 
 
 
@@ -485,7 +494,7 @@ exponent of matrix multiplication.
 %\begin{itemize}
 %\item The map $\psi $ where,
 %% 
-%where $\bar{z}$ is the image of $x \in R = \F[x]/(x^m-1)$, is an injective homomorphism.
+%where $\zbar$ is the image of $x \in R = \F[x]/(x^m-1)$, is an injective homomorphism.
 %\item For any $u \in \F[G]$, $\varphi(u)$ can be computed using $O(s^2m)$ operations over $\F$.
 %\item Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
 %exponent of matrix multiplication.
