@@ -200,10 +200,14 @@ Assume $G$ is an abelian group presented as
 $$ \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
 \rangle$$ where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n =
 e_1 \cdots e_r$; without loss of generality, we assume $e_i \ge 2$ for
-all $i$, so that $r$ is in $O(\log(n))$. 
+all $i$, so that $r$ is in $O(\log(n))$. Elements of the group
+algebra $\F[G]$ are written as commutative polynomials
+$\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r} {g_1}^{e_1} \cdots {g_r}^{e_r}$,
+with $0\le i_j < e_j$ for all~$j$.
+
 
 \begin{proposition}
-  With notation as above, for $\alpha$ in $\K$ and $\ell:\K\to\F$, 
+  Suppose that $G$ is abelian, with notation as above. For $\alpha$ in $\K$ and $\ell:\K\to\F$, 
   $s_{\alpha,\ell} \in \F[G]$ is computable using  $\osumcosttilde$
   operations in $\F$.
 \end{proposition}
@@ -226,14 +230,18 @@ costs proves the proposition.
 
 \smallskip\noindent \textbf{Step 1.} Apply Lemma \ref{lem:selfcomp} to get 
 $$G_{i_1,\dots,i_r}=g_1^{i_1} \cdots g_r^{i_r}(\alpha), \,\, 1\leq m \leq r, 0\leq i_m < s_m,$$
-with cost $\osumcosttilde$
+with cost $\osumcosttilde$.
 
-\smallskip\noindent\textbf{Step 2.} Use Lemma \ref{lem:transmodcomp} to compute 
+\smallskip\noindent\textbf{Step 2.} Compute all $g_i^{s_i}$, $i=1,\dots,r$;
+this involves $O(\log(n))$ modular compositions, so the cost is negligible
+compared to that of step~1.
+
+\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp} to compute 
 $$L_{j_1,\cdots,j_r} = \ell \circ (g_1^{s_1j_1} \cdots
 g_r^{s_rj_s}), \,\, 1\leq m \leq r, 0 \leq j_m < s_m,$$
 with cost $\osumcosttilde$
 
-\smallskip\noindent\textbf{Step 3.} Multiply the matrix with rows the
+\smallskip\noindent\textbf{Step 4.} Multiply the matrix with rows the
 coefficients of all $L_{j_1,\cdots,j_r}$ by the matrix with columns
 the coefficients of all $G_{i_1,\dots,i_r}$; this yields all required
 values, as pointed out above. We can compute this  product in
@@ -249,90 +257,93 @@ that $G/H$ is cyclic; for instance, any group with a squarefree order
 is metacyclic. See \cite[p.~88]{Johnson} or \cite[p.~334]{Curtis} for
 more background. A metacyclic group can be presented as
 \begin{equation}\label{eq:metacyclic}
-  \langle \sigma,\tau: \sigma^n = 1,  \tau^m = \sigma^s, \tau^{-1}\sigma \tau = \sigma^r \rangle,
+  \langle \sigma,\tau: \sigma^t = 1,  \tau^m = \sigma^s, \tau^{-1}\sigma \tau = \sigma^r \rangle,
 \end{equation}
-for some integers $m,n,r,s$, with $r,s \leq n$ and $r^m = 1 \bmod n, rs
-= s \bmod n$. For example,
+for some integers $m,t,r,s$, with $r,s \leq t$ and $r^m = 1 \bmod t, rs
+= s \bmod t$. For example,
 the dihedral group 
-$$D_{2n} = \langle \sigma,\tau: \sigma^n =1, \tau^2 = 1,  \tau^{-1} \sigma \tau = \sigma^{n-1} \rangle, $$
-is metacyclic, with $m=2$. Generalized quaternion
-groups, which can be presented as
-$$Q_n = \langle \sigma,\tau: \sigma^{2n} =1, \tau^2 = \sigma^n, \tau^{-1} \sigma \tau = \sigma^{2n-1} \rangle,$$
-are metacyclic, with $m=2$ as well.
+$$D_{2t} = \langle \sigma,\tau: \sigma^t =1, \tau^2 = 1, \tau^{-1}
+\sigma \tau = \sigma^{t-1} \rangle, $$ is metacyclic, with
+$m=2$. Generalized quaternion groups, which can be presented as
+$$Q_t = \langle \sigma,\tau: \sigma^{2t} =1, \tau^2 = \sigma^t,
+\tau^{-1} \sigma \tau = \sigma^{2t-1} \rangle,$$ are metacyclic, with
+$m=2$ as well.
 
+Using the notation of~\eqref{eq:metacyclic}, $n=|G|$ is equal to $mt$,
+and all elements in a metacyclic group can be presented uniquely as
+either
+\begin{equation}\label{pres1}
+\{\sigma^i \tau^j,\,\,\, 0\leq i \leq t-1,\ 0\leq j \leq m-1\}  
+\end{equation}
+or
+\begin{equation}\label{pres2}
+\{ \tau^j\sigma^i,\,\,\, 0\leq i \leq t-1,\ 0\leq j \leq m-1\}.
+\end{equation}
+Accordingly, elements in the group algebra $\F[G]$ can be written as 
+either 
+$$\sum_{\substack{i <t\\ j< m}} c_{i,j} \sigma^i \tau^j \quad\text{or}\quad
+\sum_{\substack{i <t\\ j< m}} c'_{i,j} \tau^j \sigma^i.$$
+Conversion between the two representations involves no operation in $\F$,
+using the commutation relation $\sigma^k \tau^c = \tau^c \sigma^{kr^c}$
+for $k,c \ge 0$.
 
-
-
-%%  for constructing some 
-%% Metacyclic extensions see \cite{Kida}.
-
-Moreover, all elements in such a metacyclic group
-can be presented as either $$\{\sigma^i \tau^j, \,\,\, 0\leq i \leq m-1, 0\leq
-j \leq n-1\}$$
-or $$\{\sigma^i \tau^j, \,\,\, 0\leq i \leq m-1, 0\leq
-j \leq n-1\}.$$
-
-
- 
-Assume $G = \mathrm{Gal(K/F})$ is a group presentable as
-$$G = \lbrace \sigma^i \tau^j: 0\leq i < n, 0 \leq j < m, m\leq n \rbrace,$$
-and $\alpha\in K$. The goal is to compute 
-$L(\sigma^i\tau^j (\alpha), \,\, 0\leq i < n, 0 \leq j <m.$
-This can be done in three steps.
-
-\textbf{step 1.} apply Lemma \ref{lem:selfcomp} to compute 
-$$s_{ij} = \sigma^i\tau^j(\alpha), 0 \leq j < m, 0\leq i < \lceil \sqrt{n}/\sqrt{m} \rceil$$
-note that $\lceil \sqrt{n}/\sqrt{m} \rceil m \leq \lceil \sqrt{mn} \rceil$.
-
-\textbf{step 2.} compute $$T_j = L \circ \sigma^{j\sqrt{mn}}, \,\, 0\leq j < \lceil \sqrt{mn}\rceil$$
-using Lemma	\ref{lem:transmodcomp}.
-
-\textbf{step 3.} at this point we want to compute 
-$$L(\sigma^i\tau^j(\alpha)) = T_k\cdot(\sigma^i(\alpha_j)).$$
-This can be carried out with a rectangular matrix multiplication
-$$
-\left[ \begin{array}{c}
-T_0\\
-\hline
-T_1\\
-\hline
-\vdots\\
-\hline
-T_{\lceil \sqrt{mn} \rceil-1}
-\end{array} 
-\right]
-\cdot
-\left[\begin{array}{l}
-s_{00} \\
-\hline
- \vdots \\
- \hline
-s_{0m} \\
- \hline
-\vdots \\
-\hline
-s_{\lceil \sqrt{n}/\sqrt{m} \rceil 0} \\
-\hline
-\vdots \\
-\hline
-s_{\lceil \sqrt{n}/\sqrt{m} \rceil m}
-\end{array}
-\right]^t
-$$
-which is a $\langle \sqrt{mn},n,\sqrt{mn}\rangle$ multiplication. 
-
-We note the above algorithm works for a class of groups which includes metacyclic case. Since if $G$ is metacyclic, 
-$H = \langle \sigma \rangle \unlhd G$ and $G/H = \langle \tau H \rangle$, then both $\tau \sigma \tau^{-1}$ and 
-$\tau^{-1} \sigma \tau$ belong to $H$. This implies elements of $G$ can be presented either as $\sigma^i\tau^j$
-or $\tau^j\sigma^i$. Thus without loss of generality we can assume the $\textrm{Ord}(\tau) \leq \textrm{Ord}(\sigma)$.
-
-Similar to the abelian case the final output of the above algorithm is a $\lceil \sqrt{n} \rceil \times \lceil \sqrt{n} \rceil $
-matrix and $l(\osum{G}{K})$ can be calculated in the same way. Hence we have proved the following proposition.
- 
 \begin{proposition}
-Suppose Assumption \ref{assum} holds and $G$ is a metacyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
-operations in $F$.
+  Suppose that $G$ is metacyclic, with notation as above. For $\alpha$
+  in $\K$ and $\ell:\K\to\F$, $s_{\alpha,\ell} \in \F[G]$ is
+  computable using $\osumcosttilde$ operations in $\F$.
 \end{proposition}
+\begin{proof}
+  Suppose first that $m \le t$; then, we use the
+  presentation~\eqref{pres1} of the elements of $G$. Take $\alpha$ in
+  $\K$ and $\ell:\K \to \F$; the goal is to compute
+  $\ell(\sigma^i\tau^j (\alpha))$, for all $0\leq i < t$ and $0 \leq j
+  <m.$ This can be done in three steps.
+
+\smallskip\noindent\textbf{Step 1.} Apply Lemma \ref{lem:selfcomp} to compute
+$$G_{i,j} := \sigma^i\tau^j(\alpha),\ 0\leq i < \lceil \sqrt{t/m}
+\rceil,\ 0 \leq j < m.$$ Note that $\lceil \sqrt{t/m} \rceil m \leq
+\lceil \sqrt{mt} \rceil \in O(\sqrt n)$, so we are under the assumptions
+of the lemma. This takes  $\osumcosttilde$ operations in~$\F$.
+
+\smallskip\noindent\textbf{Step 2.} Compute $\sigma^{\lceil \sqrt{t/m}
+\rceil}$, in $O(\log(n))$ modular compositions in degree $n$. The cost
+is no more than that of Step 1.
+
+\smallskip\noindent\textbf{Step 3.} Compute $$L_k := \ell \circ
+\sigma^{k\lceil \sqrt{t/m} \rceil}, \,\, 0\leq k < \lceil
+\sqrt{mt}\rceil$$ using Lemma \ref{lem:transmodcomp}.
+This takes  $\osumcosttilde$ operations in~$\F$.
+
+\smallskip\noindent\textbf{Step 4.} At this point, we compute all
+$$ L_k(s_{i,j}) = \ell(\sigma^{k\lceil \sqrt{t/m} \rceil + i}\tau
+^j(\alpha)),$$ for $0\le k < \lceil \sqrt{mt}\rceil$, $0\le i< \lceil
+\sqrt{t/m}\rceil$ and $0 \leq j < m;$ these are precisely 
+the values we needed.
+
+This can be carried out by multiplying the matrix with rows the
+coefficients of all $L_k$ by the matrix with columns the coefficients
+of all $G_{i,j}$; this yields all required values, as pointed out
+above. There are $O(\sqrt{mt})=O(\sqrt{n})$ linear forms $L_k$'s, and
+$O(\sqrt{n})$ field elements $G_{i,j}$'s, so we can compute this product
+in $O(n^{1/2\omega(2)})$ operations in $\F$, which is $\osumcost$.
+
+This concludes the proof in the case $m \le t$. When $t \le m$, use the
+presentation~\eqref{pres2} of the elements of $G$ and proceed as
+above.
+\end{proof}
+
+%% We note the above algorithm works for a class of groups which includes metacyclic case. Since if $G$ is metacyclic, 
+%% $H = \langle \sigma \rangle \unlhd G$ and $G/H = \langle \tau H \rangle$, then both $\tau \sigma \tau^{-1}$ and 
+%% $\tau^{-1} \sigma \tau$ belong to $H$. This implies elements of $G$ can be presented either as $\sigma^i\tau^j$
+%% or $\tau^j\sigma^i$. Thus without loss of generality we can assume the $\textrm{Ord}(\tau) \leq \textrm{Ord}(\sigma)$.
+
+%% Similar to the abelian case the final output of the above algorithm is a $\lceil \sqrt{n} \rceil \times \lceil \sqrt{n} \rceil $
+%% matrix and $l(\osum{G}{K})$ can be calculated in the same way. Hence we have proved the following proposition.
+ 
+%% \begin{proposition}
+%% Suppose Assumption \ref{assum} holds and $G$ is a metacyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
+%% operations in $F$.
+%% \end{proposition}
 
 %%% Local Variables:
 %%% mode: latex
