@@ -44,17 +44,18 @@ input and output size $O(n^{1+k})$.
 
 The key to the algorithms below is the remark following
 Assumption~\ref{assum}, which reduces automorphism evaluation to
-composition of polynomials.  Over finite fields, this idea goes back
+modular composition of polynomials.  Over finite fields, this idea goes back
 to~\citeN{GaSh92}, where it was credited to Kaltofen.
 
 For instance, given $g \in G$ (by means of $\gamma:=g(\bar x)$), we can
 deduce $g^2 \in G$ (again, by means of its image at $\bar x$) as
-$\gamma(\gamma)$; this can be done in $\tilde{O}(n^{(\omega+1)/2})$
+$\gamma(\gamma)$; this can be done with $\tilde{O}(n^{(\omega+1)/2})$
 operations in $\F$ using Brent and Kung's modular composition
-algorithm~\cite{BrKu78}. The algorithms below describe similar operations 
+algorithm~\cite{BrKu78}. The algorithms below describe similar operations
 along these lines, involving several simultaneous evaluations.
 
-\begin{lemma}\label{lem:modcom}
+\begin{lemma}
+  \label{lem:modcom}
   Given $\alpha_1,\dots,\alpha_s$ in $\K$ and $g$ in $G =
   \mathrm{Gal}(\K/\F)$, with $s = O(\sqrt{n})$, we can compute
   $g(\alpha_1),\dots,g(\alpha_s)$ with $\tilde
@@ -66,8 +67,8 @@ along these lines, involving several simultaneous evaluations.
   Let $t := \lceil n^{3/4} \rceil$, $m:=\lceil n/t\rceil$, and rewrite $\alpha_1 , \ldots , \alpha_s$ as 
 $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\bar x^{tj},$$ where the
   $a_{i,j}$'s are polynomials of degree less than $t$. The next step
-  is to compute $\gamma_i := \gamma^i$, for $i = 0 , \ldots , t$;
-  there are $t$ products in $\K$ to do, so this amounts to
+  is to compute $\gamma_i := \gamma^i$, for $i = 0 , \ldots , t$.
+  There are $t$ products in $\K$ to perform, so this amounts to
   $\tilde{O}(n^{7/4})$ operations in $\F$.
 
   Having $\gamma_i$'s in hand, one can form the matrix
@@ -81,15 +82,15 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\bar x^{tj},$$ where the
   has $s m \in O(n^{3/4})$ rows and $t \in O(n^{3/4})$ columns.
 
   Compute $\mat B:=\mat A\, \boldsymbol{\Gamma}$; as per our
-  definition of exponents $\omega(\ .\ )$, this can be done in
-  $O(n^{3/4 \omega(4/3)})$ operations in $\F$, and the rows of this matrix
+  definition of exponents $\omega(\cdot )$, this can be done in
+  $O(n^{(3/4)\cdot \omega(4/3)})$ operations in $\F$, and the rows of this matrix
   give all $a_{i,j}(\gamma)$.  The last step to get all
   $\alpha_i(\gamma)$ is to write them as $\alpha_i(\gamma) = \sum_{0
     \leq j < m} a_{i,j}(\gamma) \Gamma_t^{j}.$ Using Horner's scheme,
   this takes $O(sm)$ operations in $\K$, which is $\tilde{O}(n^{7/4})$
   operations in $\F$. Since we pointed out that $\omega(3/4) \ge 7/4$,
   the leading exponent in all costs seen so far is
-  ${3}/{4}\omega({4}/{3})$.
+  $(3/4)\cdot\omega(4/3)$.
 \end{proof}
 
 \begin{lemma}\label{lem:selfcomp}
@@ -107,7 +108,7 @@ operations in $\F$.
   the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\bar
   x$, as per our convention).
   
- Then, we can get $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
+ Then, we can obtain $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
  \leq j < m$, and $0 \leq i_m < 2k_m$, by computing
  $\eta(G_{i_1,\dots,i_m})$, for all indices $i_1,\dots,i_m$ available
  to us, that is, $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq
