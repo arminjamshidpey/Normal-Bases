@@ -1,18 +1,18 @@
-\section{Testing invertibility in the group algebra}
+\section{Testing Invertibility in the Group Algebra}
 \label{sec:invertibility}
 
 The problems we consider in this section are of independent interest:
-given an element $\alpha$ in $\F[G]$, for a field $\F$ and a group $G$,
-determine whether $\alpha$ is a unit in $\F[G]$. 
+given an element $\beta$ in $\F[G]$, for a field $\F$ and a group $G$,
+determine whether $\beta$ is a unit in $\F[G]$. 
 
 Since we are in characteristic zero, Wedderburn's theorem implies the
 existence of an $\F$-algebra isomorphism (which we will call a Fourier Transform)
 $$\F[G] \to M_{d_1}(D_1) \times \dots \times M_{d_r}(D_r),$$ where all
 $D_i$'s are division algebras over $\F$. If we were working over
 $\F=\C$, all $D_i$'s would simply be $\C$ itself; then, a natural
-solution to test the invertibility of $\alpha \in \F[G]$ would be to
+solution to test the invertibility of $\beta \in \F[G]$ would be to
 compute its Fourier transform and test whether all its components
-$\alpha_1 \in M_{d_1}(\C),\dots,\alpha_r \in M_{d_r}(\C)$ are
+$\beta_1 \in M_{d_1}(\C),\dots,\beta_r \in M_{d_r}(\C)$ are
 invertible. This boils down to linear algebra over $\C$, and takes
 $O(d_1^\omega + \cdots + d_r^\omega)$ operations.  Since $d_1^2 +
 \cdots + d_r^2 = |G|$, this is $O(|G|^{\omega/2})$ operations in $\C$.
@@ -22,26 +22,26 @@ we measure the cost of our algorithms in $\F$-operations, the direct
 approach that embeds $\F[G]$ into $\C[G]$ does not make it possible to
 obtain a subquadratic cost in general. If for instance $\F=\Q$ and $G$
 is cyclic of order $n=2^k$, computing the Fourier Transform of
-$\alpha$ requires we work in a degree $n/2$ extension of $\Q$, whence
+$\beta$ requires we work in a degree $n/2$ extension of $\Q$, whence
 a quadratic runtime.
 
-In this section, we give subquadratic algorithms for the problem of
-invertibility testing for the families of group seen so far, abelian
-and metacyclic. In the first case, we actually prove a stronger
-result: starting from a suitable presentation of $G$, we give a softly
-linear-time algorithm to find an isomorphic image of $\alpha \in
+In this section, we give algorithms for the problem of invertibility
+testing for the families of group seen so far, abelian and
+metacyclic. In the first case, we actually prove a stronger result:
+starting from a suitable presentation of $G$, we give a softly
+linear-time algorithm to find an isomorphic image of $\beta \in
 \F[G]$ in a product of $\F$-algebras of the form $\F[z]/\langle
 P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$ (recovering
-$\alpha$ from its image is softly-linear time as well). Not only does
-this allow us to test whether $\alpha$ is invertible, this would also
+$\beta$ from its image is softly-linear time as well). Not only does
+this allow us to test whether $\beta$ is invertible, this would also
 make it possible to find its inverse in $\F[G]$ (or to compute
-products in $\F[G]$) in softly-linear time.
+products in $\F[G]$) in softly-linear time; we are not aware of 
+previous results of this kind.
 
-For metacyclic group, we describe an injective $\F$-algebra
-homomorphism from $\F[G]$ to a product of matrix algebras over
-cyclotomic fields. The codomain is in general of dimension higher
-than $|G|$, so the algorithm we deduce from this is not linear-time,
-but remains subquadratic.
+For metacyclic groups, we describe an injective $\F$-algebra
+homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic
+ring. The codomain is in general of dimension higher than $|G|$, so
+the algorithm we deduce from this is not linear-time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -49,8 +49,8 @@ but remains subquadratic.
 
 Because an abelian group is a product of cyclic groups, the group
 algebra $\F[G]$ of such a group is the tensor product of cyclic
-algebras. Using this property, given an element $\alpha$ in $\F[G]$,
-our goal in this section is to determine whether $\alpha$ is a unit.
+algebras. Using this property, given an element $\beta$ in $\F[G]$,
+our goal in this section is to determine whether $\beta$ is a unit.
 
 The previous property implies that $\F[G]$ admits a description of the
 form $\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$,
@@ -160,7 +160,7 @@ given in the previous paragraph extends coordinate-wise to an
   in $\varphi(\mu)$, the proof is complete.
 \end{proof}
 
-\noindent{\bf Tensor product of two prime-power cyclotomic rings, same prime.}
+\noindent{\bf Tensor product of two prime-power cyclotomic rings, same $p$.}
 In the following two paragraphs, we discuss the opposite situation as
 above: we now work with cyclotomic polynomials of prime power
 orders for a common prime $p$. As above, we start with two such polynomials.
@@ -321,8 +321,8 @@ as to write $\langle g_i \rangle$ as a product of cyclic groups of
 prime power orders, from which the required decomposition follows.
 
 \begin{proposition}
-  Given $\alpha \in \F[G]$, written on the power basis
-  $\gamma_{1,1},\dots,\gamma_{s,t_s}$, one can test if $\alpha$ is a
+  Given $\beta \in \F[G]$, written on the power basis
+  $\gamma_{1,1},\dots,\gamma_{s,t_s}$, one can test if $\beta$ is a
   unit in $\F[G]$ using $\tilde{O}(|G|)$ operations in $\F$.
 \end{proposition}
 The proof occupies the rest of this paragraph.
@@ -335,7 +335,7 @@ $$\F[x_{i,1},\dots,x_{i,t_i}]/\left \langle
 x_{i,1}^{p_i^{b_{1}}}-1,\dots,x_{i,t_i}^{p_i^{b_{i,t_i}}}-1\right\rangle
 =\B_{p_i,\boldsymbol{b}_i,\boldsymbol{x}_i},$$ with $\boldsymbol{b}_i =
 (b_{i,1},\dots,b_{i,t_i})$ and $\boldsymbol{x}_i =
-(x_{i,1},\dots,x_{i,t_i})$. Given $\alpha$ on the
+(x_{i,1},\dots,x_{i,t_i})$. Given $\beta$ on the
 power basis in $\gamma_{1,1},\dots,\gamma_{s,t_s}$, we obtain
 its image 
 $A$ in 
@@ -376,74 +376,94 @@ $$\Gamma': \text{\small $\prod$}_{\boldsymbol{j}}~
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle,$$ for certain integers
 $d_{\boldsymbol{j}}$. That lemma implies that given $A'$,
 $A'':=\Gamma'(A')$ can be computed in softly linear time
-$\tilde{O}(|G|)$ as well. Invertibility of $\alpha \in \F[G]$ is
+$\tilde{O}(|G|)$ as well. Invertibility of $\beta \in \F[G]$ is
 equivalent to $A''$ being invertible, that is, to all its components
 being invertible in the respective factors $\F[z]/\langle
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle$. Invertibility in such an
 algebra can be tested in softly linear time by applying the fast
 extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows.
 
-\subsection{Metacyclic case}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In the previous section we studied the invertibility problem in $\F[G]$ in the abelian case, based on the isomorphism between the
-group algebra and a tensor product of cyclic algebras. In this brief section we study the same problem for a metacyclic group $G$.
-Although for a group algebra for an abelian group we used an isomorphism, it is actually enough to have an explicit injective
-homomorphism which allows to compute the images efficiently. Hence the first step to solve the problem for a metacylic group, $G$,
- is to find an injective homomorphism from $\F[G]$ to $\oplus_{i}M_{d_i}(D_i)$ where $D_i$'s are division algebras over $\F$. The
- following theorem presents an injection of $\F[G]$. This map is similar to the one used in \cite[\S 47]{Curtis}.
+\subsection{Metacyclic Groups}
 
-\begin{proposition}\label{prop:metinjection}
-If $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s = \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$ is the Galois group 
-of $\K/\F$ where $r^s = 1 \mod m$ and $rt = t \mod m$, then
-\begin{enumerate}
-\item The map 
-\begin{equation}
-\begin{split}
-\psi: \F [G] \rightarrow M_s(R) \\
-\sigma \rightarrow Diag(\bar{x}, \bar{x}^r , \ldots, \bar{x}^{r^{s-1}})\\
-\tau \rightarrow 
+In this last section, we study the invertibility problem for a
+metacyclic group $G$. Our results are not as strong: for an abelian
+groups we used an isomorphism between $\F[G]$ and a quotient of a
+polynomial ring; here, we will use here an explicit injective
+homomorphism, whose image will be easy to compute. This is the object
+of the following theorem, where the map is inspired by the one used in
+\cite[\S 47]{Curtis}.
+
+Assume that $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s =
+\sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$, where $r^s = 1
+\bmod m$ and $rt = t \bmod m$. Define $\A:=\F[z]/\langle z^m-1\rangle$
+and let $\bar{z}$ be the image of $z$ in $\A$.
+
+\begin{lemma}\label{prop:metinjection}
+The mapping
+$$\begin{array}{cccc}
+\psi:& \F [G]& \to& M_s(\A) \\
+&\sigma &\mapsto& \mathrm{Diag}(\bar{z}, \bar{z}^r , \ldots, \bar{z}^{r^{s-1}})\\
+&\tau &\mapsto &
 \left[ \begin{array}{l|l}
-0 & \bar{x}\\
+0 & \bar{z}\\
 \hline
-I_{s-1} & 0
+\mat I_{s-1} & 0
 \end{array}
 \right]
-\end{split}
-\end{equation} 
-where $\bar{x}$ is the image of $x$ in $R = \F[x]/(x^m-1)$, is an injective homomorphism.
-\item For any $u \in \F[G]$, $\psi(u)$ can be computed using $O(s^2m)$ operations over $\F$.
-\item Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
-exponent of matrix multiplication.
-\end{enumerate}
-\end{proposition}
-
+\end{array},$$
+an injective homomorphism of $\F$-algebras.
+\end{lemma}
 \begin{proof}
-It is not hard to verify that 
-$$\psi(\sigma)^n = I_m$$
-$$\psi(\tau)^m = \psi(\sigma)^t$$
-$$\psi(\tau)^{-1}\psi_i(\sigma) \psi_i(\tau) = \psi_i(\sigma)^r$$
-which shows that $\psi$ is a well defined homomorphism. 
+It is straightforward to verify that $\psi(\sigma)^m = \mat I_m$,
+$\psi(\tau)^s = \psi(\sigma)^t$ and $\psi_i(\sigma) \psi_i(\tau)
+=\psi(\tau) \psi_i(\sigma)^r$; this shows that $\psi$ is a well-defined $\F$-algebras homomorphism.
 
-Assume $u = \sum_{j = 0}^m \left( \sum_{i = 0}^n u_{ij} \sigma^i \right) \tau^j \in \mathrm{Ker}(\psi).$ If
-$F_j(x) = \sum_{i = 0}^n u_{ij}x^i$, $F_{i,j} = F_{i-1}(\bar{x}^{r^{j-1}})$ for $1 \leq i,j \leq s$, then 
+Take $\beta \in \F[G]$, and write it $\beta = \sum_{j = 0}^{s-1}
+\left( \sum_{i = 0}^{m-1} b_{ij} \sigma^i \right) \tau^j$. For
+$j=0,\dots,s-1$, define
+$$F_j(x)
+:= \sum_{i = 0}^{m-1} b_{i,j}x^i \in \F[x]$$ 
+and, for $1 \leq i,j \leq s$,
+$$F_{i,j} := F_{i-1}(\bar{z}^{r^{j-1}}).$$
+Then, $\psi(\beta)$ is the matrix
 \begin{equation}\label{eq:injection}
-\psi_d(u) = 
 \left[\begin{array}{llll}
-F_{1,1} &  \cdots	&	\bar{x}F_{2,s-1} & \bar{x}F_{1,0}\\
-F_{2,1} & F_{1,2}& \cdots & \bar{x}F_{2,s}\\
+F_{1,1} &  \cdots	&	\bar{z}F_{2,s-1} & \bar{z}F_{1,0}\\
+F_{2,1} & F_{1,2}& \cdots & \bar{z}F_{2,s}\\
 \vdots &\ddots & \ddots& \vdots\\
 F_{s,1}& \cdots & F_{2,s-2}	& F_{1,s}
 \end{array}
 \right].
 \end{equation}
-Hence we get $F_i(\bar{x}) =0$ which implies $F_i = 0$ for $0 \leq i \leq s$. this finishes the proof of (1). 
-
-For (2), we note that $\bar{x}^{r^i} = \bar{x}^{r^i \mod m}$ which can be computed easily. Then we have to compute
-$F_{i,j}(\bar{x}^i)$ for $1 \leq i,j \leq s$, which can be done in linear time on the size of input, that is $m$,
-Hence the matrix can be computed in $O(s^2m)$.
-
-One can get $\psi(u)$ by using (2) and then its determinant is computable using $O(s^\omega m)$ operations over $\F$. 
+If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\bar{z}) =0$ which
+implies $F_i = 0$ (by degree reasons), for $0 \leq i < s$.
 \end{proof}
+
+
+\begin{corollary}
+  Given $\beta = \sum_{j = 0}^{s-1} \left( \sum_{i = 0}^{m-1} b_{ij}
+  \sigma^i \right) \tau^j$ in $\F[G]$, one can test if $\beta$ is a
+  unit in $\F[G]$ using $\tilde{O}(s^\omega m)$ operations in $\F$.
+\end{corollary}
+\begin{proof}
+  The proof of the previous lemma shows an explicit formula for
+  $\psi(\beta)$. In order to compute this matrix, we note that
+  $\bar{z}^{r^{j-1}} = \bar{z}^{r^{j-1} \mod m}$; computing this
+  element and its powers requires no arithmetic operation, so that the
+  coefficients of each $F_{i,j}$ are obtained in linear time $O(m)$.
+  Hence the matrix $\psi(\beta)$ can be computed in time $O(s^2m)$.
+
+  Next, we have to determine whether $\psi(\beta)$ is a unit (the
+  injectivity of $\psi$ implies that this is the case if and only if
+  $\beta$ itself is a unit).
+\end{proof}
+
+Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
+exponent of matrix multiplication.
+
+
 
 %In the previous section we studied the invertibility problem in $\F[G]$ in the abelian case, based on the isomorphism between the
 %group algebra and a tensor product of cyclic algebras. In this brief section we study the same problem for a metacyclic group $G$.
@@ -457,7 +477,7 @@ One can get $\psi(u)$ by using (2) and then its determinant is computable using 
 %\begin{itemize}
 %\item The map $\psi $ where,
 %% 
-%where $\bar{x}$ is the image of $x \in R = \F[x]/(x^m-1)$, is an injective homomorphism.
+%where $\bar{z}$ is the image of $x \in R = \F[x]/(x^m-1)$, is an injective homomorphism.
 %\item For any $u \in \F[G]$, $\varphi(u)$ can be computed using $O(s^2m)$ operations over $\F$.
 %\item Invertiblity of $u$ can be decided using $O(s^\omega m)$ operations in $F$, where $\omega$ is the
 %exponent of matrix multiplication.
