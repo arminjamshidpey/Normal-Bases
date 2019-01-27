@@ -24,7 +24,7 @@ determining a normal element in a finite field $\FF_{q^n}/\FF_q$, where
 $\FF_{q^n}$ is the finite field with $q^n$ elements for any prime power $q$
 and integer $n>1$, is presented by \citeN{GatGie90}, with a cost of
 $O(n^2+n\log q)$ operations in $\FF_q$.  A faster randomized algorithm is
-introduced by \citeN{Kaltofen}, with a cost of $O(n^{1.815}\log q)$
+introduced by \citeN{KalSho98}, with a cost of $O(n^{1.815}\log q)$
 operations in $\FF_q$.  In the bit complexity model, Kedlaya and Umans showed
 how to reduce the exponent of $n$ to $1.5+\varepsilon$ (for any
 $\varepsilon > 0$), by leveraging their quasi-linear time algorithm for
@@ -69,7 +69,7 @@ $\gamma:=\sigma(\bar x) \in \K$, $\sigma$ being an $\F$-automorphism
 implies that $\sigma(\beta)$ is equal to $\beta(\gamma)$.
 
 Our algorithms combine techniques and ideas due
-to~\cite{GatGie90,Kaltofen}: $\alpha \in \K$ is normal if and only
+to~\cite{GatGie90,KalSho98}: $\alpha \in \K$ is normal if and only
 if the element $S_\alpha := \sum_{\sigma \in G} \sigma(\alpha)\sigma
 \in \K[G]$ is invertible in the group algebra $\K[G]$. The algorithms
 choose $\alpha$ at random; a generic choice is normal (so we expect
@@ -78,7 +78,7 @@ $S_\alpha$ involves $\Theta(n^2)$ elements in $\F$, which precludes a
 subquadratic runtime. Knowing $\alpha$, the algorithms use a
 randomized reduction to a similar question in $\F[G]$, that amounts to
 applying a random projection $\K\to\F$ to all entries of $S_\alpha$.
-For that, we adapt algorithms from~\cite{Kaltofen} that were written
+For that, we adapt algorithms from~\cite{KalSho98} that were written
 for Galois groups of finite fields.
 
 Section \ref{sec:pre} of this paper is devoted to definitions and
