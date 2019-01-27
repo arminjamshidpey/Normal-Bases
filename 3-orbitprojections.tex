@@ -262,16 +262,16 @@ $O(n^{(1/2)\cdot\omega(2)})$ operations in $\F$, which is in $\osumcost$.
 
 \subsection{Metacyclic Groups}
 
-A group $G$ is metacyclic if it has a normal cyclic subgroup $H$ such
-that $G/H$ is cyclic; for instance, any group with a squarefree order
-is metacyclic. See \cite[p.~88]{Johnson} or \cite[p.~334]{Curtis} for
-more background. A metacyclic group can be presented as
-\begin{equation}\label{eq:metacyclic}
+A group $G$ is metacyclic if it has a normal cyclic subgroup $H$ such that
+$G/H$ is cyclic; for instance, any group with a squarefree order is
+metacyclic. See \cite[p.~88]{Johnson} or \cite[p.~334]{Curtis} for more
+background. A metacyclic group can always be presented~as
+\begin{equation}
+  \label{eq:metacyclic}
   \langle \sigma,\tau: \sigma^t = 1,  \tau^m = \sigma^s, \tau^{-1}\sigma \tau = \sigma^r \rangle,
 \end{equation}
-for some integers $m,t,r,s$, with $r,s \leq t$ and $r^m = 1 \bmod t, rs
-= s \bmod t$. For example,
-the dihedral group 
+for some integers $m,t,r,s$, with $r,s \leq t$ and
+$r^m = 1 \bmod t, rs = s \bmod t$. For example, the dihedral group
 $$D_{2t} = \langle \sigma,\tau: \sigma^t =1, \tau^2 = 1, \tau^{-1}
 \sigma \tau = \sigma^{t-1} \rangle, $$ is metacyclic, with
 $m=2$. Generalized quaternion groups, which can be presented as
@@ -279,9 +279,8 @@ $$Q_t = \langle \sigma,\tau: \sigma^{2t} =1, \tau^2 = \sigma^t,
 \tau^{-1} \sigma \tau = \sigma^{2t-1} \rangle,$$ are metacyclic, with
 $m=2$ as well.
 
-Using the notation of~\eqref{eq:metacyclic}, $n=|G|$ is equal to $mt$,
-and all elements in a metacyclic group can be presented uniquely as
-either
+Using the notation of~\eqref{eq:metacyclic}, $n=|G|$ is equal to $mt$, and
+all elements in a metacyclic group can be presented uniquely as either
 \begin{equation}\label{pres1}
 \{\sigma^i \tau^j,\,\,\, 0\leq i \leq t-1,\ 0\leq j \leq m-1\}  
 \end{equation}
@@ -307,39 +306,39 @@ for $k,c \ge 0$.
   presentation~\eqref{pres1} of the elements of $G$. Take $\alpha$ in
   $\K$ and $\ell:\K \to \F$; the goal is to compute
   $\ell(\sigma^i\tau^j (\alpha))$, for all $0\leq i < t$ and $0 \leq j
-  <m.$ This can be done in three steps.
+  <m.$ This is accomplished with the following steps.
 
 \smallskip\noindent\textbf{Step 1.} Apply Lemma \ref{lem:selfcomp} to compute
 $$G_{i,j} := \sigma^i\tau^j(\alpha),\ 0\leq i < \lceil \sqrt{t/m}
-\rceil,\ 0 \leq j < m.$$ Note that $\lceil \sqrt{t/m} \rceil m \leq
-\lceil \sqrt{mt} \rceil \in O(\sqrt n)$, so we are under the assumptions
-of the lemma. This takes  $\osumcosttilde$ operations in~$\F$.
+\rceil,\ 0 \leq j < m.$$ Note that
+$\lceil \sqrt{t/m} \rceil m \leq \lceil \sqrt{mt} \rceil \in O(\sqrt n)$,
+so we are under the assumptions of the lemma. This takes $\osumcosttilde$
+operations in~$\F$.
 
-\smallskip\noindent\textbf{Step 2.} Compute $\sigma^{\lceil \sqrt{t/m}
-\rceil}$, in $O(\log(n))$ modular compositions in degree $n$. The cost
-is no more than that of Step 1.
+\smallskip\noindent\textbf{Step 2.} Compute
+$\sigma^{\lceil \sqrt{t/m} \rceil}$, in $O(\log(n))$ modular compositions
+in degree $n$. The cost is no more than that of Step 1.
 
-\smallskip\noindent\textbf{Step 3.} Compute $$L_k := \ell \circ
-\sigma^{k\lceil \sqrt{t/m} \rceil}, \,\, 0\leq k < \lceil
-\sqrt{mt}\rceil$$ using Lemma \ref{lem:transmodcomp}.
-This takes  $\osumcosttilde$ operations in~$\F$.
+\smallskip\noindent\textbf{Step 3.} Compute
+$$L_k := \ell \circ \sigma^{k\lceil \sqrt{t/m} \rceil}, \,\, 0\leq k <
+\lceil \sqrt{mt}\rceil$$ using Lemma \ref{lem:transmodcomp}.  This takes
+$\osumcosttilde$ operations in~$\F$.
 
 \smallskip\noindent\textbf{Step 4.} At this point, we compute all
 $$ L_k(s_{i,j}) = \ell(\sigma^{k\lceil \sqrt{t/m} \rceil + i}\tau
-^j(\alpha)),$$ for $0\le k < \lceil \sqrt{mt}\rceil$, $0\le i< \lceil
-\sqrt{t/m}\rceil$ and $0 \leq j < m;$ these are precisely 
+^j(\alpha)),$$ for $0\le k < \lceil \sqrt{mt}\rceil$,
+$0\le i< \lceil \sqrt{t/m}\rceil$ and $0 \leq j < m;$ these are precisely
 the values we needed.
 
 This can be carried out by multiplying the matrix with rows the
-coefficients of all $L_k$ by the matrix with columns the coefficients
-of all $G_{i,j}$; this yields all required values, as pointed out
-above. There are $O(\sqrt{mt})=O(\sqrt{n})$ linear forms $L_k$'s, and
-$O(\sqrt{n})$ field elements $G_{i,j}$'s, so we can compute this product
-in $O(n^{1/2\omega(2)})$ operations in $\F$, which is $\osumcost$.
+coefficients of all $L_k$ by the matrix with columns the coefficients of
+all $G_{i,j}$; this yields all required values, as pointed out above. There
+are $O(\sqrt{mt})=O(\sqrt{n})$ linear forms $L_k$'s, and $O(\sqrt{n})$
+field elements $G_{i,j}$'s, so we can compute this product in
+$O(n^{1/2\omega(2)})$ operations in $\F$, which is $\osumcost$.
 
 This concludes the proof in the case $m \le t$. When $t \le m$, use the
-presentation~\eqref{pres2} of the elements of $G$ and proceed as
-above.
+presentation~\eqref{pres2} of the elements of $G$ and proceed as above.
 \end{proof}
 
 %% We note the above algorithm works for a class of groups which includes metacyclic case. Since if $G$ is metacyclic, 
