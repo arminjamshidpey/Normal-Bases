@@ -24,8 +24,15 @@ finally, a matrix product yields all values $L_j(G_i)$.
 The original algorithm relies on the properties of the Frobenius
 mapping to achieve subquadratic runtime. In our case, we cannot apply
 these results directly; instead, we have to revisit the proofs
-of~\cite[Lemmata 3, 4 $\&$~ 8]{Kaltofen}, introducing
-considerations about rectangular matrix multiplication.
+of~\cite[Lemmata 3, 4 $\&$~ 8]{Kaltofen}, introducing considerations
+about rectangular matrix multiplication.  Our exponents involve the
+constant $\omega(4/3)$, for which we have the upper bound $\omega(4/3)
+< 2.654$: this follows from the upper bounds on $\omega(1.3)$ and
+$\omega(1.4)$ given in~\cite{LeGall}, and the fact that $k \mapsto
+\omega(k)$ is convex~\cite{LoRo83}. In particular, $3/4 \omega(4/3) <
+1.99$. Note also the inequality $\omega(k) \ge 1+k$ for $k\ge 1$
+(since $\omega(k)$ describes products with input and output size
+$O(n^{1+k})$).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -53,20 +60,26 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\bar x^{tj},$$ where the
   there are $t$ products in $\K$ to do, so this amounts to
   $\tilde{O}(n^{7/4})$ operations in $\F$.
 
-  Having $H_i$'s in hand one can form the matrix $H = \left[ H_1 \vert
-    \cdots \vert H_t \right]^T$ where each column is the vector of the
-  element $H_i$ (with coefficients in $K$) so the matrix $H$ is of
-  size $t \times n$. We form
-$$A = \left[\bar{g}_{10}\vert \cdots \vert \bar{g}_{1(n/t-1)}\vert
-  \cdots \vert \bar{g}_{s0}\vert \cdots \vert
-  \bar{g}_{s(n/t-1)}\right]^T,$$ where $\bar{g}_{ij}$ is the vector of
-$g_{ij}$. In order to compute $g_{ij}(h)$ one can compute $A \cdot
-H$. Using results from \cite{LeGall}, this can be done in $O(n^{3/4
-  \omega(4/3)})$. The last step to get $g_i(h)$, is to substitute
-$H_t$ for $x^t$ and performing a Horner evaluation scheme. The
-dominant term in the cost of this calculation, is the cost of
-computing $AH$ which can be carried out using $O(n^{3/4 \omega(4/3)})$
-operations in $\F$.
+  Having $\Gamma_i$'s in hand, one can form the matrix $\boldsymbol{\Gamma} :=
+  \left[ \bar \Gamma_1 ~ \cdots ~\bar \Gamma_t \right]^T$, where each column 
+$\bar \Gamma_i$ is
+  the coefficient vector of $\Gamma_i$ (with entries in $\F$);
+  this matrix is of size $t \times n$. We also form
+  $$\mat A := \left[\bar{a}_{1,0} \cdots \bar{a}_{1,m-1} \cdots
+    \bar{a}_{s,0} \cdots \bar{a}_{s,m-1}\right]^T,$$ where
+  $\bar{a}_{i,j}$ is the coefficient vector of $a_{i,j}$. This matrix 
+  has $s m \in O(n^{3/4})$ rows and $n$ columns.
+
+  Compute $\mat B:=\mat A \cdot \boldsymbol{\Gamma}$; as per our
+  definition of exponents $\omega(\ .\ )$, this can be done in
+  $O(n^{3/4 \omega(4/3)})$ operations in $\F$; the rows of this matrix
+  give all $a_{i,j}(\gamma)$.  The last step to get all
+  $\alpha_i(\gamma)$ is to write them as $\alpha_i(\gamma) = \sum_{0
+    \leq j < m} a_{i,j}(\gamma) \Gamma_t^{j}.$ Using Horner's scheme,
+  this takes $O(sm)$ operations in $\K$, which is $\tilde{O}(n^{7/4})$
+  operations in $\F$. Since we pointed out that $\omega(3/4) \ge 7/4$,
+  the leading exponent in all costs seen so far is
+  ${3}/{4}\omega({4}/{3})$.
 \end{proof}
 
 \begin{lemma}\label{lem:selfcomp}
@@ -74,7 +87,8 @@ Given $\alpha$ in $\K$, $g_1, \ldots , g_{r}$ in $G =
 \mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
 that $\prod_{i = 1}^r s_i = O(\sqrt{n})$, all
   $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) ,\quad \text{~for~} 0 \leq i_j
-  \leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$ operations in $\F$.
+\leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$
+operations in $\F$.
 \end{lemma}
 \begin{proof}
 (Compare \cite[Lemma~4]{Kaltofen}) Suppose $1 \leq m \leq r$ is
@@ -97,7 +111,7 @@ $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
 
 Note that for each $g_i$ we have to compute $g_i^{2^j}$ for $0 \leq j
 \leq \log(s_i)$ but this is just a one time computation for each $g_i$
-which does not change the total cost.
+which does not change the total cost. Since $\omega(4/3) \ge 7/4$
 \end{proof}
 
 \begin{lemma}\label{lem:transmodcomp}
