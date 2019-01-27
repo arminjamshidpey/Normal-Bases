@@ -15,8 +15,8 @@ Fourier Transform)
   \F[G] \to M_{d_1}(D_1) \times \dots \times M_{d_r}(D_r),
 \]
 where all $D_i$'s are division algebras over $\F$. If we were working over
-$\F=\C$, all $D_i$'s would simply be $\C$ itself; then, a natural solution
-to test the invertibility of $\beta \in \F[G]$ would be to compute its
+$\F=\C$, all $D_i$'s would simply be $\C$ itself.  A natural solution
+to test the invertibility of $\beta \in \F[G]$ would then be to compute its
 Fourier transform and test whether all its components
 $\beta_1 \in M_{d_1}(\C),\dots,\beta_r \in M_{d_r}(\C)$ are
 invertible. This boils down to linear algebra over $\C$, and takes
@@ -41,7 +41,7 @@ form $\F[z]/\langle P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$
 (recovering $\beta$ from its image is softly-linear time as well). Not only
 does this allow us to test whether $\beta$ is invertible, this would also
 make it possible to find its inverse in $\F[G]$ (or to compute products in
-$\F[G]$) in softly-linear time; we are not aware of previous results of
+$\F[G]$) in softly-linear time.  We are not aware of previous results of
 this kind. For metacyclic groups, we describe an injective $\F$-algebra
 homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic ring. The
 codomain is in general of dimension higher than $|G|$, so the algorithm we
@@ -60,28 +60,28 @@ The previous property implies that $\F[G]$ admits a description of the
 form $\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$,
 for some integers $n_1,\dots,n_t$. The complexity of arithmetic
 operations in an $\F$-algebra such as $\A:=\F[x_1,\dots,x_t]/\langle
-P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down exactly. For
+P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down precisely. For
 general $P_i$'s, the cost of multiplication in $\A$ is known to be
 $O(\dim(\A)^{1+\varepsilon})$, for any $\varepsilon >
-0$~\cite[Theorem~2]{LiMoSc09}; from this, it may be possible to deduce
+0$~\cite[Theorem~2]{LiMoSc09}. From this it may be possible to deduce
 similar upper bounds on the complexity of invertibility tests,
 following~\cite{DaMMMScXi06}, but this seems non-trivial.
 
 Instead, we give an algorithm with softly linear runtime, that uses
 the factorization properties of cyclotomic polynomials and Chinese
-remaindering techniques to turn our problem into that of invertibility
+remaindering techniques to transform our problem into that of invertibility
 testing in algebras of the form $\F[z]/\langle P_i(z) \rangle$, for
 various polynomials $P$. The reference~\cite{Pol94} also discusses the
 factors of algebras such as $\F[x_1,\dots,x_t]/\langle
 x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, but the resulting algorithms are 
-different (and the cost of the algorithm in that reference 
+different (and the cost of the \citeauthor{Pol94}'s \citeyear{Pol94} algorithm
 is only known to be polynomial in $|G|$).
 
 \smallskip
 
 \noindent{\bf Tensor product of two cyclotomic rings: coprime orders.}
-The following proposition will be the key to forego multivariate
-polynomials, and replace them by univariate ones.  Let $m,m'$ be two
+The following proposition will be the key to foregoing multivariate
+polynomials, and replacing them by univariate ones.  Let $m,m'$ be two
 coprime integers and define
 $$\mathbbm{h}:=\F[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle,$$
 where for $i \ge 0$, $\Phi_i$ is the cyclotomic polynomial of order
@@ -120,12 +120,11 @@ $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
   $\Phi_{mm'}$ in $\tilde{O}(\varphi(mm'))$ operations, establishing
   the cost bound for $\gamma$.
 
-Conversely, given $Q$ in $\F[z]/\langle\Phi_{mm'}(z)\rangle$, we
-obtain its preimage by replacing powers of $z$ by powers of $xx'$,
-reducing all exponents in $x$ modulo $m$, and all exponents in $x'$
-modulo $m'$; then, we reduce the result modulo both $\Phi_m(x)$ and
-$\Phi_{m'}(x')$.  By the same argument as above, the cost is softly
-linear in $\varphi(mm')$.
+  Conversely, given $Q$ in $\F[z]/\langle\Phi_{mm'}(z)\rangle$, we obtain
+  its preimage by replacing powers of $z$ by powers of $xx'$, reducing all
+  exponents in $x$ modulo $m$, and all exponents in $x'$ modulo $m'$.  We
+  then reduce the result modulo both $\Phi_m(x)$ and $\Phi_{m'}(x')$.  By
+  the same argument as above, the cost is softly linear in $\varphi(mm')$.
 \end{proof}
 
 \noindent{\bf Extension to several cyclotomic rings.}  The natural
@@ -229,7 +228,7 @@ $\mathbbm{a}:=\F[x_1]/\Phi_{p^{c_1}}(x_1)$.
 Without loss of generality, we can assume that all $c_i$'s are non-zero
 (since for $c_i=0$, $\Phi_{p^{c_i}}(x_i)=x_i-1$,
 so $\F[x_i]/\langle \Phi_{p^{c_i}}(x_i) \rangle = \F$).
-Then, we proceed iteratively. First, rewrite $\A$ as
+We proceed iteratively. First, rewrite $\A$ as
 $$\A=\mathbbm{a}[x_2,x_3,\dots,x_t]/\langle \Phi_{p^{c_2}}(x_2), \Phi_{p^{c_3}}(x_3), \dots,
 \Phi_{{p_t}^{c_t}}(x_t)\rangle.$$ 
 The isomorphism 
@@ -250,7 +249,7 @@ $$\Theta = \Theta_{t-1} \circ \cdots \circ \Theta_1:
 The exponent can be rewritten as $ \dim(\A)/\dim(\mathbbm{a})$, as claimed.
 In terms of complexity, all $\Theta_i$'s and their inverses can be computed
 in quasi-linear time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
-where $t$ is $O(\log(\dim(\A)))$. The proof is complete.
+where $t$ is $O(\log(\dim(\A)))$. 
 \end{proof}
 
 \noindent{\bf Decomposing certain $p$-group algebras.}  The prime $p$
