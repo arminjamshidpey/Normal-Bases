@@ -39,7 +39,7 @@ a normal basis of a number field over $\QQ$ with a cyclic Galois group
 of cardinality $n$ which requires $n^{O(1)}$ operations in $\QQ$.
 \citeN{Pol94} gives an algorithm for the more general case of finding
 a normal basis in an abelian extension $\K/\F$ which requires
-$O(n^{O(1)})$ in $\F$.  More generally in characteristic zero, for any
+$n^{O(1)}$ in $\F$.  More generally in characteristic zero, for any
 Galois extension $\K/\F$ of degree $n$ with Galois group given by a
 collection of $n$ matrices, \citeN{Girstmair} gives an algorithm which
 requires $O(n^4)$ operations in $\F$ to construct a normal element in
@@ -59,14 +59,16 @@ Our main conventions are the following.
   $\K=\F[x]/\langle F(x)\rangle$, for an irreducible polynomial $F\in
   \F[x]$ of degree $n$. Then,
   \begin{itemize}
-  \item elements of $\K$ are written on the power basis $1,\bar x,\dots,\bar x^{n-1}$,
-    where $\bar x = x \bmod F$;
-  \item elements of $G$ are represented by their action on $\bar x$.
+  \item elements of $\K$ are written on the power basis $1,\xbar,\dots,\xbar^{n-1}$,
+    where $\xbar = x \bmod F$;
+  \item elements of $G$ are represented by their action on $\xbar$.
   \end{itemize}
 \end{assumption}
-In particular, for $\sigma \in G$ given by means of
-$\gamma:=\sigma(\bar x) \in \K$, $\sigma$ being an $\F$-automorphism
-implies that $\sigma(\beta)$ is equal to $\beta(\gamma)$.
+
+In particular, for $g \in G$ given by means of $\gamma:=g(\xbar) \in \K$,
+and $\beta = \sum_{0\leq i<n}\beta_i\xbar^i\in\K$, the fact that $g$ is an
+$\F$-automorphism implies that $g(\beta)$ is equal to $\beta(\gamma)$, the
+polynomial composition of $\beta$ at $\gamma$ (reduced modulo $F$).
 
 Our algorithms combine techniques and ideas due
 to~\cite{GatGie90,KalSho98}: $\alpha \in \K$ is normal if and only

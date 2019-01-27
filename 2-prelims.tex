@@ -42,7 +42,7 @@ of this paper is to show how to speed up this verification.
  
 Before entering that discussion, we briefly discuss the probability that
 $\alpha$ be a normal element: if we write
-$\alpha = a_0 + \cdots + a_{n-1} \bar x^{n-1}$, the determinant of
+$\alpha = a_0 + \cdots + a_{n-1} \xbar^{n-1}$, the determinant of
 $\mat M_G(\alpha)$ is a (not identically zero) homogeneous polynomial of
 degree $n$ in $(a_0,\dots,a_{n-1})$. If the $a_i$'s are chosen uniformly at
 random in a finite set $X \subset \F$, the Lipton-DeMillo-Schwartz-Zippel
@@ -81,14 +81,14 @@ $S_\alpha$ in $\F[G]$ is a unit.
   $(\Rightarrow)$ For a fixed $\alpha\in\K$, any entry of
   $\mat M_G(\alpha)$ can be written as
   \begin{equation}\label{Eq:PrimElm}
-    \sum_{k= 0}^{n-1} a_{ijk}\bar x^k,
+    \sum_{k= 0}^{n-1} a_{ijk}\xbar^k,
   \end{equation}
   and the corresponding entry in $\ell(\mat M_G(\alpha))$, for
   $\ell: \K \to \F$ can be written $\sum_{k= 0}^{n-1} a_{ijk}\ell_k$, with
-  $\ell_k = \ell(\bar x^k)$. Replacing these $\ell_k$'s by indeterminates
+  $\ell_k = \ell(\xbar^k)$. Replacing these $\ell_k$'s by indeterminates
   $L_k$'s, the determinant becomes a polynomial in
   $P \in \F[L_1, \ldots, L_n].$ Viewing $P$ in $\K[x_1, \ldots , x_n]$, we
-  have $ P(1, \bar x, \ldots, \bar x^{n-1})$ $= \det(\mat M_G(\alpha))$,
+  have $ P(1, \xbar, \ldots, \xbar^{n-1})$ $= \det(\mat M_G(\alpha))$,
   which is non-zero by assumption. Hence, $P$ is not identically zero, and
   the conclusion follows.
   
@@ -123,7 +123,7 @@ $S_\alpha$ in $\F[G]$ is a unit.
   
   Now we show that $\ell(\mat M_G(\alpha))$ is not invertible for all
   choices of $\ell$. By Equation \eqref{Eq:PrimElm}, we can write
-  $$\mat M_G(\alpha) = \sum_{j = 1}^n \mat M^{(j)} \bar x^j, \quad 
+  $$\mat M_G(\alpha) = \sum_{j = 1}^n \mat M^{(j)} \xbar^j, \quad 
   \mat M^{j} \in M_{n}(\F) \text{~for all $j$}.$$ Now
   $\mat M_G(\alpha) \boldsymbol{u} =0$ yields
   $\mat M^{(j)}\boldsymbol{u} = 0$ for

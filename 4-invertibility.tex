@@ -9,42 +9,43 @@ application to normal bases, we believe these problems are of independent
 interest.
 
 Since we are in characteristic zero, Wedderburn's theorem implies the
-existence of an $\F$-algebra isomorphism (which we will call a Fourier Transform)
-$$\F[G] \to M_{d_1}(D_1) \times \dots \times M_{d_r}(D_r),$$ where all
-$D_i$'s are division algebras over $\F$. If we were working over
-$\F=\C$, all $D_i$'s would simply be $\C$ itself; then, a natural
-solution to test the invertibility of $\beta \in \F[G]$ would be to
-compute its Fourier transform and test whether all its components
+existence of an $\F$-algebra isomorphism (which we will refer to as a
+Fourier Transform)
+\[
+  \F[G] \to M_{d_1}(D_1) \times \dots \times M_{d_r}(D_r),
+\]
+where all $D_i$'s are division algebras over $\F$. If we were working over
+$\F=\C$, all $D_i$'s would simply be $\C$ itself.  A natural solution
+to test the invertibility of $\beta \in \F[G]$ would then be to compute its
+Fourier transform and test whether all its components
 $\beta_1 \in M_{d_1}(\C),\dots,\beta_r \in M_{d_r}(\C)$ are
 invertible. This boils down to linear algebra over $\C$, and takes
-$O(d_1^\omega + \cdots + d_r^\omega)$ operations.  Since $d_1^2 +
-\cdots + d_r^2 = |G|$, this is $O(|G|^{\omega/2})$ operations in $\C$.
+$O(d_1^\omega + \cdots + d_r^\omega)$ operations.  Since
+$d_1^2 + \cdots + d_r^2 = |G|$, this is $O(|G|^{\omega/2})$ operations in
+$\C$.
 
-However, we do not wish to make such an assumption as $\F=\C$. Since
+However, we do not wish to make such a strong assumption as $\F=\C$. Since
 we measure the cost of our algorithms in $\F$-operations, the direct
 approach that embeds $\F[G]$ into $\C[G]$ does not make it possible to
-obtain a subquadratic cost in general. If for instance $\F=\Q$ and $G$
-is cyclic of order $n=2^k$, computing the Fourier Transform of
-$\beta$ requires we work in a degree $n/2$ extension of $\Q$, whence
-a quadratic runtime.
+obtain a subquadratic cost in general. If, for instance, $\F=\Q$ and $G$ is
+cyclic of order $n=2^k$, computing the Fourier Transform of $\beta$
+requires we work in a degree $n/2$ extension of $\Q$, implying a quadratic
+runtime.
 
 In this section, we give algorithms for the problem of invertibility
-testing for the families of group seen so far, abelian and
-metacyclic. In the first case, we actually prove a stronger result:
-starting from a suitable presentation of $G$, we give a softly
-linear-time algorithm to find an isomorphic image of $\beta \in
-\F[G]$ in a product of $\F$-algebras of the form $\F[z]/\langle
-P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$ (recovering
-$\beta$ from its image is softly-linear time as well). Not only does
-this allow us to test whether $\beta$ is invertible, this would also
-make it possible to find its inverse in $\F[G]$ (or to compute
-products in $\F[G]$) in softly-linear time; we are not aware of 
-previous results of this kind.
-
-For metacyclic groups, we describe an injective $\F$-algebra
-homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic
-ring. The codomain is in general of dimension higher than $|G|$, so
-the algorithm we deduce from this is not linear-time.
+testing for the families of group seen so far, abelian and metacyclic. For
+the former, we actually prove a stronger result: starting from a suitable
+presentation of $G$, we give a softly linear-time algorithm to find an
+isomorphic image of $\beta \in \F[G]$ in a product of $\F$-algebras of the
+form $\F[z]/\langle P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$
+(recovering $\beta$ from its image is softly-linear time as well). Not only
+does this allow us to test whether $\beta$ is invertible, this would also
+make it possible to find its inverse in $\F[G]$ (or to compute products in
+$\F[G]$) in softly-linear time.  We are not aware of previous results of
+this kind. For metacyclic groups, we describe an injective $\F$-algebra
+homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic ring. The
+codomain is in general of dimension higher than $|G|$, so the algorithm we
+deduce from this is not linear-time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -59,28 +60,28 @@ The previous property implies that $\F[G]$ admits a description of the
 form $\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$,
 for some integers $n_1,\dots,n_t$. The complexity of arithmetic
 operations in an $\F$-algebra such as $\A:=\F[x_1,\dots,x_t]/\langle
-P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down exactly. For
+P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down precisely. For
 general $P_i$'s, the cost of multiplication in $\A$ is known to be
 $O(\dim(\A)^{1+\varepsilon})$, for any $\varepsilon >
-0$~\cite[Theorem~2]{LiMoSc09}; from this, it may be possible to deduce
+0$~\cite[Theorem~2]{LiMoSc09}. From this it may be possible to deduce
 similar upper bounds on the complexity of invertibility tests,
 following~\cite{DaMMMScXi06}, but this seems non-trivial.
 
 Instead, we give an algorithm with softly linear runtime, that uses
 the factorization properties of cyclotomic polynomials and Chinese
-remaindering techniques to turn our problem into that of invertibility
+remaindering techniques to transform our problem into that of invertibility
 testing in algebras of the form $\F[z]/\langle P_i(z) \rangle$, for
 various polynomials $P$. The reference~\cite{Pol94} also discusses the
 factors of algebras such as $\F[x_1,\dots,x_t]/\langle
 x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, but the resulting algorithms are 
-different (and the cost of the algorithm in that reference 
+different (and the cost of the \citeauthor{Pol94}'s \citeyear{Pol94} algorithm
 is only known to be polynomial in $|G|$).
 
 \smallskip
 
 \noindent{\bf Tensor product of two cyclotomic rings: coprime orders.}
-The following proposition will be the key to forego multivariate
-polynomials, and replace them by univariate ones.  Let $m,m'$ be two
+The following proposition will be the key to foregoing multivariate
+polynomials, and replacing them by univariate ones.  Let $m,m'$ be two
 coprime integers and define
 $$\mathbbm{h}:=\F[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle,$$
 where for $i \ge 0$, $\Phi_i$ is the cyclotomic polynomial of order
@@ -119,12 +120,11 @@ $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
   $\Phi_{mm'}$ in $\tilde{O}(\varphi(mm'))$ operations, establishing
   the cost bound for $\gamma$.
 
-Conversely, given $Q$ in $\F[z]/\langle\Phi_{mm'}(z)\rangle$, we
-obtain its preimage by replacing powers of $z$ by powers of $xx'$,
-reducing all exponents in $x$ modulo $m$, and all exponents in $x'$
-modulo $m'$; then, we reduce the result modulo both $\Phi_m(x)$ and
-$\Phi_{m'}(x')$.  By the same argument as above, the cost is softly
-linear in $\varphi(mm')$.
+  Conversely, given $Q$ in $\F[z]/\langle\Phi_{mm'}(z)\rangle$, we obtain
+  its preimage by replacing powers of $z$ by powers of $xx'$, reducing all
+  exponents in $x$ modulo $m$, and all exponents in $x'$ modulo $m'$.  We
+  then reduce the result modulo both $\Phi_m(x)$ and $\Phi_{m'}(x')$.  By
+  the same argument as above, the cost is softly linear in $\varphi(mm')$.
 \end{proof}
 
 \noindent{\bf Extension to several cyclotomic rings.}  The natural
@@ -228,7 +228,7 @@ $\mathbbm{a}:=\F[x_1]/\Phi_{p^{c_1}}(x_1)$.
 Without loss of generality, we can assume that all $c_i$'s are non-zero
 (since for $c_i=0$, $\Phi_{p^{c_i}}(x_i)=x_i-1$,
 so $\F[x_i]/\langle \Phi_{p^{c_i}}(x_i) \rangle = \F$).
-Then, we proceed iteratively. First, rewrite $\A$ as
+We proceed iteratively. First, rewrite $\A$ as
 $$\A=\mathbbm{a}[x_2,x_3,\dots,x_t]/\langle \Phi_{p^{c_2}}(x_2), \Phi_{p^{c_3}}(x_3), \dots,
 \Phi_{{p_t}^{c_t}}(x_t)\rangle.$$ 
 The isomorphism 
@@ -249,18 +249,19 @@ $$\Theta = \Theta_{t-1} \circ \cdots \circ \Theta_1:
 The exponent can be rewritten as $ \dim(\A)/\dim(\mathbbm{a})$, as claimed.
 In terms of complexity, all $\Theta_i$'s and their inverses can be computed
 in quasi-linear time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
-where $t$ is $O(\log(\dim(\A)))$. The proof is complete.
+where $t$ is $O(\log(\dim(\A)))$. 
 \end{proof}
 
 \noindent{\bf Decomposing certain $p$-group algebras.}  The prime $p$
 and indeterminates $\boldsymbol{x}=(x_1,\dots,x_t)$ are as before; we now consider
 positive integers $\boldsymbol{b}=(b_1,\dots,b_t)$, and the $\F$-algebra
-$$
+\[
 \begin{array}{ccl}
 \B&:=&\F[x_1,\dots,x_t]/\langle x_1^{p^{b_1}}-1,\dots,x_t^{p^{b_t}}-1\rangle\\$$
-&=& \F[x_1]/\langle x_1^{p^{b_1}}-1 \rangle \otimes \cdots \otimes \F[x_t]/\langle x_t^{p^{b_t}}-1 \rangle;
-\end{array}$$
-if needed, we will write $\B_{p,\boldsymbol{b},\boldsymbol{x}}$ to make the dependency
+&=& \F[x_1]/\langle x_1^{p^{b_1}}-1 \rangle \otimes \cdots \otimes \F[x_t]/\langle x_t^{p^{b_t}}-1 \rangle.
+\end{array}
+\]
+If needed, we will write $\B_{p,\boldsymbol{b},\boldsymbol{x}}$ to make the dependency
 on $p$ and the $b_i$'s clear. This is the $\F$-group algebra
 of $\Z/p^{b_1}\Z \times \cdots \times \Z/p^{b_t}\Z$.
 
@@ -278,9 +279,11 @@ $$x_i^{p^{b_i}}-1 = \Phi_1(x_i) \Phi_p(x_i) \Phi_{p^2}(x_i) \cdots
 \Phi_{p^{b_i}}(x_i);$$ note that $\Phi_1(x_i)=x_i-1$.  The factors may
 not be irreducible, but they are pairwise coprime, so that we have a
 Chinese Remainder isomorphism
-$$\lambda_i: \F[x_i]/\langle x_i^{p^{b_i}}-1 \rangle \to \F[x_i]/\langle \Phi_1(x_i)\rangle
-\times \cdots \times  \F[x_i]/\langle \Phi_{p^{b_i}}(x_i)\rangle;$$
-together with its inverse, it can be computed  
+\[
+  \lambda_i: \F[x_i]/\langle x_i^{p^{b_i}}-1 \rangle \to \F[x_i]/\langle \Phi_1(x_i)\rangle
+  \times \cdots \times  \F[x_i]/\langle \Phi_{p^{b_i}}(x_i)\rangle.
+\]
+Together with its inverse, this can be computed  
 in $\tilde{O}(p^{b_i})$ operations in $\F$~\cite[Chapter~10]{vzGathen13}. By distributivity of the tensor
 product over direct products, 
 this gives an $\F$-algebra isomorphism
@@ -317,7 +320,7 @@ We will henceforth assume that generators
 $\gamma_{1,1},\dots,\gamma_{s,t_s}$ of respectively
 $G_{1,1},\dots,G_{s,t_s}$ are known, and that elements of $\F[G]$ are
 given on the power basis in $\gamma_{1,1},\dots,\gamma_{s,t_s}$. Were
-it not case, given arbitrary generators $g_1,\dots,g_r$ of $G$, with
+this not the case, given arbitrary generators $g_1,\dots,g_r$ of $G$, with
 orders $e_1,\dots,e_r$, a brute-force solution would factor each $e_i$
 (factoring $e_i$ takes $o(e_i)$ bit operations on a standard RAM), so
 as to write $\langle g_i \rangle$ as a product of cyclic groups of
@@ -331,7 +334,7 @@ prime power orders, from which the required decomposition follows.
 The proof occupies the rest of this paragraph.
 From the factorization $G = G_1 \times \cdots \times G_s$, we deduce
 that the group algebra $\F[G]$ is the tensor product $\F[G_1]
-\otimes \cdots \otimes \F[G_s]$. Further, the 
+\otimes \cdots \otimes \F[G_s]$. Furthermore, the 
 factorization $G_i = G_{i,1} \times \cdots \times G_{i,t_i}$
 implies that $\F[G_i]$ is isomorphic, as an $\F$-algebra, to
 $$\F[x_{i,1},\dots,x_{i,t_i}]/\left \langle
@@ -377,7 +380,7 @@ $$\Gamma': \text{\small $\prod$}_{\boldsymbol{j}}~
 \H_{\boldsymbol{p},\boldsymbol{c}_{\boldsymbol{j}},\boldsymbol{z}} \to
 \text{\small $\prod$}_{\boldsymbol{j}} ~\F[z]/\langle
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle,$$ for certain integers
-$d_{\boldsymbol{j}}$. That lemma implies that given $A'$,
+$d_{\boldsymbol{j}}$. The lemma implies that given $A'$,
 $A'':=\Gamma'(A')$ can be computed in softly linear time
 $\tilde{O}(|G|)$ as well. Invertibility of $\beta \in \F[G]$ is
 equivalent to $A''$ being invertible, that is, to all its components
@@ -391,9 +394,9 @@ extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows.
 \subsection{Metacyclic Groups}
 
 In this last section, we study the invertibility problem for a
-metacyclic group $G$. Our results are not as strong: for an abelian
-groups we used an isomorphism between $\F[G]$ and a quotient of a
-polynomial ring; here, we will use here an explicit injective
+metacyclic group $G$. Our results are not as strong as for abelian groups
+where  we used an isomorphism between $\F[G]$ and a quotient of a
+polynomial ring.  Here we will use here an explicit injective
 homomorphism, whose image will be easy to compute. This is the object
 of the following theorem, where the map is inspired by the one used in
 \cite[\S 47]{Curtis}.
@@ -405,7 +408,8 @@ and let $\bar{z}$ be the image of $z$ in $\A$.
 
 \begin{lemma}\label{prop:metinjection}
 The mapping
-$$\begin{array}{cccc}
+\[
+  \begin{array}{cccc}
 \psi:& \F [G]& \to& M_s(\A) \\
 &\sigma &\mapsto& \mathrm{Diag}(\bar{z}, \bar{z}^r , \ldots, \bar{z}^{r^{s-1}})\\
 &\tau &\mapsto &
@@ -414,8 +418,9 @@ $$\begin{array}{cccc}
 \hline
 \mat I_{s-1} & 0
 \end{array}
-\right]
-\end{array},$$
+\right],
+  \end{array}
+\]
 an injective homomorphism of $\F$-algebras.
 \end{lemma}
 \begin{proof}
