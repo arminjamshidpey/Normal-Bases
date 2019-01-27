@@ -175,10 +175,9 @@ linear maps
 operations in $\F$.
 \end{lemma} 
 \begin{proof}
-  We proceed as in Lemma~\ref{lem:selfcomp}. For $m=1,\dots,r$,
-  assumie we know
-  $L_{i_1,\dots,i_m}:=\ell \circ (g_1^{i_1}\cdots g_m^{i_m}),$ for
-  $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m.$
+  We proceed as in Lemma~\ref{lem:selfcomp}. For $m=1,\dots,r$, assume
+  we know $L_{i_1,\dots,i_m}:=\ell \circ (g_1^{i_1}\cdots g_m^{i_m}),$
+  for $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m.$
   Using the previous lemma, we compute all $L_{i_1,\dots,i_m} \circ
   {g_m}^{k_m},$ which gives us $L_{i_1,\dots,i_m}$ for indices $0 \le
   i_m < 2k_m$. The cost analysis is as in Lemma~\ref{lem:selfcomp}.
@@ -241,25 +240,39 @@ values, as pointed out above. We can compute this  product in
 $O(n^{1/2\omega(2)})$ operations in $\F$, which is $\osumcost$.
 \end{proof}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Metacyclic Groups}
 
-A Group $G$ is called metacyclic if it has a normal cyclic subgroup, $H$, such that $G/H$ is cyclic. It is known that any group
-with a square free order, is metacyclic and elements of a metacyclic group can be presented as 
+A group $G$ is metacyclic if it has a normal cyclic subgroup $H$ such
+that $G/H$ is cyclic; for instance, any group with a squarefree order
+is metacyclic. See \cite[p.~88]{Johnson} or \cite[p.~334]{Curtis} for
+more background. A metacyclic group can be presented as
 \begin{equation}\label{eq:metacyclic}
-\langle \sigma,\tau: \sigma^n = 1, \tau^{-1}\sigma \tau = \sigma^r, \tau ^m = \sigma^s \rangle
+  \langle \sigma,\tau: \sigma^n = 1,  \tau^m = \sigma^s, \tau^{-1}\sigma \tau = \sigma^r \rangle,
 \end{equation}
-where $m,n,r,s \in \mathbb{N}, r,s \leq n,$ and $r^m = 1 \mod n , rs = s \mod n$. Moreover we know that all element of a metacyclic
- group can be presented by $$\sigma^i \tau^j, \,\,\, 0\leq i \leq m-1, 0\leq j \leq n-1.$$ 
-for more details on metacyclic groups see \cite[P.88, Proposition 1]{Johnson}, \cite[P.334]{Curtis}. for constructing some 
-Metacyclic extensions see \cite{Kida}.
+for some integers $m,n,r,s$, with $r,s \leq n$ and $r^m = 1 \bmod n, rs
+= s \bmod n$. For example,
+the dihedral group 
+$$D_{2n} = \langle \sigma,\tau: \sigma^n =1, \tau^2 = 1,  \tau^{-1} \sigma \tau = \sigma^{n-1} \rangle, $$
+is metacyclic, with $m=2$. Generalized quaternion
+groups, which can be presented as
+$$Q_n = \langle \sigma,\tau: \sigma^{2n} =1, \tau^2 = \sigma^n, \tau^{-1} \sigma \tau = \sigma^{2n-1} \rangle,$$
+are metacyclic, with $m=2$ as well.
 
-. Dihedral group 
-$$D_{2n} = \langle \sigma,\tau: \sigma^n =\tau^2 = 1, \sigma \tau = \tau \sigma^{-1} \rangle, $$
-is an example of metacyclic groups. another well-known metacyclic group is generalized quaternion
- group which can be presented as
- $$Q_n = \langle \sigma,\tau: \sigma^n =\tau^2, \tau \sigma \tau^{-1} = \sigma^{-1} \rangle.$$
- We know that elements of $Q_n$ are of the form 
- $$\sigma^i\tau^j, 0 \leq i \leq 2n-1 , 0\leq j \leq 1.$$
+
+
+
+%%  for constructing some 
+%% Metacyclic extensions see \cite{Kida}.
+
+Moreover, all elements in such a metacyclic group
+can be presented as either $$\{\sigma^i \tau^j, \,\,\, 0\leq i \leq m-1, 0\leq
+j \leq n-1\}$$
+or $$\{\sigma^i \tau^j, \,\,\, 0\leq i \leq m-1, 0\leq
+j \leq n-1\}.$$
+
+
  
 Assume $G = \mathrm{Gal(K/F})$ is a group presentable as
 $$G = \lbrace \sigma^i \tau^j: 0\leq i < n, 0 \leq j < m, m\leq n \rbrace,$$
