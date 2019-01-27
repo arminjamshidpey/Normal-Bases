@@ -1,6 +1,5 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Proposal
-
-
+@preamble{"\newcommand{\Gathen}{\relax}"}
+@string{Gathen = "\Gathen{von zur Gathen}, J."}
 
 @article {Lenstra,
     AUTHOR = {Lenstra, Jr., H. W.},
@@ -34,8 +33,8 @@ MRREVIEWER = {Philip A. Leonard},
 }
 
 
-@article {Armin,
-    AUTHOR = {Jamshidpey, Armin and Lemire, Nicole and Schost, Eric},
+@article {Jam18,
+    AUTHOR = {A. Jamshidpey and N. Lemire and {\'E.} Schost},
      TITLE = {Algebraic Construction of Quasi-split Algebraic Tori},
    JOURNAL = {ArXiv:},
   FJOURNAL = {ArXiv},
@@ -43,7 +42,7 @@ MRREVIEWER = {Philip A. Leonard},
       YEAR = {2018},
 }
 
-@article{LeGall,
+@inproceedings{LeGall,
  author = {{Le Gall}, F. and Urrutia, F.},
  title = {Improved rectangular matrix multiplication using powers of the {C}oppersmith-{W}inograd tensor},
  booktitle = {SODA '18},
@@ -155,8 +154,8 @@ MRREVIEWER = {M. E. Keating},
        URL = {http://dx.doi.org/10.1006/jnth.1999.2388},
 }
 
-@article {Giesbrecht,
-    AUTHOR = {von zur Gathen, Joachim and Giesbrecht, Mark},
+@article {GatGie90,
+    AUTHOR = Gathen # " and M. Giesbrecht",
      TITLE = {Constructing normal bases in finite fields},
    JOURNAL = {J. Symbolic Comput.},
   FJOURNAL = {Journal of Symbolic Computation},
@@ -245,7 +244,7 @@ MRREVIEWER = {Philip A. Leonard},
 }
 
 @article {Kaltofen,
-    AUTHOR = {Kaltofen, Erich and Shoup, Victor},
+    AUTHOR = {Kaltofen, E. and Shoup, V.},
      TITLE = {Subquadratic-time factoring of polynomials over finite fields},
    JOURNAL = {Math. Comp.},
   FJOURNAL = {Mathematics of Computation},
@@ -260,8 +259,8 @@ MRREVIEWER = {Philip A. Leonard},
        URL = {https://doi.org/10.1090/S0025-5718-98-00944-2},
 }
 
-@book {Modern,
-    AUTHOR = {von zur Gathen, Joachim and Gerhard, J\"urgen},
+@book {GatGer13,
+    AUTHOR = Gathen # " and J. Gerhard",
      TITLE = {Modern computer algebra},
    EDITION = {Third},
  PUBLISHER = {Cambridge University Press, Cambridge},
@@ -272,6 +271,17 @@ MRREVIEWER = {Philip A. Leonard},
   MRNUMBER = {3087522},
        DOI = {10.1017/CBO9781139856065},
        URL = {https://doi.org/10.1017/CBO9781139856065},
+}
+
+@book{vzGathen13,
+  author    = Gathen # " and J. Gerhard",
+  title     = {Modern Computer Algebra (third edition)},
+  publisher = {Cambridge University Press},
+  year      = {2013},
+  isbn      = {9781107039032},
+  doiOPT = "10.1017/CBO9781139856065",
+  address	= "Cambridge, U.K."
+
 }
 
 @article {Decomposition,
@@ -304,7 +314,7 @@ MRREVIEWER = {Thaddeus C. Hurley},
 }
 
 @book {Curtis,
-    AUTHOR = {Curtis, Charles W. and Reiner, Irving},
+    AUTHOR = {C. Curtis and I. Reiner},
      TITLE = {Representation theory of finite groups and associative
               algebras},
     SERIES = {Wiley Classics Library},
@@ -337,7 +347,7 @@ MRREVIEWER = {Jean Cougnard},
 }
 
 @article {Shoup,
-    AUTHOR = {Shoup, Victor},
+    AUTHOR = "V. Shoup",
      TITLE = {A new polynomial factorization algorithm and its
               implementation},
    JOURNAL = {J. Symbolic Comput.},
@@ -371,16 +381,6 @@ MRREVIEWER = {James Edgar Carter},
 }
 
 
-@book{vzGathen13,
-  author    = {Gathen, J. von zur and Gerhard, J.},
-  title     = {Modern Computer Algebra (third edition)},
-  publisher = {Cambridge University Press},
-  year      = {2013},
-  isbn      = {9781107039032},
-  doiOPT = "10.1017/CBO9781139856065",
-  address	= "Cambridge, U.K."
-
-}
 @Article{BoFlSaSc06,
   author = {A. Bostan and P. Flajolet and B. Salvy and {\'E}. Schost},
   title = {Fast computation of special resultants},
@@ -429,7 +429,7 @@ pages={891--907},
 
 @inproceedings{AugCam94,
   title="A deterministic algorithm for computing a normal basis in a finite field",
-  author="Daniel Augot and Paul Camion",
+  author="D. Augot and P. Camion",
   year=1994,
   editor = "P. Charpin",
   booktitle = "Proc. EUROCODE'94",
@@ -441,7 +441,7 @@ pages={891--907},
   volume = {29},
   number = {6},
   pages = {879--889},
-  author = {Shuhong Gao and Joachim {von zur Gathen} and Daniel Panario and Victor Shoup},
+  author = "S. Gao and " # Gathen # " and D. Panario and V. Shoup",
   title = {Algorithms for Exponentiation in Finite Fields},
   journal = {Journal of Symbolic Computation}
 }
@@ -476,7 +476,7 @@ pages={891--907},
 }
 
 @article {GaSh92,
-    AUTHOR = { Gathen, J. von zur and Shoup, V.},
+    AUTHOR =  Gathen # " and V. Shoup",
      TITLE = {Computing {F}robenius maps and factoring polynomials},
    JOURNAL = {Computational Complexity},
     VOLUME = {2},

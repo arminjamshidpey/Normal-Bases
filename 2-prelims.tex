@@ -26,20 +26,20 @@ $\K$,
     g_2 g_1(\alpha) & g_2 g_2(\alpha) & \cdots & g_2 g_n(\alpha) \\
     \vdots		& \vdots	& \vdots & \vdots \\
     g_n g_1(\alpha) & g_n g_2(\alpha) & \cdots & g_n g_n(\alpha) \\
-  \end{bmatrix} \in M_n(\K)
+  \end{bmatrix} \in M_n(\K).
 \]
 Classical proofs then proceed to show that there exists $\alpha \in \K$
 with $\det(\mat M_G(\alpha))\neq 0$.
  
-This discussion can be used as the basis of a randomized algorithm for
-finding a normal element: choose a random element $\alpha$ in $\K$
-until we find one such that $ \mat M_G(\alpha)$. A direct
-implementation computes all the entries of the matrix and then use
-linear algebra to compute its determinant; using fast matrix
-arithmetic, this uses uses $O(n^\omega)$ operations in $\K$, that is
-$\tilde{O}(n^{\omega+1})$ operations in $\F$. This is at least cubic
-in $n$. The main contribution of this paper is to show how to speed up
-this verification.
+This approach can be used as the basis of a randomized algorithm for
+finding a normal element: choose a random element $\alpha$ in $\K$ until we
+find one such that $ \mat M_G(\alpha)$. A direct implementation computes
+all the entries of the matrix and then use linear algebra to compute its
+determinant; using fast matrix arithmetic, this uses uses $O(n^\omega)$
+operations in $\K$, that is $\tilde{O}(n^{\omega+1})$ operations in
+$\F$. This is at least cubic in $n$, and only a minor improvement over the
+previously best-known approach of \citeN{Girstmair}. The main contribution
+of this paper is to show how to speed up this verification.
  
 Before entering that discussion, we briefly discuss the probability
 that $\alpha$ be a normal element: if we write $\alpha = a_0 + \cdots
@@ -50,7 +50,7 @@ in a finite set $X \subset \F$, the Lipton-DeMillo-Schwartz-Zippel
 implies that the probability that $\alpha$ be normal is at leat
 $1-n/|X|$.
 
-If $G$ is cyclic, \cite{Giesbrecht} avoided the determinant
+If $G$ is cyclic, \cite{GatGie90} avoided the determinant
 computation by computing the GCD of $S_\alpha(x) := \sum_{i = 0}^{n-1}
 g_i(\alpha)x^i$ and $x^n-1$. In effect, this amounts to testing
 whether $S_\alpha$ is invertible in the group ring $\K[G]$, which is
@@ -97,7 +97,7 @@ $(\Rightarrow)$ For a fixed $\alpha$, any entry of $\mat M_G(\alpha)$
  $P$ is not identically zero, and the conclusion follows.
  
  $(\Leftarrow)$ Assume $\mat M_G(\alpha)$ is not invertible. Following
- the proof of \cite[Lemma 4]{Armin}, we first show that there exists a
+ the proof of \cite[Lemma 4]{Jam18}, we first show that there exists a
  non-zero $\boldsymbol{u} \in \F^n$ in the kernel of $\mat
  M_G(\alpha)$.
 

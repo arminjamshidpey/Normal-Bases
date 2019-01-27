@@ -14,7 +14,7 @@ finite fields, such as fast exponentiation~\cite{GaGaPaSh00}, there also
 exist applications of normal elements in characteristic zero.  For instance,
 in multiplicative invariant theory, for a given permutation lattice and
 related Galois extension, a normal basis is useful in computing the
-multiplicative invariants explicitly~\cite{Armin}.
+multiplicative invariants explicitly~\cite{Jam18}.
 
 A number of algorithms are available for finding a normal element in
 characteristic zero fields and finite fields.  Because of their immediate
@@ -22,7 +22,7 @@ applications in finite fields, algorithms for determining normal elements
 in this case are most commonly seen.  A fast randomized algorithm for
 determining a normal element in a finite field $\FF_{q^n}/\FF_q$, where
 $\FF_{q^n}$ is the finite field with $q^n$ elements for any prime power $q$
-and integer $n>1$, is presented by \citeN{Giesbrecht}, with a cost of
+and integer $n>1$, is presented by \citeN{GatGie90}, with a cost of
 $O(n^2+n\log q)$ operations in $\FF_q$.  A faster randomized algorithm is
 introduced by \citeN{Kaltofen}, with a cost of $O(n^{1.815}\log q)$
 operations in $\FF_q$.  In the bit complexity model, Kedlaya and Umans showed
@@ -69,7 +69,7 @@ $\gamma:=\sigma(\bar x) \in \K$, $\sigma$ being an $\F$-automorphism
 implies that $\sigma(\beta)$ is equal to $\beta(\gamma)$.
 
 Our algorithms combine techniques and ideas due
-to~\cite{Giesbrecht,Kaltofen}: $\alpha \in \K$ is normal if and only
+to~\cite{GatGie90,Kaltofen}: $\alpha \in \K$ is normal if and only
 if the element $S_\alpha := \sum_{\sigma \in G} \sigma(\alpha)\sigma
 \in \K[G]$ is invertible in the group algebra $\K[G]$. The algorithms
 choose $\alpha$ at random; a generic choice is normal (so we expect
