@@ -5,14 +5,14 @@ when $G$ is either abelian or metacyclic. We start by sketching our
 ideas in simplest case, cyclic groups; we will see that they follow
 closely ideas used in \cite{Kaltofen} over finite fields.
 
-Suppose $G = \langle g \rangle$, so that given $\alpha$ in $K$ and
+Suppose $G = \langle g \rangle$, so that given $\alpha$ in $\K$ and
 $\ell: \K \to \F$, our goal is to compute
 \begin{equation}\label{eq:cycproj}
   \ell(g^i(\alpha)), 0 \leq i \leq n-1.
 \end{equation}
 Kaltofen and Shoup called this the {\em automorphism projection}
 problem and gave an algorithm to solve it in subquadratic time, when
-$g$ is the $q$-power Frobenius $\F_{q^n} \to \F_{q^n}$. 
+$g$ is the $q$-power Frobenius $\mathbb{F}_{q^n} \to \mathbb{F}_{q^n}$. 
 The key idea in their algorithm is to use baby steps and giant step
 techniques: for a suitable parameter $t$, the values in \eqref{eq:cycproj} can be rewritten as
 $$(\ell \circ g^{tj})(g^i(\alpha)), \quad 0 \leq j < m:=\lceil n/t
@@ -38,41 +38,46 @@ $O(n^{1+k})$).
 
 \subsection{Multiple automorphim evaluation and applications}
 
-The key to these algorithms is the remark following
+The key to the algorithms below is the remark following
 Assumption~\ref{assum}, which reduces automorphism evaluation to
 composition of polynomials (over finite fields, this idea goes back
-to~\cite{GaSh92}, where it was credited to Kaltofen).
+to~\cite{GaSh92}, where it was credited to Kaltofen). As a first
+application, given $g \in G$ (by means of $\gamma:=g(\bar x)$), we can
+deduce $g^2 \in G$ (again, by means of its image at $\bar x$) as
+$\gamma(\gamma)$; this can be done in $\tilde{O}(n^{(\omega+1)/2})$
+operations in $\F$ using Brent and Kung's modular composition
+algorithm~\cite{BrKu78}. The algorithms below describe similar operations 
+along these lines, involving several simultaneous evaluations.
 
 \begin{lemma}\label{lem:modcom}
   Given $\alpha_1,\dots,\alpha_s$ in $\K$ and $g$ in $G =
   \mathrm{Gal}(\K/\F)$, with $s = O(\sqrt{n})$, we can compute
-  $g(\alpha_1),\dots,g(\alpha_s)$ in $\tilde
-  O(n^{{3}/{4}\omega({4}/{3})})$ operations in $\F$.
+  $g(\alpha_1),\dots,g(\alpha_s)$ in time $\tilde
+  O(n^{{3}/{4}\omega({4}/{3})})$.
 \end{lemma}
 \begin{proof}
 (Compare \cite[Lemma~3]{Kaltofen}.) As noted above, for $i\le s$,
   $g(\alpha_i) = \alpha_i(\gamma)$, with $\gamma := g(\bar x) \in \K$.
-
   Let $t := \lceil n^{3/4} \rceil$, $m:=\lceil n/t\rceil$, and rewrite $\alpha_1 , \ldots , \alpha_s$ as 
 $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\bar x^{tj},$$ where the
   $a_{i,j}$'s are polynomials of degree less than $t$. The next step
-  is to compute $\Gamma_i := \gamma^i$, for $i = 0 , \ldots , t$;
+  is to compute $\gamma_i := \gamma^i$, for $i = 0 , \ldots , t$;
   there are $t$ products in $\K$ to do, so this amounts to
   $\tilde{O}(n^{7/4})$ operations in $\F$.
 
-  Having $\Gamma_i$'s in hand, one can form the matrix $\boldsymbol{\Gamma} :=
-  \left[ \bar \Gamma_1 ~ \cdots ~\bar \Gamma_t \right]^T$, where each column 
-$\bar \Gamma_i$ is
-  the coefficient vector of $\Gamma_i$ (with entries in $\F$);
-  this matrix is of size $t \times n$. We also form
-  $$\mat A := \left[\bar{a}_{1,0} \cdots \bar{a}_{1,m-1} \cdots
-    \bar{a}_{s,0} \cdots \bar{a}_{s,m-1}\right]^T,$$ where
-  $\bar{a}_{i,j}$ is the coefficient vector of $a_{i,j}$. This matrix 
-  has $s m \in O(n^{3/4})$ rows and $n$ columns.
+  Having $\gamma_i$'s in hand, one can form the matrix
+  $\boldsymbol{\Gamma} := \left[ \Gamma_0 ~ \cdots ~ \Gamma_{t-1}
+    \right]^T$, where each column $\Gamma_i$ is the coefficient vector
+  of $\gamma_i$ (with entries in $\F$); this matrix has $t \in
+  O(n^{3/4})$ rows and $n$ columns. We also form
+  $$\mat A := \left[{A}_{1,0} \cdots {A}_{1,m-1} \cdots
+    {A}_{s,0} \cdots {A}_{s,m-1}\right]^T,$$ where
+  ${A}_{i,j}$ is the coefficient vector of $a_{i,j}$. This matrix 
+  has $s m \in O(n^{3/4})$ rows and $t \in O(n^{3/4})$ columns.
 
-  Compute $\mat B:=\mat A \cdot \boldsymbol{\Gamma}$; as per our
+  Compute $\mat B:=\mat A\, \boldsymbol{\Gamma}$; as per our
   definition of exponents $\omega(\ .\ )$, this can be done in
-  $O(n^{3/4 \omega(4/3)})$ operations in $\F$; the rows of this matrix
+  $O(n^{3/4 \omega(4/3)})$ operations in $\F$, and the rows of this matrix
   give all $a_{i,j}(\gamma)$.  The last step to get all
   $\alpha_i(\gamma)$ is to write them as $\alpha_i(\gamma) = \sum_{0
     \leq j < m} a_{i,j}(\gamma) \Gamma_t^{j}.$ Using Horner's scheme,
@@ -85,100 +90,115 @@ $\bar \Gamma_i$ is
 \begin{lemma}\label{lem:selfcomp}
 Given $\alpha$ in $\K$, $g_1, \ldots , g_{r}$ in $G =
 \mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
-that $\prod_{i = 1}^r s_i = O(\sqrt{n})$, all
+that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all
   $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) ,\quad \text{~for~} 0 \leq i_j
 \leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$
 operations in $\F$.
 \end{lemma}
 \begin{proof}
-(Compare \cite[Lemma~4]{Kaltofen}) Suppose $1 \leq m \leq r$ is
-  fixed and we have computed 
-$$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
+(Compare \cite[Lemma~4]{Kaltofen}) For $m=1,\dots,r$, suppose we have computed 
+  $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
   i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
-  the automorphism $\eta:=g_m^{k_m}$ (by means of its value at $\bar
+  the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\bar
   x$, as per our convention).
   
  Then, we can get $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
  \leq j < m$, and $0 \leq i_m < 2k_m$, by computing
- $\eta(G_{i_1,\dots,i_m})$, for all indices $i_1,\dots,i_m$
- available to us, that is, $0 \leq i_j \leq s_j$ if $1 \leq j < m$,
- and $0 \leq i_m < k_m$. This can be carried out using $\osumcost$
- operations in $\F$ by applying Lemma \ref{lem:modcom}.
+ $\eta(G_{i_1,\dots,i_m})$, for all indices $i_1,\dots,i_m$ available
+ to us, that is, $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq
+ i_m < k_m$. This can be carried out using $\osumcosttilde$ operations
+ in $\F$ by applying Lemma \ref{lem:modcom}. Prior to entering the
+ next iteration, we also compute $\eta^2$ by means of one modular
+ composition, whose cost is negligible. 
 
- Using above doubling method for $g_i$, we have to
- do $O(\log s_i)$ iterations with $\osumcost$ operations in $F$. Hence
- the total cost of this computation is $\osumcosttilde$.
-
-Note that for each $g_i$ we have to compute $g_i^{2^j}$ for $0 \leq j
-\leq \log(s_i)$ but this is just a one time computation for each $g_i$
-which does not change the total cost. Since $\omega(4/3) \ge 7/4$
+ Using the above doubling method for $g_m$, we have to do $O(\log
+ s_m)$ steps, for a total cost of $\osumcosttilde$ operations in $\F$.  We
+ repeat this procedure for $m=1,\dots,r$; since $r$ is in $O(\log(n))$,
+ the cost remains $\osumcosttilde$.
 \end{proof}
 
-\begin{lemma}\label{lem:transmodcomp}
-Under Assumption \ref{assum}, for $\lbrace s_1, \ldots, s_r \rbrace \subset \mathbb{N}$
-such that $\prod_{i = 1}^r s_i = O(\sqrt{n})$
- and $L: K\rightarrow F$ is a linear projection. The linear maps
-$$L \circ g_1^{i_1} \cdots g_r^{i_r}, \,\, 1\leq j \leq r, 0 \leq i_j < s_j, $$ can be computed using $\osumcosttilde$ operations in $F$. 
-\end{lemma} 
+We now present dual versions of the previous two lemmas (our
+reference~\cite{Kaltofen} also had such a discussion). Seen as an
+$\F$-linear map, the operator $g:\alpha \mapsto g(\alpha)$ admits a
+transpose, which maps an $\F$-linear form $\ell:\K\to\F$ to the
+$\F$-linear form $\ell \circ g: \alpha \mapsto \ell(g(\alpha))$.  The
+{\em transposition principle}~\cite{KaKiBs88,CaKaYa89} implies that if
+a linear map $\F^N \to \F^M$ can be computed in time $T$, its
+transpose can be computed in time $T+O(N+M)$. In particular, given $s$
+linear forms $\ell_1,\dots,\ell_s$ and $g$ in $G$, transposing
+Lemma~\ref{lem:modcom} shows that we can compute $\ell_1 \circ
+g,\dots,\ell_s \circ g$ in time $\osumcosttilde$. The following lemma
+sketches the construction.
 
+\begin{lemma}\label{lem:modcomT}
+  Given $\F$-linear forms $\ell_1,\dots,\ell_s:\K\to \F$ and $g$ in $G =
+  \mathrm{Gal}(\K/\F)$, with $s = O(\sqrt{n})$, we can compute
+  $\ell_1\circ g,\dots,\ell_s \circ g$ in time $\tilde
+  O(n^{{3}/{4}\omega({4}/{3})})$.
+\end{lemma}
 \begin{proof}
-Let $T_{i_1\cdots i_r} = L \circ g_1^{i_1}\cdots g_r^{i_r}$. Here we use a doubling method. Assume $1 \leq m \leq r$ is fixed and we have have access to 
-$$T_{i_1\cdots i_m}, \, \mathrm{for}\,\, 1\leq j < m, 0 \leq i_j \leq s_j, 0 \leq i_m \leq k_m.$$
-Then we can compute 
-$$T_{i_1\cdots i_m}, \, , 1 \leq j < m, 0 \leq i_j \leq s_j, 0 \leq i_m \leq 2k_m,$$
-in the following way. We compute 
-$T_{i_1 \cdots i_m} \circ g_m^{k_m}, \,\, 1\leq j \leq m, 0 \leq i_j \leq s_j.$
- Since a linear projection is determined by its action on a basis, such as 
-$\lbrace\bar{x}^i: 0\leq i \leq n-1 \rbrace$, the corresponding row vector to $T_{i_1 \cdots i_m} \circ g_m^{k_m}$ is 
-\begin{equation}\label{eq:projvec}
-\begin{bmatrix} T_{i_1 \cdots i_m}(u_{m,k_m}^0) & \cdots & T_{i_1 \cdots i_m}(u_{m,k_m}^{n-1}) \end{bmatrix}
-\end{equation}
-where $u_{m,k_m} = g_m^{k_m}(\bar{x})$. In order to compute the above row vector for a fixed index $i_1 \cdots i_m$, let $s = \lceil n^{1/4} \rceil$, compute
-$$\overline{T_{i_1 \cdots i_m}} = \left[\begin{array}{c|c|c}
-u_{m,k_m}^0\cdot T_{i_1 \cdots i_m} & \cdots & u_{m,k_m}^{s-1}\cdot T_{i_1 \cdots i_m}
-\end{array} \right]$$
-and multiply it by 
-$$ U = \left[
-\begin{array}{c}
-u_{m,k_m}^0\\
-\hline
-u_{m,k_m}^{s}\\
-\hline
-u_{m,k_m}^{2s}\\
-\hline
-\vdots\\
-\hline
-u_{m,k_m}^{(\lceil n^{3/4} \rceil-1)s}
-\end{array} \right].$$
-Note that the term $u_{m,k_m}^i \cdot T_{i_1 \cdots i_m}$, is the so called transposed modular multiplication and one can apply the algorithm introduced in \cite{Shoup} to compute it. It is clear that $U$ is of size 
-$\lceil n^{3/4} \rceil \times n$ and $\overline{T_{i_1 \cdots i_m}}$ is an $n \times n^{1/4}$. Finally the vectors in \eqref{eq:projvec}
-is given by
-$$
-U \cdot \left[\begin{array}{c|c|c|c|c}
-\overline{T_{0 \cdots 0}} & \cdots &\overline{T_{i_1 \cdots i_{m-1}0}} & \cdots & \overline{T_{k_1 \cdots k_m}}
-\end{array}\right].
-$$
-This completes the doubling method.
+  Given $\ell_i$ by its values on the power basis $1,\bar x,\dots,\bar
+  x^{n-1}$, $\ell_i \circ g$ is represented by its values at
+  $1,\gamma,\dots,\gamma^{n-1}$, with $\gamma := g(\bar x)$. 
 
-Note that in the last step of above doubling method for a fixed index $t$ we have $k_t = s_t/2$. Hence for $g_t$ the above computation can be done 
-using $O(\log s_t)$ times the cost of the matrix multiplication which is $\osumcost$. Since we should repeat the above process for each $g_t$ the total cost is
-$\osumcosttilde$ 
+  Let then $t,m$ and $\gamma_0,\dots,\gamma_t$ be as in the proof of
+  Lemma~\ref{lem:modcom}. Next, compute the ``giant steps''
+  $\gamma_t^j = \gamma^{tj}$, $j=0,\dots,m-1$ and for $i=1,\dots,s$
+  and $j=0,\dots,m-1$, deduce the linear forms $L_{i,j}$ defined by
+  $L_{i,j}(\alpha) := \ell_i(\gamma^{tj}\alpha)$ for all $\alpha$ in
+  $\K$. Each of them can be obtained by a {\em transposed
+    multiplication} in time $\tilde{O}(n)$~\cite[Section~4.1]{Shoup},
+  so that the total cost thus far is $\tilde{O}(n^{7/4})$.
+
+  Finally, multiply the $(sm \times
+  n)$ matrix with entries the coefficients of all $L_{i,j}$ (as rows)
+  by the $(n \times t)$ matrix with entries the coefficients of
+  $\gamma_0,\dots,\gamma_{t-1}$ (as columns) to obtain all values
+  $\ell_i(\gamma^j)$, for $i=1,\dots,s$ an $j=0,\dots,n-1$.
+  This takes $O(n^{{3}/{4}\omega({4}/{3})})$ operations in~$\F$.
 \end{proof}
 
-%% At this point we have enough tools to see how the computation is done in the cyclic case. Moreover, we can use the above lemmas
-%% to give an algorithm for a more general case, namely the abelian case. With a little bit more work we can state an algorithm 
-%% which solves the automorphism projection problem when $G = \lbrace a^ib^j \rbrace$ where $m \leq n$. As an specific case this
-%% solves the problem for metacyclic groups.
+From this, we deduce the transposed version of Lemma~\ref{lem:selfcomp},
+whose proof follows the same pattern.
+\begin{lemma}\label{lem:transmodcomp}
+Given $\ell:\K\to F$, $g_1, \ldots , g_{r}$ in $G =
+\mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
+that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all
+linear maps
+  $$\ell \circ g_1^{i_1}\cdots g_r^{i_r} ,\quad \text{~for~} 0 \leq i_j
+\leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$
+operations in $\F$.
+\end{lemma} 
+\begin{proof}
+  We proceed as in Lemma~\ref{lem:selfcomp}. For $m=1,\dots,r$,
+  assumie we know
+  $L_{i_1,\dots,i_m}:=\ell \circ (g_1^{i_1}\cdots g_m^{i_m}),$ for
+  $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m.$
+  Using the previous lemma, we compute all $L_{i_1,\dots,i_m} \circ
+  {g_m}^{k_m},$ which gives us $L_{i_1,\dots,i_m}$ for indices $0 \le
+  i_m < 2k_m$. The cost analysis is as in Lemma~\ref{lem:selfcomp}.
+\end{proof}
+
+%% At this point we have enough tools to see how the computation is
+%% done in the cyclic case. Moreover, we can use the above lemmas to
+%% give an algorithm for a more general case, namely the abelian
+%% case. With a little bit more work we can state an algorithm which
+%% solves the automorphism projection problem when $G = \lbrace a^ib^j
+%% \rbrace$ where $m \leq n$. As an specific case this solves the
+%% problem for metacyclic groups.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Abelian Groups}\label{ssec:proj_abelian}
 
 Assume $G$ is an abelian group presented as 
-$$ \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1 \rangle$$
- where $ e_i \in \mathbb{N}$
-is the order of $g_i$ and $n = e_1 \cdots e_r$. Moreover, let $s_i = \lceil	\sqrt{e_i \rceil}$ for $ 1\leq i \leq r$.
- Our goal is to compute 
+$$ \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
+\rangle$$ where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n =
+e_1 \cdots e_r$; without loss of generality, all $e_r$'s are at least
+equal to one.
+
+Moreover, let $s_i = \lceil \sqrt{e_i \rceil}$ for $ 1\leq i \leq r$.
+Our goal is to compute
 \begin{equation}\label{eq:abelian}
 L (g_1^{i_1},  \ldots, g_r^{i_r}(\alpha)), \, 1 \leq j \leq r, 0 \leq i_j \leq e_j
 \end{equation}
