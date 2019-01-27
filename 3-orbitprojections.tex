@@ -204,10 +204,13 @@ whose proof follows the same pattern.
 
 The first main result in this section is the following proposition.
 Assume $G$ is an abelian group presented as 
-$$ \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
-\rangle$$ where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n =
-e_1 \cdots e_r$; without loss of generality, we assume $e_i \ge 2$ for
-all $i$, so that $r$ is in $O(\log(n))$. Elements of the group
+\[
+  \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
+  \rangle,
+\]
+where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n =
+e_1 \cdots e_r$.  Without loss of generality, we assume $e_i \ge 2$ for
+all $i$, so that $r$ is in $O(\log n)$. Elements of the group
 algebra $\F[G]$ are written as commutative polynomials
 $\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r} {g_1}^{e_1} \cdots {g_r}^{e_r}$,
 with $0\le i_j < e_j$ for all~$j$.
@@ -232,7 +235,7 @@ Here, $L_{j_1\cdots j_r} :=\ell \circ (g_1^{s_1j_1} \cdots
 g_r^{s_rj_s})$ are linear projections presented as row vectors and
 $G_{i_1,\dots,i_r}:=g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ are field
 elements presented as column vectors. All elements in
-\eqref{eq:abelian} can be computed in 3 steps, the sum of whose 
+\eqref{eq:abelian} can be computed with the following steps, the sum of whose 
 costs proves the proposition.
 
 \smallskip\noindent \textbf{Step 1.} Apply Lemma \ref{lem:selfcomp} to get 
@@ -241,7 +244,7 @@ with cost $\osumcosttilde$.
 
 \smallskip\noindent\textbf{Step 2.} Compute all $g_i^{s_i}$, $i=1,\dots,r$;
 this involves $O(\log(n))$ modular compositions, so the cost is negligible
-compared to that of step~1.
+compared to that of Step~1.
 
 \smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp} to compute 
 $$L_{j_1,\cdots,j_r} = \ell \circ (g_1^{s_1j_1} \cdots
@@ -252,7 +255,7 @@ with cost $\osumcosttilde$
 coefficients of all $L_{j_1,\cdots,j_r}$ by the matrix with columns
 the coefficients of all $G_{i_1,\dots,i_r}$; this yields all required
 values, as pointed out above. We can compute this  product in
-$O(n^{1/2\omega(2)})$ operations in $\F$, which is $\osumcost$.
+$O(n^{(1/2)\cdot\omega(2)})$ operations in $\F$, which is in $\osumcost$.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
