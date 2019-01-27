@@ -387,7 +387,12 @@ equivalent to $A''$ being invertible, that is, to all its components
 being invertible in the respective factors $\F[z]/\langle
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle$. Invertibility in such an
 algebra can be tested in softly linear time by applying the fast
-extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows.
+extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows. 
+
+Together with Proposition \ref{prop:abelian}, the above result proves the first part of
+Theorem \ref{thm:main}.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -568,8 +573,8 @@ products by $\psi(\beta)$ can be done fast.
   $r_i$'s, and thus decide whether $\psi(\beta)$ is singular.
 \end{proof}
 
-Although the second algorithm above gives has a quadratic time, the first algorithm 
-gives a better running time. More precisely, if $s \leq m$ then the first algorithm
+Although the second algorithm above gives a quadratic cost, the first algorithm 
+gives a better cost in many cases. More precisely, if $s \leq m$ then the first algorithm
 is subquadratic in the size of input. Moreover it is known that if $s$ is prime, then
 the number $$\dfrac{m- \gcd(m,r-1)}{s}$$ is a positive integer which implies $s \leq m$ 
 (see \cite[Theorem 47.12, Corollary 47.14 ]{Curtis}).
