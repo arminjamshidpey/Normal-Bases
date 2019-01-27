@@ -136,7 +136,8 @@ Lemma~\ref{lem:modcom} shows that we can compute $\ell_1 \circ
 g,\dots,\ell_s \circ g$ in time $\osumcosttilde$. The following lemma
 sketches the construction.
 
-\begin{lemma}\label{lem:modcomT}
+\begin{lemma}
+  \label{lem:modcomT}
   Given $\F$-linear forms $\ell_1,\dots,\ell_s:\K\to \F$ and $g$ in $G =
   \mathrm{Gal}(\K/\F)$, with $s = O(\sqrt{n})$, we can compute
   $\ell_1\circ g,\dots,\ell_s \circ g$ in time $\tilde
@@ -147,7 +148,7 @@ sketches the construction.
   x^{n-1}$, $\ell_i \circ g$ is represented by its values at
   $1,\gamma,\dots,\gamma^{n-1}$, with $\gamma := g(\bar x)$. 
 
-  Let then $t,m$ and $\gamma_0,\dots,\gamma_t$ be as in the proof of
+  Let $t,m$ and $\gamma_0,\dots,\gamma_t$ be as in the proof of
   Lemma~\ref{lem:modcom}. Next, compute the ``giant steps''
   $\gamma_t^j = \gamma^{tj}$, $j=0,\dots,m-1$ and for $i=1,\dots,s$
   and $j=0,\dots,m-1$, deduce the linear forms $L_{i,j}$ defined by
@@ -156,24 +157,28 @@ sketches the construction.
     multiplication} in time $\tilde{O}(n)$~\cite[Section~4.1]{Shoup},
   so that the total cost thus far is $\tilde{O}(n^{7/4})$.
 
-  Finally, multiply the $(sm \times
-  n)$ matrix with entries the coefficients of all $L_{i,j}$ (as rows)
-  by the $(n \times t)$ matrix with entries the coefficients of
-  $\gamma_0,\dots,\gamma_{t-1}$ (as columns) to obtain all values
-  $\ell_i(\gamma^j)$, for $i=1,\dots,s$ an $j=0,\dots,n-1$.
-  This takes $O(n^{{3}/{4}\omega({4}/{3})})$ operations in~$\F$.
+  Finally, multiply the $(sm \times n)$ matrix with entries the
+  coefficients of all $L_{i,j}$ (as rows) by the $(n \times t)$ matrix with
+  entries the coefficients of $\gamma_0,\dots,\gamma_{t-1}$ (as columns) to
+  obtain all values $\ell_i(\gamma^j)$, for $i=1,\dots,s$ an
+  $j=0,\dots,n-1$.  This can be accomplished with
+  $O(n^{(3/4)\cdot\omega(4/3)})$ operations in~$\F$.
 \end{proof}
 
 From this, we deduce the transposed version of Lemma~\ref{lem:selfcomp},
 whose proof follows the same pattern.
-\begin{lemma}\label{lem:transmodcomp}
-Given $\ell:\K\to F$, $g_1, \ldots , g_{r}$ in $G =
-\mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
-that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all
-linear maps
-  $$\ell \circ g_1^{i_1}\cdots g_r^{i_r} ,\quad \text{~for~} 0 \leq i_j
-\leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$
-operations in $\F$.
+
+\begin{lemma}
+  \label{lem:transmodcomp}
+  Given $\ell:\K\to F$, $g_1, \ldots , g_{r}$ in $G = \mathrm{Gal}(\K/\F)$
+  and positive integers $(s_1, \ldots s_r)$ such that
+  $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all linear
+  maps
+  \[
+    \ell \circ g_1^{i_1}\cdots g_r^{i_r} ,\quad \text{~for~} 0 \leq i_j
+    \leq s_j,\ 1 \leq j \leq r
+  \]
+  can be computed in $\osumcosttilde$ operations in $\F$.
 \end{lemma} 
 \begin{proof}
   We proceed as in Lemma~\ref{lem:selfcomp}. For $m=1,\dots,r$, assume
@@ -194,7 +199,8 @@ operations in $\F$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Abelian Groups}\label{ssec:proj_abelian}
+\subsection{Abelian Groups}
+\label{ssec:proj_abelian}
 
 The first main result in this section is the following proposition.
 Assume $G$ is an abelian group presented as 
