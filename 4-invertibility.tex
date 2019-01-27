@@ -455,18 +455,18 @@ $\A$ is not a field, but a product of fields (if the irreducible
 factorization of $z^m-1$ in $\F[z]$ is available, one would simply use
 the Chinese Remainder theorem and work in field extensions of $\F$).
 
-\begin{corollary}
+\begin{corollary}\label{coro:test_meta}
   Given $\beta$ in $\F[G]$, one can test if $\beta$ is a unit in
   $\F[G]$ using either $\tilde{O}(s^{2.7} m)$ or $\tilde{O}(n^2)$
   operations in $\F$; the latter algorithm is Monte Carlo.
 \end{corollary}
-\begin{proof}
-  The first algorithm uses fast linear algebra over the ring
+\begin{proof}[First algorithm.]
+  The first algorithm uses fast linear algebra algorithms over the ring
   $\A$. Here, we start from $\beta$ written as $\beta = \sum_{j =
     0}^{s-1} \left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j
   \in \F[G]$. Then, the proof of the previous lemma shows an explicit
   formula for $\psi(\beta)$. In order to compute this matrix, we note
-  that $\zbar^{r^{j-1}} = \zbar^{r^{j-1} \mod m}$; computing this
+  that $\zbar^{r^{j-1}} = \zbar^{r^{j-1} \bmod m}$; computing this
   element and its powers requires no arithmetic operation, so that the
   coefficients of each $F_{i,j}$ are obtained in linear time $O(m)$.
   Hence the matrix $\psi(\beta)$ can be computed in time $O(s^2m)$.
@@ -479,7 +479,94 @@ the Chinese Remainder theorem and work in field extensions of $\F$).
   of~\cite[Section~6]{KaVi04}.
 \end{proof}
 
+Before giving our second algorithm, let us point out that matrix-vector
+products by $\psi(\beta)$ can be done fast.
 
+\begin{lemma}\label{lem:multpsi}
+  Given $\beta$ in $\F[G]$ and $\boldsymbol{v}$ in $\A^s$, one can
+  compute $\psi(\beta) \boldsymbol{v} \in \A^s$ using $\tilde{O}(s
+  m^2)$ operations in $\F$.
+\end{lemma}
+\begin{proof}
+  We use the basis of $\F[G]$ given in~\eqref{pres2}, writing $\beta =
+  \sum_{i = 0}^{m-1} \left( \sum_{j = 0}^{s-1} \bar b_{i,j} \tau^i
+  \right) \sigma^j \in \F[G]$. We rewrite this as $\beta = \sum_{i
+    = 0}^{m-1} B_i(\tau) \sigma^i$, for some $B_0,\dots,B_{m-1}$ in
+  $\F[z]$ of degree less than $s$.
+
+ Given $\boldsymbol{v}$ as above, we compute all $B_i(\psi(\tau))
+ \psi(\sigma)^i \boldsymbol{v}$ independently, and add them to obtain
+ $\psi(\beta) \boldsymbol{v}$. Hence, let us fix an index $i$ in
+ $\{0,\dots,m-1\}$.
+ The vector $\psi(\sigma)^i \boldsymbol{v}$ can be obtained by
+ multiplying each entry of $\boldsymbol{v}$ by a power of $\zbar$;
+ this takes $\tilde{O}(sm)$ operations in $\F$. Then, since
+ $\psi(\tau)$ the matrix of multiplication by $y$ in $\A[y]/\langle
+ y^s-\zbar\rangle$, $B_i(\psi(\tau))$ is the matrix of multiplication
+ by $B_i(y)$ in $\A[y]/\langle y^s-\zbar\rangle$. Thus, applying this
+ matrix to a vector also takes softly linear time $\tilde{O}(sm)$.
+
+ Adding a factor of $m$ to account for indices $i=0,\dots,m-1$, we get 
+ the result.
+\end{proof}
+
+
+
+
+
+\begin{proof}[Second algorithm for Corollary~\ref{coro:test_meta}.]
+  The second algorithm uses Wiedemann's algorithm~\cite{Wiedemann86},
+  and its extension by~\citeN{KaSa91}. Extra care will be needed to
+  accommodate the fact that $\A$ has zero-divisors. Let
+  $F_1,\dots,F_s$ be the (unknown) irreducible factors of $z^m-1$ in
+  $\F[z]$ and define $\A_i = \F[z]/\langle F_i \rangle$ for
+  $i=1,\dots,s$. We write $\pi_i: \A \to\A_i$ for the canonical
+  projection, and extend the notation to matrices over $\A$.
+
+  For $\beta$ in $\F[G]$, $\mat M:=\psi(\beta)$ is invertible if and
+  only if all $\mat M_i := \pi_i(\mat M)$ are. We are going to use the
+  algorithm of~\cite[Section~4]{KaSa91} to compute the rank of all
+  these matrices (these ranks are well-defined, since all $\A_i$'s are
+  fields).
+  
+  Let $\mat \L$ and $\mat U$ be respectively random lower triangular
+  and upper triangular Toeplitz matrices over $\A$, and define $\mat
+  M':=\mat L \mat M \mat U \in M_s(\A)$. Finally, let $\mat M''$ be
+  $\mat M'$, to which we adjoin a bottom row and a rightmost column of
+  zeros (so it has size $s+1$), let $\mat M''_i :=\pi_i(\mat M'')$ and
+  let $r_i :=\text{rank}(\mat M''_i)$, $i=1,\dots,s$. Then, all
+  $r_i$'s are less than $s+1$, and $\mat M$ is invertible if and only
+  if $r_i=s$ for all $i$.
+
+  The condition that $\mat M''_i$ has rank less than $s+1$ makes it
+  possible to apply~\cite[Lemma~2]{KaSa91}: for generic
+  $\boldsymbol{u}_i, \boldsymbol{v}_i$ in $\A_i^{s+1}$ and diagonal
+  matrix $\mat X$ in $M_{s+1}(\A_i)$, the minimal polynomial of the
+  sequence $(\boldsymbol{u}_i^T (\mat M''_i \mat X_i)^j
+  \boldsymbol{v}_i)_{j \ge 0}$ has degree $r_i+1$.
+
+  To compute these degrees without knowing the factorization $z^m-1 =
+  F_1 \cdots F_s$, we choose random $\boldsymbol{u}, \boldsymbol{v}$
+  in $\A^{s+1}$ and diagonal matrix $\mat X$ in $M_{s+1}(\A)$.  Then,
+  we compute $2s$ terms in the sequence $(\gamma_j)_{j\ge 0}$, with
+  $\gamma_j:=\boldsymbol{u}^T (\mat M'' \mat X)^j
+  \boldsymbol{v}$. Since multiplication by $\mat L$, $\mat U$ and
+  $\mat X$ all take quasi-linear time $\tilde{O}(sm)$,
+  Lemma~\ref{lem:multpsi} shows that one product by $\mat M'' \mat X$
+  takes $\tilde{O}(sm^2)$ oeprations in $\F$. Hence, all required
+  terms can be obtained in $\tilde{O}(s^2m^2)=\tilde{O}(n^2)$
+  operations in $\F$.
+
+  Finally, we apply the fast Euclidean algorithm to $\sum_{j=0}^{2s-1}
+  \gamma_j y^j$ and $y^{2s}$ in the ring $\A[y]$ to find the ranks
+  $r_1,\dots,r_s$.  Since $\A$ is not a field, we rely on the
+  algorithm of~\cite{AcCoMa03,DaMMMScXi06}. Using $\tilde{O}(sm)$
+  operations in $\F$, it reveals a partial factorization of $z^m-1$ as
+  $G_1 \cdots G_t$ (the factors may not be irreducible) and integers
+  $\rho_j$, $j=1,\dots,t$, such that for all $i \le s$, $j\le t$, if
+  $F_i$ divides $G_j$, then $r_i=\rho_j$. This allows us to determine all
+  $r_i$'s, and thus decide whether $\psi(\beta)$ is singular.
+\end{proof}
 
 
 %In the previous section we studied the invertibility problem in $\F[G]$ in the abelian case, based on the isomorphism between the
