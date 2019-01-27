@@ -255,12 +255,13 @@ where $t$ is $O(\log(\dim(\A)))$.
 \noindent{\bf Decomposing certain $p$-group algebras.}  The prime $p$
 and indeterminates $\boldsymbol{x}=(x_1,\dots,x_t)$ are as before; we now consider
 positive integers $\boldsymbol{b}=(b_1,\dots,b_t)$, and the $\F$-algebra
-$$
+\[
 \begin{array}{ccl}
 \B&:=&\F[x_1,\dots,x_t]/\langle x_1^{p^{b_1}}-1,\dots,x_t^{p^{b_t}}-1\rangle\\$$
-&=& \F[x_1]/\langle x_1^{p^{b_1}}-1 \rangle \otimes \cdots \otimes \F[x_t]/\langle x_t^{p^{b_t}}-1 \rangle;
-\end{array}$$
-if needed, we will write $\B_{p,\boldsymbol{b},\boldsymbol{x}}$ to make the dependency
+&=& \F[x_1]/\langle x_1^{p^{b_1}}-1 \rangle \otimes \cdots \otimes \F[x_t]/\langle x_t^{p^{b_t}}-1 \rangle.
+\end{array}
+\]
+If needed, we will write $\B_{p,\boldsymbol{b},\boldsymbol{x}}$ to make the dependency
 on $p$ and the $b_i$'s clear. This is the $\F$-group algebra
 of $\Z/p^{b_1}\Z \times \cdots \times \Z/p^{b_t}\Z$.
 
@@ -278,9 +279,11 @@ $$x_i^{p^{b_i}}-1 = \Phi_1(x_i) \Phi_p(x_i) \Phi_{p^2}(x_i) \cdots
 \Phi_{p^{b_i}}(x_i);$$ note that $\Phi_1(x_i)=x_i-1$.  The factors may
 not be irreducible, but they are pairwise coprime, so that we have a
 Chinese Remainder isomorphism
-$$\lambda_i: \F[x_i]/\langle x_i^{p^{b_i}}-1 \rangle \to \F[x_i]/\langle \Phi_1(x_i)\rangle
-\times \cdots \times  \F[x_i]/\langle \Phi_{p^{b_i}}(x_i)\rangle;$$
-together with its inverse, it can be computed  
+\[
+  \lambda_i: \F[x_i]/\langle x_i^{p^{b_i}}-1 \rangle \to \F[x_i]/\langle \Phi_1(x_i)\rangle
+  \times \cdots \times  \F[x_i]/\langle \Phi_{p^{b_i}}(x_i)\rangle.
+\]
+Together with its inverse, this can be computed  
 in $\tilde{O}(p^{b_i})$ operations in $\F$~\cite[Chapter~10]{vzGathen13}. By distributivity of the tensor
 product over direct products, 
 this gives an $\F$-algebra isomorphism
@@ -317,7 +320,7 @@ We will henceforth assume that generators
 $\gamma_{1,1},\dots,\gamma_{s,t_s}$ of respectively
 $G_{1,1},\dots,G_{s,t_s}$ are known, and that elements of $\F[G]$ are
 given on the power basis in $\gamma_{1,1},\dots,\gamma_{s,t_s}$. Were
-it not case, given arbitrary generators $g_1,\dots,g_r$ of $G$, with
+this not the case, given arbitrary generators $g_1,\dots,g_r$ of $G$, with
 orders $e_1,\dots,e_r$, a brute-force solution would factor each $e_i$
 (factoring $e_i$ takes $o(e_i)$ bit operations on a standard RAM), so
 as to write $\langle g_i \rangle$ as a product of cyclic groups of
@@ -331,7 +334,7 @@ prime power orders, from which the required decomposition follows.
 The proof occupies the rest of this paragraph.
 From the factorization $G = G_1 \times \cdots \times G_s$, we deduce
 that the group algebra $\F[G]$ is the tensor product $\F[G_1]
-\otimes \cdots \otimes \F[G_s]$. Further, the 
+\otimes \cdots \otimes \F[G_s]$. Furthermore, the 
 factorization $G_i = G_{i,1} \times \cdots \times G_{i,t_i}$
 implies that $\F[G_i]$ is isomorphic, as an $\F$-algebra, to
 $$\F[x_{i,1},\dots,x_{i,t_i}]/\left \langle
@@ -377,7 +380,7 @@ $$\Gamma': \text{\small $\prod$}_{\boldsymbol{j}}~
 \H_{\boldsymbol{p},\boldsymbol{c}_{\boldsymbol{j}},\boldsymbol{z}} \to
 \text{\small $\prod$}_{\boldsymbol{j}} ~\F[z]/\langle
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle,$$ for certain integers
-$d_{\boldsymbol{j}}$. That lemma implies that given $A'$,
+$d_{\boldsymbol{j}}$. The lemma implies that given $A'$,
 $A'':=\Gamma'(A')$ can be computed in softly linear time
 $\tilde{O}(|G|)$ as well. Invertibility of $\beta \in \F[G]$ is
 equivalent to $A''$ being invertible, that is, to all its components
@@ -391,9 +394,9 @@ extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows.
 \subsection{Metacyclic Groups}
 
 In this last section, we study the invertibility problem for a
-metacyclic group $G$. Our results are not as strong: for an abelian
-groups we used an isomorphism between $\F[G]$ and a quotient of a
-polynomial ring; here, we will use here an explicit injective
+metacyclic group $G$. Our results are not as strong as for abelian groups
+where  we used an isomorphism between $\F[G]$ and a quotient of a
+polynomial ring.  Here we will use here an explicit injective
 homomorphism, whose image will be easy to compute. This is the object
 of the following theorem, where the map is inspired by the one used in
 \cite[\S 47]{Curtis}.
@@ -405,7 +408,8 @@ and let $\bar{z}$ be the image of $z$ in $\A$.
 
 \begin{lemma}\label{prop:metinjection}
 The mapping
-$$\begin{array}{cccc}
+\[
+  \begin{array}{cccc}
 \psi:& \F [G]& \to& M_s(\A) \\
 &\sigma &\mapsto& \mathrm{Diag}(\bar{z}, \bar{z}^r , \ldots, \bar{z}^{r^{s-1}})\\
 &\tau &\mapsto &
@@ -414,8 +418,9 @@ $$\begin{array}{cccc}
 \hline
 \mat I_{s-1} & 0
 \end{array}
-\right]
-\end{array},$$
+\right],
+  \end{array}
+\]
 an injective homomorphism of $\F$-algebras.
 \end{lemma}
 \begin{proof}
