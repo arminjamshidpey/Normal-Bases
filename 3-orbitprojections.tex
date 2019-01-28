@@ -174,7 +174,7 @@ whose proof follows the same pattern.
   maps
   \[
     \ell \circ g_1^{i_1}\cdots g_r^{i_r} ,\quad \text{~for~} 0 \leq i_j
-    \leq s_j,\ 1 \leq j \leq r
+    \leq s_j,\ 1 \leq j \leq r,
   \]
   can be computed in $\osumcosttilde$ operations in $\F$.
 \end{lemma} 
@@ -318,9 +318,12 @@ $\sigma^{\lceil \sqrt{m/s} \rceil}$, in $O(\log(n))$ modular compositions
 in degree $n$. The cost is no more than that of Step 1.
 
 \smallskip\noindent\textbf{Step 3.} Compute
-$$L_k := \ell \circ \sigma^{k\lceil \sqrt{m/s} \rceil}, \,\, 0\leq k <
-\lceil \sqrt{sm}\rceil$$ using Lemma \ref{lem:transmodcomp}.  This takes
-$\osumcosttilde$ operations in~$\F$.
+\[
+  L_k := \ell \circ \sigma^{k\lceil \sqrt{m/s} \rceil}, \,\, 0\leq k <
+  \lceil \sqrt{sm}\rceil,
+\]
+using Lemma \ref{lem:transmodcomp}.  This takes $\osumcosttilde$ operations
+in~$\F$.
 
 \smallskip\noindent\textbf{Step 4.} At this point, we compute all
 $$ L_k(s_{i,j}) = \ell(\sigma^{k\lceil \sqrt{m/s} \rceil + i}\tau

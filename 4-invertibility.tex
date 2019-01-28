@@ -172,10 +172,10 @@ Let thus $p$ be a prime. The key to the following algorithms is the
 lemma below.  Let $c,c'$ be positive integers, with $c \ge
 c'$, and let $x,y$ be indeterminates over $\F$. Define
 \begin{align}
-\mathbbm{a}&:=\F[x]/\Phi_{p^c}(x)  \\
+\mathbbm{a}&:=\F[x]/\Phi_{p^c}(x),  \\
 \mathbbm{b}&:=\F[x,y]/\langle \Phi_{p^c}(x), \Phi_{p^{c'}}(y)\rangle = \mathbbm{a}[y]/\Phi_{p^{c'}}(y).
 \end{align}
-Remark that $\mathbbm{a}$ and $\mathbbm{b}$ have respective dimensions
+Note that $\mathbbm{a}$ and $\mathbbm{b}$ have respective dimensions
 $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
 \begin{lemma}
   There is an $\F$-algebra isomorphism $\theta: \mathbbm{b} \to
@@ -191,7 +191,7 @@ $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
   Remainder theorem implies that $\mathbbm{b}$ is isomorphic to
   $\mathbbm{a}^{\varphi(p^{c'})}$; the isomorphism is given by
   $$\begin{array}{cccc}
-    \theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a} \\
+    \theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a}, \\
     & P & \mapsto& (P(\xbar,\rho_1),\dots,P(\xbar,\rho_{\varphi(p^{c'})}).
   \end{array}$$
   In terms of complexity, arithmetic operations $(+,-,\times)$ in
@@ -241,7 +241,7 @@ $$\Theta_1: \A \to (\mathbbm{a}[x_3,\dots,x_t]/\langle
 inverse can be evaluated in quasi-linear time $\tilde{O}(\dim(\A))$.
 We now work in all copies of $\mathbbm{a}[x_3,\dots,x_t]/\langle
 \Phi_{p^{c_3}}(x_3), \dots, \Phi_{p^{c_t}}(x_t)\rangle$ independently,
-and apply the procedure above to each of them. Altogether, we have
+and apply the procedure above to each of them. Altogether we have
 $t-1$ such steps to perform, giving us an isomorphism
 $$\Theta = \Theta_{t-1} \circ \cdots \circ \Theta_1:
 \A \to
@@ -305,7 +305,7 @@ well-defined, up to the order of the factors.
 
 \smallskip
 
-\noindent{\bf Main result.} Let then $G$ be an abelian group.  Let us
+\noindent{\bf Main result.} Let $G$ be an abelian group.  We can
 write the elementary divisor decomposition of $G$ as $G = G_1 \times
 \cdots \times G_s$, where each $G_i$ is of prime power order
 $p_i^{a_i}$, for pairwise distinct primes $p_1,\dots,p_s$, so that
@@ -316,7 +316,7 @@ ${p_i}^{b_{i,j}}$, with $b_{i,1} \le \cdots \le b_{i,t_i}$; this is
 the invariant factor decomposition of $G_i$, with $b_{i,1} + \cdots +
 b_{i,t_i} = a_i$.
 
-We will henceforth assume that generators
+We henceforth assume that generators
 $\gamma_{1,1},\dots,\gamma_{s,t_s}$ of respectively
 $G_{1,1},\dots,G_{s,t_s}$ are known, and that elements of $\F[G]$ are
 given on the power basis in $\gamma_{1,1},\dots,\gamma_{s,t_s}$. Were
