@@ -91,8 +91,10 @@ the complexity with respect to the parameters of a given metacyclic group.
 Both algorithms are based on testing the invertiblity of an injective
 homomorphic image of $S_\alpha$ in a matrix algebra over a division ring.
 It is worth mentioning that there is a vast literature on the fast Fourier
-transform computation. we invite the reader to consult \cite{Cla89, Rock90, 
-ClaMu04, DiaRock90, Beth87, MaRockWol18} and their references for details. 
+transform computation.  Relevant to our current context, we invite the
+reader to consult \cite{ClaMu04,MaRockWo18} and references therein for details.
+%\cite{Cla89, Rock90, 
+%ClaMu04, DiaRock90, Beth87, MaRockWol18} and their references for details. 
 Although we have access to such tools for 
 our computational purposes, it is not clear how we can apply these method 
 to get a quadratic time algorithm for a general field $\F$.
@@ -100,10 +102,12 @@ to get a quadratic time algorithm for a general field $\F$.
 The main result of this paper is the following theorem.
 
 \begin{theorem}\label{thm:main}
-Under Assumption \ref{assum}, a normal element of $K$ can be found using
-$\thecost$ operations in $\F$, if $G$ is abelian. Moreover, the same problem 
-in the metacyclic case can be solved using $\tilde{O}(\vert G \vert^2)$ operations 
-in $\F$.
+  Under Assumption \ref{assum}, a normal element of $K$ can be found using
+  $\thecost$ operations in $\F$, if $G$ is abelian, where
+  $(3/4)\cdot\omega(4/3)<1.99$ is connected to the cost of rectangular
+  matrix multiplication (see Section \ref{sec:osum}).  Moreover, the same
+  problem in the metacyclic case can be solved using
+  $\tilde{O}(\vert G \vert^2)$ operations in $\F$.
 \end{theorem}
 
 Although for a general metacyclic case the cost is quadratic in the 
