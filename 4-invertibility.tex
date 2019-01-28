@@ -520,7 +520,8 @@ products by $\psi(\beta)$ can be done fast.
 
 
 \begin{proof}[Second algorithm for Corollary~\ref{coro:test_meta}.]
-  The second algorithm uses Wiedemann's algorithm~\cite{Wiedemann86},
+  The second algorithm uses \citeauthor{Wiedemann86}'s
+  \citeyear{Wiedemann86} algorithm,
   and its extension by~\citeN{KaSa91}. Extra care will be needed to
   accommodate the fact that $\A$ has zero-divisors. Let
   $F_1,\dots,F_s$ be the (unknown) irreducible factors of $z^m-1$ in
@@ -528,20 +529,18 @@ products by $\psi(\beta)$ can be done fast.
   $i=1,\dots,s$. We write $\pi_i: \A \to\A_i$ for the canonical
   projection, and extend the notation to matrices over $\A$.
 
-  For $\beta$ in $\F[G]$, $\mat M:=\psi(\beta)$ is invertible if and
-  only if all $\mat M_i := \pi_i(\mat M)$ are. We are going to use the
-  algorithm of~\cite[Section~4]{KaSa91} to compute the rank of all
-  these matrices (these ranks are well-defined, since all $\A_i$'s are
-  fields).
-  
-  Let $\mat L$ and $\mat U$ be respectively random lower triangular
-  and upper triangular Toeplitz matrices over $\A$, and define $\mat
-  M':=\mat L \mat M \mat U \in M_s(\A)$. Finally, let $\mat M''$ be
+  For $\beta$ in $\F[G]$, $\mat M:=\psi(\beta)$ is invertible if and only
+  if all $\mat M_i := \pi_i(\mat M)$ are. We are going to use the algorithm
+  of~\cite[Section~4]{KaSa91} to compute the rank of all these matrices
+  (these ranks are well-defined, since all $\A_i$'s are fields).  Let
+  $\mat L$ and $\mat U$ be respectively random lower triangular and upper
+  triangular Toeplitz matrices over $\A$, and define
+  $\mat M':=\mat L \mat M \mat U \in M_s(\A)$. Finally, let $\mat M''$ be
   $\mat M'$, to which we adjoin a bottom row and a rightmost column of
-  zeros (so it has size $s+1$), let $\mat M''_i :=\pi_i(\mat M'')$ and
-  let $r_i :=\text{rank}(\mat M''_i)$, $i=1,\dots,s$. Then, all
-  $r_i$'s are less than $s+1$, and $\mat M$ is invertible if and only
-  if $r_i=s$ for all $i$.
+  zeros (so it has size $s+1$), let $\mat M''_i :=\pi_i(\mat M'')$ and let
+  $r_i :=\text{rank}(\mat M''_i)$, $i=1,\dots,s$. Then, all $r_i$'s are
+  less than $s+1$, and $\mat M$ is invertible if and only if $r_i=s$ for
+  all $i$.
 
   The condition that $\mat M''_i$ has rank less than $s+1$ makes it
   possible to apply~\cite[Lemma~2]{KaSa91}: for generic
