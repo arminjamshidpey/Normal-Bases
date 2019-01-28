@@ -40,7 +40,7 @@ input and output size $O(n^{1+k})$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Multiple automorphim evaluation and applications}
+\subsection{Multiple automorphism evaluation and applications}
 
 The key to the algorithms below is the remark following
 Assumption~\ref{assum}, which reduces automorphism evaluation to
@@ -86,7 +86,7 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   $O(n^{(3/4)\cdot \omega(4/3)})$ operations in $\F$, and the rows of this matrix
   give all $a_{i,j}(\gamma)$.  The last step to get all
   $\alpha_i(\gamma)$ is to write them as $\alpha_i(\gamma) = \sum_{0
-    \leq j < m} a_{i,j}(\gamma) \Gamma_t^{j}.$ Using Horner's scheme,
+    \leq j < m} a_{i,j}(\gamma) \gamma_t^{j}.$ Using Horner's scheme,
   this takes $O(sm)$ operations in $\K$, which is $\tilde{O}(n^{7/4})$
   operations in $\F$. Since we pointed out that $\omega(3/4) \ge 7/4$,
   the leading exponent in all costs seen so far is
@@ -102,7 +102,7 @@ that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all
 operations in $\F$.
 \end{lemma}
 \begin{proof}
-(Compare \cite[Lemma~4]{KalSho98}.) For $m=1,\dots,r$, suppose we have computed 
+(Compare \cite[Lemma~4]{KalSho98}.) For a given  $m\in\{1,\dots,r\}$, suppose we have computed 
   $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
   i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
   the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\xbar$, as per our convention).
@@ -179,6 +179,7 @@ whose proof follows the same pattern.
   can be computed in $\osumcosttilde$ operations in $\F$.
 \end{lemma} 
 \begin{proof}
+(Compare \cite[Lemma~8]{KalSho98}.)
   We proceed as in Lemma~\ref{lem:selfcomp}. For $m=1,\dots,r$, assume
   we know $L_{i_1,\dots,i_m}:=\ell \circ (g_1^{i_1}\cdots g_m^{i_m}),$
   for $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m.$
@@ -206,17 +207,17 @@ Assume $G$ is an abelian group presented as
   \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
   \rangle,
 \]
-where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n =
-e_1 \cdots e_r$.  Without loss of generality, we assume $e_i \ge 2$ for
-all $i$, so that $r$ is in $O(\log n)$. Elements of the group
-algebra $\F[G]$ are written as commutative polynomials
-$\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r} {g_1}^{e_1} \cdots {g_r}^{e_r}$,
-with $0\le i_j < e_j$ for all~$j$.
+where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n = e_1 \cdots
+e_r$.  Without loss of generality, we assume $e_i \ge 2$ for all $i$,
+so that $r$ is in $O(\log n)$. Elements of $\F[G]$ are written as
+polynomials $\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r}
+{g_1}^{e_1} \cdots {g_r}^{e_r}$, with $0\le i_j < e_j$ for all~$j$.
 
 
 \begin{proposition}\label{prop:abelian}
-  Suppose that $G$ is abelian, with notation as above. For $\alpha$ in $\K$ and $\ell:\K\to\F$, 
-  $s_{\alpha,\ell} \in \F[G]$ is computable using  $\osumcosttilde$
+  Suppose that $G$ is abelian, with notation as above. For $\alpha$ in
+  $\K$ and $\ell:\K\to\F$, $s_{\alpha,\ell} \in \F[G]$, as defined
+  in~\eqref{def:s_alpha_ell}, is computable using $\osumcosttilde$
   operations in $\F$.
 \end{proposition}
 \begin{proof}
@@ -225,14 +226,14 @@ Our goal is to compute
   \ell (g_1^{i_1},  \ldots, g_r^{i_r}(\alpha)), \, 1 \leq j \leq r, 0 \leq i_j \leq e_j,
 \end{equation}
 where $\ell$ is an $\F$-linear projection $\K\to \F$.  For $ 1\leq i
-\leq r$, define $s_i:=\lceil\sqrt{e_i \rceil}$. As we sketched in the
+\leq r$, define $s_i:=\lceil\sqrt{e_i} \rceil$. As we sketched in the
 cyclic case, the elements in \eqref{eq:abelian} can be expressed as
-$L_{j_1,\cdots, j_r} (G_{i_1,\dots,i_r})$, 
+$L_{j_1,\dots, j_r} (G_{i_1,\dots,i_r})$, 
 for $1\leq m \leq r, 0\leq i_m < s_m, 0 \leq j_m < s_m$.
-Here, $L_{j_1\cdots j_r} :=\ell \circ (g_1^{s_1j_1} \cdots
+Here, $L_{j_1,\dots,j_r} :=\ell \circ (g_1^{s_1j_1} \cdots
 g_r^{s_rj_s})$ are linear projections presented as row vectors and
 $G_{i_1,\dots,i_r}:=g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ are field
-elements presented as column vectors. All elements in
+elements presented as column vectors. Then, all elements in
 \eqref{eq:abelian} can be computed with the following steps, the sum of whose 
 costs proves the proposition.
 
@@ -245,15 +246,15 @@ this involves $O(\log(n))$ modular compositions, so the cost is negligible
 compared to that of Step~1.
 
 \smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp} to compute 
-$$L_{j_1,\cdots,j_r} = \ell \circ (g_1^{s_1j_1} \cdots
+$$L_{j_1,\dots,j_r} = \ell \circ (g_1^{s_1j_1} \cdots
 g_r^{s_rj_s}), \,\, 1\leq m \leq r, 0 \leq j_m < s_m,$$
 with cost $\osumcosttilde$
 
 \smallskip\noindent\textbf{Step 4.} Multiply the matrix with rows the
-coefficients of all $L_{j_1,\cdots,j_r}$ by the matrix with columns
-the coefficients of all $G_{i_1,\dots,i_r}$; this yields all required
-values, as pointed out above. We can compute this  product in
-$O(n^{(1/2)\cdot\omega(2)})$ operations in $\F$, which is in $\osumcost$.
+coefficients of all $L_{j_1,\dots,j_r}$ by the matrix with columns the
+coefficients of all $G_{i_1,\dots,i_r}$; this yields all required
+values. We compute this product in $O(n^{(1/2)\cdot\omega(2)})$
+operations in $\F$, which is in $\osumcost$.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
