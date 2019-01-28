@@ -69,13 +69,14 @@ following~\cite{DaMMMScXi06}, but this seems non-trivial.
 
 Instead, we give an algorithm with softly linear runtime, that uses
 the factorization properties of cyclotomic polynomials and Chinese
-remaindering techniques to transform our problem into that of invertibility
-testing in algebras of the form $\F[z]/\langle P_i(z) \rangle$, for
-various polynomials $P$. The reference~\cite{Pol94} also discusses the
-factors of algebras such as $\F[x_1,\dots,x_t]/\langle
-x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, but the resulting algorithms are 
-different (and the cost of the \citeauthor{Pol94}'s \citeyear{Pol94} algorithm
-is only known to be polynomial in $|G|$).
+remaindering techniques to transform our problem into that of
+invertibility testing in algebras of the form $\F[z]/\langle P_i(z)
+\rangle$, for various polynomials $P_i$. The reference~\cite{Pol94}
+also discusses the factors of algebras such as
+$\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, but
+the resulting algorithms are different (and the cost of the
+\citeauthor{Pol94}'s \citeyear{Pol94} algorithm is only known to be
+polynomial in $|G|$).
 
 \smallskip
 
@@ -153,7 +154,7 @@ $\varphi(\mu)$.
   \Phi_{{p_2}^{c_2}}(x_2)\rangle \to \F[z]/\langle
   \Phi_{{p_1}^{c_1}{p_2}^{c_2}}(z)\rangle$
 given in the previous paragraph extends coordinate-wise to an
-  isomorphim
+  isomorphism
   $$\Gamma_1: \H \to \F[z,x_3,\dots,x_t]/\langle
   \Phi_{{p_1}^{c_1}{p_2}^{c_2}}(z),\Phi_{{p_3}^{c_3}}(x_3),\dots,\Phi_{{p_t}^{c_t}}(x_t)\rangle.$$
   By the previous lemma, $\Gamma_1$ and its inverse can be applied to
@@ -163,8 +164,7 @@ given in the previous paragraph extends coordinate-wise to an
   in $\varphi(\mu)$, the proof is complete.
 \end{proof}
 
-\noindent{\bf Tensor product of two prime-power cyclotomic rings, same $p$.}
-In the following two paragraphs, we discuss the opposite situation as
+\noindent{\bf Tensor product of two prime-power cyclotomic rings, same $p$.}~In the following two paragraphs, we discuss the opposite situation as
 above: we now work with cyclotomic polynomials of prime power
 orders for a common prime $p$. As above, we start with two such polynomials.
 
@@ -291,7 +291,7 @@ $$\lambda: \B \to \prod_{c_1=0}^{b_1} \cdots \prod_{c_t=0}^{b_t} \A_{p,\boldsymb
 with $\boldsymbol{c}=(c_1,\dots,c_t)$. Together with its inverse, 
 $\lambda$ can be computed in $\tilde{O}(\dim(\B))$ operations in $\F$.
 Composing with the result in Lemma~\ref{lemma:A}, this gives
-us an isomorphim
+us an isomorphism
 $$\Lambda: \B \to \D:=\prod_{c_1=0}^{b_1} \cdots \prod_{c_t=0}^{b_t}
 \mathbbm{a}_{\boldsymbol{c}}^{D_{\boldsymbol{c}}},$$ where
 $\mathbbm{a}_{\boldsymbol{c}} = \F[z]/\langle \Phi_{p^c}(z)\rangle$,
@@ -339,15 +339,13 @@ factorization $G_i = G_{i,1} \times \cdots \times G_{i,t_i}$
 implies that $\F[G_i]$ is isomorphic, as an $\F$-algebra, to
 $$\F[x_{i,1},\dots,x_{i,t_i}]/\left \langle
 x_{i,1}^{p_i^{b_{1}}}-1,\dots,x_{i,t_i}^{p_i^{b_{i,t_i}}}-1\right\rangle
-=\B_{p_i,\boldsymbol{b}_i,\boldsymbol{x}_i},$$ with $\boldsymbol{b}_i =
-(b_{i,1},\dots,b_{i,t_i})$ and $\boldsymbol{x}_i =
-(x_{i,1},\dots,x_{i,t_i})$. Given $\beta$ on the
-power basis in $\gamma_{1,1},\dots,\gamma_{s,t_s}$, we obtain
-its image 
-$A$ in 
-$\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes \cdots \otimes 
-\B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$ simply 
-by renaming $\gamma_{i,j}$ as $x_{i,j}$, for all $i,j$.
+=\B_{p_i,\boldsymbol{b}_i,\boldsymbol{x}_i},$$ with $\boldsymbol{b}_i
+= (b_{i,1},\dots,b_{i,t_i})$ and $\boldsymbol{x}_i =
+(x_{i,1},\dots,x_{i,t_i})$. Given $\beta$ on the power basis in
+$\gamma_{1,1},\dots,\gamma_{s,t_s}$, we obtain its image $B$ in
+$\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes \cdots \otimes
+\B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$ simply by renaming
+$\gamma_{i,j}$ as $x_{i,j}$, for all $i,j$.
 
 For $i \le s$, by Lemma~\ref{lemma:alg}, there exist integers
 $c_{i,1},\dots,c_{i,N_i}$ such that
@@ -364,9 +362,9 @@ the product of algebras
  \end{equation}
 for all indices $\boldsymbol{j}=(j_1,\dots,j_s)$, with
 $j_1 =1,\dots,N_1,\dots,j_s=1,\dots,N_s$;
-call $\Gamma$ the isomorphism. Given $A$ in $\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes
+call $\Gamma$ the isomorphism. Given $B$ in $\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes
 \cdots \otimes \B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$,
-Lemma~\ref{lemma:alg} also implies that $A':=\Gamma(A)$ can be
+Lemma~\ref{lemma:alg} also implies that $B':=\Gamma(B)$ can be
 computed in softly linear time $\tilde{O}(|G|)$ (apply the isomorphism
 corresponding to $\boldsymbol{x}_1$ coordinate-wise with respect to
 all other variables, then deal with $\boldsymbol{x}_2$, etc).
@@ -380,8 +378,8 @@ $$\Gamma': \text{\small $\prod$}_{\boldsymbol{j}}~
 \H_{\boldsymbol{p},\boldsymbol{c}_{\boldsymbol{j}},\boldsymbol{z}} \to
 \text{\small $\prod$}_{\boldsymbol{j}} ~\F[z]/\langle
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle,$$ for certain integers
-$d_{\boldsymbol{j}}$. The lemma implies that given $A'$,
-$A'':=\Gamma'(A')$ can be computed in softly linear time
+$d_{\boldsymbol{j}}$. The lemma implies that given $B'$,
+$B'':=\Gamma'(B')$ can be computed in softly linear time
 $\tilde{O}(|G|)$ as well. Invertibility of $\beta \in \F[G]$ is
 equivalent to $A''$ being invertible, that is, to all its components
 being invertible in the respective factors $\F[z]/\langle
@@ -389,22 +387,20 @@ being invertible in the respective factors $\F[z]/\langle
 algebra can be tested in softly linear time by applying the fast
 extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows. 
 
-Together with Proposition \ref{prop:abelian}, the above result proves the first part of
-Theorem \ref{thm:main}.
+\smallskip
 
-
+Together with Proposition \ref{prop:abelian}, the above result proves
+the first part of Theorem \ref{thm:main}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Metacyclic Groups}
 
 In this last section, we study the invertibility problem for a
-metacyclic group $G$. Our results are not as strong as for abelian groups
-where  we used an isomorphism between $\F[G]$ and a quotient of a
-polynomial ring.  Here we will use an explicit injective
-homomorphism, whose image will be easy to compute. This is the object
-of the following theorem, where the map is inspired by the one used in
-\cite[\S 47]{Curtis}.
+metacyclic group $G$. Instead of using an $\F$-algebra isomorphism, as
+we did above, we will use an injective homomorphism, whose image will
+be easy to compute. This is the object of the following lemma, where
+the map is inspired by the one used in \cite[\S 47]{Curtis}.
 
 Assume that $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s =
 \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$, where $r^s = 1
@@ -449,8 +445,9 @@ F_{s,s}& \cdots & F_{2,s}	& F_{1,s}
 \end{array}
 \right].
 \end{equation}
-If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\zbar) =0$ which
-implies $F_i = 0$ (by degree reasons), for $0 \leq i < s$.
+If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\zbar) =0$, that is,
+$F_i \bmod (z^m-1)=0$, for $0 \leq i < s$. Since all $F_i$'s have degree 
+less than $m$, they are all zero.
 \end{proof}
 
 We conclude this section with two algorithms that test whether
@@ -462,9 +459,19 @@ the Chinese Remainder theorem and work in field extensions of $\F$).
 
 \begin{corollary}\label{coro:test_meta}
   Given $\beta$ in $\F[G]$, one can test if $\beta$ is a unit in
-  $\F[G]$ using either $\tilde{O}(s^{2.7} m)$ or $\tilde{O}(n^2)$
-  operations in $\F$; the latter algorithm is Monte Carlo.
+  $\F[G]$ either by a deterministic algorithm that uses
+  $\tilde{O}(s^{2.7} m)$ operations in $\F$, or a Monte Carlo one that
+  uses $\tilde{O}(n^2)$ operations in $\F$.
 \end{corollary}
+The second statement provides the last part of the proof of Theorem
+\ref{thm:main}. Note that the first algorithm gives a better cost in
+many cases. For instance, if $s \leq m$, the first algorithm uses
+$O(n^{1.85})$ operations in $\F$. This happens if $s$ is prime, since
+then the number ${(m- \gcd(m,r-1))}/{s}$ is a positive integer,
+which implies $s \leq m$ (see \cite[Theorem 47.12, Corollary 47.14
+]{Curtis}).
+
+
 \begin{proof}[First algorithm.]
   The first algorithm uses fast linear algebra algorithms over the ring
   $\A$. Here, we start from $\beta$ written as $\beta = \sum_{j =
@@ -480,7 +487,7 @@ the Chinese Remainder theorem and work in field extensions of $\F$).
   injectivity of $\psi$ implies that this is the case if and only if
   $\beta$ itself is a unit). This amounts to computing the determinant
   of this matrix, which can be done in $\tilde{O}(s^{2.7} m)$
-  operations in $F$, using the determinant algorithm
+  operations in $\F$, using the determinant algorithm
   of~\cite[Section~6]{KaVi04}.
 \end{proof}
 
@@ -494,7 +501,7 @@ products by $\psi(\beta)$ can be done fast.
 \end{lemma}
 \begin{proof}
   We use the basis of $\F[G]$ given in~\eqref{pres2}, writing $\beta =
-  \sum_{i = 0}^{m-1} \left( \sum_{j = 0}^{s-1} \bar b_{i,j} \tau^i
+  \sum_{i = 0}^{m-1} \left( \sum_{j = 0}^{s-1}  b_{i,j} \tau^i
   \right) \sigma^j \in \F[G]$. We rewrite this as $\beta = \sum_{i
     = 0}^{m-1} B_i(\tau) \sigma^i$, for some $B_0,\dots,B_{m-1}$ in
   $\F[z]$ of degree less than $s$.
@@ -506,7 +513,7 @@ products by $\psi(\beta)$ can be done fast.
  The vector $\psi(\sigma)^i \boldsymbol{v}$ can be obtained by
  multiplying each entry of $\boldsymbol{v}$ by a power of $\zbar$;
  this takes $\tilde{O}(sm)$ operations in $\F$. Then, since
- $\psi(\tau)$ the matrix of multiplication by $y$ in $\A[y]/\langle
+ $\psi(\tau)$ is the matrix of multiplication by $y$ in $\A[y]/\langle
  y^s-\zbar\rangle$, $B_i(\psi(\tau))$ is the matrix of multiplication
  by $B_i(y)$ in $\A[y]/\langle y^s-\zbar\rangle$. Thus, applying this
  matrix to a vector also takes softly linear time $\tilde{O}(sm)$.
@@ -525,7 +532,7 @@ products by $\psi(\beta)$ can be done fast.
   and its extension by~\citeN{KaSa91}. Extra care will be needed to
   accommodate the fact that $\A$ has zero-divisors. Let
   $F_1,\dots,F_s$ be the (unknown) irreducible factors of $z^m-1$ in
-  $\F[z]$ and define $\A_i = \F[z]/\langle F_i \rangle$ for
+  $\F[z]$ and define $\A_i := \F[z]/\langle F_i \rangle$ for
   $i=1,\dots,s$. We write $\pi_i: \A \to\A_i$ for the canonical
   projection, and extend the notation to matrices over $\A$.
 
@@ -557,7 +564,7 @@ products by $\psi(\beta)$ can be done fast.
   \boldsymbol{v}$. Since multiplication by $\mat L$, $\mat U$ and
   $\mat X$ all take quasi-linear time $\tilde{O}(sm)$,
   Lemma~\ref{lem:multpsi} shows that one product by $\mat M'' \mat X$
-  takes $\tilde{O}(sm^2)$ oeprations in $\F$. Hence, all required
+  takes $\tilde{O}(sm^2)$ operations in $\F$. Hence, all required
   terms can be obtained in $\tilde{O}(s^2m^2)=\tilde{O}(n^2)$
   operations in $\F$.
 
@@ -572,13 +579,6 @@ products by $\psi(\beta)$ can be done fast.
   $r_i$'s, and thus decide whether $\psi(\beta)$ is singular.
 \end{proof}
 
-Although the second algorithm above gives a quadratic cost, the first algorithm 
-gives a better cost in many cases. More precisely, if $s \leq m$ then the first algorithm
-is subquadratic in the size of input. Moreover it is known that if $s$ is prime, then
-the number $$\dfrac{m- \gcd(m,r-1)}{s}$$ is a positive integer which implies $s \leq m$ 
-(see \cite[Theorem 47.12, Corollary 47.14 ]{Curtis}).
-
-Corollary \ref{coro:test_meta} provides the last part of the proof of Theorem \ref{thm:main}.
 
 
 
