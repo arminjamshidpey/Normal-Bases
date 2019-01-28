@@ -1,9 +1,9 @@
 \section{Introduction}
 
 For a finite Galois extension field $\K/\F$, with Galois group $G =
-\mathrm{Gal}(\K/\F)$, an element $\alpha \in K$ is called
+\mathrm{Gal}(\K/\F)$, an element $\alpha \in \K$ is called
 \emph{normal} if the set of its Galois conjugates $G \cdot \alpha =
-\{\sigma\in G: \sigma(\alpha)\}$ forms a basis for $\K$ as a vector space over
+\{ \sigma(\alpha): \sigma\in G\}$ forms a basis for $\K$ as a vector space over
 $\F$. The existence of normal element for any finite Galois extension
 is classical, and constructive proofs are provided in most algebra texts
 (see, e.g., \cite{Lang}, Section 6.13).
@@ -57,10 +57,10 @@ Our main conventions are the following.
   \label{assum}
   Let $\K/\F$ be a finite Galois extension presented as
   $\K=\F[x]/\langle P(x)\rangle$, for an irreducible polynomial $P\in
-  \F[x]$ of degree $n$. Then,
+  \F[x]$ of degree $n$, with $\F$ of characteristic zero. Then,
   \begin{itemize}
   \item elements of $\K$ are written on the power basis $1,\xbar,\dots,\xbar^{n-1}$,
-    where $\xbar := x \bmod F$;
+    where $\xbar := x \bmod P$;
   \item elements of $G$ are represented by their action on $\xbar$.
   \end{itemize}
 \end{assumption}
@@ -68,72 +68,78 @@ Our main conventions are the following.
 In particular, for $g \in G$ given by means of $\gamma:=g(\xbar) \in \K$,
 and $\beta = \sum_{0\leq i<n}\beta_i\xbar^i\in\K$, the fact that $g$ is an
 $\F$-automorphism implies that $g(\beta)$ is equal to $\beta(\gamma)$, the
-polynomial composition of $\beta$ at $\gamma$ (reduced modulo $F$).
+polynomial composition of $\beta$ at $\gamma$ (reduced modulo $P$).
 
 Our algorithms combine techniques and ideas due
-to~\cite{GatGie90,KalSho98}: $\alpha \in \K$ is normal if and only
-if the element $S_\alpha := \sum_{\sigma \in G} \sigma(\alpha)\sigma
-\in \K[G]$ is invertible in the group algebra $\K[G]$. The algorithms
-choose $\alpha$ at random; a generic choice is normal (so we expect
-$O(1)$ random trials to be sufficient). However, writing down
-$S_\alpha$ involves $\Theta(n^2)$ elements in $\F$, which precludes a
-subquadratic runtime. Knowing $\alpha$, the algorithms use a
+to~\cite{GatGie90,KalSho98}: $\alpha \in \K$ is normal if and only if
+the element $S_\alpha := \sum_{g \in G} g(\alpha)g \in \K[G]$ is
+invertible in the group algebra $\K[G]$. The algorithms choose
+$\alpha$ at random; a generic choice is normal (so we expect $O(1)$
+random trials to be sufficient). However, writing down $S_\alpha$
+involves $\Theta(n^2)$ elements in $\F$, which precludes a
+subquadratic runtime. Instead, knowing $\alpha$, the algorithms use a
 randomized reduction to a similar question in $\F[G]$, that amounts to
-applying a random projection $\K\to\F$ to all entries of $S_\alpha$.
-For that, we adapt algorithms from~\cite{KalSho98} that were written
-for Galois groups of finite fields. Having $S_\alpha$ in hand, we need
-to test its invertibility. In order to do so, we present an algorithm 
-in the abelian case which relies on the fact that $\F[G]$ is isomorphic 
-to a multivariate quotient polynomial ring by an ideal $(x^{e_i}_i-1)_{1 \leq i \leq m}$
-where $e_i$'s are positive integers. For metacyclic case, two algorithms
-are introduced to solve the same problem which compete according to the 
-the complexity with respect to the parameters of a given metacyclic group.
-Both algorithms are based on testing the invertiblity of an injective
-homomorphic image of $S_\alpha$ in a matrix algebra over a division ring.
-It is worth mentioning that there is a vast literature on the fast Fourier
-transform computation.  Relevant to our current context, we invite the
-reader to consult \cite{ClaMu04,MaRockWol18} and references therein for details.
-%\cite{Cla89, Rock90, 
-%ClaMu04, DiaRock90, Beth87, MaRockWol18} and their references for details. 
-Although we have access to such tools for 
-our computational purposes, it is not clear how we can apply these method 
-to get a quadratic time algorithm for a general field $\F$.
+applying a random projection $\ell:\K\to\F$ to all entries of
+$S_\alpha$, giving us an element $s_{\alpha,\ell} \in \F[G]$. For
+that, we adapt algorithms from~\cite{KalSho98} that were written for
+Galois groups of finite fields.
 
-The main result of this paper is the following theorem.
+Having $s_{\alpha,\ell}$ in hand, we need to test its
+invertibility. In order to do so, we present an algorithm in the
+abelian case which relies on the fact that $\F[G]$ is isomorphic to a
+multivariate quotient polynomial ring by an ideal $(x^{e_i}_i-1)_{1
+  \leq i \leq m}$, where $e_i$'s are positive integers. 
 
-\begin{theorem}\label{thm:main}
-  Under Assumption \ref{assum}, a normal element of $K$ can be found using
-  $\thecost$ operations in $\F$, if $G$ is abelian, where
-  $(3/4)\cdot\omega(4/3)<1.99$ is connected to the cost of rectangular
-  matrix multiplication (see Section \ref{sec:osum}).  Moreover, the same
-  problem in the metacyclic case can be solved using
-  $\tilde{O}(\vert G \vert^2)$ operations in $\F$.
-\end{theorem}
-
-Although for a general metacyclic case the cost is quadratic in the 
-size of input, in many cases it will be (slightly) subquadratic under specific 
-conditions on the parameters (see Section \ref{sec:invertibility}).
-
-Section \ref{sec:pre} of this paper is devoted to definitions and
-preliminary discussions.  In Section \ref{sec:osum} two subquadratic-time
-algorithms are presented for the randomize reduction of our main question
-to invertibility testing in $\F[G]$, for respectively abelian and
-metacyclic groups.  Finally, in Section \ref{sec:invertibility}, we show
-that the latter problem can be solved in subquadratic time for an abelian group.
-Moreover, for metacyclic groups the same problem can be solved in quadratic time 
-in the size of input.
+For metacyclic groups, two algorithms are introduced to solve the same
+problem; which one is faster depends on the parameters defining our
+group. Both algorithms are based on testing the invertibility of an
+injective homomorphic image of $s_{\alpha,\ell}$ in a matrix algebra
+over a product of fields. These questions are closely related to that
+of Fourier transform over $G$ (where the base field is $\C$), and it
+is worth mentioning that there is a vast literature on fast algorithms
+for Fourier transforms. Relevant to our current context, we invite the
+reader to consult \cite{ClaMu04,MaRockWol18} and references therein
+for details. At this stage, it is not clear how we can apply these
+methods in our context.
 
 This paper is written from the point of view of obtaining improved
-asymptotic complexity estimates. Since our main goal is to highlight the
-exponent (in $n$) in our runtime analyses, costs are given using the soft-O
-notation: $S(n)$ is in $\tilde{O}(T(n))$ if it is in
-$O(T(n) \log(T(n))^c)$, for some constant $c$. Our algorithms make
+asymptotic complexity estimates. Since our main goal is to highlight
+the exponent (in $n$) in our runtime analyses, costs are given using
+the soft-O notation: $S(n)$ is in $\tilde{O}(T(n))$ if it is in
+$O(T(n) \log(T(n))^c)$, for some constant $c$.
+
+The main result of this paper is the following theorem; we use a
+constant $\omega(4/3)$ that describes the cost of certain rectangular
+matrix products (see the end of this section).
+\begin{theorem}\label{thm:main}
+  Under Assumption \ref{assum}, a normal element of $\K$ can be found
+  using $\thecost$ operations in $\F$ if $G$ is abelian, with
+  $(3/4)\cdot\omega(4/3)<1.99$.  Moreover, the same problem for
+  metacyclic groups can be solved using $\tilde{O}(\vert G \vert^2)$
+  operations in $\F$. The algorithms are randomized.
+\end{theorem}
+Although the cost is quadratic in the size of input for a general
+metacyclic group, in many cases it will be (slightly) subquadratic,
+under specific conditions on the parameters defining $G$ (see
+Section~\ref{sec:invertibility}).
+
+Section \ref{sec:pre} of this paper is devoted to definitions and
+preliminary discussions.  In Section \ref{sec:osum}, two
+subquadratic-time algorithms are presented for the randomized reduction
+of our main question to invertibility testing in $\F[G]$, for
+respectively abelian and metacyclic groups.  Finally, in Section
+\ref{sec:invertibility}, we show that the latter problem can be solved
+in quasi-linear time for an abelian group; for metacyclic
+groups, we give a quadratic time algorithm, and discuss cases when
+the cost can be improved.
+
+Our algorithms make
 extensive of known algorithms for polynomial and matrix arithmetic; in
 particular, we use repeatedly the fact that polynomials of degree $d$ in
 $\F[x]$, for any field $\F$ of characteristic zero, can be multiplied in
 $\tilde{O}(n)$ operations in $\F$~\cite{ScSt71}. As a result, arithmetic 
 operations $(+,\times,\div)$ in $\K$ can all be done using $\tilde{O}(n)$ 
-operations in $\F$.
+operations in $\F$~\cite{vzGathen13}.
 
 For matrix arithmetic, we will rely on some non-trivial results on
 rectangular matrix multiplication initiated by \citeN{LoRo83}. For $k \in
