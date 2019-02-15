@@ -1,0 +1,40 @@
+\section{Basis Conversion}
+
+\textbf{Normal to Power basis}
+Suppose $G = \lbrace g_1, \ldots, g_n \rbrace$, $\alpha$ is a normal element of $K$ and $u = \begin{bmatrix}u_1 & \ldots & u_n \end{bmatrix} \in F^n$ is given as the coefficient vector of $u$ in the normal basis.
+In order to write $u $ in the power basis one can compute 
+\begin{equation}\label{eq:norm2pwrmat}
+\left[\begin{array}{c|c|c}
+\overline{g_1(\alpha)} & \cdots & \overline{g_n(\alpha)} 
+\end{array}\right]\cdot 
+\begin{bmatrix}
+u_1 & \cdots & u_n
+\end{bmatrix}^t,
+\end{equation}
+where $\overline{g_i(\alpha)}$ is the coefficient vector of $g_i(\alpha)$. The result of \eqref{eq:norm2pwrmat} is the coefficient vector of
+\begin{equation}\label{eq:norm2pwrpol}
+\sum_{i = 1}^n u_i g_i(\alpha).
+\end{equation}
+Note that \eqref{eq:norm2pwrmat} shows that conversion from normal to power basis is transpose of the problem of computing the projections of 
+conjugates of $\alpha$ which is solved in Section \label{sec:osum}. Here we present an explicit algorithm to solve this problem i.e. to compute
+\eqref{eq:norm2pwrpol} for abelian and metacyclic $G$. Before stating the algorithm for basis conversion, we present the last
+ingredient needed. 
+
+\begin{lemma}
+Under the Assumption \ref{assum}, suppose $g_1, \ldots g_r \in G$ and $h_{i_1 \cdots i_r} \in K$ for $0 \leq j \leq r, \, 
+1 \leq i_j \leq s_j, \, \prod_{j = 1}^r s_j \leq \vert \lceil \sqrt{G} \rceil \vert$ are given. the elements 
+$$g_r^{i_r}\cdots g_1^{i_1}(h_{i_1 \cdots i_r}) 0 \leq j \leq r, \, 
+1 \leq i_j \leq s_j, \, \prod_{j = 1}^r s_j \leq \vert \lceil \sqrt{G} \rceil \vert$$
+can be computed using $\thecost$ operations over $F$.
+\end{lemma}
+
+\begin{proof}
+Assume $0 \leq t < r$ is fixed and $$g_t^{i_t}\cdots g_1^{i_1}(h_{i_1 \cdots i_r}) 0 \leq j \leq t, \, 
+1 \leq i_j \leq s_j, \, \prod_{j = 1}^t s_j \leq \vert \lceil \sqrt{G} \rceil \vert,$$
+is already computed
+\end{proof}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "NormalBasisCharZero"
+%%% End:
