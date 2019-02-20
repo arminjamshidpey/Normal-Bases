@@ -29,9 +29,14 @@ can be computed using $\thecost$ operations over $F$.
 \end{lemma}
 
 \begin{proof}
-Assume $0 \leq t < r$ is fixed and $$g_t^{i_t}\cdots g_1^{i_1}(h_{i_1 \cdots i_r}) 0 \leq j \leq t, \, 
-1 \leq i_j \leq s_j, \, \prod_{j = 1}^t s_j \leq \vert \lceil \sqrt{G} \rceil \vert,$$
-is already computed
+Let $h_{i_1 \cdots i_r}^{(0 \cdots 0)} = h_{i_1 \cdots i_r}$ and $$g_r^{l_r} \cdots g_1^{l_1}(h_{i_1 \cdots i_r}^{(u_1 \cdots u_r)}) = h_{i_1 \cdots i_r}^{(u_1+l_1 \cdots u_r+l_r)}$$ for $0 \leq j \leq r$ and $0 \leq l_j$.
+Assume $0 \leq t < r$ is fixed and $$h_{i_1 \cdots i_r}^{(i_1 \cdots i_{t-1}0 \cdots 0)}, \, 0 \leq j < t, \, 
+1 \leq i_j \leq s_j,$$ is already computed. We compute 
+$$h_{i_1 \cdots i_r}^{(i_1 \cdots i_{t}0 \cdots 0)}, \, 0 \leq j \leq t, \, 1 \leq i_j \leq s_j,$$
+by iteratively applying the following method. In $m$-th iteration we apply $g_t^{2^{m-1}}$ to $h_{i_1 \cdots i_r}^{(i_1 \cdots i_{t}0 \cdots 0)}$ for $j \leq t-1$, $0 \leq i_j \leq s_j$ and 
+$$i_t \in \left(\cup_{k = 1}^{\infty} \lbrace (2k-1)2^{m-1}, \ldots , (2k)2^{m-1}-1 \rbrace\right) \cap \lbrace 0 , \ldots , s_t \rbrace $$
+At each iteration we have to compute $O(\vert \lceil \sqrt{G} \rceil \vert)$ modular composition which can be done by applying
+Lemma \ref{lem:modcom} and $g^{2^i}$ can be computed by applying \ref{lem:selfcom}. This gives the claimed complexity.
 \end{proof}
 
 %%% Local Variables:
