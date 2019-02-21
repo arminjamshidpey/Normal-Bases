@@ -20,7 +20,7 @@ conjugates of $\alpha$ which is solved in Section \label{sec:osum}. Here we pres
 \eqref{eq:norm2pwrpol} for abelian and metacyclic $G$. Before stating the algorithm for basis conversion, we present the last
 ingredient needed. 
 
-\begin{lemma}
+\begin{lemma}\label{lem:hornerrep}
 Under the Assumption \ref{assum}, suppose $g_1, \ldots g_r \in G$ and $h_{i_1 \cdots i_r} \in K$ for $0 \leq j \leq r, \, 
 1 \leq i_j \leq s_j, \, \prod_{j = 1}^r s_j \leq \vert \lceil \sqrt{G} \rceil \vert$ are given. the elements 
 $$g_r^{i_r}\cdots g_1^{i_1}(h_{i_1 \cdots i_r}) 0 \leq j \leq r, \, 
@@ -39,6 +39,56 @@ At each iteration we have to compute $O(\vert \lceil \sqrt{G} \rceil \vert)$ mod
 Lemma \ref{lem:modcom} and $g^{2^i}$ can be computed by applying \ref{lem:selfcom}. This gives the claimed complexity.
 \end{proof}
 
+\textbf{Abelian extension.} Under Assumption \ref{assum}, suppose $G$ is given by \eqref{eq:abeliangrp}, $\alpha$ is a normal
+element and $u = \begin{bmatrix} u_1 \cdots u_n \end{bmatrix}^t \in F^n$ is an element of $K$. Moreover, let 
+$s_i = \lceil \sqrt{n} \rceil$. The basis conversion from normal to power basis is equivalent of computing \eqref{eq:norm2pwrpol} and
+the later problem can be solved in three steps. Before presenting the algorithm, note that \eqref{eq:norm2pwrpol} can be written
+as 
+$$\sum_{\substack{1 \leq j \leq r\\ 0 \leq i_j < e_j}} u_{i_1 \cdots i_r} g_1^{i_1} \cdots g_r^{i_r}(\alpha) = \sum_{\substack{1 \leq j \leq r\\ 0 \leq i_j \leq s_j}} \overline{g_1}^{i_1} \cdots \overline{g_r}^{i_r} (h_{i_1 \cdots i_r}),$$ 
+where $$h_{i_1 \cdots i_r} = \sum_{\substack{1 \leq k \leq r\\ 0 \leq j_k < s_k}} u^{(i_1 \cdots i_r)}_{j_1 \cdots j_r}
+g_1^{j_1} \cdots g_r^{j_r}(\alpha)$$ and $\overline{g_j} = g_j^{s_j}$.
+
+\textbf{Step 1.} We begin the process by computing $$g_1^{i_1} \cdots g_r^{i_r}(\alpha), \, 1 \leq j \leq r, 0 \leq i_j \leq s_i.$$
+Using Lemma \ref{lem:selfcomp}, this can be done using $\osumcosttilde$ operations in $F$.
+
+\textbf{Step 2.} In order to get $h_{i_1 \cdots i_r}$ multiply the matrix with rows $g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ by the
+matrix with columns the coefficients of $h_{i_1 \cdots i_r}$. This operation can be done in $O(n^{1/2 \cdot \omega(2)})$.
+
+\textbf{Step 3.} Use Lemma \ref{lem:hornerrep} to compute \eqref{eq:norm2pwrpol}. 
+
+\textbf{Metacyclic extension.} with the same assumptions as in the abelian case, suppose $G$ is given by \eqref{eq:metacyclic}. In
+this case \eqref{eq:norm2pwrpol} can be rewritten as
+$$\sum_{i = 0}^m \sum_{0}^s u_{ij}\sigma^i \tau^j(\alpha) = \sum_{i = 0}^{\lceil \sqrt{m} \rceil} \overline{\sigma}^i(h_i),$$
+where $h_i = \sum_{j = 0}^{\sqrt{m}/\sqrt{s}}\sum_{k =0}^{s} a_{jk}^{(i)}\sigma^j \tau^k (\alpha)$ and 
+$\overline{\sigma} = \sigma^{\lceil \sqrt{ms} \rceil}$.
+Note that without loss of generality we can assume $s \leq m$. Similar to the abelian case, we can do the computation in three steps.
+
+\textbf{Step 1.} Compute $\sigma^i\tau^j(\alpha)$ for $0 \leq i \leq \lceil \sqrt{m} /\sqrt{s} \rceil$ and $0 \leq j < s$.
+Using Lemma \ref{lem:selfcomp}, this can be done using $\osumcosttilde$ operations in $F$.
+
+\textbf{Step 2.} In order to get $h_{i}$ multiply the matrix with rows $\sigma^i\tau^j(\alpha)$ by the
+matrix with columns the coefficients of $h_{i}$. This operation can be done in $O((ms)^{1/2 \cdot \omega(2)})$.
+
+\textbf{Step 3.} Use Lemma \ref{lem:hornerrep} to compute \eqref{eq:norm2pwrpol}. 
+
+\textbf{Power Basis to normal basis.}
+
+Now assume $u \in K$ is given in power basis. The goal is to find $c_i$'s in $F$ such that, 
+$$u = \sum_{i = 0}^n-1 c_i g_i(\alpha).$$
+Then for any element $g_j$ of $G$ we have
+$$g_j(u) = \sum_{i = 0}^n-1 c_i g_jg_i(\alpha).$$
+On the other hand if $l$ is a random projection of $K$ to $F$, we get 
+$$l(g_j(u)) = \sum_{i = 0}^n-1 c_i l(g_jg_i(\alpha)).$$
+Hence, in order to find $c_i$'s it is enough to solve the linear system
+\begin{equation}\label{eq:convlinsys}
+l(M_G(\alpha)) \textbf{x} = \begin{bmatrix} l(g_i(u)) \end{bmatrix}_{0 \leq i <n}
+\end{equation}
+Hence the conversion problem can be solved in 2 steps 
+
+\textbf{Step 1.} compute $\begin{bmatrix} l(g_i(u)) \end{bmatrix}_{0 \leq i <n}$ which can be done using
+the algorithms of Section \ref{sec:osum}. This can be carried out using $\thecost$ operations in $F$.
+
+\textbf{Step 2.} compute $l(M_G(\alpha))$ and then solving the linear system \eqref{eq:convlinsys}.
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "NormalBasisCharZero"
