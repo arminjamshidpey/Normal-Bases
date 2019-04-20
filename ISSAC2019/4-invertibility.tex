@@ -1,0 +1,589 @@
+\section{Testing Invertibility in the Group Algebra}
+\label{sec:invertibility}
+
+In this section we consider the problem of invertibility testing in
+$\F[G]$, specifically for abelian and metacyclic groups $G$: given an
+element $\beta$ in $\F[G]$, for a field $\F$ and a group $G$, determine
+whether $\beta$ is a unit in $\F[G]$.  As well as being necessary in our
+application to normal bases, we believe these problems are of independent
+interest.
+
+Since we are in characteristic zero, Wedderburn's theorem implies the
+existence of an $\F$-algebra isomorphism (which we will refer to as a
+Fourier Transform)
+\[
+  \F[G] \to M_{d_1}(D_1) \times \dots \times M_{d_r}(D_r),
+\]
+where all $D_i$'s are division algebras over $\F$. If we were working over
+$\F=\C$, all $D_i$'s would simply be $\C$ itself.  A natural solution
+to test the invertibility of $\beta \in \F[G]$ would then be to compute its
+Fourier transform and test whether all its components
+$\beta_1 \in M_{d_1}(\C),\dots,\beta_r \in M_{d_r}(\C)$ are
+invertible. This boils down to linear algebra over $\C$, and takes
+$O(d_1^\omega + \cdots + d_r^\omega)$ operations.  Since
+$d_1^2 + \cdots + d_r^2 = |G|$, this is $O(|G|^{\omega/2})$ operations in
+$\C$.
+
+However, we do not wish to make such a strong assumption as $\F=\C$. Since
+we measure the cost of our algorithms in $\F$-operations, the direct
+approach that embeds $\F[G]$ into $\C[G]$ does not make it possible to
+obtain a subquadratic cost in general. If, for instance, $\F=\Q$ and $G$ is
+cyclic of order $n=2^k$, computing the Fourier Transform of $\beta$
+requires we work in a degree $n/2$ extension of $\Q$, implying a quadratic
+runtime.
+
+In this section, we give algorithms for the problem of invertibility
+testing for the families of group seen so far, abelian and metacyclic. For
+the former, we actually prove a stronger result: starting from a suitable
+presentation of $G$, we give a softly linear-time algorithm to find an
+isomorphic image of $\beta \in \F[G]$ in a product of $\F$-algebras of the
+form $\F[z]/\langle P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$
+(recovering $\beta$ from its image is softly-linear time as well). Not only
+does this allow us to test whether $\beta$ is invertible, this would also
+make it possible to find its inverse in $\F[G]$ (or to compute products in
+$\F[G]$) in softly-linear time.  We are not aware of previous results of
+this kind. For metacyclic groups, we describe an injective $\F$-algebra
+homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic ring. The
+codomain is in general of dimension higher than $|G|$, so the algorithm we
+deduce from this is not linear-time.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Abelian groups}
+
+Because an abelian group is a product of cyclic groups, the group
+algebra $\F[G]$ of such a group is the tensor product of cyclic
+algebras. Using this property, given an element $\beta$ in $\F[G]$,
+our goal in this section is to determine whether $\beta$ is a unit.
+
+The previous property implies that $\F[G]$ admits a description of the
+form $\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$,
+for some integers $n_1,\dots,n_t$. The complexity of arithmetic
+operations in an $\F$-algebra such as $\A:=\F[x_1,\dots,x_t]/\langle
+P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down precisely. For
+general $P_i$'s, the cost of multiplication in $\A$ is known to be
+$O(\dim(\A)^{1+\varepsilon})$, for any $\varepsilon >
+0$~\cite[Theorem~2]{LiMoSc09}. From this it may be possible to deduce
+similar upper bounds on the complexity of invertibility tests,
+following~\cite{DaMMMScXi06}, but this seems non-trivial.
+
+Instead, we give an algorithm with softly linear runtime, that uses
+the factorization properties of cyclotomic polynomials and Chinese
+remaindering techniques to transform our problem into that of
+invertibility testing in algebras of the form $\F[z]/\langle P_i(z)
+\rangle$, for various polynomials $P_i$. The reference~\cite{Pol94}
+also discusses the factors of algebras such as
+$\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, but
+the resulting algorithms are different (and the cost of the
+\citeauthor{Pol94}'s \citeyear{Pol94} algorithm is only known to be
+polynomial in $|G|$).
+
+\smallskip
+
+\noindent{\bf Tensor product of two cyclotomic rings: coprime orders.}
+The following proposition will be the key to foregoing multivariate
+polynomials, and replacing them by univariate ones.  Let $m,m'$ be two
+coprime integers and define
+$$\mathbbm{h}:=\F[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle,$$
+where for $i \ge 0$, $\Phi_i$ is the cyclotomic polynomial of order
+$i$. In what follows, $\varphi$ is Euler's totient function, so that
+$\varphi(i) = \deg(\Phi_i)$ for all~$i$.
+\begin{lemma}
+  There exists an $\F$-algebra isomorphism $\gamma: \mathbbm{h} \to
+  \F[z]/\langle\Phi_{mm'}(z)\rangle$ given by $xx' \mapsto z$.  Given
+  $\Phi_m$ and $\Phi_{m'}$, $\Phi_{mm'}$ can be computed in time
+  $\tilde{O}(\varphi(mm'))$; given these polynomials, one can
+  apply $\gamma$ and its inverse to any input using
+  $\tilde{O}(\varphi(mm'))$ operations in~$\F$.
+\end{lemma}
+\begin{proof}
+  Without loss of generality, we prove the first claim over $\Q$; the
+  result over $\F$ follows by scalar extension. In the field \sloppy
+  $\Q[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle$, $xx'$ is
+  cancelled by $\Phi_{mm'}$. Since this polynomial is irreducible, it
+  is the minimal polynomial of $xx'$, which is thus a primitive
+  element for $\Q[x,x']/\langle \Phi_{m}(x),
+  \Phi_{m'}(x')\rangle$. This proves the first claim.
+
+  For the second claim, we first determine the images of $x$ and $x'$
+  by $\gamma$. Start from a B\'ezout relation $am+ a'm'=1$, for some
+  $a,a'$ in $\Z$.  Since $x^m = {x'}^{m'}=1$ in $\mathbbm{h}$, we
+  deduce that $\gamma(x)=z^{u}$ and $\gamma(x') = z^{v}$, with $u:=am
+  \bmod mm'$ and $v:=a'm' \bmod mm'$. To compute $\gamma(P)$, for some
+  $P$ in $\mathbbm{h}$, we first compute $P(z^u, z^v)$, keeping all
+  exponents reduced modulo $mm'$. This requires no arithmetic
+  operations and results in a polynomial $\bar P$ of degree less than
+  $mm'$, which we eventually reduce modulo $\Phi_{mm'}$ (the latter is
+  obtained by the composed product algorithm of~\cite{BoFlSaSc06} in
+  quasi-linear time).  By~\cite[Theorem~8.8.7]{BacSha96}, we have the
+  bound $s \in O(\varphi(s) \log(\log(s)))$, so that $s$ is in
+  $\tilde{O}(\varphi(s))$. Thus, we can reduce $\bar P$ modulo
+  $\Phi_{mm'}$ in $\tilde{O}(\varphi(mm'))$ operations, establishing
+  the cost bound for $\gamma$.
+
+  Conversely, given $Q$ in $\F[z]/\langle\Phi_{mm'}(z)\rangle$, we obtain
+  its preimage by replacing powers of $z$ by powers of $xx'$, reducing all
+  exponents in $x$ modulo $m$, and all exponents in $x'$ modulo $m'$.  We
+  then reduce the result modulo both $\Phi_m(x)$ and $\Phi_{m'}(x')$.  By
+  the same argument as above, the cost is softly linear in $\varphi(mm')$.
+\end{proof}
+
+\noindent{\bf Extension to several cyclotomic rings.}  The natural
+generalization of the algorithm above starts with pairwise distinct
+primes $\boldsymbol{p}=(p_1,\dots,p_t)$, non-negative exponent
+$\boldsymbol{c}=(c_1,\dots,c_t)$ and variables
+$\boldsymbol{x}=(x_1,\dots,x_t)$ over $\F$. Now, we define
+$$\H:=\F[x_1,\dots,x_t]/\langle
+\Phi_{{p_1}^{c_1}}(x_1),\dots,\Phi_{{p_t}^{c_t}}(x_t)\rangle;$$ when
+needed, we will write $\H$ as
+$\H_{\boldsymbol{p},\boldsymbol{c},\boldsymbol{x}}$. Finally, we let
+$\mu:={p_1}^{c_1}\cdots {p_t}^{c_t}$; then, the dimension $\dim(\H)$ is
+$\varphi(\mu)$.
+
+\begin{lemma}\label{lemma:distinctP}
+ There exist an $\F$-algebra isomorphism $\Gamma: \H \to
+ \F[z]/\langle\Phi_{\mu}(z)\rangle$ given by $x_1 \cdots x_t \mapsto
+ z$.  One can apply $\Gamma$ and its inverse to any input using
+ $\tilde{O}(\dim(\H))$ operations in $\F$.
+\end{lemma}
+\begin{proof}
+  We proceed iteratively. First, note that the cyclotomic polynomials
+  $\Phi_{{p_i}^{c_i}}$ can all be computed in time $O(\varphi(\mu))$. 
+  The isomorphism
+  $\gamma: \F[x_1,x_2]/\langle \Phi_{{p_1}^{c_1}}(x_1),
+  \Phi_{{p_2}^{c_2}}(x_2)\rangle \to \F[z]/\langle
+  \Phi_{{p_1}^{c_1}{p_2}^{c_2}}(z)\rangle$
+given in the previous paragraph extends coordinate-wise to an
+  isomorphism
+  $$\Gamma_1: \H \to \F[z,x_3,\dots,x_t]/\langle
+  \Phi_{{p_1}^{c_1}{p_2}^{c_2}}(z),\Phi_{{p_3}^{c_3}}(x_3),\dots,\Phi_{{p_t}^{c_t}}(x_t)\rangle.$$
+  By the previous lemma, $\Gamma_1$ and its inverse can be applied to
+  any input in time $\tilde{O}(\varphi(\mu))$. Iterate this process
+  another $t-2$ times, to obtain $\Gamma$ as a product
+  $\Gamma_{t-1} \circ \cdots \circ \Gamma_1$. Since $t$ is logarithmic 
+  in $\varphi(\mu)$, the proof is complete.
+\end{proof}
+
+\noindent{\bf Tensor product of two prime-power cyclotomic rings, same $p$.}~In the following two paragraphs, we discuss the opposite situation as
+above: we now work with cyclotomic polynomials of prime power
+orders for a common prime $p$. As above, we start with two such polynomials.
+
+Let thus $p$ be a prime. The key to the following algorithms is the
+lemma below.  Let $c,c'$ be positive integers, with $c \ge
+c'$, and let $x,y$ be indeterminates over $\F$. Define
+\begin{align}
+\mathbbm{a}&:=\F[x]/\Phi_{p^c}(x),  \\
+\mathbbm{b}&:=\F[x,y]/\langle \Phi_{p^c}(x), \Phi_{p^{c'}}(y)\rangle = \mathbbm{a}[y]/\Phi_{p^{c'}}(y).
+\end{align}
+Note that $\mathbbm{a}$ and $\mathbbm{b}$ have respective dimensions
+$\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
+\begin{lemma}
+  There is an $\F$-algebra isomorphism $\theta: \mathbbm{b} \to
+  \mathbbm{a}^{\varphi(p^{c'})}$ such that one can apply $\theta$ or
+  its inverse to any inputs using $\tilde{O}(\dim(\mathbbm{b}))$ operations in $\F$.
+\end{lemma}
+\begin{proof}
+  Let $\xbar$ be the residue class of
+  $x$ in $\A$. Then, in $\mathbbm{a}[y]$, $\Phi_{p^{c'}}(y)$ factors as
+  $$\Phi_{p^{c'}}(y) =\prod_{\substack{1 \le i\le p^{c'}-1\\ \gcd(i,p)
+      =1}} (y-\rho_i),$$ with $\rho_i:={\xbar}^{i p^{c-c'}}$ for all
+  $i$.  Even though $\mathbbm{a}$ may not be a field, the Chinese
+  Remainder theorem implies that $\mathbbm{b}$ is isomorphic to
+  $\mathbbm{a}^{\varphi(p^{c'})}$; the isomorphism is given by
+  $$\begin{array}{cccc}
+    \theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a}, \\
+    & P & \mapsto& (P(\xbar,\rho_1),\dots,P(\xbar,\rho_{\varphi(p^{c'})}).
+  \end{array}$$
+  In terms of complexity, arithmetic operations $(+,-,\times)$ in
+  $\mathbbm{a}$ can all be done in $\tilde{O}(\varphi(p^c))$ operations
+  in $\F$. Starting from $\rho_1 \in \mathbbm{a}$, all other roots
+  $\rho_i$ can then be computed in $O(\varphi(p^{c'}))$ operations in
+  $\mathbbm{a}$, that is, $\tilde{O}(\dim(\mathbbm{b}))$
+  operations in $\F$. 
+  
+Applying $\theta$ and its inverse is done by means of fast evaluation
+and interpolation~\cite[Chapter~10]{vzGathen13} in $\tilde{O}(\varphi(p^{c'}))$
+operations in $\mathbbm{a}$, that is, $\tilde{O}(\deg(\mathbbm{b}))$ operations in $\F$
+(the algorithms do not require that $\mathbbm{a}$ be a field).
+\end{proof}
+
+\smallskip\noindent{\bf Extension to several cyclotomic rings.}
+Let $p$ be as before, and consider now non-negative integers
+$\boldsymbol{c}=(c_1,\dots,c_t)$ and variables $\boldsymbol{x}=(x_1,\dots,x_t)$. We
+define the $\F$-algebra
+$$\A:=\F[x_1,\dots,x_t]/\langle \Phi_{p^{c_1}}(x_1), \dots,
+\Phi_{p^{c_t}}(x_t)\rangle,$$ which we will sometimes write
+$\A_{p,\boldsymbol{c},\boldsymbol{x}}$ to make the dependency on $p$
+and the $c_i$'s clear. Up to reordering the $c_i$'s, we can assume
+that $c_1 \ge c_i$ holds for all $i$, and define as before
+$\mathbbm{a}:=\F[x_1]/\Phi_{p^{c_1}}(x_1)$.
+
+\begin{lemma}\label{lemma:A}
+  There exists an $\F$-algebra isomorphism $\Theta: \A \to
+  \mathbbm{a}^{\dim(\A)/\dim(\mathbbm{a})}$. This isomorphism and its
+  inverse can be applied to any inputs using $\tilde{O}(\dim(\A))$
+  operations in $\F$.
+\end{lemma}
+\begin{proof}
+Without loss of generality, we can assume that all $c_i$'s are non-zero
+(since for $c_i=0$, $\Phi_{p^{c_i}}(x_i)=x_i-1$,
+so $\F[x_i]/\langle \Phi_{p^{c_i}}(x_i) \rangle = \F$).
+We proceed iteratively. First, rewrite $\A$ as
+$$\A=\mathbbm{a}[x_2,x_3,\dots,x_t]/\langle \Phi_{p^{c_2}}(x_2), \Phi_{p^{c_3}}(x_3), \dots,
+\Phi_{{p_t}^{c_t}}(x_t)\rangle.$$ 
+The isomorphism 
+$\theta: \mathbbm{a}[x_2]/\Phi_{p^{c_2}}(x_2) \to \mathbbm{a}^{\varphi(p^{c_2})}$
+introduced in the previous paragraph extends coordinate-wise
+to an isomorphism 
+$$\Theta_1: \A \to (\mathbbm{a}[x_3,\dots,x_t]/\langle
+\Phi_{p^{c_3}}(x_3), \dots,
+\Phi_{p^{c_t}}(x_t)\rangle)^{\varphi(p^{c_2})};$$ $\Theta_1$ and its
+inverse can be evaluated in quasi-linear time $\tilde{O}(\dim(\A))$.
+We now work in all copies of $\mathbbm{a}[x_3,\dots,x_t]/\langle
+\Phi_{p^{c_3}}(x_3), \dots, \Phi_{p^{c_t}}(x_t)\rangle$ independently,
+and apply the procedure above to each of them. Altogether we have
+$t-1$ such steps to perform, giving us an isomorphism
+$$\Theta = \Theta_{t-1} \circ \cdots \circ \Theta_1:
+\A \to
+\mathbbm{a}^{\varphi(p^{c_2}) \cdots \varphi(p^{c_t})}.$$
+The exponent can be rewritten as $ \dim(\A)/\dim(\mathbbm{a})$, as claimed.
+In terms of complexity, all $\Theta_i$'s and their inverses can be computed
+in quasi-linear time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
+where $t$ is $O(\log(\dim(\A)))$. 
+\end{proof}
+
+\noindent{\bf Decomposing certain $p$-group algebras.}  The prime $p$
+and indeterminates $\boldsymbol{x}=(x_1,\dots,x_t)$ are as before; we now consider
+positive integers $\boldsymbol{b}=(b_1,\dots,b_t)$, and the $\F$-algebra
+\[
+\begin{array}{ccl}
+\B&:=&\F[x_1,\dots,x_t]/\langle x_1^{p^{b_1}}-1,\dots,x_t^{p^{b_t}}-1\rangle\\$$
+&=& \F[x_1]/\langle x_1^{p^{b_1}}-1 \rangle \otimes \cdots \otimes \F[x_t]/\langle x_t^{p^{b_t}}-1 \rangle.
+\end{array}
+\]
+If needed, we will write $\B_{p,\boldsymbol{b},\boldsymbol{x}}$ to make the dependency
+on $p$ and the $b_i$'s clear. This is the $\F$-group algebra
+of $\Z/p^{b_1}\Z \times \cdots \times \Z/p^{b_t}\Z$.
+
+\begin{lemma}\label{lemma:alg}
+  There exists a positive integer $N$, non-negative integers
+  $\boldsymbol{c}=(c_1,\dots,c_N)$ and  an
+  $\F$-algebra isomorphism 
+  $$\Lambda: \B \to \D= \F[z]/\langle \Phi_{p^{c_1}}(z) \rangle \times \cdots \times \F[z]/\langle \Phi_{p^{c_N}}(z)\rangle.$$
+  One can apply the isomorphism and its inverse to any 
+  input using $\tilde{O}(\dim(\B))$ operations in $\F$.
+\end{lemma}
+\begin{proof}
+For $i \le t$, we have the factorization
+$$x_i^{p^{b_i}}-1 = \Phi_1(x_i) \Phi_p(x_i) \Phi_{p^2}(x_i) \cdots
+\Phi_{p^{b_i}}(x_i);$$ note that $\Phi_1(x_i)=x_i-1$.  The factors may
+not be irreducible, but they are pairwise coprime, so that we have a
+Chinese Remainder isomorphism
+\[
+  \lambda_i: \F[x_i]/\langle x_i^{p^{b_i}}-1 \rangle \to \F[x_i]/\langle \Phi_1(x_i)\rangle
+  \times \cdots \times  \F[x_i]/\langle \Phi_{p^{b_i}}(x_i)\rangle.
+\]
+Together with its inverse, this can be computed  
+in $\tilde{O}(p^{b_i})$ operations in $\F$~\cite[Chapter~10]{vzGathen13}. By distributivity of the tensor
+product over direct products, 
+this gives an $\F$-algebra isomorphism
+$$\lambda: \B \to \prod_{c_1=0}^{b_1} \cdots \prod_{c_t=0}^{b_t} \A_{p,\boldsymbol{c},\boldsymbol{x}},$$
+with $\boldsymbol{c}=(c_1,\dots,c_t)$. Together with its inverse, 
+$\lambda$ can be computed in $\tilde{O}(\dim(\B))$ operations in $\F$.
+Composing with the result in Lemma~\ref{lemma:A}, this gives
+us an isomorphism
+$$\Lambda: \B \to \D:=\prod_{c_1=0}^{b_1} \cdots \prod_{c_t=0}^{b_t}
+\mathbbm{a}_{\boldsymbol{c}}^{D_{\boldsymbol{c}}},$$ where
+$\mathbbm{a}_{\boldsymbol{c}} = \F[z]/\langle \Phi_{p^c}(z)\rangle$,
+with $c =\max(c_1,\dots,c_t)$ and $D_{\boldsymbol{c}} =
+\dim(\A_{t,\boldsymbol{c},\boldsymbol{x}})/\dim(\mathbbm{a}_{\boldsymbol{c}})$. As
+before, $\Lambda$ and its inverse can be computed in quasi-linear time
+$\tilde{O}(\dim(\B))$.
+\end{proof}
+As for $\B$, we will write $\D_{p,\boldsymbol{b},\boldsymbol{x}}$ if needed; it is
+well-defined, up to the order of the factors.
+
+\smallskip
+
+\noindent{\bf Main result.} Let $G$ be an abelian group.  We can
+write the elementary divisor decomposition of $G$ as $G = G_1 \times
+\cdots \times G_s$, where each $G_i$ is of prime power order
+$p_i^{a_i}$, for pairwise distinct primes $p_1,\dots,p_s$, so that
+$|G| = p_1^{a_1} \cdots p_s^{a_s}$. Each $G_i$ can itself be written
+as a product of cyclic groups, $G_i = G_{i,1} \times \cdots \times
+G_{i,t_i}$, where the factor $G_{i,j}$ is cyclic of order
+${p_i}^{b_{i,j}}$, with $b_{i,1} \le \cdots \le b_{i,t_i}$; this is
+the invariant factor decomposition of $G_i$, with $b_{i,1} + \cdots +
+b_{i,t_i} = a_i$.
+
+We henceforth assume that generators
+$\gamma_{1,1},\dots,\gamma_{s,t_s}$ of respectively
+$G_{1,1},\dots,G_{s,t_s}$ are known, and that elements of $\F[G]$ are
+given on the power basis in $\gamma_{1,1},\dots,\gamma_{s,t_s}$. Were
+this not the case, given arbitrary generators $g_1,\dots,g_r$ of $G$, with
+orders $e_1,\dots,e_r$, a brute-force solution would factor each $e_i$
+(factoring $e_i$ takes $o(e_i)$ bit operations on a standard RAM), so
+as to write $\langle g_i \rangle$ as a product of cyclic groups of
+prime power orders, from which the required decomposition follows.
+
+\begin{proposition}
+  Given $\beta \in \F[G]$, written on the power basis
+  $\gamma_{1,1},\dots,\gamma_{s,t_s}$, one can test if $\beta$ is a
+  unit in $\F[G]$ using $\tilde{O}(|G|)$ operations in $\F$.
+\end{proposition}
+The proof occupies the rest of this paragraph.
+From the factorization $G = G_1 \times \cdots \times G_s$, we deduce
+that the group algebra $\F[G]$ is the tensor product $\F[G_1]
+\otimes \cdots \otimes \F[G_s]$. Furthermore, the 
+factorization $G_i = G_{i,1} \times \cdots \times G_{i,t_i}$
+implies that $\F[G_i]$ is isomorphic, as an $\F$-algebra, to
+$$\F[x_{i,1},\dots,x_{i,t_i}]/\left \langle
+x_{i,1}^{p_i^{b_{1}}}-1,\dots,x_{i,t_i}^{p_i^{b_{i,t_i}}}-1\right\rangle
+=\B_{p_i,\boldsymbol{b}_i,\boldsymbol{x}_i},$$ with $\boldsymbol{b}_i
+= (b_{i,1},\dots,b_{i,t_i})$ and $\boldsymbol{x}_i =
+(x_{i,1},\dots,x_{i,t_i})$. Given $\beta$ on the power basis in
+$\gamma_{1,1},\dots,\gamma_{s,t_s}$, we obtain its image $B$ in
+$\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes \cdots \otimes
+\B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$ simply by renaming
+$\gamma_{i,j}$ as $x_{i,j}$, for all $i,j$.
+
+For $i \le s$, by Lemma~\ref{lemma:alg}, there exist integers
+$c_{i,1},\dots,c_{i,N_i}$ such that
+$\B_{p_i,\boldsymbol{b}_i,\boldsymbol{x}_i}$ is isomorphic to an
+algebra $\D_{p_i, \boldsymbol{b}_i, z_i}$, with factors 
+$\F[z_i]/\langle \Phi_{{p_i}^{c_{i,j}}}(z_i) \rangle$.
+By distributivity of the tensor product over direct products, we
+deduce that $\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes \cdots
+\otimes \B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$ is isomorphic to
+the product of algebras
+ \begin{equation}\label{eq:prod}
+\text{\small $\prod$}_{\boldsymbol{j}}~ \F[z_1,\dots,z_s]/
+\langle \Phi_{{p_1}^{c_{1,j_1}}}(z_1),\dots, \Phi_{{p_s}^{c_{s,j_s}}}(z_s) \rangle,   
+ \end{equation}
+for all indices $\boldsymbol{j}=(j_1,\dots,j_s)$, with
+$j_1 =1,\dots,N_1,\dots,j_s=1,\dots,N_s$;
+call $\Gamma$ the isomorphism. Given $B$ in $\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes
+\cdots \otimes \B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$,
+Lemma~\ref{lemma:alg} also implies that $B':=\Gamma(B)$ can be
+computed in softly linear time $\tilde{O}(|G|)$ (apply the isomorphism
+corresponding to $\boldsymbol{x}_1$ coordinate-wise with respect to
+all other variables, then deal with $\boldsymbol{x}_2$, etc).
+The codomain in~\eqref{eq:prod} is the product of all $\H_{\boldsymbol{p},\boldsymbol{c}_{\boldsymbol{j}},\boldsymbol{z}}$,
+with 
+$$\boldsymbol{p}=(p_1,\dots,p_s),\quad \boldsymbol{c}=(c_{1,j_1},\dots,c_{s,j_s}),\quad \boldsymbol{z}=(z_1,\dots,z_s).$$
+Apply Lemma~\ref{lemma:distinctP} to all 
+$\H_{\boldsymbol{p},\boldsymbol{c}_{\boldsymbol{j}},\boldsymbol{z}}$ to obtain
+an $\F$-algebra isomorphism
+$$\Gamma': \text{\small $\prod$}_{\boldsymbol{j}}~
+\H_{\boldsymbol{p},\boldsymbol{c}_{\boldsymbol{j}},\boldsymbol{z}} \to
+\text{\small $\prod$}_{\boldsymbol{j}} ~\F[z]/\langle
+\Phi_{d_{\boldsymbol{j}}}(z) \rangle,$$ for certain integers
+$d_{\boldsymbol{j}}$. The lemma implies that given $B'$,
+$B'':=\Gamma'(B')$ can be computed in softly linear time
+$\tilde{O}(|G|)$ as well. Invertibility of $\beta \in \F[G]$ is
+equivalent to $A''$ being invertible, that is, to all its components
+being invertible in the respective factors $\F[z]/\langle
+\Phi_{d_{\boldsymbol{j}}}(z) \rangle$. Invertibility in such an
+algebra can be tested in softly linear time by applying the fast
+extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows. 
+
+\smallskip
+
+Together with Proposition \ref{prop:abelian}, the above result proves
+the first part of Theorem \ref{thm:main}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Metacyclic Groups}
+
+In this last section, we study the invertibility problem for a
+metacyclic group $G$. Instead of using an $\F$-algebra isomorphism, as
+we did above, we will use an injective homomorphism, whose image will
+be easy to compute. This is the object of the following lemma, where
+the map is inspired by the one used in \cite[\S 47]{Curtis}.
+
+Assume that $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s =
+\sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$, where $r^s = 1
+\bmod m$ and $rt = t \bmod m$; in particular, $n=|G|$ is equal to
+$ms$. Define $\A:=\F[z]/\langle z^m-1\rangle$ and let $\zbar$ be the
+image of $z$ in $\A$.
+
+\begin{lemma}\label{prop:metinjection}
+The mapping
+\[
+  \begin{array}{cccc}
+\psi:& \F [G]& \to& M_s(\A) \\
+&\sigma &\mapsto& \mathrm{Diag}(\zbar, \zbar^r , \ldots, \zbar^{r^{s-1}})\\
+&\tau &\mapsto &
+\left[ \begin{array}{l|l}
+0 & \zbar\\
+\hline
+\mat I_{s-1} & 0
+\end{array}
+\right],
+  \end{array}
+\]
+an injective homomorphism of $\F$-algebras.
+\end{lemma}
+\begin{proof}
+It is straightforward to verify that $\psi(\sigma)^m = \mat I_m$,
+$\psi(\tau)^s = \psi(\sigma)^t$ and $\psi_i(\sigma) \psi_i(\tau)
+=\psi(\tau) \psi_i(\sigma)^r$; this shows that $\psi$ is a well-defined $\F$-algebras homomorphism.
+
+Take $\beta \in \F[G]$, and write it $\beta = \sum_{j = 0}^{s-1}
+\left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j$. For
+$j=0,\dots,s-1$, define $F_j(x) := \sum_{i = 0}^{m-1} b_{i,j}x^i \in
+\F[x]$ and, for $1 \leq i,j \leq s$,
+$$F_{i,j} := F_{i-1}(\zbar^{r^{j-1}}).$$
+Then, $\psi(\beta)$ is the matrix
+\begin{equation}\label{eq:injection}
+\left[\begin{array}{llll}
+F_{1,1} &  \cdots	&	\zbar F_{3,s-1} & \zbar F_{2,1}\\
+F_{2,2} & F_{1,2}& \cdots & \zbar F_{3,s}\\
+\vdots &\ddots & \ddots& \vdots\\
+F_{s,s}& \cdots & F_{2,s}	& F_{1,s}
+\end{array}
+\right].
+\end{equation}
+If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\zbar) =0$, that is,
+$F_i \bmod (z^m-1)=0$, for $0 \leq i < s$. Since all $F_i$'s have degree 
+less than $m$, they are all zero.
+\end{proof}
+
+We conclude this section with two algorithms that test whether
+$\psi(\beta) \in M_s(\A)$ is invertible, for a given $\beta$ in
+$\F[G]$. Minor difficulties will arise as we work over $\A$, since
+$\A$ is not a field, but a product of fields (if the irreducible
+factorization of $z^m-1$ in $\F[z]$ is available, one would simply use
+the Chinese Remainder theorem and work in field extensions of $\F$).
+
+\begin{corollary}\label{coro:test_meta}
+  Given $\beta$ in $\F[G]$, one can test if $\beta$ is a unit in
+  $\F[G]$ either by a deterministic algorithm that uses
+  $\tilde{O}(s^{2.7} m)$ operations in $\F$, or a Monte Carlo one that
+  uses $\tilde{O}(n^2)$ operations in $\F$.
+\end{corollary}
+The second statement provides the last part of the proof of Theorem
+\ref{thm:main}. Note that the first algorithm gives a better cost in
+many cases. For instance, if $s \leq m$, the first algorithm uses
+$O(n^{1.85})$ operations in $\F$. This happens if $s$ is prime, since
+then the number ${(m- \gcd(m,r-1))}/{s}$ is a positive integer,
+which implies $s \leq m$ (see \cite[Theorem 47.12, Corollary 47.14
+]{Curtis}).
+
+
+\begin{proof}[First algorithm.]
+  The first algorithm uses fast linear algebra algorithms over the ring
+  $\A$. Here, we start from $\beta$ written as $\beta = \sum_{j =
+    0}^{s-1} \left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j
+  \in \F[G]$. Then, the proof of the previous lemma shows an explicit
+  formula for $\psi(\beta)$. In order to compute this matrix, we note
+  that $\zbar^{r^{j-1}} = \zbar^{r^{j-1} \bmod m}$; computing this
+  element and its powers requires no arithmetic operation, so that the
+  coefficients of each $F_{i,j}$ are obtained in linear time $O(m)$.
+  Hence the matrix $\psi(\beta)$ can be computed in time $O(s^2m)$.
+
+  Next, we have to determine whether $\psi(\beta)$ is a unit (the
+  injectivity of $\psi$ implies that this is the case if and only if
+  $\beta$ itself is a unit). This amounts to computing the determinant
+  of this matrix, which can be done in $\tilde{O}(s^{2.7} m)$
+  operations in $\F$, using the determinant algorithm
+  of~\cite[Section~6]{KaVi04}.
+\end{proof}
+
+Before giving our second algorithm, let us point out that matrix-vector
+products by $\psi(\beta)$ can be done fast.
+
+\begin{lemma}\label{lem:multpsi}
+  Given $\beta$ in $\F[G]$ and $\boldsymbol{v}$ in $\A^s$, one can
+  compute $\psi(\beta) \boldsymbol{v} \in \A^s$ using $\tilde{O}(s
+  m^2)$ operations in $\F$.
+\end{lemma}
+\begin{proof}
+  We use the basis of $\F[G]$ given in~\eqref{pres2}, writing $\beta =
+  \sum_{i = 0}^{m-1} \left( \sum_{j = 0}^{s-1}  b_{i,j} \tau^i
+  \right) \sigma^j \in \F[G]$. We rewrite this as $\beta = \sum_{i
+    = 0}^{m-1} B_i(\tau) \sigma^i$, for some $B_0,\dots,B_{m-1}$ in
+  $\F[z]$ of degree less than $s$.
+
+ Given $\boldsymbol{v}$ as above, we compute all $B_i(\psi(\tau))
+ \psi(\sigma)^i \boldsymbol{v}$ independently, and add them to obtain
+ $\psi(\beta) \boldsymbol{v}$. Hence, let us fix an index $i$ in
+ $\{0,\dots,m-1\}$.
+ The vector $\psi(\sigma)^i \boldsymbol{v}$ can be obtained by
+ multiplying each entry of $\boldsymbol{v}$ by a power of $\zbar$;
+ this takes $\tilde{O}(sm)$ operations in $\F$. Then, since
+ $\psi(\tau)$ is the matrix of multiplication by $y$ in $\A[y]/\langle
+ y^s-\zbar\rangle$, $B_i(\psi(\tau))$ is the matrix of multiplication
+ by $B_i(y)$ in $\A[y]/\langle y^s-\zbar\rangle$. Thus, applying this
+ matrix to a vector also takes softly linear time $\tilde{O}(sm)$.
+
+ Adding a factor of $m$ to account for indices $i=0,\dots,m-1$, we get 
+ the result.
+\end{proof}
+
+
+
+
+
+\begin{proof}[Second algorithm for Corollary~\ref{coro:test_meta}.]
+  The second algorithm uses \citeauthor{Wiedemann86}'s
+  \citeyear{Wiedemann86} algorithm,
+  and its extension by~\citeN{KaSa91}. Extra care will be needed to
+  accommodate the fact that $\A$ has zero-divisors. Let
+  $F_1,\dots,F_s$ be the (unknown) irreducible factors of $z^m-1$ in
+  $\F[z]$ and define $\A_i := \F[z]/\langle F_i \rangle$ for
+  $i=1,\dots,s$. We write $\pi_i: \A \to\A_i$ for the canonical
+  projection, and extend the notation to matrices over $\A$.
+
+  For $\beta$ in $\F[G]$, $\mat M:=\psi(\beta)$ is invertible if and only
+  if all $\mat M_i := \pi_i(\mat M)$ are. We are going to use the algorithm
+  of~\cite[Section~4]{KaSa91} to compute the rank of all these matrices
+  (these ranks are well-defined, since all $\A_i$'s are fields).  Let
+  $\mat L$ and $\mat U$ be respectively random lower triangular and upper
+  triangular Toeplitz matrices over $\A$, and define
+  $\mat M':=\mat L \mat M \mat U \in M_s(\A)$. Finally, let $\mat M''$ be
+  $\mat M'$, to which we adjoin a bottom row and a rightmost column of
+  zeros (so it has size $s+1$), let $\mat M''_i :=\pi_i(\mat M'')$ and let
+  $r_i :=\text{rank}(\mat M''_i)$, $i=1,\dots,s$. Then, all $r_i$'s are
+  less than $s+1$, and $\mat M$ is invertible if and only if $r_i=s$ for
+  all $i$.
+
+  The condition that $\mat M''_i$ has rank less than $s+1$ makes it
+  possible to apply~\cite[Lemma~2]{KaSa91}: for generic
+  $\boldsymbol{u}_i, \boldsymbol{v}_i$ in $\A_i^{s+1}$ and diagonal
+  matrix $\mat X$ in $M_{s+1}(\A_i)$, the minimal polynomial of the
+  sequence $(\boldsymbol{u}_i^T (\mat M''_i \mat X_i)^j
+  \boldsymbol{v}_i)_{j \ge 0}$ has degree $r_i+1$.
+
+  To compute these degrees without knowing the factorization $z^m-1 =
+  F_1 \cdots F_s$, we choose random $\boldsymbol{u}, \boldsymbol{v}$
+  in $\A^{s+1}$ and diagonal matrix $\mat X$ in $M_{s+1}(\A)$.  Then,
+  we compute $2s$ terms in the sequence $(\gamma_j)_{j\ge 0}$, with
+  $\gamma_j:=\boldsymbol{u}^T (\mat M'' \mat X)^j
+  \boldsymbol{v}$. Since multiplication by $\mat L$, $\mat U$ and
+  $\mat X$ all take quasi-linear time $\tilde{O}(sm)$,
+  Lemma~\ref{lem:multpsi} shows that one product by $\mat M'' \mat X$
+  takes $\tilde{O}(sm^2)$ operations in $\F$. Hence, all required
+  terms can be obtained in $\tilde{O}(s^2m^2)=\tilde{O}(n^2)$
+  operations in $\F$.
+
+  Finally, we apply the fast Euclidean algorithm to $\sum_{j=0}^{2s-1}
+  \gamma_j y^j$ and $y^{2s}$ in the ring $\A[y]$ to find the ranks
+  $r_1,\dots,r_s$.  Since $\A$ is not a field, we rely on the
+  algorithm of~\cite{AcCoMa03,DaMMMScXi06}. Using $\tilde{O}(sm)$
+  operations in $\F$, it reveals a partial factorization of $z^m-1$ as
+  $G_1 \cdots G_t$ (the factors may not be irreducible) and integers
+  $\rho_j$, $j=1,\dots,t$, such that for all $i \le s$, $j\le t$, if
+  $F_i$ divides $G_j$, then $r_i=\rho_j$. This allows us to determine all
+  $r_i$'s, and thus decide whether $\psi(\beta)$ is singular.
+\end{proof}
+
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "NormalBasisCharZero"
+%%% End:
