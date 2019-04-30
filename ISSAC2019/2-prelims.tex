@@ -29,7 +29,7 @@ with $\boldsymbol{c} = [ c_1~ \cdots~c_n]^T$ and
     g_n g_1(\alpha) & g_n g_2(\alpha) & \cdots & g_n g_n(\alpha) \\
   \end{bmatrix} \in M_n(\K).
 \]
-Classical proofs then proceed to show that there exists $\alpha \in \K$
+Classical proofs then show there exists $\alpha \in \K$
 with $\det(\mat M_G(\alpha))\neq 0$.
  
 This approach can be used as the basis of a randomized algorithm for
@@ -61,7 +61,8 @@ $$S_\alpha:= \sum_{g \in G} g(\alpha)g \in \K[G],$$ and $\alpha$ being
 normal is equivalent to $S_\alpha$ being a unit in $\K[G]$. This point of
 view may make it possible to avoid linear algebra of size $n$ over $\K$,
 but writing $S_\alpha$ itself still involves $\Theta(n^2)$ elements in
-$\F$. The following lemma is the main new ingredient in our algorithm: it
+$\F$. The following lemma
+%is the main new ingredient in our algorithm: it
 gives a randomized reduction to testing whether a suitable projection of
 $S_\alpha$ in $\F[G]$ is a unit.
  

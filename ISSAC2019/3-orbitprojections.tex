@@ -1,4 +1,4 @@
-\section{Computing projections of the orbit sum}
+\section{Computing orbit sum projections}
 \label{sec:osum}
 
 In this section we present algorithms to compute $s_{\alpha,\ell}$,
@@ -30,13 +30,14 @@ The original algorithm of \citeN{KalSho98} relies on the properties of the
 Frobenius mapping to achieve subquadratic runtime. In our case, we cannot
 apply these results directly; instead, we have to revisit the proofs
 of~\citeN{KalSho98}, Lemmata 3, 4 and~8, now considering rectangular matrix
-multiplication.  Our exponents involve the constant $\omega(4/3)$, for
-which we have the upper bound $\omega(4/3) < 2.654$: this follows from the
-upper bounds on $\omega(1.3)$ and $\omega(1.4)$ given by~\citeN{LeGall}, and
-the fact that $k \mapsto \omega(k)$ is convex~\cite{LoRo83}. In particular,
-$3/4 \cdot \omega(4/3) < 1.99$. Note also the inequality
-$\omega(k) \ge 1+k$ for $k\ge 1$, since $\omega(k)$ describes products with
-input and output size $O(n^{1+k})$.
+multiplication.
+%Our exponents involve the constant $\omega(4/3)$, for
+%which we have the upper bound $\omega(4/3) < 2.654$: this follows from the
+%upper bounds on $\omega(1.3)$ and $\omega(1.4)$ given by~\citeN{LeGall}, and
+%the fact that $k \mapsto \omega(k)$ is convex~\cite{LoRo83}. In particular,
+%$3/4 \cdot \omega(4/3) < 1.99$. Note also the inequality
+%$\omega(k) \ge 1+k$ for $k\ge 1$, since $\omega(k)$ describes products with
+%input and output size $O(n^{1+k})$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
