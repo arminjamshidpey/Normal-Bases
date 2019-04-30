@@ -1,4 +1,5 @@
-\section{Testing Invertibility in the Group Algebra}
+\section{Testing Invertibility}
+%in the Group Algebra}
 \label{sec:invertibility}
 
 In this section we consider the problem of invertibility testing in
@@ -164,10 +165,10 @@ given in the previous paragraph extends coordinate-wise to an
   in $\varphi(\mu)$, the proof is complete.
 \end{proof}
 
-\noindent{\bf Tensor product of two prime-power cyclotomic rings, same $p$.}~In the following two paragraphs, we discuss the opposite situation as
-above: we now work with cyclotomic polynomials of prime power
+\noindent{\bf Tensor product of two prime-power cyclotomic rings, same
+  $p$.}
+We now consider cyclotomic polynomials of prime power
 orders for a common prime $p$. As above, we start with two such polynomials.
-
 Let thus $p$ be a prime. The key to the following algorithms is the
 lemma below.  Let $c,c'$ be positive integers, with $c \ge
 c'$, and let $x,y$ be indeterminates over $\F$. Define
@@ -194,7 +195,7 @@ $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
     \theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a}, \\
     & P & \mapsto& (P(\xbar,\rho_1),\dots,P(\xbar,\rho_{\varphi(p^{c'})}).
   \end{array}$$
-  In terms of complexity, arithmetic operations $(+,-,\times)$ in
+  Arithmetic operations $(+,-,\times)$ in
   $\mathbbm{a}$ can all be done in $\tilde{O}(\varphi(p^c))$ operations
   in $\F$. Starting from $\rho_1 \in \mathbbm{a}$, all other roots
   $\rho_i$ can then be computed in $O(\varphi(p^{c'}))$ operations in
@@ -247,8 +248,8 @@ $$\Theta = \Theta_{t-1} \circ \cdots \circ \Theta_1:
 \A \to
 \mathbbm{a}^{\varphi(p^{c_2}) \cdots \varphi(p^{c_t})}.$$
 The exponent can be rewritten as $ \dim(\A)/\dim(\mathbbm{a})$, as claimed.
-In terms of complexity, all $\Theta_i$'s and their inverses can be computed
-in quasi-linear time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
+All $\Theta_i$'s and their inverses can be computed
+in time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
 where $t$ is $O(\log(\dim(\A)))$. 
 \end{proof}
 
@@ -277,7 +278,7 @@ of $\Z/p^{b_1}\Z \times \cdots \times \Z/p^{b_t}\Z$.
 For $i \le t$, we have the factorization
 $$x_i^{p^{b_i}}-1 = \Phi_1(x_i) \Phi_p(x_i) \Phi_{p^2}(x_i) \cdots
 \Phi_{p^{b_i}}(x_i);$$ note that $\Phi_1(x_i)=x_i-1$.  The factors may
-not be irreducible, but they are pairwise coprime, so that we have a
+not be irreducible, but are pairwise coprime, so we have a
 Chinese Remainder isomorphism
 \[
   \lambda_i: \F[x_i]/\langle x_i^{p^{b_i}}-1 \rangle \to \F[x_i]/\langle \Phi_1(x_i)\rangle
@@ -327,7 +328,7 @@ as to write $\langle g_i \rangle$ as a product of cyclic groups of
 prime power orders, from which the required decomposition follows.
 
 \begin{proposition}
-  Given $\beta \in \F[G]$, written on the power basis
+  Given $\beta \in \F[G]$, written in the basis
   $\gamma_{1,1},\dots,\gamma_{s,t_s}$, one can test if $\beta$ is a
   unit in $\F[G]$ using $\tilde{O}(|G|)$ operations in $\F$.
 \end{proposition}
@@ -396,7 +397,7 @@ the first part of Theorem \ref{thm:main}.
 
 \subsection{Metacyclic Groups}
 
-In this last section, we study the invertibility problem for a
+We next study the invertibility problem for a
 metacyclic group $G$. Instead of using an $\F$-algebra isomorphism, as
 we did above, we will use an injective homomorphism, whose image will
 be easy to compute. This is the object of the following lemma, where
@@ -446,8 +447,8 @@ F_{s,s}& \cdots & F_{2,s}	& F_{1,s}
 \right].
 \end{equation}
 If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\zbar) =0$, that is,
-$F_i \bmod (z^m-1)=0$, for $0 \leq i < s$. Since all $F_i$'s have degree 
-less than $m$, they are all zero.
+$F_i \bmod (z^m-1)=0$, for $0 \leq i < s$.  All $F_i$'s have degree 
+less than $m$, so they are all zero.
 \end{proof}
 
 We conclude this section with two algorithms that test whether
@@ -517,7 +518,6 @@ products by $\psi(\beta)$ can be done fast.
  y^s-\zbar\rangle$, $B_i(\psi(\tau))$ is the matrix of multiplication
  by $B_i(y)$ in $\A[y]/\langle y^s-\zbar\rangle$. Thus, applying this
  matrix to a vector also takes softly linear time $\tilde{O}(sm)$.
-
  Adding a factor of $m$ to account for indices $i=0,\dots,m-1$, we get 
  the result.
 \end{proof}

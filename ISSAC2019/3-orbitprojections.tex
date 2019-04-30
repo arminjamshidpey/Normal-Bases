@@ -106,7 +106,8 @@ operations in $\F$.
 (Compare \cite[Lemma~4]{KalSho98}.) For a given  $m\in\{1,\dots,r\}$, suppose we have computed 
   $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
   i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
-  the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\xbar$, as per our convention).
+  the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\xbar$).
+  % , as per our convention).
   
  Then, we can obtain $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
  \leq j < m$, and $0 \leq i_m < 2k_m$, by computing
@@ -114,8 +115,8 @@ operations in $\F$.
  to us, that is, $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq
  i_m < k_m$. This can be carried out using $\osumcosttilde$ operations
  in $\F$ by applying Lemma \ref{lem:modcom}. Prior to entering the
- next iteration, we also compute $\eta^2$ by means of one modular
- composition, whose cost is negligible. 
+ next iteration, we compute $\eta^2$ by means of a modular
+ composition, at negligible cost. 
 
  Using the above doubling method for $g_m$, we have to do $O(\log
  s_m)$ steps, for a total cost of $\osumcosttilde$ operations in $\F$.  We
@@ -123,18 +124,18 @@ operations in $\F$.
  the cost remains $\osumcosttilde$.
 \end{proof}
 
-We now present dual versions of the previous two lemmas (our
-reference~\cite{KalSho98} also had such a discussion). Seen as an
-$\F$-linear map, the operator $g:\alpha \mapsto g(\alpha)$ admits a
-transpose, which maps an $\F$-linear form $\ell:\K\to\F$ to the
+We now present dual versions of the previous two lemmas. Viewed as an
+$\F$-linear map, $g:\alpha \mapsto g(\alpha)$ admits a
+transpose, mapping an $\F$-linear form $\ell:\K\to\F$ to the
 $\F$-linear form $\ell \circ g: \alpha \mapsto \ell(g(\alpha))$.  The
 {\em transposition principle}~\cite{KaKiBs88,CaKaYa89} implies that if
 a linear map $\F^N \to \F^M$ can be computed in time $T$, its
-transpose can be computed in time $T+O(N+M)$. In particular, given $s$
+transpose can be computed in time $T+O(N+M)$. Given $s$
 linear forms $\ell_1,\dots,\ell_s$ and $g$ in $G$, transposing
 Lemma~\ref{lem:modcom} shows that we can compute $\ell_1 \circ
-g,\dots,\ell_s \circ g$ in time $\osumcosttilde$. The following lemma
-sketches the construction.
+g,\dots,\ell_s \circ g$ in time $\osumcosttilde$.
+%The following lemma
+%sketches the construction.
 
 \begin{lemma}
   \label{lem:modcomT}
@@ -289,7 +290,6 @@ or
 \{ \tau^j\sigma^i,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}.
 \end{equation}
 Accordingly, elements in the group algebra $\F[G]$ can be written as 
-either 
 $$\sum_{\substack{i <m\\ j< s}} c_{i,j} \sigma^i \tau^j \quad\text{or}\quad
 \sum_{\substack{i <m\\ j< s}} c'_{i,j} \tau^j \sigma^i.$$
 Conversion between the two representations involves no operation in $\F$,
