@@ -226,9 +226,12 @@ with cost $\osumcosttilde$.
 using $O(\log(n))$ modular compositions. The cost is negligible
 compared to that of Step~1.
 
-\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp} to compute 
+\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp} to
+compute
+\smallskipback
 $$L_{j_1,\dots,j_r} = \ell \circ (g_1^{s_1j_1} \cdots
 g_r^{s_rj_s}), \,\, 1\leq m \leq r, 0 \leq j_m < s_m,$$
+\smallskipback
 with cost $\osumcosttilde$
 
 \smallskip\noindent\textbf{Step 4.} Multiply the matrix with rows the
@@ -246,10 +249,12 @@ A group $G$ is metacyclic if it has a normal cyclic subgroup $H$ such that
 $G/H$ is cyclic; for instance, any group with a squarefree order is
 metacyclic. See \cite[p.~88]{Johnson} or \cite[p.~334]{Curtis} for more
 background. A metacyclic group can always be presented~as
+\smallskipback
 \begin{equation}
   \label{eq:metacyclic}
   \langle \sigma,\tau: \sigma^m = 1,  \tau^s = \sigma^t, \tau^{-1}\sigma \tau = \sigma^r \rangle,
 \end{equation}
+\smallskipback
 for some integers $m,t,r,s$, with $r,t \leq m$ and
 $r^s = 1 \bmod t, rt = t \bmod m$. For example, the dihedral group
 $$D_{2m} = \langle \sigma,\tau: \sigma^m =1, \tau^2 = 1, \tau^{-1}
@@ -261,13 +266,10 @@ $s=2$ as well.
 
 Using the notation of~\eqref{eq:metacyclic}, $n=|G|$ is equal to $ms$, and
 all elements in a metacyclic group can be presented uniquely as either
-\begin{equation}\label{pres1}
-\{\sigma^i \tau^j,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}  
-\end{equation}
-or
-\begin{equation}\label{pres2}
-\{ \tau^j\sigma^i,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}.
-\end{equation}
+\begin{align}
+&\{ \sigma^i \tau^j,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}, ~~\text{or}  \label{pres1}\\
+&\{ \tau^j\sigma^i,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}. \label{pres2}
+\end{align}
 Accordingly, elements in the group algebra $\F[G]$ can be written as 
 $$\sum_{\substack{i <m\\ j< s}} c_{i,j} \sigma^i \tau^j \quad\text{or}\quad
 \sum_{\substack{i <m\\ j< s}} c'_{i,j} \tau^j \sigma^i.$$

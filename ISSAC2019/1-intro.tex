@@ -24,14 +24,13 @@ $\FF_{q^n}$ is the finite field with $q^n$ elements for any prime power $q$
 and integer $n>1$, is presented by \citeN{GatGie90}, with a cost of
 $O(n^2+n\log q)$ operations in $\FF_q$.  A faster randomized algorithm is
 introduced by \citeN{KalSho98}, with a cost of $O(n^{1.815}\log q)$
-operations in $\FF_q$.  In the bit complexity model, Kedlaya and Umans showed
-how to reduce the exponent of $n$ to $1.5+\varepsilon$ (for any
-$\varepsilon > 0$), by leveraging their quasi-linear time algorithm for
-{\em modular composition}~\cite{KeUm11}. \citeN{LenstraNormal} introduced a
-deterministic algorithm to construct a normal element which uses $n^{O(1)}$
-operations in $\FF_{q^n}/\FF_q$.  To the best of our knowledge, the
-algorithm of \citeN{AugCam94} is the most efficient deterministic method,
-with a cost of $O(n^3+n^2\log q)$ operations in $\FF_q$.
+operations in $\FF_q$.  In the bit complexity model, \citet{KeUm11} 
+reduce the exponent of $n$ to $1.5+\epsilon$ (for any
+$\epsilon > 0$), using their quasi-linear time algorithm for
+{\em modular composition}. \citeN{LenstraNormal} gives a
+deterministic algorithm which uses $n^{O(1)}$
+operations.  \citeN{AugCam94} give the fastest known deterministic method,
+with a cost of $O(n^3+n^2\log q)$ operations in~$\FF_q$.
 
 In characteristic zero, \citeN{SchSte93} gave an algorithm for finding
 a normal basis of a number field over $\QQ$ with a cyclic Galois group
@@ -51,6 +50,8 @@ measured by counting \emph{arithmetic operations} in $\F$ at unit cost.
 %% Questions related to the bit-complexity of our algorithms are challenging,
 %% and beyond the scope of this paper.
 Our main conventions in this paper are the following.
+
+
 \begin{assumption}
   \label{assum}
   Let $\K/\F$ be a finite Galois extension presented as
@@ -78,7 +79,7 @@ subquadratic running time. Instead, knowing $\alpha$, the algorithms use a
 randomized reduction to a similar question in $\F[G]$, that amounts to
 applying a random projection $\ell:\K\to\F$ to all entries of
 $S_\alpha$, giving us an element $s_{\alpha,\ell} \in \F[G]$. For
-this, we adapt algorithms from~\cite{KalSho98} that were written for
+this, we adapt algorithms from~\cite{KalSho98}, that are written for
 Galois groups of finite fields.
 
 Having $s_{\alpha,\ell}$ in hand, we need to test its
@@ -133,7 +134,7 @@ in quasi-linear time for an abelian group; for metacyclic
 groups, we give a quadratic-time algorithm, and discuss cases when
 this cost can be further improved.
 
-Our algorithms make extensive of known algorithms for polynomial and matrix
+Our algorithms make extensive use of known algorithms for polynomial and matrix
 arithmetic; in particular, we use the fact that polynomials of degree $d$
 in $\F[x]$ can be multiplied in $\tilde{O}(n)$ operations in
 $\F$~\cite{ScSt71}. Arithmetic operations $(+,\times,\div)$ in $\K$ can
@@ -146,11 +147,11 @@ $k \in \mathbb{R}$, we denote by $\omega(k)$ a constant such that matrices
 of size $n\times n$ can be multiplied by matrices of size
 $n\times \lceil n^k \rceil$ with $O(n^{\omega(k)})$ operations. 
 \cite{LeGall} shows $\omega(4/3) < 2.654$; this follows from the
-upper bounds on $\omega(1.3)$ and $\omega(1.4)$ given by~\citeN{LeGall},
+upper bounds they give on $\omega(1.3)$ and $\omega(1.4)$,
 and the fact that $k \mapsto \omega(k)$ is convex~\cite{LoRo83}. In
 particular, $3/4 \cdot \omega(4/3) < 1.99$. Note also the inequality
-$\omega(k) \ge 1+k$ for $k\ge 1$, since $\omega(k)$ describes products with
-input and output size $O(n^{1+k})$.
+$\omega(k) \ge 1+k$ for $k\ge 1$, from the input/output size.
+%since $\omega(k)$ describes products with input and output size $O(n^{1+k})$.
 
 For square matrix multiplication, \cite{LeGall14} shows
 $\omega(1) \le 2.373$, and we denote $\omega=\omega(1)$.  Over a field
