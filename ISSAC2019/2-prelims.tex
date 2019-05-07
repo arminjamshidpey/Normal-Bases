@@ -47,7 +47,7 @@ the Lipton-DeMillo-Schwartz-Zippel implies that the probability that
 $\alpha$ be normal is at least $1-n/|X|$.
 
 If $G$ is cyclic, \cite{GatGie90} avoid computing a determinant by
-computing the GCD of $S_\alpha := \sum_{i = 0,\dots,n-1} g_i(\alpha)x^i$
+computing the GCD of $S_\alpha := \sum_{1 \leq i \leq n} g_i(\alpha)x^{i-1}$
 and $x^n-1$. This amounts to testing whether $S_\alpha$ is
 invertible in the group ring $\K[G]\simeq\K[x]/\langle x^n-1\rangle$. This is a general fact: for any $G$,
 $\mat M_G(\alpha)$ is the matrix of (left) multiplication by the orbit
