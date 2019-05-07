@@ -5,10 +5,7 @@
 In this section we consider the problem of invertibility testing in
 $\F[G]$, specifically for abelian and metacyclic groups $G$: given an
 element $\beta$ in $\F[G]$, for a field $\F$ and a group $G$, determine
-whether $\beta$ is a unit in $\F[G]$.  As well as being necessary in our
-application to normal bases, we believe these problems are of independent
-interest.
-
+whether $\beta$ is a unit in $\F[G]$.  
 Since we are in characteristic zero, Wedderburn's theorem implies the
 existence of an $\F$-algebra isomorphism (which we will refer to as a
 Fourier Transform)
@@ -33,37 +30,33 @@ cyclic of order $n=2^k$, computing the Fourier Transform of $\beta$
 requires we work in a degree $n/2$ extension of $\Q$, implying a quadratic
 runtime.
 
-In this section, we give algorithms for the problem of invertibility
-testing for the families of group seen so far, abelian and metacyclic. For
-the former, we actually prove a stronger result: starting from a suitable
-presentation of $G$, we give a softly linear-time algorithm to find an
-isomorphic image of $\beta \in \F[G]$ in a product of $\F$-algebras of the
-form $\F[z]/\langle P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$
-(recovering $\beta$ from its image is softly-linear time as well). Not only
-does this allow us to test whether $\beta$ is invertible, this would also
-make it possible to find its inverse in $\F[G]$ (or to compute products in
-$\F[G]$) in softly-linear time.  We are not aware of previous results of
-this kind. For metacyclic groups, we describe an injective $\F$-algebra
-homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic ring. The
-codomain is in general of dimension higher than $|G|$, so the algorithm we
-deduce from this is not linear-time.
+We give algorithms for the problem of invertibility testing for the
+families of group seen so far, abelian and metacyclic. For the former,
+we prove a stronger result: starting from a suitable presentation of
+$G$, we give a softly linear-time algorithm to find an isomorphic
+image of $\beta \in \F[G]$ in a product of $\F$-algebras of the form
+$\F[z]/\langle P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$
+(recovering $\beta$ from its image is softly-linear time as well). Not
+only does this allow us to test whether $\beta$ is invertible, this
+would also make it possible to find its inverse in $\F[G]$ in
+softly-linear time.  For metacyclic groups, we describe an injective
+$\F$-algebra homomorphism from $\F[G]$ to a matrix algebras over a
+cyclotomic ring. The codomain is in general of dimension higher than
+$|G|$, so the algorithm we deduce from this is not linear-time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Abelian groups}
 
-Because an abelian group is a product of cyclic groups, the group
-algebra $\F[G]$ of such a group is the tensor product of cyclic
-algebras. Using this property, given an element $\beta$ in $\F[G]$,
-our goal in this section is to determine whether $\beta$ is a unit.
-
-The previous property implies that $\F[G]$ admits a description of the
-form $\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$,
-for some integers $n_1,\dots,n_t$. The complexity of arithmetic
-operations in an $\F$-algebra such as $\A:=\F[x_1,\dots,x_t]/\langle
-P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down precisely. For
-general $P_i$'s, the cost of multiplication in $\A$ is known to be
-$O(\dim(\A)^{1+\varepsilon})$, for any $\varepsilon >
+Because an abelian group is a product of cyclic groups, it group
+algebra $\F[G]$ is the tensor product of cyclic algebras, so it admits
+a description of the form $\F[x_1,\dots,x_t]/\langle
+x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, for some integers
+$n_1,\dots,n_t$. The complexity of arithmetic operations in an
+$\F$-algebra such as $\A:=\F[x_1,\dots,x_t]/\langle
+P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down
+precisely. For general $P_i$'s, the cost of multiplication in $\A$ is
+known to be $O(\dim(\A)^{1+\varepsilon})$, for any $\varepsilon >
 0$~\cite[Theorem~2]{LiMoSc09}. From this it may be possible to deduce
 similar upper bounds on the complexity of invertibility tests,
 following~\cite{DaMMMScXi06}, but this seems non-trivial.
@@ -97,7 +90,7 @@ $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
   apply $\gamma$ and its inverse to any input using
   $\tilde{O}(\varphi(mm'))$ operations in~$\F$.
 \end{lemma}
-\begin{proof}
+\noindent {\sc Proof.}
   Without loss of generality, we prove the first claim over $\Q$; the
   result over $\F$ follows by scalar extension. In the field \sloppy
   $\Q[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle$, $xx'$ is
@@ -127,7 +120,7 @@ $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
   exponents in $x$ modulo $m$, and all exponents in $x'$ modulo $m'$.  We
   then reduce the result modulo both $\Phi_m(x)$ and $\Phi_{m'}(x')$.  By
   the same argument as above, the cost is softly linear in $\varphi(mm')$.
-\end{proof}
+\qed
 
 \noindent{\bf Extension to several cyclotomic rings.}  The natural
 generalization of the algorithm above starts with pairwise distinct
@@ -147,7 +140,7 @@ $\varphi(\mu)$.
  z$.  One can apply $\Gamma$ and its inverse to any input using
  $\tilde{O}(\dim(\H))$ operations in $\F$.
 \end{lemma}
-\begin{proof}
+\noindent {\sc Proof.}
   We proceed iteratively. First, note that the cyclotomic polynomials
   $\Phi_{{p_i}^{c_i}}$ can all be computed in time $O(\varphi(\mu))$. 
   The isomorphism
@@ -163,7 +156,7 @@ given in the previous paragraph extends coordinate-wise to an
   another $t-2$ times, to obtain $\Gamma$ as a product
   $\Gamma_{t-1} \circ \cdots \circ \Gamma_1$. Since $t$ is logarithmic 
   in $\varphi(\mu)$, the proof is complete.
-\end{proof}
+\qed
 
 \noindent{\bf Tensor product of two prime-power cyclotomic rings, same
   $p$.}
@@ -183,7 +176,7 @@ $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
   \mathbbm{a}^{\varphi(p^{c'})}$ such that one can apply $\theta$ or
   its inverse to any inputs using $\tilde{O}(\dim(\mathbbm{b}))$ operations in $\F$.
 \end{lemma}
-\begin{proof}
+\noindent{\sc Proof.}
   Let $\xbar$ be the residue class of
   $x$ in $\A$. Then, in $\mathbbm{a}[y]$, $\Phi_{p^{c'}}(y)$ factors as
   $$\Phi_{p^{c'}}(y) =\prod_{\substack{1 \le i\le p^{c'}-1\\ \gcd(i,p)
@@ -206,7 +199,7 @@ Applying $\theta$ and its inverse is done by means of fast evaluation
 and interpolation~\cite[Chapter~10]{vzGathen13} in $\tilde{O}(\varphi(p^{c'}))$
 operations in $\mathbbm{a}$, that is, $\tilde{O}(\deg(\mathbbm{b}))$ operations in $\F$
 (the algorithms do not require that $\mathbbm{a}$ be a field).
-\end{proof}
+\qed
 
 \smallskip\noindent{\bf Extension to several cyclotomic rings.}
 Let $p$ be as before, and consider now non-negative integers
@@ -225,7 +218,7 @@ $\mathbbm{a}:=\F[x_1]/\Phi_{p^{c_1}}(x_1)$.
   inverse can be applied to any inputs using $\tilde{O}(\dim(\A))$
   operations in $\F$.
 \end{lemma}
-\begin{proof}
+\noindent{\sc Proof.}
 Without loss of generality, we can assume that all $c_i$'s are non-zero
 (since for $c_i=0$, $\Phi_{p^{c_i}}(x_i)=x_i-1$,
 so $\F[x_i]/\langle \Phi_{p^{c_i}}(x_i) \rangle = \F$).
@@ -251,7 +244,7 @@ The exponent can be rewritten as $ \dim(\A)/\dim(\mathbbm{a})$, as claimed.
 All $\Theta_i$'s and their inverses can be computed
 in time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
 where $t$ is $O(\log(\dim(\A)))$. 
-\end{proof}
+\qed
 
 \noindent{\bf Decomposing certain $p$-group algebras.}  The prime $p$
 and indeterminates $\boldsymbol{x}=(x_1,\dots,x_t)$ are as before; we now consider
@@ -274,7 +267,7 @@ of $\Z/p^{b_1}\Z \times \cdots \times \Z/p^{b_t}\Z$.
   One can apply the isomorphism and its inverse to any 
   input using $\tilde{O}(\dim(\B))$ operations in $\F$.
 \end{lemma}
-\begin{proof}
+\noindent{\sc Proof.}
 For $i \le t$, we have the factorization
 $$x_i^{p^{b_i}}-1 = \Phi_1(x_i) \Phi_p(x_i) \Phi_{p^2}(x_i) \cdots
 \Phi_{p^{b_i}}(x_i);$$ note that $\Phi_1(x_i)=x_i-1$.  The factors may
@@ -284,10 +277,9 @@ Chinese Remainder isomorphism
   \lambda_i: \F[x_i]/\langle x_i^{p^{b_i}}-1 \rangle \to \F[x_i]/\langle \Phi_1(x_i)\rangle
   \times \cdots \times  \F[x_i]/\langle \Phi_{p^{b_i}}(x_i)\rangle.
 \]
-Together with its inverse, this can be computed  
-in $\tilde{O}(p^{b_i})$ operations in $\F$~\cite[Chapter~10]{vzGathen13}. By distributivity of the tensor
-product over direct products, 
-this gives an $\F$-algebra isomorphism
+It and its inverse can be computed  
+in $\tilde{O}(p^{b_i})$ operations in $\F$~\cite[Chapter~10]{vzGathen13}. 
+This gives an $\F$-algebra isomorphism
 $$\lambda: \B \to \prod_{c_1=0}^{b_1} \cdots \prod_{c_t=0}^{b_t} \A_{p,\boldsymbol{c},\boldsymbol{x}},$$
 with $\boldsymbol{c}=(c_1,\dots,c_t)$. Together with its inverse, 
 $\lambda$ can be computed in $\tilde{O}(\dim(\B))$ operations in $\F$.
@@ -299,8 +291,8 @@ $\mathbbm{a}_{\boldsymbol{c}} = \F[z]/\langle \Phi_{p^c}(z)\rangle$,
 with $c =\max(c_1,\dots,c_t)$ and $D_{\boldsymbol{c}} =
 \dim(\A_{t,\boldsymbol{c},\boldsymbol{x}})/\dim(\mathbbm{a}_{\boldsymbol{c}})$. As
 before, $\Lambda$ and its inverse can be computed in quasi-linear time
-$\tilde{O}(\dim(\B))$.
-\end{proof}
+$\tilde{O}(\dim(\B))$. \qed
+
 As for $\B$, we will write $\D_{p,\boldsymbol{b},\boldsymbol{x}}$ if needed; it is
 well-defined, up to the order of the factors.
 
@@ -313,26 +305,24 @@ $p_i^{a_i}$, for pairwise distinct primes $p_1,\dots,p_s$, so that
 $|G| = p_1^{a_1} \cdots p_s^{a_s}$. Each $G_i$ can itself be written
 as a product of cyclic groups, $G_i = G_{i,1} \times \cdots \times
 G_{i,t_i}$, where the factor $G_{i,j}$ is cyclic of order
-${p_i}^{b_{i,j}}$, with $b_{i,1} \le \cdots \le b_{i,t_i}$; this is
-the invariant factor decomposition of $G_i$, with $b_{i,1} + \cdots +
-b_{i,t_i} = a_i$.
-
-We henceforth assume that generators
+${p_i}^{b_{i,j}}$, with $b_{i,1} \le \cdots \le b_{i,t_i}$ and $b_{i,1} + \cdots +
+b_{i,t_i} = a_i$. We henceforth assume that generators
 $\gamma_{1,1},\dots,\gamma_{s,t_s}$ of respectively
 $G_{1,1},\dots,G_{s,t_s}$ are known, and that elements of $\F[G]$ are
-given on the power basis in $\gamma_{1,1},\dots,\gamma_{s,t_s}$. Were
-this not the case, given arbitrary generators $g_1,\dots,g_r$ of $G$, with
-orders $e_1,\dots,e_r$, a brute-force solution would factor each $e_i$
-(factoring $e_i$ takes $o(e_i)$ bit operations on a standard RAM), so
-as to write $\langle g_i \rangle$ as a product of cyclic groups of
-prime power orders, from which the required decomposition follows.
+given on the power basis in $\gamma_{1,1},\dots,\gamma_{s,t_s}$. 
+
+%% Were
+%% this not the case, given arbitrary generators $g_1,\dots,g_r$ of $G$, with
+%% orders $e_1,\dots,e_r$, a brute-force solution would factor each $e_i$
+%% (factoring $e_i$ takes $o(e_i)$ bit operations on a standard RAM), so
+%% as to write $\langle g_i \rangle$ as a product of cyclic groups of
+%% prime power orders, from which the required decomposition follows.
 
 \begin{proposition}
   Given $\beta \in \F[G]$, written in the basis
   $\gamma_{1,1},\dots,\gamma_{s,t_s}$, one can test if $\beta$ is a
-  unit in $\F[G]$ using $\tilde{O}(|G|)$ operations in $\F$.
+  unit in $\F[G]$ in time $\tilde{O}(|G|)$.
 \end{proposition}
-The proof occupies the rest of this paragraph.
 From the factorization $G = G_1 \times \cdots \times G_s$, we deduce
 that the group algebra $\F[G]$ is the tensor product $\F[G_1]
 \otimes \cdots \otimes \F[G_s]$. Furthermore, the 
@@ -366,7 +356,7 @@ $j_1 =1,\dots,N_1,\dots,j_s=1,\dots,N_s$;
 call $\Gamma$ the isomorphism. Given $B$ in $\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes
 \cdots \otimes \B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$,
 Lemma~\ref{lemma:alg} also implies that $B':=\Gamma(B)$ can be
-computed in softly linear time $\tilde{O}(|G|)$ (apply the isomorphism
+computed in time $\tilde{O}(|G|)$ (apply the isomorphism
 corresponding to $\boldsymbol{x}_1$ coordinate-wise with respect to
 all other variables, then deal with $\boldsymbol{x}_2$, etc).
 The codomain in~\eqref{eq:prod} is the product of all $\H_{\boldsymbol{p},\boldsymbol{c}_{\boldsymbol{j}},\boldsymbol{z}}$,
@@ -387,10 +377,7 @@ being invertible in the respective factors $\F[z]/\langle
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle$. Invertibility in such an
 algebra can be tested in softly linear time by applying the fast
 extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows. 
-
-\smallskip
-
-Together with Proposition \ref{prop:abelian}, the above result proves
+With Proposition \ref{prop:abelian}, this proves
 the first part of Theorem \ref{thm:main}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -398,8 +385,7 @@ the first part of Theorem \ref{thm:main}.
 \subsection{Metacyclic Groups}
 
 We next study the invertibility problem for a
-metacyclic group $G$. Instead of using an $\F$-algebra isomorphism, as
-we did above, we will use an injective homomorphism, whose image will
+metacyclic group $G$. We use an injective homomorphism, whose image will
 be easy to compute. This is the object of the following lemma, where
 the map is inspired by the one used in \cite[\S 47]{Curtis}.
 
@@ -410,7 +396,7 @@ $ms$. Define $\A:=\F[z]/\langle z^m-1\rangle$ and let $\zbar$ be the
 image of $z$ in $\A$.
 
 \begin{lemma}\label{prop:metinjection}
-The mapping
+The mapping 
 \[
   \begin{array}{cccc}
 \psi:& \F [G]& \to& M_s(\A) \\
@@ -421,12 +407,12 @@ The mapping
 \hline
 \mat I_{s-1} & 0
 \end{array}
-\right],
+\right]
   \end{array}
 \]
-an injective homomorphism of $\F$-algebras.
+is an injective $\F$-algebra homomorphism.
 \end{lemma}
-\begin{proof}
+\noindent{\sc Proof.}
 It is straightforward to verify that $\psi(\sigma)^m = \mat I_m$,
 $\psi(\tau)^s = \psi(\sigma)^t$ and $\psi_i(\sigma) \psi_i(\tau)
 =\psi(\tau) \psi_i(\sigma)^r$; this shows that $\psi$ is a well-defined $\F$-algebras homomorphism.
@@ -435,7 +421,7 @@ Take $\beta \in \F[G]$, and write it $\beta = \sum_{j = 0}^{s-1}
 \left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j$. For
 $j=0,\dots,s-1$, define $F_j(x) := \sum_{i = 0}^{m-1} b_{i,j}x^i \in
 \F[x]$ and, for $1 \leq i,j \leq s$,
-$$F_{i,j} := F_{i-1}(\zbar^{r^{j-1}}).$$
+$F_{i,j} := F_{i-1}(\zbar^{r^{j-1}}).$
 Then, $\psi(\beta)$ is the matrix
 \begin{equation}\label{eq:injection}
 \left[\begin{array}{llll}
@@ -448,15 +434,15 @@ F_{s,s}& \cdots & F_{2,s}	& F_{1,s}
 \end{equation}
 If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\zbar) =0$, that is,
 $F_i \bmod (z^m-1)=0$, for $0 \leq i < s$.  All $F_i$'s have degree 
-less than $m$, so they are all zero.
-\end{proof}
+less than $m$, so they are all zero. \qed
 
-We conclude this section with two algorithms that test whether
-$\psi(\beta) \in M_s(\A)$ is invertible, for a given $\beta$ in
-$\F[G]$. Minor difficulties will arise as we work over $\A$, since
-$\A$ is not a field, but a product of fields (if the irreducible
-factorization of $z^m-1$ in $\F[z]$ is available, one would simply use
-the Chinese Remainder theorem and work in field extensions of $\F$).
+
+We finally give two algorithms that test whether $\psi(\beta) \in
+M_s(\A)$ is invertible, for a given $\beta$ in $\F[G]$. Minor
+difficulties will arise as we work over $\A$, since $\A$ is not a
+field, but a product of fields (if the irreducible factorization of
+$z^m-1$ in $\F[z]$ is known, we can use the Chinese Remainder theorem
+and work in field extensions of $\F$).
 
 \begin{corollary}\label{coro:test_meta}
   Given $\beta$ in $\F[G]$, one can test if $\beta$ is a unit in
@@ -473,7 +459,7 @@ which implies $s \leq m$ (see \cite[Theorem 47.12, Corollary 47.14
 ]{Curtis}).
 
 
-\begin{proof}[First algorithm.]
+\noindent{\sc First algorithm.}
   The first algorithm uses fast linear algebra algorithms over the ring
   $\A$. Here, we start from $\beta$ written as $\beta = \sum_{j =
     0}^{s-1} \left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j
@@ -489,21 +475,21 @@ which implies $s \leq m$ (see \cite[Theorem 47.12, Corollary 47.14
   $\beta$ itself is a unit). This amounts to computing the determinant
   of this matrix, which can be done in $\tilde{O}(s^{2.7} m)$
   operations in $\F$, using the determinant algorithm
-  of~\cite[Section~6]{KaVi04}.
-\end{proof}
+  of~\cite[Section~6]{KaVi04}. \qed
 
-Before giving our second algorithm, let us point out that matrix-vector
-products by $\psi(\beta)$ can be done fast.
+
+%% Before giving our second algorithm, let us point out that matrix-vector
+%% products by $\psi(\beta)$ can be done fast.
 
 \begin{lemma}\label{lem:multpsi}
   Given $\beta$ in $\F[G]$ and $\boldsymbol{v}$ in $\A^s$, one can
   compute $\psi(\beta) \boldsymbol{v} \in \A^s$ using $\tilde{O}(s
   m^2)$ operations in $\F$.
 \end{lemma}
-\begin{proof}
-  We use the basis of $\F[G]$ given in~\eqref{pres2}, writing $\beta =
+\noindent{\sc Proof.}
+  We use the basis of  $\F[G]$ of~\eqref{pres2}, writing $\beta =
   \sum_{i = 0}^{m-1} \left( \sum_{j = 0}^{s-1}  b_{i,j} \tau^i
-  \right) \sigma^j \in \F[G]$. We rewrite this as $\beta = \sum_{i
+  \right) \sigma^j = \sum_{i
     = 0}^{m-1} B_i(\tau) \sigma^i$, for some $B_0,\dots,B_{m-1}$ in
   $\F[z]$ of degree less than $s$.
 
@@ -517,16 +503,16 @@ products by $\psi(\beta)$ can be done fast.
  $\psi(\tau)$ is the matrix of multiplication by $y$ in $\A[y]/\langle
  y^s-\zbar\rangle$, $B_i(\psi(\tau))$ is the matrix of multiplication
  by $B_i(y)$ in $\A[y]/\langle y^s-\zbar\rangle$. Thus, applying this
- matrix to a vector also takes softly linear time $\tilde{O}(sm)$.
- Adding a factor of $m$ to account for indices $i=0,\dots,m-1$, we get 
+ matrix to a vector also takes time $\tilde{O}(sm)$.
+ Adding a factor of $m$ to account for all indices $i$ gives
  the result.
-\end{proof}
+\qed
 
 
 
 
 
-\begin{proof}[Second algorithm for Corollary~\ref{coro:test_meta}.]
+\noindent{\sc Second algorithm for Corollary~\ref{coro:test_meta}.}
   The second algorithm uses \citeauthor{Wiedemann86}'s
   \citeyear{Wiedemann86} algorithm,
   and its extension by~\citeN{KaSa91}. Extra care will be needed to
@@ -576,8 +562,8 @@ products by $\psi(\beta)$ can be done fast.
   $G_1 \cdots G_t$ (the factors may not be irreducible) and integers
   $\rho_j$, $j=1,\dots,t$, such that for all $i \le s$, $j\le t$, if
   $F_i$ divides $G_j$, then $r_i=\rho_j$. This allows us to determine all
-  $r_i$'s, and thus decide whether $\psi(\beta)$ is singular.
-\end{proof}
+  $r_i$'s, and thus decide whether $\psi(\beta)$ is singular.\qed
+
 
 
 

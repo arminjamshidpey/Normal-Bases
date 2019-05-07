@@ -1,9 +1,7 @@
 \section{Preliminaries}
 \label{sec:pre}
 
-One of the well-known proofs of the existence of a normal element for a
-finite Galois extension \cite[Theorem 6.13.1]{Lang} suggests a randomized
-algorithm for finding such an element. Assume $\K/\F$ is a finite Galois
+Assume $\K/\F$ is a finite Galois
 extension with Galois group $G = \lbrace g_1 , \ldots , g_n \rbrace$. If
 $\alpha \in \K$ is a normal element, then
 \begin{equation}
@@ -11,9 +9,8 @@ $\alpha \in \K$ is a normal element, then
   \sum_{j=1}^n 
   c_j g_j(\alpha)=0, \,\,\, c_j \in \F 
 \end{equation} 
-implies $c_1 =\dots=c_n = 0$. For each
-$i \in \lbrace 1, \ldots , n\rbrace$, applying $g_i$ to equation
-\eqref{eq:fstrow} yields
+implies $c_1 =\dots=c_n = 0$. For 
+$i \le n$, applying $g_i$ to~\eqref{eq:fstrow} yields
 \begin{equation} \label{eq:otherrow} \sum_{j=1}^n c_j g_i g_j(\alpha)=0.
 \end{equation}
 Using \eqref{eq:fstrow} and \eqref{eq:otherrow}, one can form the linear
@@ -42,19 +39,17 @@ $\F$. This is at least cubic in $n$, and only a minor improvement over the
 previously best-known approach of \citeN{Girstmair}. The main contribution
 of this paper is to show how to speed up this verification.
  
-Before entering that discussion, we briefly discuss the probability that
-$\alpha$ be a normal element: if we write
-$\alpha = a_0 + \cdots + a_{n-1} \xbar^{n-1}$, the determinant of
-$\mat M_G(\alpha)$ is a (not identically zero) homogeneous polynomial of
-degree $n$ in $(a_0,\dots,a_{n-1})$. If the $a_i$'s are chosen uniformly at
-random in a finite set $X \subset \F$, the Lipton-DeMillo-Schwartz-Zippel
-implies that the probability that $\alpha$ be normal is at least $1-n/|X|$.
+If we write $\alpha = a_0 + \cdots + a_{n-1} \xbar^{n-1}$, the
+determinant of $\mat M_G(\alpha)$ is a (not identically zero)
+homogeneous polynomial of degree $n$ in $(a_0,\dots,a_{n-1})$. If the
+$a_i$'s are chosen uniformly at random in a finite set $X \subset \F$,
+the Lipton-DeMillo-Schwartz-Zippel implies that the probability that
+$\alpha$ be normal is at least $1-n/|X|$.
 
 If $G$ is cyclic, \cite{GatGie90} avoid computing a determinant by
-computing the GCD of $S_\alpha := \sum_{i = 0}^{n-1} g_i(\alpha)x^i$
-and $x^n-1$. In effect, this amounts to testing whether $S_\alpha$ is
-invertible in the group ring $\K[G]$, which is isomorphic to
-$\K[x]/\langle x^n-1\rangle$. This is a general fact: for any $G$,
+computing the GCD of $S_\alpha := \sum_{i = 0,\dots,n-1} g_i(\alpha)x^i$
+and $x^n-1$. This amounts to testing whether $S_\alpha$ is
+invertible in the group ring $\K[G]\simeq\K[x]/\langle x^n-1\rangle$. This is a general fact: for any $G$,
 $\mat M_G(\alpha)$ is the matrix of (left) multiplication by the orbit
 sum
 $$S_\alpha:= \sum_{g \in G} g(\alpha)g \in \K[G],$$ and $\alpha$ being
@@ -81,11 +76,11 @@ $S_\alpha$ in $\F[G]$ is a unit.
   if $$\ell(\mat M_G(\alpha)) := [\ell(g_ig_j(\alpha))]_{ij} \in M_n(\F)$$
   is invertible, for a generic $\F$-linear projection $\ell: \K \to \F$.
 \end{lemma}
-\begin{proof}
-  $(\Rightarrow)$ For a fixed $\alpha\in\K$, any entry of
+\noindent {\sc Proof.}
+  $(\Rightarrow)$ For  $\alpha\in\K$, any entry of
   $\mat M_G(\alpha)$ can be written as
   \begin{equation}\label{Eq:PrimElm}
-    \sum_{k= 0}^{n-1} a_{ijk}\xbar^k,
+    \sum_{k= 0,\dots,n-1} a_{ijk}\xbar^k,
   \end{equation}
   and for $\ell: \K \to \F$, the corresponding entry in $\ell(\mat
   M_G(\alpha))$ can be written $\sum_{k= 0}^{n-1} a_{ijk}\ell_k$, with
@@ -93,8 +88,7 @@ $S_\alpha$ in $\F[G]$ is a unit.
   indeterminates $L_k$'s, the determinant becomes a polynomial in $P
   \in \F[L_1, \ldots, L_n].$ Viewing $P$ in $\K[L_1, \ldots, L_n]$, we
   have $ P(1, \xbar, \ldots, \xbar^{n-1})$ $= \det(\mat M_G(\alpha))$,
-  which is non-zero by assumption. Hence, $P$ is not identically zero,
-  and the conclusion follows.
+  which is non-zero by assumption; so, $P$ is not zero.
   
   $(\Leftarrow)$ Assume $\mat M_G(\alpha)$ is not invertible. Following the
   proof of \cite[Lemma 4]{Jam18}, we first show that there exists a
@@ -123,20 +117,19 @@ $S_\alpha$ in $\F[G]$ is a unit.
   $g(\boldsymbol{u}) -\boldsymbol{u}$ is zero. Thus the minimality
   assumption on $\textbf{v}$ shows that
   $g(\boldsymbol{u}) -\boldsymbol{u} = 0$, equivalently
-  $g(\boldsymbol{u})=\boldsymbol{u}$, and hence $\boldsymbol{u} \in \F^n$.
+  $g(\boldsymbol{u})=\boldsymbol{u}$, so $\boldsymbol{u} \in \F^n$.
   
-  Now we show that $\ell(\mat M_G(\alpha))$ is not invertible for all
-  choices of $\ell$. By Equation \eqref{Eq:PrimElm}, we can write
-  $$\mat M_G(\alpha) = \sum_{j = 0}^{n-1} \mat M^{(j)} \xbar^j, \quad 
+  Now we show that $\ell(\mat M_G(\alpha))$ is singular for all $\ell$. By~\eqref{Eq:PrimElm}, 
+  $$\mat M_G(\alpha) = \sum_{j = 0,\dots,n-1} \mat M^{(j)} \xbar^j, \quad 
   \mat M^{(j)} \in M_{n}(\F) \text{~for all $j$}.$$ 
-  Since $\boldsymbol{u}$ has entries in $\F$,
+  Since $\boldsymbol{u}$ is in $\F^n$,
   $\mat M_G(\alpha) \boldsymbol{u} =0$ yields
-  $\mat M^{(j)}\boldsymbol{u} = 0$ for
-  $j \in \lbrace 1, \ldots , n \rbrace$. Hence,
-$$\sum_{j = 0}^{n-1} \mat M^{(j)} \ell_j \boldsymbol{u} = 0$$ for any 
+  $\mat M^{(j)}\boldsymbol{u} = 0$ for $j \le n$. Hence,
+$$\sum_{j = 0,\dots,n-1} \mat M^{(j)} \ell_j \boldsymbol{u} = 0$$ for any 
 $\ell_j$'s in $\F$, and $\ell(\mat M_G(\alpha))$ is not invertible for any~$\ell$.
-\end{proof} 
-Our algorithm can be sketched as follows: choose random
+\hfill \qed
+
+Our algorithm  chooses random
 $\alpha$ in $\K$ and $\ell: \K\to\F$, and let
 \begin{equation}\label{def:s_alpha_ell}
 s_{\alpha,\ell}:=\sum_{g \in G} \ell(g(\alpha))g \in \F[G].  

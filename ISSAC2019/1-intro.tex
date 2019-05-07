@@ -1,13 +1,12 @@
 \section{Introduction}
 
-For a finite Galois extension field $\K/\F$, with Galois group $G =
+For a finite Galois extension $\K/\F$, with Galois group $G =
 \mathrm{Gal}(\K/\F)$, an element $\alpha \in \K$ is called
-\emph{normal} if the set of its Galois conjugates $G \cdot \alpha =
-\{ \sigma(\alpha): \sigma\in G\}$ forms a basis for $\K$ as a vector space over
-$\F$. The existence of normal element for any finite Galois extension
-is classical, and constructive proofs are provided in most algebra texts
-(see, e.g., \cite{Lang}, Section 6.13).
-%\cite{Wae70}, Section~8.11).
+\emph{normal} if its Galois conjugates $G \cdot \alpha = \{
+\sigma(\alpha): \sigma\in G\}$ form a basis for $\K$ as an $\F$-vector
+space. Constructive proofs are in most algebra texts, such as
+\cite[\S6.13]{Lang}.
+
  
 While there is a wide range of well-known applications of normal bases in
 finite fields, such as fast exponentiation~\cite{GaGaPaSh00}, there also
@@ -49,9 +48,8 @@ In this paper we present a new randomized algorithm for finding a normal
 element for abelian and metacyclic extensions, with a cost quadratic
 in the degree $n$ of the extension. The costs of all algorithms are
 measured by counting \emph{arithmetic operations} in $\F$ at unit cost.
-Questions related to the bit-complexity of our algorithms are challenging,
-and beyond the scope of this paper.
-
+%% Questions related to the bit-complexity of our algorithms are challenging,
+%% and beyond the scope of this paper.
 Our main conventions in this paper are the following.
 \begin{assumption}
   \label{assum}
@@ -66,8 +64,7 @@ Our main conventions in this paper are the following.
 \end{assumption}
 
 In particular, for $g \in G$ given by means of $\gamma:=g(\xbar) \in \K$,
-and $\beta = \sum_{0\leq i<n}\beta_i\xbar^i\in\K$, the fact that $g$ is an
-$\F$-automorphism implies that $g(\beta)$ is equal to $\beta(\gamma)$, the
+and $\beta = \sum_{0\leq i<n}\beta_i\xbar^i\in\K$,  $g(\beta)$ is equal to $\beta(\gamma)$, the
 polynomial composition of $\beta$ at $\gamma$ (reduced modulo $P$).
 
 Our algorithms combine techniques and ideas due
@@ -100,8 +97,9 @@ Fourier transforms (over $\C$). For recent progress
 \cite{ClaMu04,MaRockWol18} and references therein, though it is not clear
 how to apply these methods here.
 
-This paper is written from the point of view of obtaining improved
-asymptotic complexity estimates. Since our main goal is to highlight
+%% This paper is written from the point of view of obtaining improved
+%% asymptotic complexity estimates. 
+Since our main goal is to highlight
 the exponent (in $n$) in our runtime analyses, costs are given using
 the soft-O notation: $S(n)$ is in $\tilde{O}(T(n))$ if it is in
 $O(T(n) \log(T(n))^c)$, for some constant $c$.

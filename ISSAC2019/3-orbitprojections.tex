@@ -3,11 +3,10 @@
 
 In this section we present algorithms to compute $s_{\alpha,\ell}$,
 when $G$ is either abelian or metacyclic. We start by sketching our
-ideas in simplest case, cyclic groups.  We will see that they follow
-closely ideas used in \cite{KalSho98} over finite fields.
+ideas in simplest case, cyclic groups, with $G = \langle g \rangle$. 
 
-Suppose $G = \langle g \rangle$, so that given $\alpha$ in $\K$ and
-$\ell: \K \to \F$, our goal is to compute
+Given $\alpha\in\K$ and
+$\ell:\K \to \F$, we want to compute
 \begin{equation}
   \label{eq:cycproj}
   \ell(g^i(\alpha)), ~~\mbox{for}~ 0\leq i\leq n-1.
@@ -26,43 +25,33 @@ all $L_j:=\ell \circ g^{tj}$ for $0 \leq j <m$, where the $L_j$'s are
 themselves linear mappings $\K \to \F$.  Finally, a matrix product yields
 all values $L_j(G_i)$.
 
-The original algorithm of \citeN{KalSho98} relies on the properties of the
-Frobenius mapping to achieve subquadratic runtime. In our case, we cannot
-apply these results directly; instead, we have to revisit the proofs
-of~\citeN{KalSho98}, Lemmata 3, 4 and~8, now considering rectangular matrix
-multiplication.
-%Our exponents involve the constant $\omega(4/3)$, for
-%which we have the upper bound $\omega(4/3) < 2.654$: this follows from the
-%upper bounds on $\omega(1.3)$ and $\omega(1.4)$ given by~\citeN{LeGall}, and
-%the fact that $k \mapsto \omega(k)$ is convex~\cite{LoRo83}. In particular,
-%$3/4 \cdot \omega(4/3) < 1.99$. Note also the inequality
-%$\omega(k) \ge 1+k$ for $k\ge 1$, since $\omega(k)$ describes products with
-%input and output size $O(n^{1+k})$.
+The algorithm of \citeN{KalSho98} use properties of the Frobenius
+mapping. In our case, we cannot apply
+these results directly; instead, we have to revisit proofs
+from~\citeN{KalSho98} using rectangular matrix multiplication.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Multiple automorphism evaluation and applications}
+\subsection{Multiple automorphism evaluation}
 
-The key to the algorithms below is the remark following
-Assumption~\ref{assum}, which reduces automorphism evaluation to
-modular composition of polynomials.  Over finite fields, this idea goes back
-to~\citeN{GaSh92}, where it was credited to Kaltofen.
-
+The remark following Assumption~\ref{assum} reduces automorphism
+evaluation to modular composition of polynomials (this idea goes back to~\citeN{GaSh92}, where it was credited to
+Kaltofen).
 For instance, given $g \in G$ (by means of $\gamma:=g(\xbar)$), we can
 deduce $g^2 \in G$ (again, by means of its image at $\xbar$) as
 $\gamma(\gamma)$; this can be done with $\tilde{O}(n^{(\omega+1)/2})$
-operations in $\F$ using Brent and Kung's modular composition
-algorithm~\cite{BrKu78}. The algorithms below describe similar operations
-along these lines, involving several simultaneous evaluations.
+operations in $\F$ using the modular composition
+algorithm of~\cite{BrKu78}. The algorithms below describe similar operations
+along these lines.
 
 \begin{lemma}
   \label{lem:modcom}
-  Given $\alpha_1,\dots,\alpha_s$ in $\K$ and $g$ in $G =
-  \mathrm{Gal}(\K/\F)$, with $s = O(\sqrt{n})$, we can compute
-  $g(\alpha_1),\dots,g(\alpha_s)$ with $\tilde
+  Given $\alpha_1,\dots,\alpha_s$ in $\K$ and $g$ in $G$, with $s = O(\sqrt{n})$, we can compute
+  $g(\alpha_1),\dots,g(\alpha_s)$ in $\tilde
   O(n^{(3/4)\cdot\omega(4/3)})$ operations in $\F$.
 \end{lemma}
-\begin{proof}
+\noindent\textsc{Proof}
 (Compare \cite[Lemma~3]{KalSho98}) As noted above, for $i\le s$,
   $g(\alpha_i) = \alpha_i(\gamma)$, with $\gamma := g(\xbar) \in \K$.
   Let $t := \lceil n^{3/4} \rceil$, $m:=\lceil n/t\rceil$, and rewrite $\alpha_1 , \ldots , \alpha_s$ as 
@@ -82,27 +71,25 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   ${A}_{i,j}$ is the coefficient vector of $a_{i,j}$. This matrix 
   has $s m \in O(n^{3/4})$ rows and $t \in O(n^{3/4})$ columns.
 
-  Compute $\mat B:=\mat A\, \boldsymbol{\Gamma}$; as per our
+  Compute $\mat B:=\mat A\, \boldsymbol{\Gamma}$; by
   definition of exponents $\omega(\cdot )$, this can be done in
   $O(n^{(3/4)\cdot \omega(4/3)})$ operations in $\F$, and the rows of this matrix
-  give all $a_{i,j}(\gamma)$.  The last step to get all
-  $\alpha_i(\gamma)$ is to write them as $\alpha_i(\gamma) = \sum_{0
+  give all $a_{i,j}(\gamma)$.  The last step  is to write $\alpha_i(\gamma) = \sum_{0
     \leq j < m} a_{i,j}(\gamma) \gamma_t^{j}.$ Using Horner's scheme,
   this takes $O(sm)$ operations in $\K$, which is $\tilde{O}(n^{7/4})$
-  operations in $\F$. Since we pointed out that $\omega(3/4) \ge 7/4$,
-  the leading exponent in all costs seen so far is
+  operations in $\F$. Since  $\omega(3/4) \ge 7/4$,
+  the leading exponent in all costs so far is
   $(3/4)\cdot\omega(4/3)$.
-\end{proof}
+\qed
 
 \begin{lemma}\label{lem:selfcomp}
-Given $\alpha$ in $\K$, $g_1, \ldots , g_{r}$ in $G =
-\mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
+Given $\alpha$ in $\K$, $g_1, \ldots , g_{r}$ in $G$ and positive integers $(s_1, \ldots s_r)$ such
 that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all
   $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) ,\quad \text{~for~} 0 \leq i_j
 \leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$
 operations in $\F$.
 \end{lemma}
-\begin{proof}
+\noindent\textsc{Proof}
 (Compare \cite[Lemma~4]{KalSho98}.) For a given  $m\in\{1,\dots,r\}$, suppose we have computed 
   $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
   i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
@@ -122,7 +109,7 @@ operations in $\F$.
  s_m)$ steps, for a total cost of $\osumcosttilde$ operations in $\F$.  We
  repeat this procedure for $m=1,\dots,r$; since $r$ is in $O(\log(n))$,
  the cost remains $\osumcosttilde$.
-\end{proof}
+\qed
 
 We now present dual versions of the previous two lemmas. Viewed as an
 $\F$-linear map, $g:\alpha \mapsto g(\alpha)$ admits a
@@ -144,59 +131,51 @@ g,\dots,\ell_s \circ g$ in time $\osumcosttilde$.
   $\ell_1\circ g,\dots,\ell_s \circ g$ in time $\tilde
   O(n^{{3}/{4}\omega({4}/{3})})$.
 \end{lemma}
-\begin{proof}
+\noindent\textsc{Proof.}
   Given $\ell_i$ by its values on the power basis $1,\xbar,\dots,\xbar^{n-1}$, $\ell_i \circ g$ is represented by its values at
   $1,\gamma,\dots,\gamma^{n-1}$, with $\gamma := g(\xbar)$. 
 
-  Let $t,m$ and $\gamma_0,\dots,\gamma_t$ be as in the proof of
-  Lemma~\ref{lem:modcom}. Next, compute the ``giant steps''
+  Let $t,m$ and $\gamma_0,\dots,\gamma_t$ be as in
+  Lemma~\ref{lem:modcom}. Compute the giant steps
   $\gamma_t^j = \gamma^{tj}$, $j=0,\dots,m-1$ and for $i=1,\dots,s$
-  and $j=0,\dots,m-1$, deduce the linear forms $L_{i,j}$ defined by
-  $L_{i,j}(\alpha) := \ell_i(\gamma^{tj}\alpha)$ for all $\alpha$ in
-  $\K$. Each of them can be obtained by a {\em transposed
-    multiplication} in time $\tilde{O}(n)$~\cite[Section~4.1]{Shoup},
+  and $j=0,\dots,m-1$, deduce $L_{i,j}$ defined by
+  $L_{i,j}(\alpha) := \ell_i(\gamma^{tj}\alpha)$ for $\alpha$ in
+  $\K$. Each of them is obtained by a {\em transposed
+    multiplication} in time $\tilde{O}(n)$~\cite[\S4.1]{Shoup},
   so that the total cost thus far is $\tilde{O}(n^{7/4})$.
 
   Finally, multiply the $(sm \times n)$ matrix with entries the
   coefficients of all $L_{i,j}$ (as rows) by the $(n \times t)$ matrix with
   entries the coefficients of $\gamma_0,\dots,\gamma_{t-1}$ (as columns) to
-  obtain all values $\ell_i(\gamma^j)$, for $i=1,\dots,s$ an
-  $j=0,\dots,n-1$.  This can be accomplished with
-  $O(n^{(3/4)\cdot\omega(4/3)})$ operations in~$\F$.
-\end{proof}
+get all $\ell_i(\gamma^j)$, for $i=1,\dots,s$ an
+  $j=0,\dots,n-1$.  This is done in time
+  $O(n^{(3/4)\cdot\omega(4/3)})$.
+\qed
 
 From this, we deduce the transposed version of Lemma~\ref{lem:selfcomp},
 whose proof follows the same pattern.
 
 \begin{lemma}
   \label{lem:transmodcomp}
-  Given $\ell:\K\to F$, $g_1, \ldots , g_{r}$ in $G = \mathrm{Gal}(\K/\F)$
+  Given $\ell:\K\to F$, $g_1, \ldots , g_{r}$ in $G$
   and positive integers $(s_1, \ldots s_r)$ such that
-  $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all linear
-  maps
+  $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all 
   \[
     \ell \circ g_1^{i_1}\cdots g_r^{i_r} ,\quad \text{~for~} 0 \leq i_j
     \leq s_j,\ 1 \leq j \leq r,
   \]
   can be computed in $\osumcosttilde$ operations in $\F$.
 \end{lemma} 
-\begin{proof}
+\noindent\textsc{Proof}
 (Compare \cite[Lemma~8]{KalSho98}.)
-  We proceed as in Lemma~\ref{lem:selfcomp}. For $m=1,\dots,r$, assume
+For $m=1,\dots,r$, assume
   we know $L_{i_1,\dots,i_m}:=\ell \circ (g_1^{i_1}\cdots g_m^{i_m}),$
   for $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m.$
-  Using the previous lemma, we compute all $L_{i_1,\dots,i_m} \circ
+  Using Lemma~\ref{lem:modcomT}, we compute all $L_{i_1,\dots,i_m} \circ
   {g_m}^{k_m},$ which gives us $L_{i_1,\dots,i_m}$ for indices $0 \le
-  i_m < 2k_m$. The cost analysis is as in Lemma~\ref{lem:selfcomp}.
-\end{proof}
+  i_m < 2k_m$. The analysis is as in Lemma~\ref{lem:selfcomp}.
+\qed
 
-%% At this point we have enough tools to see how the computation is
-%% done in the cyclic case. Moreover, we can use the above lemmas to
-%% give an algorithm for a more general case, namely the abelian
-%% case. With a little bit more work we can state an algorithm which
-%% solves the automorphism projection problem when $G = \lbrace a^ib^j
-%% \rbrace$ where $m \leq n$. As an specific case this solves the
-%% problem for metacyclic groups.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -222,7 +201,7 @@ polynomials $\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r}
   in~\eqref{def:s_alpha_ell}, is computable using $\osumcosttilde$
   operations in $\F$.
 \end{proposition}
-\begin{proof}
+\noindent{\sc Proof.}
 Our goal is to compute
 \begin{equation}\label{eq:abelian}
   \ell (g_1^{i_1},  \ldots, g_r^{i_r}(\alpha)), \, 1 \leq j \leq r, 0 \leq i_j \leq e_j,
@@ -244,7 +223,7 @@ $$G_{i_1,\dots,i_r}=g_1^{i_1} \cdots g_r^{i_r}(\alpha), \,\, 1\leq m \leq r, 0\l
 with cost $\osumcosttilde$.
 
 \smallskip\noindent\textbf{Step 2.} Compute all $g_i^{s_i}$, $i=1,\dots,r$;
-this involves $O(\log(n))$ modular compositions, so the cost is negligible
+using $O(\log(n))$ modular compositions. The cost is negligible
 compared to that of Step~1.
 
 \smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp} to compute 
@@ -256,8 +235,8 @@ with cost $\osumcosttilde$
 coefficients of all $L_{j_1,\dots,j_r}$ by the matrix with columns the
 coefficients of all $G_{i_1,\dots,i_r}$; this yields all required
 values. We compute this product in $O(n^{(1/2)\cdot\omega(2)})$
-operations in $\F$, which is in $\osumcost$.
-\end{proof}
+operations in $\F$, which is in $\osumcost$. \qed
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -297,11 +276,11 @@ using the commutation relation $\sigma^k \tau^c = \tau^c \sigma^{kr^c}$
 for $k,c \ge 0$.
 
 \begin{proposition}
-  Suppose that $G$ is metacyclic, with notation as above. For $\alpha$
+  Suppose that $G$ is metacyclic. For $\alpha$
   in $\K$ and $\ell:\K\to\F$, $s_{\alpha,\ell} \in \F[G]$ is
-  computable using $\osumcosttilde$ operations in $\F$.
+  computable in time $\osumcosttilde$.
 \end{proposition}
-\begin{proof}
+\noindent {\sc Proof.}
   Suppose first that $s \le m$; then, we use the
   presentation~\eqref{pres1} of the elements of $G$. Take $\alpha$ in
   $\K$ and $\ell:\K \to \F$; the goal is to compute
@@ -312,7 +291,7 @@ for $k,c \ge 0$.
 $$G_{i,j} := \sigma^i\tau^j(\alpha),\ 0\leq i < \lceil \sqrt{m/s}
 \rceil,\ 0 \leq j < s.$$ Note that
 $\lceil \sqrt{m/s} \rceil s \leq \lceil \sqrt{sm} \rceil \in O(\sqrt n)$,
-so we are under the assumptions of the lemma. This takes $\osumcosttilde$
+so we can apply the lemma. This takes $\osumcosttilde$
 operations in~$\F$.
 
 \smallskip\noindent\textbf{Step 2.} Compute
@@ -342,20 +321,7 @@ $O(n^{(1/2)\cdot\omega(2)})$ operations in $\F$, which is $\osumcost$.
 
 This concludes the proof in the case $s \le m$. When $m \le s$, use the
 presentation~\eqref{pres2} of the elements of $G$ and proceed as above.
-\end{proof}
-
-%% We note the above algorithm works for a class of groups which includes metacyclic case. Since if $G$ is metacyclic, 
-%% $H = \langle \sigma \rangle \unlhd G$ and $G/H = \langle \tau H \rangle$, then both $\tau \sigma \tau^{-1}$ and 
-%% $\tau^{-1} \sigma \tau$ belong to $H$. This implies elements of $G$ can be presented either as $\sigma^i\tau^j$
-%% or $\tau^j\sigma^i$. Thus without loss of generality we can assume the $\textrm{Ord}(\tau) \leq \textrm{Ord}(\sigma)$.
-
-%% Similar to the abelian case the final output of the above algorithm is a $\lceil \sqrt{n} \rceil \times \lceil \sqrt{n} \rceil $
-%% matrix and $l(\osum{G}{K})$ can be calculated in the same way. Hence we have proved the following proposition.
- 
-%% \begin{proposition}
-%% Suppose Assumption \ref{assum} holds and $G$ is a metacyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
-%% operations in $F$.
-%% \end{proposition}
+\qed
 
 %%% Local Variables:
 %%% mode: latex
