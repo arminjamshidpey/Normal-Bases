@@ -13,19 +13,19 @@ implies $c_1 =\dots=c_n = 0$. For
 $i \le n$, applying $g_i$ to~\eqref{eq:fstrow} yields
 \begin{equation} \label{eq:otherrow} \sum_{j=1}^n c_j g_i g_j(\alpha)=0.
 \end{equation}
-Using \eqref{eq:fstrow} and \eqref{eq:otherrow}, one can form the linear
+Using \eqref{eq:fstrow} and \eqref{eq:otherrow}, we form the linear
 system $\mat{M}_G(\alpha)\boldsymbol{c} = \textbf{0}$,
 with $\boldsymbol{c} = [ c_1~ \cdots~c_n]^T$ and
- where, for $\alpha\in\K$,
-\[
-  \mat M_G(\alpha) =
-  \begin{bmatrix}
-    g_1 g_1(\alpha) & g_1 g_2(\alpha) & \cdots & g_1 g_n(\alpha) \\
-    g_2 g_1(\alpha) & g_2 g_2(\alpha) & \cdots & g_2 g_n(\alpha) \\
-    \vdots		& \vdots	& \vdots & \vdots \\
-    g_n g_1(\alpha) & g_n g_2(\alpha) & \cdots & g_n g_n(\alpha) \\
-  \end{bmatrix} \in M_n(\K).
-\]
+ where, for $\alpha\in\K$, $\mat M_G(\alpha) =(g_ig_j(\alpha))_{1 \leq i,j \leq n}.$
+%\[
+%  \mat M_G(\alpha) =
+%  \begin{bmatrix}
+%    g_1 g_1(\alpha) & g_1 g_2(\alpha) & \cdots & g_1 g_n(\alpha) \\
+%    g_2 g_1(\alpha) & g_2 g_2(\alpha) & \cdots & g_2 g_n(\alpha) \\
+%    \vdots		& \vdots	& \vdots & \vdots \\
+%    g_n g_1(\alpha) & g_n g_2(\alpha) & \cdots & g_n g_n(\alpha) \\
+%  \end{bmatrix} \in M_n(\K).
+%\]
 Classical proofs then show there exists $\alpha \in \K$
 with $\det(\mat M_G(\alpha))\neq 0$.
  
