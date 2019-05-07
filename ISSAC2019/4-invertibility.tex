@@ -169,13 +169,17 @@ c'$, and let $x,y$ be indeterminates over $\F$. Define
 \mathbbm{a}&:=\F[x]/\Phi_{p^c}(x),  \\
 \mathbbm{b}&:=\F[x,y]/\langle \Phi_{p^c}(x), \Phi_{p^{c'}}(y)\rangle = \mathbbm{a}[y]/\Phi_{p^{c'}}(y).
 \end{align}
-Note that $\mathbbm{a}$ and $\mathbbm{b}$ have respective dimensions
+Note $\mathbbm{a}$ and $\mathbbm{b}$ have respective dimensions
 $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
+
+\smallskipback
 \begin{lemma}
   There is an $\F$-algebra isomorphism $\theta: \mathbbm{b} \to
   \mathbbm{a}^{\varphi(p^{c'})}$ such that one can apply $\theta$ or
   its inverse to any inputs using $\tilde{O}(\dim(\mathbbm{b}))$ operations in $\F$.
 \end{lemma}
+
+\smallskipback
 \noindent{\sc Proof.}
   Let $\xbar$ be the residue class of
   $x$ in $\A$. Then, in $\mathbbm{a}[y]$, $\Phi_{p^{c'}}(y)$ factors as
@@ -189,11 +193,11 @@ $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
     & P & \mapsto& (P(\xbar,\rho_1),\dots,P(\xbar,\rho_{\varphi(p^{c'})}).
   \end{array}$$
   Arithmetic operations $(+,-,\times)$ in
-  $\mathbbm{a}$ can all be done in $\tilde{O}(\varphi(p^c))$ operations
+  $\mathbbm{a}$ can be done in $\tilde{O}(\varphi(p^c))$ operations
   in $\F$. Starting from $\rho_1 \in \mathbbm{a}$, all other roots
   $\rho_i$ can then be computed in $O(\varphi(p^{c'}))$ operations in
-  $\mathbbm{a}$, that is, $\tilde{O}(\dim(\mathbbm{b}))$
-  operations in $\F$. 
+  $\mathbbm{a}$ or $\tilde{O}(\dim(\mathbbm{b}))$
+  operations in~$\F$. 
   
 Applying $\theta$ and its inverse is done by means of fast evaluation
 and interpolation~\cite[Chapter~10]{vzGathen13} in $\tilde{O}(\varphi(p^{c'}))$
