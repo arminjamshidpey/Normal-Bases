@@ -46,9 +46,8 @@ $a_i$'s are chosen uniformly at random in a finite set $X \subset \F$,
 the Lipton-DeMillo-Schwartz-Zippel implies that the probability that
 $\alpha$ be normal is at least $1-n/|X|$.
 
-If $G$ is cyclic, \cite{GatGie90} avoid computing a determinant by
-computing the GCD of $S_\alpha := \sum_{1 \leq i \leq n} g_i(\alpha)x^{i-1}$
-and $x^n-1$. This amounts to testing whether $S_\alpha$ is
+If $G$ is cyclic, \cite{GatGie90} compute the GCD of $S_\alpha := \sum_{1 \leq i \leq n} g_i(\alpha)x^{i-1}$
+and $x^n-1$ instead of computing a determinant. This amounts to testing whether $S_\alpha$ is
 invertible in the group ring $\K[G]\simeq\K[x]/\langle x^n-1\rangle$. This is a general fact: for any $G$,
 $\mat M_G(\alpha)$ is the matrix of (left) multiplication by the orbit
 sum
@@ -86,7 +85,7 @@ $S_\alpha$ in $\F[G]$ is a unit.
   M_G(\alpha))$ can be written $\sum_{k= 0}^{n-1} a_{ijk}\ell_k$, with
   $\ell_k = \ell(\xbar^k)$. Replacing these $\ell_k$'s by
   indeterminates $L_k$'s, the determinant becomes a polynomial in $P
-  \in \F[L_1, \ldots, L_n].$ Viewing $P$ in $\K[L_1, \ldots, L_n]$, we
+  \in \F[L_1, \ldots, L_n].$ Viewing $P$ over $K$, we
   have $ P(1, \xbar, \ldots, \xbar^{n-1})$ $= \det(\mat M_G(\alpha))$,
   which is non-zero by assumption; so, $P$ is not zero.
   
