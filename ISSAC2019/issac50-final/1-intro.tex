@@ -1,0 +1,166 @@
+\section{Introduction}
+
+For a finite Galois extension $\K/\F$, with Galois group $G =
+\mathrm{Gal}(\K/\F)$, an element $\alpha \in \K$ is called
+\emph{normal} if its Galois conjugates $G \cdot \alpha = \{
+\sigma(\alpha): \sigma\in G\}$ form a basis for $\K$ as an $\F$-vector
+space. Constructive proofs are in most algebra texts, such as
+\cite[\S6.13]{Lang}.
+
+ 
+While there is a wide range of well-known applications of normal bases in
+finite fields, such as fast exponentiation~\cite{GaGaPaSh00}, there also
+exist applications of normal elements in characteristic zero.  For instance,
+in multiplicative invariant theory, for a given permutation lattice and
+related Galois extension, a normal basis is useful in computing the
+multiplicative invariants explicitly~\cite{Jam18}.
+
+A number of algorithms are available for finding a normal element in
+characteristic zero fields and finite fields.  Because of their immediate
+applications in finite fields, algorithms for determining normal elements
+in this case are most commonly seen.  A fast randomized algorithm for
+determining a normal element in a finite field $\FF_{q^n}/\FF_q$, where
+$\FF_{q^n}$ is the finite field with $q^n$ elements for any prime power $q$
+and integer $n>1$, is presented by \citeN{GatGie90}, with a cost of
+$O(n^2+n\log q)$ operations in $\FF_q$.  A faster randomized algorithm is
+introduced by \citeN{KalSho98}, with a cost of $O(n^{1.815}\log q)$
+operations in $\FF_q$.  In the bit complexity model, \citet{KeUm11} 
+reduce the exponent of $n$ to $1.5+\epsilon$ (for any
+$\epsilon > 0$), using their quasi-linear time algorithm for
+{\em modular composition}. \citeN{LenstraNormal} gives a
+deterministic algorithm which uses $n^{O(1)}$
+operations.  \citeN{AugCam94} give the fastest known deterministic method,
+with a cost of $O(n^3+n^2\log q)$ operations in~$\FF_q$.
+
+In characteristic zero, \citeN{SchSte93} gave an algorithm for finding
+a normal basis of a number field over $\QQ$ with a cyclic Galois group
+of cardinality $n$ which requires $n^{O(1)}$ operations in $\QQ$.
+\citeN{Pol94} gives an algorithm for the more general case of finding
+a normal basis in an abelian extension $\K/\F$ which requires
+$n^{O(1)}$ operations in $\F$.  More generally in characteristic zero, for any
+Galois extension $\K/\F$ of degree $n$ with Galois group given by a
+collection of $n$ matrices, \citeN{Girstmair} gives an algorithm which
+requires $O(n^4)$ operations in $\F$ to construct a normal element in
+$\K$.
+
+In this paper we present a new randomized algorithm for finding a normal
+element for abelian and metacyclic extensions, with a cost quadratic
+in the degree $n$ of the extension. The costs of all algorithms are
+measured by counting \emph{arithmetic operations} in $\F$ at unit cost.
+%% Questions related to the bit-complexity of our algorithms are challenging,
+%% and beyond the scope of this paper.
+Our main conventions in this paper are the following.
+
+
+\begin{assumption}
+  \label{assum}
+  Let $\K/\F$ be a finite Galois extension presented as
+  $\K=\F[x]/\langle P(x)\rangle$, for an irreducible polynomial $P\in
+  \F[x]$ of degree $n$, with $\F$ of characteristic zero. Then,
+  \begin{itemize}
+  \item elements of $\K$ are written on the power basis $1,\xbar,\dots,\xbar^{n-1}$,
+    where $\xbar := x \bmod P$;
+  \item elements of $G$ are represented by their action on $\xbar$.
+  \end{itemize}
+\end{assumption}
+
+In particular, for $g \in G$ given by means of $\gamma:=g(\xbar) \in \K$,
+and $\beta = \sum_{0\leq i<n}\beta_i\xbar^i\in\K$,  $g(\beta)$ is equal to $\beta(\gamma)$, the
+polynomial composition of $\beta$ at $\gamma$ (reduced modulo $P$).
+
+Our algorithms combine techniques and ideas due
+to~\cite{GatGie90,KalSho98}: $\alpha \in \K$ is normal if and only if
+the element $S_\alpha := \sum_{g \in G} g(\alpha)g \in \K[G]$ is
+invertible in the group algebra $\K[G]$. The algorithms choose
+$\alpha$ at random; a generic choice is normal (so we expect $O(1)$
+random trials to be sufficient). However, writing down $S_\alpha$
+involves $\Theta(n^2)$ elements in $\F$, which precludes a
+subquadratic running time. Instead, knowing $\alpha$, the algorithms use a
+randomized reduction to a similar question in $\F[G]$, that amounts to
+applying a random projection $\ell:\K\to\F$ to all entries of
+$S_\alpha$, giving us an element $s_{\alpha,\ell} \in \F[G]$. For
+this, we adapt algorithms from~\cite{KalSho98}, that are written for
+Galois groups of finite fields.
+
+Having $s_{\alpha,\ell}$ in hand, we need to test its
+invertibility. We present an algorithm for 
+abelian $G$ which relies on the fact that $\F[G]$ is isomorphic to a
+multivariate quotient polynomial ring by an ideal $(x^{e_i}_i-1)_{1
+  \leq i \leq m}$, where $e_i$'s are positive integers. 
+
+For metacyclic groups, two algorithms are introduced to solve the same
+problem; which one is faster depends on the parameters defining our
+group. Both algorithms are based on testing the invertibility of an
+injective homomorphic image of $s_{\alpha,\ell}$ in a matrix algebra over a
+product of fields. These questions are closely related to Fourier
+transforms over $G$, and there is a vast literature on fast algorithms for
+Fourier transforms (over $\C$). For recent progress
+\cite{ClaMu04,MaRockWol18} and references therein, though it is not clear
+how to apply these methods here.
+
+%% This paper is written from the point of view of obtaining improved
+%% asymptotic complexity estimates. 
+Since our main goal is to highlight
+the exponent (in $n$) in our runtime analyses, costs are given using
+the soft-O notation: $S(n)$ is in $\tilde{O}(T(n))$ if it is in
+$O(T(n) \log(T(n))^c)$, for some constant $c$.
+
+The main result of this paper is the following theorem.  We use a constant
+$\omega(4/3)$, defined below, where $(3/4)\cdot\omega(4/3)<1.99$, that
+describes the cost of certain rectangular matrix products.
+
+\begin{theorem}
+  \label{thm:main}
+  Under Assumption \ref{assum}, a normal element of $\K$ can be found using
+  $\thecost$ operations in $\F$ if $G$ is abelian.  The same problem for
+  metacyclic groups can be solved using $\tilde{O}(\vert G \vert^2)$
+  operations in $\F$. The algorithms are probabilistic of the Las Vegas
+  type: they can select random elements from $\F$ at unit
+  cost, the output is always correct, and the run-times are an expected
+  number of operations in $\F$.
+\end{theorem}
+
+Although the cost of our algorithm is quadratic in the size of input for a
+general metacyclic group, it will be (slightly) subquadratic under specific
+parameters defining $G$ (see Section~\ref{sec:invertibility}).
+
+Section \ref{sec:pre} of this paper is devoted to definitions and
+preliminary discussions.  In Section \ref{sec:osum}, two
+subquadratic-time algorithms are presented for the randomized reduction
+of our main question to invertibility testing in $\F[G]$, for
+respectively abelian and metacyclic groups.  Finally, in Section
+\ref{sec:invertibility}, we show that the latter problem can be solved
+in quasi-linear time for an abelian group; for metacyclic
+groups, we give a quadratic-time algorithm, and discuss cases when
+this cost can be further improved.
+
+Our algorithms make extensive use of known algorithms for polynomial and matrix
+arithmetic; in particular, we use the fact that polynomials of degree $d$
+in $\F[x]$ can be multiplied in $\tilde{O}(n)$ operations in
+$\F$~\cite{ScSt71}. Arithmetic operations $(+,\times,\div)$ in $\K$ can
+thus be accomplished using $\tilde{O}(n)$ operations in
+$\F$~\cite{vzGathen13}.
+
+For matrix arithmetic, we will rely on some non-trivial results on
+rectangular matrix multiplication initiated by \citeN{LoRo83}. For
+$k \in \mathbb{R}$, we denote by $\omega(k)$ a constant such that matrices
+of size $n\times n$ can be multiplied by matrices of size
+$n\times \lceil n^k \rceil$ with $O(n^{\omega(k)})$ operations. 
+\cite{LeGall} shows $\omega(4/3) < 2.654$; this follows from the
+upper bounds they give on $\omega(1.3)$ and $\omega(1.4)$,
+and the fact that $k \mapsto \omega(k)$ is convex~\cite{LoRo83}. In
+particular, $3/4 \cdot \omega(4/3) < 1.99$. Note also the inequality
+$\omega(k) \ge 1+k$ for $k\ge 1$, from the input/output size.
+%since $\omega(k)$ describes products with input and output size $O(n^{1+k})$.
+
+For square matrix multiplication, \cite{LeGall14} shows
+$\omega(1) \le 2.373$, and we denote $\omega=\omega(1)$.  Over a field
+$\K$, we will frequently use the fact that further matrix operations
+(determinant or inverse) can be done in $O(n^\omega)$ base operations in
+$\K$.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "NormalBasisCharZero"
+%%% End:

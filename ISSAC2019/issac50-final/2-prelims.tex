@@ -1,0 +1,147 @@
+\section{Preliminaries}
+\label{sec:pre}
+
+Assume $\K/\F$ is a finite Galois
+extension with Galois group $G = \lbrace g_1 , \ldots , g_n \rbrace$. If
+$\alpha \in \K$ is a normal element, then
+\begin{equation}
+  \label{eq:fstrow}
+  \sum_{j=1}^n 
+  c_j g_j(\alpha)=0, \,\,\, c_j \in \F 
+\end{equation} 
+implies $c_1 =\dots=c_n = 0$. For 
+$i \le n$, applying $g_i$ to~\eqref{eq:fstrow} yields
+\begin{equation} \label{eq:otherrow} \sum_{j=1}^n c_j g_i g_j(\alpha)=0.
+\end{equation}
+Using \eqref{eq:fstrow} and \eqref{eq:otherrow}, we form the linear
+system $\mat{M}_G(\alpha)\boldsymbol{c} = \textbf{0}$,
+with $\boldsymbol{c} = [ c_1~ \cdots~c_n]^T$ and
+ where, for $\alpha\in\K$, $\mat M_G(\alpha) =\left[g_ig_j(\alpha)\right]_{1 \leq i,j \leq n}.$
+%\[
+%  \mat M_G(\alpha) =
+%  \begin{bmatrix}
+%    g_1 g_1(\alpha) & g_1 g_2(\alpha) & \cdots & g_1 g_n(\alpha) \\
+%    g_2 g_1(\alpha) & g_2 g_2(\alpha) & \cdots & g_2 g_n(\alpha) \\
+%    \vdots		& \vdots	& \vdots & \vdots \\
+%    g_n g_1(\alpha) & g_n g_2(\alpha) & \cdots & g_n g_n(\alpha) \\
+%  \end{bmatrix} \in M_n(\K).
+%\]
+Classical proofs then show there exists $\alpha \in \K$
+with $\det(\mat M_G(\alpha))\neq 0$.
+ 
+This approach can be used as the basis of a randomized algorithm for
+finding a normal element: choose a random element $\alpha$ in $\K$ until we
+find one such that $ \mat M_G(\alpha)$ is invertible. A direct implementation computes
+all the entries of the matrix and then uses linear algebra to compute its
+determinant; using fast matrix arithmetic this requires $O(n^\omega)$
+operations in $\K$, that is $\tilde{O}(n^{\omega+1})$ operations in
+$\F$. This is at least cubic in $n$, and only a minor improvement over the
+previously best-known approach of \citeN{Girstmair}. The main contribution
+of this paper is to show how to speed up this verification.
+ 
+If we write $\alpha = a_0 + \cdots + a_{n-1} \xbar^{n-1}$, the
+determinant of $\mat M_G(\alpha)$ is a (not identically zero)
+homogeneous polynomial of degree $n$ in $(a_0,\dots,a_{n-1})$. If the
+$a_i$'s are chosen uniformly at random in a finite set $X \subset \F$,
+the Lipton-DeMillo-Schwartz-Zippel implies that the probability that
+$\alpha$ be normal is at least $1-n/|X|$.
+
+If $G$ is cyclic, \cite{GatGie90} compute the GCD of $S_\alpha := \sum_{1 \leq i \leq n} g_i(\alpha)x^{i-1}$
+and $x^n-1$ instead of computing a determinant. This amounts to testing whether $S_\alpha$ is
+invertible in the group ring $\K[G]\simeq\K[x]/\langle x^n-1\rangle$. This is a general fact: for any $G$,
+$\mat M_G(\alpha)$ is the matrix of (left) multiplication by the orbit
+sum
+$$S_\alpha:= \sum_{g \in G} g(\alpha)g \in \K[G],$$ and $\alpha$ being
+normal is equivalent to $S_\alpha$ being a unit in $\K[G]$. This point of
+view may make it possible to avoid linear algebra of size $n$ over $\K$,
+but writing $S_\alpha$ itself still involves $\Theta(n^2)$ elements in
+$\F$. The following lemma
+%is the main new ingredient in our algorithm: it
+gives a randomized reduction to testing whether a suitable projection of
+$S_\alpha$ in $\F[G]$ is a unit.
+ 
+%% This gives an idea to modify Algorithm \ref{Alg:Naive}. Instead of
+%% writing $M_G(x)$ and test its invertiblity, we can write $\osum{G}{\K}$
+%% and test if it is invertible in $\K[G]$. Although testing the
+%% invertibility of $\osum{G}{\K}$ might be efficient in comparison to
+%% computing the determinant of a matrix in $\K$, we prefer to do the
+%% computations over $\F$ rather than $\K$. The following lemma comes handy
+%% to pass the computations from $\K$ to $\F$.
+
+
+\begin{lemma}
+  \label{Lem:Proj}
+  For $\alpha \in \K$, $\mat M_G(\alpha)$ is invertible if and only
+  if $$\ell(\mat M_G(\alpha)) := [\ell(g_ig_j(\alpha))]_{ij} \in M_n(\F)$$
+  is invertible, for a generic $\F$-linear projection $\ell: \K \to \F$.
+\end{lemma}
+\noindent {\sc Proof.}
+  $(\Rightarrow)$ For  $\alpha\in\K$, any entry of
+  $\mat M_G(\alpha)$ can be written as
+  \begin{equation}\label{Eq:PrimElm}
+    \sum_{k= 0,\dots,n-1} a_{ijk}\xbar^k,
+  \end{equation}
+  and for $\ell: \K \to \F$, the corresponding entry in $\ell(\mat
+  M_G(\alpha))$ can be written $\sum_{k= 0}^{n-1} a_{ijk}\ell_k$, with
+  $\ell_k = \ell(\xbar^k)$. Replacing these $\ell_k$'s by
+  indeterminates $L_k$'s, the determinant becomes a polynomial in $P
+  \in \F[L_1, \ldots, L_n].$ Viewing $P$ over $K$, we
+  have $ P(1, \xbar, \ldots, \xbar^{n-1})$ $= \det(\mat M_G(\alpha))$,
+  which is non-zero by assumption; so, $P$ is not zero.
+  
+  $(\Leftarrow)$ Assume $\mat M_G(\alpha)$ is not invertible. Following the
+  proof of \cite[Lemma 4]{Jam18}, we first show that there exists a
+  non-zero $\boldsymbol{u} \in \F^n$ in the kernel of $\mat M_G(\alpha)$.
+  
+  The elements of $G$ act on rows of $\mat M_G(\alpha)$ entrywise and the
+  action permutes the rows the matrix. Assume
+  $\varphi : G \to \mathfrak{S}_n$ is the group homomorphism such that
+  $g(\mat M_i) = \mat M_{\varphi(g)(i)}$ for all $i$, where $\mat M_i$ is
+  the $i$-th row of $\mat M_G(\alpha)$.
+  
+  Since $\mat M_G(\alpha)$ is singular, there exists a non-zero
+  $\boldsymbol{v} \in \K^n$ such that $\mat M_G(\alpha)\boldsymbol{v} = 0$;
+  we choose $\boldsymbol{v}$ having the minimum number of non-zero
+  entries. Let $i \in \lbrace 1, \ldots , n \rbrace$ such that
+  $v_i \neq 0$. Define $\boldsymbol{u} = 1/v_i\boldsymbol{v}$. Then,
+  $\mat M_G(\alpha)\boldsymbol{u} = 0,$ which means
+  $\mat M_j \boldsymbol{u} = 0 $ for $j \in \lbrace 1, \ldots, n
+  \rbrace$. For $g \in G$, we have
+  $g(\mat M_j \boldsymbol{u}) = \mat M_{\varphi(g)(j)} g(\boldsymbol{u})=
+  0.$ Since this holds for any $j$, we conclude that
+  $\mat M_G(\alpha)g(\boldsymbol{u})= 0$, hence
+  $g(\boldsymbol{u})-\boldsymbol{u}$ is in the kernel of
+  $\mat M_G(\alpha)$. On the other hand since the $i$-th entry of
+  $\boldsymbol{u}$ is one, the $i$-th entry of
+  $g(\boldsymbol{u}) -\boldsymbol{u}$ is zero. Thus the minimality
+  assumption on $\textbf{v}$ shows that
+  $g(\boldsymbol{u}) -\boldsymbol{u} = 0$, equivalently
+  $g(\boldsymbol{u})=\boldsymbol{u}$, so $\boldsymbol{u} \in \F^n$.
+  
+  Now we show that $\ell(\mat M_G(\alpha))$ is singular for all $\ell$. By~\eqref{Eq:PrimElm}, 
+  $$\mat M_G(\alpha) = \sum_{j = 0,\dots,n-1} \mat M^{(j)} \xbar^j, \quad 
+  \mat M^{(j)} \in M_{n}(\F) \text{~for all $j$}.$$ 
+  Since $\boldsymbol{u}$ is in $\F^n$,
+  $\mat M_G(\alpha) \boldsymbol{u} =0$ yields
+  $\mat M^{(j)}\boldsymbol{u} = 0$ for $j \le n$. Hence,
+$$\sum_{j = 0,\dots,n-1} \mat M^{(j)} \ell_j \boldsymbol{u} = 0$$ for any 
+$\ell_j$'s in $\F$, and $\ell(\mat M_G(\alpha))$ is not invertible for any~$\ell$.
+\hfill \qed
+
+Our algorithm  chooses random
+$\alpha$ in $\K$ and $\ell: \K\to\F$, and let
+\begin{equation}\label{def:s_alpha_ell}
+s_{\alpha,\ell}:=\sum_{g \in G} \ell(g(\alpha))g \in \F[G].  
+\end{equation}
+ The
+matrix $\ell(\mat M_G (\alpha))$ is the multiplication matrix by
+$s_{\alpha,\ell}$ in $\F[G]$, so once $s_{\alpha,\ell}$ is known, we
+are left with testing whether it is a unit in $\F[G]$.  In the next
+two sections, we address the respective questions of computing
+$s_{\alpha,\ell}$, and testing its invertibility in $\F[G]$.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "NormalBasisCharZero"
+%%% End:
