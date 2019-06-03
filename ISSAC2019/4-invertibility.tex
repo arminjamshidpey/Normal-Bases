@@ -78,12 +78,12 @@ polynomial in $|G|$).
 The following proposition will be the key to foregoing multivariate
 polynomials, and replacing them by univariate ones.  Let $m,m'$ be two
 coprime integers and define
-$$\mathbbm{h}:=\F[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle,$$
+$$\mathbf{h}:=\F[x,x']/\langle \Phi_{m}(x), \Phi_{m'}(x')\rangle,$$
 where for $i \ge 0$, $\Phi_i$ is the cyclotomic polynomial of order
 $i$. In what follows, $\varphi$ is Euler's totient function, so that
 $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
 \begin{lemma}
-  There exists an $\F$-algebra isomorphism $\gamma: \mathbbm{h} \to
+  There exists an $\F$-algebra isomorphism $\gamma: \mathbf{h} \to
   \F[z]/\langle\Phi_{mm'}(z)\rangle$ given by $xx' \mapsto z$.  Given
   $\Phi_m$ and $\Phi_{m'}$, $\Phi_{mm'}$ can be computed in time
   $\tilde{O}(\varphi(mm'))$; given these polynomials, one can
@@ -101,10 +101,10 @@ $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
 
   For the second claim, we first determine the images of $x$ and $x'$
   by $\gamma$. Start from a B\'ezout relation $am+ a'm'=1$, for some
-  $a,a'$ in $\Z$.  Since $x^m = {x'}^{m'}=1$ in $\mathbbm{h}$, we
+  $a,a'$ in $\Z$.  Since $x^m = {x'}^{m'}=1$ in $\mathbf{h}$, we
   deduce that $\gamma(x)=z^{u}$ and $\gamma(x') = z^{v}$, with $u:=am
   \bmod mm'$ and $v:=a'm' \bmod mm'$. To compute $\gamma(P)$, for some
-  $P$ in $\mathbbm{h}$, we first compute $P(z^u, z^v)$, keeping all
+  $P$ in $\mathbf{h}$, we first compute $P(z^u, z^v)$, keeping all
   exponents reduced modulo $mm'$. This requires no arithmetic
   operations and results in a polynomial $\bar P$ of degree less than
   $mm'$, which we eventually reduce modulo $\Phi_{mm'}$ (the latter is
@@ -166,43 +166,43 @@ Let thus $p$ be a prime. The key to the following algorithms is the
 lemma below.  Let $c,c'$ be positive integers, with $c \ge
 c'$, and let $x,y$ be indeterminates over $\F$. Define
 \begin{align}
-\mathbbm{a}&:=\F[x]/\Phi_{p^c}(x),  \\
-\mathbbm{b}&:=\F[x,y]/\langle \Phi_{p^c}(x), \Phi_{p^{c'}}(y)\rangle = \mathbbm{a}[y]/\Phi_{p^{c'}}(y).
+\mathbf{I}&:=\F[x]/\Phi_{p^c}(x),  \\
+\mathbf{J}&:=\F[x,y]/\langle \Phi_{p^c}(x), \Phi_{p^{c'}}(y)\rangle = \mathbf{I}[y]/\Phi_{p^{c'}}(y).
 \end{align}
-Note $\mathbbm{a}$ and $\mathbbm{b}$ have respective dimensions
+Note $\mathbf{I}$ and $\mathbf{J}$ have respective dimensions
 $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
 
 \smallskipback
 \begin{lemma}
-  There is an $\F$-algebra isomorphism $\theta: \mathbbm{b} \to
-  \mathbbm{a}^{\varphi(p^{c'})}$ such that one can apply $\theta$ or
-  its inverse to any inputs using $\tilde{O}(\dim(\mathbbm{b}))$ operations in $\F$.
+  There is an $\F$-algebra isomorphism $\theta: \mathbf{J} \to
+  \mathbf{I}^{\varphi(p^{c'})}$ such that one can apply $\theta$ or
+  its inverse to any inputs using $\tilde{O}(\dim(\mathbf{J}))$ operations in $\F$.
 \end{lemma}
 
 \smallskipback
 \noindent{\sc Proof.}
   Let $\xbar$ be the residue class of
-  $x$ in $\A$. Then, in $\mathbbm{a}[y]$, $\Phi_{p^{c'}}(y)$ factors as
+  $x$ in $\A$. Then, in $\mathbf{I}[y]$, $\Phi_{p^{c'}}(y)$ factors as
   $$\Phi_{p^{c'}}(y) =\prod_{\substack{1 \le i\le p^{c'}-1\\ \gcd(i,p)
       =1}} (y-\rho_i),$$ with $\rho_i:={\xbar}^{i p^{c-c'}}$ for all
-  $i$.  Even though $\mathbbm{a}$ may not be a field, the Chinese
-  Remainder theorem implies that $\mathbbm{b}$ is isomorphic to
-  $\mathbbm{a}^{\varphi(p^{c'})}$; the isomorphism is given by
+  $i$.  Even though $\mathbf{I}$ may not be a field, the Chinese
+  Remainder theorem implies that $\mathbf{J}$ is isomorphic to
+  $\mathbf{I}^{\varphi(p^{c'})}$; the isomorphism is given by
   $$\begin{array}{cccc}
-    \theta: & \mathbbm{b} & \to & \mathbbm{a} \times \cdots \times \mathbbm{a}, \\
+    \theta: & \mathbf{J} & \to & \mathbf{I} \times \cdots \times \mathbf{I}, \\
     & P & \mapsto& (P(\xbar,\rho_1),\dots,P(\xbar,\rho_{\varphi(p^{c'})}).
   \end{array}$$
   Arithmetic operations $(+,-,\times)$ in
-  $\mathbbm{a}$ can be done in $\tilde{O}(\varphi(p^c))$ operations
-  in $\F$. Starting from $\rho_1 \in \mathbbm{a}$, all other roots
+  $\mathbf{I}$ can be done in $\tilde{O}(\varphi(p^c))$ operations
+  in $\F$. Starting from $\rho_1 \in \mathbf{I}$, all other roots
   $\rho_i$ can then be computed in $O(\varphi(p^{c'}))$ operations in
-  $\mathbbm{a}$ or $\tilde{O}(\dim(\mathbbm{b}))$
+  $\mathbf{I}$ or $\tilde{O}(\dim(\mathbf{J}))$
   operations in~$\F$. 
   
 Applying $\theta$ and its inverse is done by means of fast evaluation
 and interpolation~\cite[Chapter~10]{vzGathen13} in $\tilde{O}(\varphi(p^{c'}))$
-operations in $\mathbbm{a}$, that is, $\tilde{O}(\deg(\mathbbm{b}))$ operations in $\F$
-(the algorithms do not require that $\mathbbm{a}$ be a field).
+operations in $\mathbf{I}$, that is, $\tilde{O}(\deg(\mathbf{J}))$ operations in $\F$
+(the algorithms do not require that $\mathbf{I}$ be a field).
 \qed
 
 \smallskip\noindent{\bf Extension to several cyclotomic rings.}
@@ -214,11 +214,11 @@ $$\A:=\F[x_1,\dots,x_t]/\langle \Phi_{p^{c_1}}(x_1), \dots,
 $\A_{p,\boldsymbol{c},\boldsymbol{x}}$ to make the dependency on $p$
 and the $c_i$'s clear. Up to reordering the $c_i$'s, we can assume
 that $c_1 \ge c_i$ holds for all $i$, and define as before
-$\mathbbm{a}:=\F[x_1]/\Phi_{p^{c_1}}(x_1)$.
+$\mathbf{I}:=\F[x_1]/\Phi_{p^{c_1}}(x_1)$.
 
 \begin{lemma}\label{lemma:A}
   There exists an $\F$-algebra isomorphism $\Theta: \A \to
-  \mathbbm{a}^{\dim(\A)/\dim(\mathbbm{a})}$. This isomorphism and its
+  \mathbf{I}^{\dim(\A)/\dim(\mathbf{I})}$. This isomorphism and its
   inverse can be applied to any inputs using $\tilde{O}(\dim(\A))$
   operations in $\F$.
 \end{lemma}
@@ -227,24 +227,24 @@ Without loss of generality, we can assume that all $c_i$'s are non-zero
 (since for $c_i=0$, $\Phi_{p^{c_i}}(x_i)=x_i-1$,
 so $\F[x_i]/\langle \Phi_{p^{c_i}}(x_i) \rangle = \F$).
 We proceed iteratively. First, rewrite $\A$ as
-$$\A=\mathbbm{a}[x_2,x_3,\dots,x_t]/\langle \Phi_{p^{c_2}}(x_2), \Phi_{p^{c_3}}(x_3), \dots,
+$$\A=\mathbf{I}[x_2,x_3,\dots,x_t]/\langle \Phi_{p^{c_2}}(x_2), \Phi_{p^{c_3}}(x_3), \dots,
 \Phi_{{p_t}^{c_t}}(x_t)\rangle.$$ 
 The isomorphism 
-$\theta: \mathbbm{a}[x_2]/\Phi_{p^{c_2}}(x_2) \to \mathbbm{a}^{\varphi(p^{c_2})}$
+$\theta: \mathbf{I}[x_2]/\Phi_{p^{c_2}}(x_2) \to \mathbf{I}^{\varphi(p^{c_2})}$
 introduced in the previous paragraph extends coordinate-wise
 to an isomorphism 
-$$\Theta_1: \A \to (\mathbbm{a}[x_3,\dots,x_t]/\langle
+$$\Theta_1: \A \to (\mathbf{I}[x_3,\dots,x_t]/\langle
 \Phi_{p^{c_3}}(x_3), \dots,
 \Phi_{p^{c_t}}(x_t)\rangle)^{\varphi(p^{c_2})};$$ $\Theta_1$ and its
 inverse can be evaluated in quasi-linear time $\tilde{O}(\dim(\A))$.
-We now work in all copies of $\mathbbm{a}[x_3,\dots,x_t]/\langle
+We now work in all copies of $\mathbf{I}[x_3,\dots,x_t]/\langle
 \Phi_{p^{c_3}}(x_3), \dots, \Phi_{p^{c_t}}(x_t)\rangle$ independently,
 and apply the procedure above to each of them. Altogether we have
 $t-1$ such steps to perform, giving us an isomorphism
 $$\Theta = \Theta_{t-1} \circ \cdots \circ \Theta_1:
 \A \to
-\mathbbm{a}^{\varphi(p^{c_2}) \cdots \varphi(p^{c_t})}.$$
-The exponent can be rewritten as $ \dim(\A)/\dim(\mathbbm{a})$, as claimed.
+\mathbf{I}^{\varphi(p^{c_2}) \cdots \varphi(p^{c_t})}.$$
+The exponent can be rewritten as $ \dim(\A)/\dim(\mathbf{I})$, as claimed.
 All $\Theta_i$'s and their inverses can be computed
 in time $\tilde{O}(\dim(\A))$, and we do $t-1$ of them,
 where $t$ is $O(\log(\dim(\A)))$. 
@@ -290,10 +290,10 @@ $\lambda$ can be computed in $\tilde{O}(\dim(\B))$ operations in $\F$.
 Composing with the result in Lemma~\ref{lemma:A}, this gives
 us an isomorphism
 $$\Lambda: \B \to \D:=\prod_{c_1=0}^{b_1} \cdots \prod_{c_t=0}^{b_t}
-\mathbbm{a}_{\boldsymbol{c}}^{D_{\boldsymbol{c}}},$$ where
-$\mathbbm{a}_{\boldsymbol{c}} = \F[z]/\langle \Phi_{p^c}(z)\rangle$,
+\mathbf{I}_{\boldsymbol{c}}^{D_{\boldsymbol{c}}},$$ where
+$\mathbf{I}_{\boldsymbol{c}} = \F[z]/\langle \Phi_{p^c}(z)\rangle$,
 with $c =\max(c_1,\dots,c_t)$ and $D_{\boldsymbol{c}} =
-\dim(\A_{t,\boldsymbol{c},\boldsymbol{x}})/\dim(\mathbbm{a}_{\boldsymbol{c}})$. As
+\dim(\A_{t,\boldsymbol{c},\boldsymbol{x}})/\dim(\mathbf{I}_{\boldsymbol{c}})$. As
 before, $\Lambda$ and its inverse can be computed in quasi-linear time
 $\tilde{O}(\dim(\B))$. \qed
 
