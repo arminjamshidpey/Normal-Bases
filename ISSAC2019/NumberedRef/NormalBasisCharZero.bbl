@@ -1,0 +1,434 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\newcommand{\Gathen}{\relax}
+\begin{thebibliography}{00}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{Accettella, Corso, and Manzini}{Accettella
+  et~al\mbox{.}}{2003}]%
+        {AcCoMa03}
+\bibfield{author}{\bibinfo{person}{C.~J. Accettella},
+  \bibinfo{person}{G.~M.~Del Corso}, {and} \bibinfo{person}{G. Manzini}.}
+  \bibinfo{year}{2003}\natexlab{}.
+\newblock \showarticletitle{Inversion of two level circulant matrices over
+  $\mathbb{Z}_p$}.
+\newblock \bibinfo{journal}{{\em Lin. Alg. Appl.\/}}  \bibinfo{volume}{366}
+  (\bibinfo{year}{2003}), \bibinfo{pages}{5 -- 23}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Augot and Camion}{Augot and Camion}{1994}]%
+        {AugCam94}
+\bibfield{author}{\bibinfo{person}{D. Augot} {and} \bibinfo{person}{P.
+  Camion}.} \bibinfo{year}{1994}\natexlab{}.
+\newblock \showarticletitle{A deterministic algorithm for computing a normal
+  basis in a finite field}. In \bibinfo{booktitle}{{\em Proc. EUROCODE'94}},
+  \bibfield{editor}{\bibinfo{person}{P.~Charpin}} (Ed.).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Bach and Shallit}{Bach and Shallit}{1996}]%
+        {BacSha96}
+\bibfield{author}{\bibinfo{person}{E. Bach} {and} \bibinfo{person}{J.
+  Shallit}.} \bibinfo{year}{1996}\natexlab{}.
+\newblock \bibinfo{booktitle}{{\em Algorithmic Number Theory, Volume 1:
+  Efficient Algorithms}}.
+\newblock \bibinfo{publisher}{MIT Press}, \bibinfo{address}{Cambridge, MA}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Bostan, Flajolet, Salvy, and Schost}{Bostan
+  et~al\mbox{.}}{2006}]%
+        {BoFlSaSc06}
+\bibfield{author}{\bibinfo{person}{A. Bostan}, \bibinfo{person}{P. Flajolet},
+  \bibinfo{person}{B. Salvy}, {and} \bibinfo{person}{{\'E}. Schost}.}
+  \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{Fast computation of special resultants}.
+\newblock \bibinfo{journal}{{\em J. Symbolic Comput.\/}} \bibinfo{volume}{41},
+  \bibinfo{number}{1} (\bibinfo{year}{2006}), \bibinfo{pages}{1--29}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Brent and Kung}{Brent and Kung}{1978}]%
+        {BrKu78}
+\bibfield{author}{\bibinfo{person}{R.~P. Brent} {and} \bibinfo{person}{H.~T.
+  Kung}.} \bibinfo{year}{1978}\natexlab{}.
+\newblock \showarticletitle{Fast algorithms for manipulating formal power
+  series}.
+\newblock \bibinfo{journal}{{\em Journal of the Association for Computing
+  Machinery\/}} \bibinfo{volume}{25}, \bibinfo{number}{4}
+  (\bibinfo{year}{1978}), \bibinfo{pages}{581--595}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Canny, Kaltofen, and Lakshman}{Canny
+  et~al\mbox{.}}{1989}]%
+        {CaKaYa89}
+\bibfield{author}{\bibinfo{person}{J. Canny}, \bibinfo{person}{E. Kaltofen},
+  {and} \bibinfo{person}{Y. Lakshman}.} \bibinfo{year}{1989}\natexlab{}.
+\newblock \showarticletitle{Solving systems of non-linear polynomial equations
+  faster}. In \bibinfo{booktitle}{{\em ISSAC'89}}. \bibinfo{publisher}{ACM},
+  \bibinfo{pages}{121--128}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Clausen and M\"{u}ller}{Clausen and
+  M\"{u}ller}{2004}]%
+        {ClaMu04}
+\bibfield{author}{\bibinfo{person}{M. Clausen} {and} \bibinfo{person}{M.
+  M\"{u}ller}.} \bibinfo{year}{2004}\natexlab{}.
+\newblock \showarticletitle{Generating fast {F}ourier transforms of solvable
+  groups}.
+\newblock \bibinfo{journal}{{\em J. Symbolic Comput.\/}} \bibinfo{volume}{37},
+  \bibinfo{number}{2} (\bibinfo{year}{2004}), \bibinfo{pages}{137--156}.
+\newblock
+\showISSN{0747-7171}
+
+
+\bibitem[\protect\citeauthoryear{Curtis and Reiner}{Curtis and Reiner}{1988}]%
+        {Curtis}
+\bibfield{author}{\bibinfo{person}{C. Curtis} {and} \bibinfo{person}{I.
+  Reiner}.} \bibinfo{year}{1988}\natexlab{}.
+\newblock \bibinfo{booktitle}{{\em Representation theory of finite groups and
+  associative algebras}}.
+\newblock \bibinfo{publisher}{John Wiley \& Sons, Inc., New York},
+  \bibinfo{address}{New York}. xiv+689 pages.
+\newblock
+\showISBNx{0-471-60845-9}
+
+
+\bibitem[\protect\citeauthoryear{{Dahan}, {{Moreno Maza}}, {Schost}, and
+  {Xie}}{{Dahan} et~al\mbox{.}}{2006}]%
+        {DaMMMScXi06}
+\bibfield{author}{\bibinfo{person}{X. {Dahan}}, \bibinfo{person}{M. {{Moreno
+  Maza}}}, \bibinfo{person}{{\'E}. {Schost}}, {and} \bibinfo{person}{Y.
+  {Xie}}.} \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{On the complexity of the {{D5}} principle}. In
+  \bibinfo{booktitle}{{\em Proc. of {\em Transgressive Computing 2006}}}.
+  \bibinfo{address}{Granada, Spain}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Gao, \Gathen{von zur Gathen}, Panario, and
+  Shoup}{Gao et~al\mbox{.}}{2000}]%
+        {GaGaPaSh00}
+\bibfield{author}{\bibinfo{person}{S. Gao}, \bibinfo{person}{J. \Gathen{von zur
+  Gathen}}, \bibinfo{person}{D. Panario}, {and} \bibinfo{person}{V. Shoup}.}
+  \bibinfo{year}{2000}\natexlab{}.
+\newblock \showarticletitle{Algorithms for exponentiation in finite fields}.
+\newblock \bibinfo{journal}{{\em Journal of Symbolic Computation\/}}
+  \bibinfo{volume}{29}, \bibinfo{number}{6} (\bibinfo{year}{2000}),
+  \bibinfo{pages}{879--889}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{\Gathen{von zur Gathen} and
+  Gerhard}{\Gathen{von zur Gathen} and Gerhard}{2013}]%
+        {vzGathen13}
+\bibfield{author}{\bibinfo{person}{J. \Gathen{von zur Gathen}} {and}
+  \bibinfo{person}{J. Gerhard}.} \bibinfo{year}{2013}\natexlab{}.
+\newblock \bibinfo{booktitle}{{\em Modern Computer Algebra (third edition)}}.
+\newblock \bibinfo{publisher}{Cambridge University Press},
+  \bibinfo{address}{Cambridge, U.K.}
+\newblock
+\showISBNx{9781107039032}
+
+
+\bibitem[\protect\citeauthoryear{\Gathen{von zur Gathen} and
+  Giesbrecht}{\Gathen{von zur Gathen} and Giesbrecht}{1990}]%
+        {GatGie90}
+\bibfield{author}{\bibinfo{person}{J. \Gathen{von zur Gathen}} {and}
+  \bibinfo{person}{M. Giesbrecht}.} \bibinfo{year}{1990}\natexlab{}.
+\newblock \showarticletitle{Constructing normal bases in finite fields}.
+\newblock \bibinfo{journal}{{\em J. Symbolic Comput.\/}} \bibinfo{volume}{10},
+  \bibinfo{number}{6} (\bibinfo{year}{1990}), \bibinfo{pages}{547--570}.
+\newblock
+\showISSN{0747-7171}
+
+
+\bibitem[\protect\citeauthoryear{\Gathen{von zur Gathen} and Shoup}{\Gathen{von
+  zur Gathen} and Shoup}{1992}]%
+        {GaSh92}
+\bibfield{author}{\bibinfo{person}{J. \Gathen{von zur Gathen}} {and}
+  \bibinfo{person}{V. Shoup}.} \bibinfo{year}{1992}\natexlab{}.
+\newblock \showarticletitle{Computing {F}robenius maps and factoring
+  polynomials}.
+\newblock \bibinfo{journal}{{\em Computational Complexity\/}}
+  \bibinfo{volume}{2}, \bibinfo{number}{3} (\bibinfo{year}{1992}),
+  \bibinfo{pages}{187--224}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Girstmair}{Girstmair}{1999}]%
+        {Girstmair}
+\bibfield{author}{\bibinfo{person}{K. Girstmair}.}
+  \bibinfo{year}{1999}\natexlab{}.
+\newblock \showarticletitle{An algorithm for the construction of a normal
+  basis}.
+\newblock \bibinfo{journal}{{\em J. Number Theory\/}} \bibinfo{volume}{78},
+  \bibinfo{number}{1} (\bibinfo{year}{1999}), \bibinfo{pages}{36--45}.
+\newblock
+\showISSN{0022-314X}
+
+
+\bibitem[\protect\citeauthoryear{Jamshidpey, Lemire, and Schost}{Jamshidpey
+  et~al\mbox{.}}{2018}]%
+        {Jam18}
+\bibfield{author}{\bibinfo{person}{A. Jamshidpey}, \bibinfo{person}{N. Lemire},
+  {and} \bibinfo{person}{{\'E.} Schost}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Algebraic construction of quasi-split algebraic
+  tori}.
+\newblock \bibinfo{journal}{{\em ArXiv:\/}}  \bibinfo{volume}{1801.09629}
+  (\bibinfo{year}{2018}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Johnson}{Johnson}{1976}]%
+        {Johnson}
+\bibfield{author}{\bibinfo{person}{D.~L. Johnson}.}
+  \bibinfo{year}{1976}\natexlab{}.
+\newblock \bibinfo{booktitle}{{\em Presentations of Groups}}.
+\newblock \bibinfo{publisher}{Cambridge University Press, Cambridge-New
+  York-Melbourne}. v+204 pages.
+\newblock
+\newblock
+\shownote{London Mathematical Society Lecture Notes Series, No. 22.}
+
+
+\bibitem[\protect\citeauthoryear{Kaltofen and Saunders}{Kaltofen and
+  Saunders}{1991}]%
+        {KaSa91}
+\bibfield{author}{\bibinfo{person}{E. Kaltofen} {and} \bibinfo{person}{D.
+  Saunders}.} \bibinfo{year}{1991}\natexlab{}.
+\newblock \showarticletitle{On {W}iedemann's method of solving sparse linear
+  systems}. In \bibinfo{booktitle}{{\em AAECC-9}} {\em
+  (\bibinfo{series}{LNCS})}, Vol.~\bibinfo{volume}{539}.
+  \bibinfo{publisher}{Springer Verlag}, \bibinfo{pages}{29--38}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Kaltofen and Shoup}{Kaltofen and
+  Shoup}{1998}]%
+        {KalSho98}
+\bibfield{author}{\bibinfo{person}{E. Kaltofen} {and} \bibinfo{person}{V.
+  Shoup}.} \bibinfo{year}{1998}\natexlab{}.
+\newblock \showarticletitle{Subquadratic-time factoring of polynomials over
+  finite fields}.
+\newblock \bibinfo{journal}{{\em Math. Comp.\/}} \bibinfo{volume}{67},
+  \bibinfo{number}{223} (\bibinfo{year}{1998}), \bibinfo{pages}{1179--1197}.
+\newblock
+\showISSN{0025-5718}
+
+
+\bibitem[\protect\citeauthoryear{Kaltofen and Villard}{Kaltofen and
+  Villard}{2004}]%
+        {KaVi04}
+\bibfield{author}{\bibinfo{person}{E. Kaltofen} {and} \bibinfo{person}{G.
+  Villard}.} \bibinfo{year}{2004}\natexlab{}.
+\newblock \showarticletitle{On the complexity of computing determinants}.
+\newblock \bibinfo{journal}{{\em Computational Complexity\/}}
+  \bibinfo{volume}{13}, \bibinfo{number}{3-4} (\bibinfo{year}{2004}),
+  \bibinfo{pages}{91--130}.
+\newblock
+\showCODEN{CPTCEU}
+\showISSN{1016-3328}
+
+
+\bibitem[\protect\citeauthoryear{Kaminski, Kirkpatrick, and Bshouty}{Kaminski
+  et~al\mbox{.}}{1988}]%
+        {KaKiBs88}
+\bibfield{author}{\bibinfo{person}{M. Kaminski}, \bibinfo{person}{D.G.
+  Kirkpatrick}, {and} \bibinfo{person}{N.H. Bshouty}.}
+  \bibinfo{year}{1988}\natexlab{}.
+\newblock \showarticletitle{Addition requirements for matrix and transposed
+  matrix products}.
+\newblock \bibinfo{journal}{{\em J. Algorithms\/}} \bibinfo{volume}{9},
+  \bibinfo{number}{3} (\bibinfo{year}{1988}), \bibinfo{pages}{354--364}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Kedlaya and Umans}{Kedlaya and Umans}{2011}]%
+        {KeUm11}
+\bibfield{author}{\bibinfo{person}{K. Kedlaya} {and} \bibinfo{person}{C.
+  Umans}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Fast polynomial factorization and modular
+  composition}.
+\newblock \bibinfo{journal}{{\em SICOMP\/}} \bibinfo{volume}{40},
+  \bibinfo{number}{6} (\bibinfo{year}{2011}), \bibinfo{pages}{1767--1802}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Lang}{Lang}{2002}]%
+        {Lang}
+\bibfield{author}{\bibinfo{person}{S. Lang}.} \bibinfo{year}{2002}\natexlab{}.
+\newblock \bibinfo{booktitle}{{\em Algebra\/} (\bibinfo{edition}{third} ed.)}.
+  \bibinfo{series}{Graduate Texts in Mathematics}, Vol.~\bibinfo{volume}{211}.
+\newblock \bibinfo{publisher}{Springer-Verlag, New York}. xvi+914 pages.
+\newblock
+\showISBNx{0-387-95385-X}
+
+
+\bibitem[\protect\citeauthoryear{Le~Gall}{Le~Gall}{2014}]%
+        {LeGall14}
+\bibfield{author}{\bibinfo{person}{F. Le~Gall}.}
+  \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Powers of tensors and fast matrix multiplication}.
+  In \bibinfo{booktitle}{{\em ISSAC'14}}. \bibinfo{publisher}{ACM},
+  \bibinfo{address}{Kobe, Japan}, \bibinfo{pages}{296--303}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{{Le Gall} and Urrutia}{{Le Gall} and
+  Urrutia}{2018}]%
+        {LeGall}
+\bibfield{author}{\bibinfo{person}{F. {Le Gall}} {and} \bibinfo{person}{F.
+  Urrutia}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Improved rectangular matrix multiplication using
+  powers of the {C}oppersmith-{W}inograd tensor}. In \bibinfo{booktitle}{{\em
+  SODA '18}}. \bibinfo{publisher}{SIAM}, \bibinfo{address}{New Orleans, USA},
+  \bibinfo{pages}{1029--1046}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Lenstra}{Lenstra}{1991}]%
+        {LenstraNormal}
+\bibfield{author}{\bibinfo{person}{H.~W. Lenstra, Jr.}}
+  \bibinfo{year}{1991}\natexlab{}.
+\newblock \showarticletitle{Finding isomorphisms between finite fields}.
+\newblock \bibinfo{journal}{{\em Math. Comp.\/}} \bibinfo{volume}{56},
+  \bibinfo{number}{193} (\bibinfo{year}{1991}), \bibinfo{pages}{329--347}.
+\newblock
+\showISSN{0025-5718}
+
+
+\bibitem[\protect\citeauthoryear{Li, {Moreno Maza}, and Schost}{Li
+  et~al\mbox{.}}{2009}]%
+        {LiMoSc09}
+\bibfield{author}{\bibinfo{person}{X. Li}, \bibinfo{person}{M. {Moreno Maza}},
+  {and} \bibinfo{person}{{\'E}. Schost}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{Fast arithmetic for triangular sets: from theory to
+  practice}.
+\newblock \bibinfo{journal}{{\em J. Symb. Comp.\/}} \bibinfo{volume}{44},
+  \bibinfo{number}{7} (\bibinfo{year}{2009}), \bibinfo{pages}{891--907}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Lotti and Romani}{Lotti and Romani}{1983}]%
+        {LoRo83}
+\bibfield{author}{\bibinfo{person}{G. Lotti} {and} \bibinfo{person}{F.
+  Romani}.} \bibinfo{year}{1983}\natexlab{}.
+\newblock \showarticletitle{On the asymptotic complexity of rectangular matrix
+  multiplication}.
+\newblock \bibinfo{journal}{{\em Theoretical Computer Science\/}}
+  \bibinfo{volume}{23}, \bibinfo{number}{2} (\bibinfo{year}{1983}),
+  \bibinfo{pages}{171--185}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Maslen, Rockmore, and Wolff}{Maslen
+  et~al\mbox{.}}{2018}]%
+        {MaRockWol18}
+\bibfield{author}{\bibinfo{person}{D. Maslen}, \bibinfo{person}{D.~N.
+  Rockmore}, {and} \bibinfo{person}{S. Wolff}.}
+  \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{The efficient computation of {F}ourier transforms
+  on semisimple algebras}.
+\newblock \bibinfo{journal}{{\em J. Fourier Anal. Appl.\/}}
+  \bibinfo{volume}{24}, \bibinfo{number}{5} (\bibinfo{year}{2018}),
+  \bibinfo{pages}{1377--1400}.
+\newblock
+\showISSN{1069-5869}
+
+
+\bibitem[\protect\citeauthoryear{Poli}{Poli}{1994}]%
+        {Pol94}
+\bibfield{author}{\bibinfo{person}{A. Poli}.} \bibinfo{year}{1994}\natexlab{}.
+\newblock \showarticletitle{A deterministic construction for normal bases of
+  abelian extensions}.
+\newblock \bibinfo{journal}{{\em Comm. Algebra\/}} \bibinfo{volume}{22},
+  \bibinfo{number}{12} (\bibinfo{year}{1994}), \bibinfo{pages}{4751--4757}.
+\newblock
+\showISSN{0092-7872}
+
+
+\bibitem[\protect\citeauthoryear{Schlickewei and Stepanov}{Schlickewei and
+  Stepanov}{1993}]%
+        {SchSte93}
+\bibfield{author}{\bibinfo{person}{H. Schlickewei} {and} \bibinfo{person}{S.
+  Stepanov}.} \bibinfo{year}{1993}\natexlab{}.
+\newblock \showarticletitle{Algorithms to construct normal bases of cyclic
+  number fields}.
+\newblock \bibinfo{journal}{{\em J. Number Theory\/}} \bibinfo{volume}{44},
+  \bibinfo{number}{1} (\bibinfo{year}{1993}), \bibinfo{pages}{30--40}.
+\newblock
+\showISSN{0022-314X}
+
+
+\bibitem[\protect\citeauthoryear{Sch\"onhage and Strassen}{Sch\"onhage and
+  Strassen}{1971}]%
+        {ScSt71}
+\bibfield{author}{\bibinfo{person}{A. Sch\"onhage} {and} \bibinfo{person}{V.
+  Strassen}.} \bibinfo{year}{1971}\natexlab{}.
+\newblock \showarticletitle{{S}chnelle {M}ultiplikation gro\ss er {Z}ahlen}.
+\newblock \bibinfo{journal}{{\em Computing\/}}  \bibinfo{volume}{7}
+  (\bibinfo{year}{1971}), \bibinfo{pages}{281--292}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Shoup}{Shoup}{1995}]%
+        {Shoup}
+\bibfield{author}{\bibinfo{person}{V. Shoup}.} \bibinfo{year}{1995}\natexlab{}.
+\newblock \showarticletitle{A new polynomial factorization algorithm and its
+  implementation}.
+\newblock \bibinfo{journal}{{\em J. Symbolic Comput.\/}} \bibinfo{volume}{20},
+  \bibinfo{number}{4} (\bibinfo{year}{1995}), \bibinfo{pages}{363--397}.
+\newblock
+\showISSN{0747-7171}
+
+
+\bibitem[\protect\citeauthoryear{Wiedemann}{Wiedemann}{1986}]%
+        {Wiedemann86}
+\bibfield{author}{\bibinfo{person}{D. Wiedemann}.}
+  \bibinfo{year}{1986}\natexlab{}.
+\newblock \showarticletitle{Solving sparse linear equations over finite
+  fields}.
+\newblock \bibinfo{journal}{{\em IEEE Transactions on Information Theory\/}}
+  \bibinfo{volume}{IT-32} (\bibinfo{year}{1986}), \bibinfo{pages}{54--62}.
+\newblock
+
+
+\end{thebibliography}
