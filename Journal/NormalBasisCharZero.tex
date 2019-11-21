@@ -1,115 +1,81 @@
-\documentclass[sigconf]{acmart}
+%%% Template (2011/07/27) for an article using cc
+%\begin{filecontents*}{NormalBasisCharZero.bib}
+  %% Insert your bibligraphy file here
+%\end{filecontents*}
+%\begin{filecontents}{NormalBasisCharZero.bbl}
+  %% Insert your bbl file here if you do not have a bibliography file
+%\end{filecontents}
 
-\usepackage{booktabs} % For formal tables
-\usepackage{tikz}
-\usepackage{mathdots}
-\usepackage{esvect}
-\usepackage{bbm}
+\documentclass[noprefixes]{cc}
 
-\usepackage{xcolor}
-\definecolor{darkgreen}{rgb}{0,.35,0}
-\definecolor{darkblue}{rgb}{0,0,.5}
-\definecolor{darkred}{rgb}{.6,0,0}
+%%\ccsps{}
 
-\usepackage{hyperref}
-\hypersetup{pdfauthor={Mark Giesbrecht, Armin Jamshidpey, \'Eric Schost},
-  pdftitle={Quadratic Probabilistic Algorithms for Normal Bases},
-  bookmarksnumbered=true,colorlinks,linkcolor=darkblue,
- citecolor=darkgreen, urlcolor=darkred}
-% ]{hyperref}
+%%% personal macros and packages
+%%% end of personal macros and packages
 
-\numberwithin{equation}{section}
-
-\citestyle{acmauthoryear}
-
-\newcommand{\osum}[2]{\alpha_{#1,#2}}
-\newcommand{\osumcost}{O(n^{(3/4)\cdot \omega(4/3)})}
-\newcommand{\osumcosttilde}{\tilde{O}(n^{(3/4)\cdot \omega(4/3)})}
-\newcommand{\thecost}{\tilde{O}(\vert G \vert ^{(3/4)\cdot \omega(4/3)})}
-
-\newcommand{\FF}{{\mathbb{F}}}
-\newcommand{\xbar}{\xi}
-\newcommand{\zbar}{\zeta}
-\newcommand{\alg}{quadratic\,}
-
-{
-      \theoremstyle{acmplain}
-      \newtheorem{assumption}{Assumption}
-  }
-
-{
-      \theoremstyle{acmplain}
-      \newtheorem{remark}{Remark}
-  }
-
-
-% Copyright
-%\setcopyright{none}
-%\setcopyright{acmcopyright}
-%\setcopyright{acmlicensed}
-\setcopyright{rightsretained}
-%\setcopyright{usgov}
-%\setcopyright{usgovmixed}
-%\setcopyright{cagov}
-%\setcopyright{cagovmixed}
-
-
-% DOI
-\acmDOI{10.475/123_4}
-
-% ISBN
-\acmISBN{123-4567-24-567/08/06}
-
-%Conference
-\acmConference[ISSAC]{International Symposium on Symbolic and Algebraic Computation}{2019}{Beijing}
-\acmYear{2019}
-\copyrightyear{2019}
-
-
-\acmArticle{4}
-\acmPrice{15.00}
-
-% These commands are optional
-%\acmBooktitle{Transactions of the ACM Woodstock conference}
-%\editor{Jennifer B. Sartor}
-%\editor{Theo D'Hondt}
-%\editor{Wolfgang De Meuter}
-
-
-\begin{document}
-\title{Quadratic Probabilistic Algorithms for Normal Bases}
-%\titlenote{Produces the permission block, and
-%  copyright information}
-%\subtitle{Extended Abstract}
-%\subtitlenote{The full version of the author's guide is available as
-%  \texttt{acmart.pdf} document}
-
-
-\author{Mark Giesbrecht
+\contact{}% Insert contact email address here.
+\submitted{}% Insert the date on which you made the original
+           % submission of your paper to computational complexity,
+           % in the format \submitted{8 August 2008}.
+\title{Quadratic-Time Algorithms for Normal Bases}% Insert title here. (Use \\ to split lines.)
+\titlehead{Normal Bases}% If necessary insert running head title here.
+\author{
+Mark Giesbrecht \\
+Cheriton School of Computer\\ Science
+University of Waterloo\\ 
+Waterloo, ON, Canada  N2L 3G1 \\
+\email{mwg@uwaterloo.ca}\\
+\homepage{https://cs.uwaterloo.ca/~mwg/}
+\and 
+Armin Jamshidpey\\
+Cheriton School of Computer\\ Science
+University of Waterloo\\ 
+Waterloo, ON, Canada  N2L 3G1 \\
+\email{armin.jamshidpey@uwaterloo.ca}\\
+\homepage{https://cs.uwaterloo.ca/~a5jamshi/}
+\and 
+\'Eric Schost \\
+Cheriton School of Computer\\ Science
+University of Waterloo\\ 
+Waterloo, ON, Canada  N2L 3G1 \\
+\email{eschost@uwaterloo.ca}\\
+\homepage{https://cs.uwaterloo.ca/~eschost/}\\
+% Insert author list here. (Each author must be given
+         % including his/her current address, email and possibly
+         % homepage.  Lines are seperated by \\, different authors
+         % are separated by \and .)
+%%\authorhead{}% If necessary insert running head authors here.
+%%\authorlist{}% If necessary insert title author list here.
 }
-\affiliation{%
-  \institution{Cheriton School of Computer Science
-University of Waterloo}
-}
-\email{mwg@uwaterloo.ca}
+\begin{abstract}
+  %% Insert abstract here.
+   For any finite Galois field extension $\K/\F$, with Galois group $G =
+  \mathrm{Gal}(\K/\F)$, there exists an element $\alpha \in \K$ whose
+  orbit $G\cdot\alpha$ forms an $\F$-basis of $\K$. Such an $\alpha$
+  is called a \emph{normal element} and $G\cdot\alpha$ is a
+  \emph{normal basis}. We introduce a probabilistic
+  algorithm for finding a normal element when $G$ is either a finite
+  abelian or a metacyclic group. The algorithm is based on the fact
+  that deciding whether a random element $\alpha \in \K$ is normal can
+  be reduced to deciding whether $\sum_{\sigma \in G}
+  \sigma(\alpha)\sigma \in \K[G]$ is invertible.  Our algorithm
+  requires a quadratic number of operations in the size of $G$ for
+  metacyclic $G$, and a slightly subquadratic number of operations for
+  abelian $G$.
+\end{abstract}
 
-\author{Armin Jamshidpey}
-\affiliation{%
-  \institution{Cheriton School of Computer Science
-University of Waterloo}
-}
-\email{armin.jamshidpey@uwaterloo.ca}
+\begin{keywords}
+  %% Insert keywords here.
+Normal bases; Galois groups; metacyclic groups; fast algorithms
+\end{keywords}
 
-\author{\'Eric Schost}
-\affiliation{%
-  \institution{Cheriton School of Computer Science
-University of Waterloo}
-}
-\email{eschost@uwaterloo.ca}
+\begin{subject}
+  %% Insert subject classification here.
+12Y05, 12F10, 11y16, 68Q25
+\end{subject}
 
 
-% The default list of authors is too long for headers.
-\renewcommand{\shortauthors}{Giesbrecht, Jamshidpey, Schost}
+
 
 \newcommand{\F}{{\mathsf{F}}}
 \newcommand{\K}{{\mathsf{K}}}
@@ -127,61 +93,31 @@ University of Waterloo}
 \newcommand{\QQ}{\mathbb{Q}}
 \newcommand{\mat}[1]{\mathbf{\MakeUppercase{#1}}} % for a matrix
 
-\begin{abstract}
-  It is well known that for any finite Galois extension field $\K/\F$,
-  with Galois group $G = \mathrm{Gal}(\K/\F)$, there exists an element
-  $\alpha \in \K$ whose orbit $G\cdot\alpha$ forms an $\F$-basis of
-  $\K$. Such an element $\alpha$ is called \emph{normal} and
-  $G\cdot\alpha$ is called a normal basis. In this paper we introduce
-  a probabilistic algorithm for finding a normal element when $G$ is
-  either a finite abelian or a metacyclic group. The algorithm is
-  based on the fact that deciding whether a random element $\alpha \in
-  \K$ is normal can be reduced to deciding whether $\sum_{\sigma \in
-    G} \sigma(\alpha)\sigma \in \K[G]$ is invertible. In an algebraic
-  model, the cost of our algorithm is quadratic in the size of $G$ for
-  metacyclic $G$ and slightly subquadratic for abelian $G$.
-\end{abstract}
+\newcommand{\osum}[2]{\alpha_{#1,#2}}
+\newcommand{\osumcost}{O(n^{(3/4)\cdot \omega(4/3)})}
+\newcommand{\osumcosttilde}{\tilde{O}(n^{(3/4)\cdot \omega(4/3)})}
+\newcommand{\thecost}{\tilde{O}(\vert G \vert ^{(3/4)\cdot \omega(4/3)})}
 
-%
-% The code below should be generated by the tool at
-% http://dl.acm.org/ccs.cfm
-% Please copy and paste the code instead of the example below. 
-%
-\begin{CCSXML}
-<ccs2012>
- <concept>
-  <concept_id>10010520.10010553.10010562</concept_id>
-  <concept_desc>Computer systems organization~Embedded systems</concept_desc>
-  <concept_significance>500</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010575.10010755</concept_id>
-  <concept_desc>Computer systems organization~Redundancy</concept_desc>
-  <concept_significance>300</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010553.10010554</concept_id>
-  <concept_desc>Computer systems organization~Robotics</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
- <concept>
-  <concept_id>10003033.10003083.10003095</concept_id>
-  <concept_desc>Networks~Network reliability</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
-</ccs2012>  
-\end{CCSXML}
+\newcommand{\FF}{{\mathbb{F}}}
+\newcommand{\xbar}{\xi}
+\newcommand{\zbar}{\zeta}
+\newcommand{\alg}{quadratic\,}
 
-%\ccsdesc[500]{Computer systems organization~Embedded systems}
-%\ccsdesc[300]{Computer systems organization~Redundancy}
-%\ccsdesc{Computer systems organization~Robotics}
-%\ccsdesc[100]{Networks~Network reliability}
-%
-%
-%\keywords{ACM proceedings, \LaTeX, text tagging}
+\newcommand{\citeN}{\citet}
+\newcommand{\smallskipback}{}
 
 
-\maketitle
+
+\begin{document}
+
+%%% Insert your article text here.
+
+%\begin{acknowledge}
+  %% Insert your acknowledgments here.
+%\end{acknowledge}
+\noacknowledge% This command must be here if there are no
+                 % acknowledgements.
+                 
 
 \input{1-intro}
 \input{2-prelims}
@@ -189,14 +125,11 @@ University of Waterloo}
 \input{4-invertibility}
 \input{5-basisconversion}
 
+\bibliography{cc-journals,NormalBasisCharZero}% Put your bibliography into the above
+                                % filecontents environment!
 
-\citestyle{acmauthoryear}
-\bibliographystyle{ACM-Reference-Format}
-\bibliography{NormalBasisCharZero} 
+
+%\bibliography{NormalBasisCharZero} 
 
 \end{document}
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
