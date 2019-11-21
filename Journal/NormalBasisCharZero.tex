@@ -1,0 +1,135 @@
+%%% Template (2011/07/27) for an article using cc
+%\begin{filecontents*}{NormalBasisCharZero.bib}
+  %% Insert your bibligraphy file here
+%\end{filecontents*}
+%\begin{filecontents}{NormalBasisCharZero.bbl}
+  %% Insert your bbl file here if you do not have a bibliography file
+%\end{filecontents}
+
+\documentclass[noprefixes]{cc}
+
+%%\ccsps{}
+
+%%% personal macros and packages
+%%% end of personal macros and packages
+
+\contact{}% Insert contact email address here.
+\submitted{}% Insert the date on which you made the original
+           % submission of your paper to computational complexity,
+           % in the format \submitted{8 August 2008}.
+\title{Quadratic-Time Algorithms for Normal Bases}% Insert title here. (Use \\ to split lines.)
+\titlehead{Normal Bases}% If necessary insert running head title here.
+\author{
+Mark Giesbrecht \\
+Cheriton School of Computer\\ Science
+University of Waterloo\\ 
+Waterloo, ON, Canada  N2L 3G1 \\
+\email{mwg@uwaterloo.ca}\\
+\homepage{https://cs.uwaterloo.ca/~mwg/}
+\and 
+Armin Jamshidpey\\
+Cheriton School of Computer\\ Science
+University of Waterloo\\ 
+Waterloo, ON, Canada  N2L 3G1 \\
+\email{armin.jamshidpey@uwaterloo.ca}\\
+\homepage{https://cs.uwaterloo.ca/~a5jamshi/}
+\and 
+\'Eric Schost \\
+Cheriton School of Computer\\ Science
+University of Waterloo\\ 
+Waterloo, ON, Canada  N2L 3G1 \\
+\email{eschost@uwaterloo.ca}\\
+\homepage{https://cs.uwaterloo.ca/~eschost/}\\
+% Insert author list here. (Each author must be given
+         % including his/her current address, email and possibly
+         % homepage.  Lines are seperated by \\, different authors
+         % are separated by \and .)
+%%\authorhead{}% If necessary insert running head authors here.
+%%\authorlist{}% If necessary insert title author list here.
+}
+\begin{abstract}
+  %% Insert abstract here.
+   For any finite Galois field extension $\K/\F$, with Galois group $G =
+  \mathrm{Gal}(\K/\F)$, there exists an element $\alpha \in \K$ whose
+  orbit $G\cdot\alpha$ forms an $\F$-basis of $\K$. Such an $\alpha$
+  is called a \emph{normal element} and $G\cdot\alpha$ is a
+  \emph{normal basis}. We introduce a probabilistic
+  algorithm for finding a normal element when $G$ is either a finite
+  abelian or a metacyclic group. The algorithm is based on the fact
+  that deciding whether a random element $\alpha \in \K$ is normal can
+  be reduced to deciding whether $\sum_{\sigma \in G}
+  \sigma(\alpha)\sigma \in \K[G]$ is invertible.  Our algorithm
+  requires a quadratic number of operations in the size of $G$ for
+  metacyclic $G$, and a slightly subquadratic number of operations for
+  abelian $G$.
+\end{abstract}
+
+\begin{keywords}
+  %% Insert keywords here.
+Normal bases; Galois groups; metacyclic groups; fast algorithms
+\end{keywords}
+
+\begin{subject}
+  %% Insert subject classification here.
+12Y05, 12F10, 11y16, 68Q25
+\end{subject}
+
+
+
+
+\newcommand{\F}{{\mathsf{F}}}
+\newcommand{\K}{{\mathsf{K}}}
+
+\newcommand{\NN}{{\mathbb{N}}}
+\newcommand{\N}{{\mathbb{N}}}
+
+\def\A{\mathbb{A}}
+\def\H{\mathbb{H}}
+\def\B{\mathbb{B}}
+\def\Z{\mathbb{Z}}
+\def\C{\mathbb{C}}
+\def\Q{\mathbb{Q}}
+\def\D{\mathbb{D}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\mat}[1]{\mathbf{\MakeUppercase{#1}}} % for a matrix
+
+\newcommand{\osum}[2]{\alpha_{#1,#2}}
+\newcommand{\osumcost}{O(n^{(3/4)\cdot \omega(4/3)})}
+\newcommand{\osumcosttilde}{\tilde{O}(n^{(3/4)\cdot \omega(4/3)})}
+\newcommand{\thecost}{\tilde{O}(\vert G \vert ^{(3/4)\cdot \omega(4/3)})}
+
+\newcommand{\FF}{{\mathbb{F}}}
+\newcommand{\xbar}{\xi}
+\newcommand{\zbar}{\zeta}
+\newcommand{\alg}{quadratic\,}
+
+\newcommand{\citeN}{\citet}
+\newcommand{\smallskipback}{}
+
+
+
+\begin{document}
+
+%%% Insert your article text here.
+
+%\begin{acknowledge}
+  %% Insert your acknowledgments here.
+%\end{acknowledge}
+\noacknowledge% This command must be here if there are no
+                 % acknowledgements.
+                 
+
+\input{1-intro}
+\input{2-prelims}
+\input{3-orbitprojections}
+\input{4-invertibility}
+\input{5-basisconversion}
+
+\bibliography{cc-journals,NormalBasisCharZero}% Put your bibliography into the above
+                                % filecontents environment!
+
+
+%\bibliography{NormalBasisCharZero} 
+
+\end{document}
+
