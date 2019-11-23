@@ -63,19 +63,19 @@ operations in an $\F$-algebra such as $\A:=\F[x_1,\dots,x_t]/\langle
 P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down precisely. For
 general $P_i$'s, the cost of multiplication in $\A$ is known to be
 $O(\dim(\A)^{1+\varepsilon})$, for any $\varepsilon >
-0$~\cite[Theorem~2]{LiMoSc09}. From this it may be possible to deduce
+0$~\citep[Theorem~2]{LiMoSc09}. From this it may be possible to deduce
 similar upper bounds on the complexity of invertibility tests,
-following~\cite{DaMMMScXi06}, but this seems non-trivial.
+following~\citep{DaMMMScXi06}, but this seems non-trivial.
 
 Instead, we give an algorithm with softly linear runtime, that uses
 the factorization properties of cyclotomic polynomials and Chinese
 remaindering techniques to transform our problem into that of
 invertibility testing in algebras of the form $\F[z]/\langle P_i(z)
-\rangle$, for various polynomials $P_i$. The reference~\cite{Pol94}
+\rangle$, for various polynomials $P_i$.  \cite{Pol94}
 also discusses the factors of algebras such as
 $\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, but
 the resulting algorithms are different (and the cost of the
-\citeauthor{Pol94}'s \citeyear{Pol94} algorithm is only known to be
+\citeauthor{Pol94}'s \citeyearpar{Pol94} algorithm is only known to be
 polynomial in $|G|$).
 
 \smallskip
@@ -115,7 +115,7 @@ $\varphi(i) = \deg(\Phi_i)$ for all~$i$.
   operations and results in a polynomial $\bar P$ of degree less than
   $mm'$, which we eventually reduce modulo $\Phi_{mm'}$ (the latter is
   obtained by the composed product algorithm of~\cite{BoFlSaSc06} in
-  quasi-linear time).  By~\cite[Theorem~8.8.7]{BacSha96}, we have the
+  quasi-linear time).  By~\citep[Theorem~8.8.7]{BacSha96}, we have the
   bound $s \in O(\varphi(s) \log(\log(s)))$, so that $s$ is in
   $\tilde{O}(\varphi(s))$. Thus, we can reduce $\bar P$ modulo
   $\Phi_{mm'}$ in $\tilde{O}(\varphi(mm'))$ operations, establishing
@@ -202,7 +202,7 @@ $\varphi(p^c)$ and $\varphi(p^c) \varphi(p^{c'})$.
   operations in $\F$. 
   
 Applying $\theta$ and its inverse is done by means of fast evaluation
-and interpolation~\cite[Chapter~10]{vzGathen13} in $\tilde{O}(\varphi(p^{c'}))$
+and interpolation~\citep[Chapter~10]{vzGathen13} in $\tilde{O}(\varphi(p^{c'}))$
 operations in $\mathbbm{a}$, that is, $\tilde{O}(\deg(\mathbbm{b}))$ operations in $\F$
 (the algorithms do not require that $\mathbbm{a}$ be a field).
 \end{proof}
@@ -284,7 +284,7 @@ Chinese Remainder isomorphism
   \times \cdots \times  \F[x_i]/\langle \Phi_{p^{b_i}}(x_i)\rangle.
 \]
 Together with its inverse, this can be computed  
-in $\tilde{O}(p^{b_i})$ operations in $\F$~\cite[Chapter~10]{vzGathen13}. By distributivity of the tensor
+in $\tilde{O}(p^{b_i})$ operations in $\F$~\citep[Chapter~10]{vzGathen13}. By distributivity of the tensor
 product over direct products, 
 this gives an $\F$-algebra isomorphism
 $$\lambda: \B \to \prod_{c_1=0}^{b_1} \cdots \prod_{c_t=0}^{b_t} \A_{p,\boldsymbol{c},\boldsymbol{x}},$$
@@ -385,7 +385,7 @@ equivalent to $A''$ being invertible, that is, to all its components
 being invertible in the respective factors $\F[z]/\langle
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle$. Invertibility in such an
 algebra can be tested in softly linear time by applying the fast
-extended GCD algorithm~\cite[Chapter~11]{vzGathen13}, so our conclusion follows. 
+extended GCD algorithm~\citep[Chapter~11]{vzGathen13}, so our conclusion follows. 
 
 \smallskip
 
@@ -400,7 +400,7 @@ In this last section, we study the invertibility problem for a
 metacyclic group $G$. Instead of using an $\F$-algebra isomorphism, as
 we did above, we will use an injective homomorphism, whose image will
 be easy to compute. This is the object of the following lemma, where
-the map is inspired by the one used in \cite[\S 47]{Curtis}.
+the map is inspired by the one used in \citep[\S 47]{Curtis}.
 
 Assume that $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s =
 \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$, where $r^s = 1
@@ -468,7 +468,7 @@ The second statement provides the last part of the proof of Theorem
 many cases. For instance, if $s \leq m$, the first algorithm uses
 $O(n^{1.85})$ operations in $\F$. This happens if $s$ is prime, since
 then the number ${(m- \gcd(m,r-1))}/{s}$ is a positive integer,
-which implies $s \leq m$ (see \cite[Theorem 47.12, Corollary 47.14
+which implies $s \leq m$ (see \citep[Theorem 47.12, Corollary 47.14
 ]{Curtis}).
 
 
@@ -488,7 +488,7 @@ which implies $s \leq m$ (see \cite[Theorem 47.12, Corollary 47.14
   $\beta$ itself is a unit). This amounts to computing the determinant
   of this matrix, which can be done in $\tilde{O}(s^{2.7} m)$
   operations in $\F$, using the determinant algorithm
-  of~\cite[Section~6]{KaVi04}.
+  of~\citet[Section~6]{KaVi04}.
 \end{proof}
 
 Before giving our second algorithm, let us point out that matrix-vector
@@ -528,7 +528,7 @@ products by $\psi(\beta)$ can be done fast.
 
 \begin{proof}[Second algorithm for Corollary~\ref{coro:test_meta}.]
   The second algorithm uses \citeauthor{Wiedemann86}'s
-  \citeyear{Wiedemann86} algorithm,
+  \citeyearpar{Wiedemann86} algorithm,
   and its extension by~\citeN{KaSa91}. Extra care will be needed to
   accommodate the fact that $\A$ has zero-divisors. Let
   $F_1,\dots,F_s$ be the (unknown) irreducible factors of $z^m-1$ in
@@ -538,7 +538,7 @@ products by $\psi(\beta)$ can be done fast.
 
   For $\beta$ in $\F[G]$, $\mat M:=\psi(\beta)$ is invertible if and only
   if all $\mat M_i := \pi_i(\mat M)$ are. We are going to use the algorithm
-  of~\cite[Section~4]{KaSa91} to compute the rank of all these matrices
+  of~\citet[Section~4]{KaSa91} to compute the rank of all these matrices
   (these ranks are well-defined, since all $\A_i$'s are fields).  Let
   $\mat L$ and $\mat U$ be respectively random lower triangular and upper
   triangular Toeplitz matrices over $\A$, and define
@@ -571,7 +571,7 @@ products by $\psi(\beta)$ can be done fast.
   Finally, we apply the fast Euclidean algorithm to $\sum_{j=0}^{2s-1}
   \gamma_j y^j$ and $y^{2s}$ in the ring $\A[y]$ to find the ranks
   $r_1,\dots,r_s$.  Since $\A$ is not a field, we rely on the
-  algorithm of~\cite{AcCoMa03,DaMMMScXi06}. Using $\tilde{O}(sm)$
+  algorithms of~\cite{AcCoMa03} and \cite{DaMMMScXi06}. Using $\tilde{O}(sm)$
   operations in $\F$, it reveals a partial factorization of $z^m-1$ as
   $G_1 \cdots G_t$ (the factors may not be irreducible) and integers
   $\rho_j$, $j=1,\dots,t$, such that for all $i \le s$, $j\le t$, if
