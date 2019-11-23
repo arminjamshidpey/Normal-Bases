@@ -2,7 +2,7 @@
 \label{sec:pre}
 
 One of the well-known proofs of the existence of a normal element for a
-finite Galois extension \cite[Theorem 6.13.1]{Lang} suggests a randomized
+finite Galois extension, by \citet[Theorem 6.13.1]{Lang}, suggests a randomized
 algorithm for finding such an element. Assume $\K/\F$ is a finite Galois
 extension with Galois group $G = \lbrace g_1 , \ldots , g_n \rbrace$. If
 $\alpha \in \K$ is a normal element, then
@@ -39,7 +39,7 @@ all the entries of the matrix and then uses linear algebra to compute its
 determinant; using fast matrix arithmetic this requires $O(n^\omega)$
 operations in $\K$, that is $\tilde{O}(n^{\omega+1})$ operations in
 $\F$. This is at least cubic in $n$, and only a minor improvement over the
-previously best-known approach of \citeN{Girstmair}. The main contribution
+previously best-known approach of \cite{Girstmair}. The main contribution
 of this paper is to show how to speed up this verification.
  
 Before entering that discussion, we briefly discuss the probability that
@@ -96,7 +96,7 @@ $S_\alpha$ in $\F[G]$ is a unit.
   and the conclusion follows.
   
   $(\Leftarrow)$ Assume $\mat M_G(\alpha)$ is not invertible. Following the
-  proof of \cite[Lemma 4]{Jam18}, we first show that there exists a
+  proof of \citet[Lemma 4]{Jam18}, we first show that there exists a
   non-zero $\boldsymbol{u} \in \F^n$ in the kernel of $\mat M_G(\alpha)$.
   
   The elements of $G$ act on rows of $\mat M_G(\alpha)$ entrywise and the
