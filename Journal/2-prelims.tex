@@ -2,7 +2,7 @@
 \label{sec:pre}
 
 One of the well-known proofs of the existence of a normal element for a
-finite Galois extension, by \citet[Theorem 6.13.1]{Lang}, suggests a randomized
+finite Galois extension, as for example reported by \citet[Theorem 6.13.1]{Lang}, suggests a randomized
 algorithm for finding such an element. Assume $\K/\F$ is a finite Galois
 extension with Galois group $G = \lbrace g_1 , \ldots , g_n \rbrace$. If
 $\alpha \in \K$ is a normal element, then
@@ -32,46 +32,41 @@ with $\boldsymbol{c} = [ c_1~ \cdots~c_n]^T$ and
 Classical proofs then proceed to show that there exists $\alpha \in \K$
 with $\det(\mat M_G(\alpha))\neq 0$.
  
-This approach can be used as the basis of a randomized algorithm for
-finding a normal element: choose a random element $\alpha$ in $\K$ until we
-find one such that $ \mat M_G(\alpha)$ is invertible. A direct implementation computes
-all the entries of the matrix and then uses linear algebra to compute its
+This approach can be used as the basis of a procedure to test if a
+given $\alpha\in\K$ is normal, by computing all the entries of the
+matrix $\mat M_G(\alpha)$ and using linear algebra to compute its
 determinant; using fast matrix arithmetic this requires $O(n^\omega)$
 operations in $\K$, that is $\tilde{O}(n^{\omega+1})$ operations in
-$\F$. This is at least cubic in $n$, and only a minor improvement over the
-previously best-known approach of \cite{Girstmair}. The main contribution
-of this paper is to show how to speed up this verification.
+$\F$. This is at least cubic in $n$, and only a minor improvement over
+the previously best-known approach of \cite{Girstmair}. The main
+contribution of this paper is to show how to speed up this
+verification.
  
-Before entering that discussion, we briefly discuss the probability that
-$\alpha$ be a normal element: if we write
-$\alpha = a_0 + \cdots + a_{n-1} \xbar^{n-1}$, the determinant of
-$\mat M_G(\alpha)$ is a (not identically zero) homogeneous polynomial of
-degree $n$ in $(a_0,\dots,a_{n-1})$. If the $a_i$'s are chosen uniformly at
-random in a finite set $X \subset \F$, the Lipton-DeMillo-Schwartz-Zippel
-implies that the probability that $\alpha$ be normal is at least $1-n/|X|$.
+Before entering that discussion, we briefly comment on the probability
+that $\alpha$ be a normal element: if we write $\alpha = a_0 + \cdots
++ a_{n-1} \xbar^{n-1}$, the determinant of $\mat M_G(\alpha)$ is a
+(not identically zero) homogeneous polynomial of degree $n$ in
+$(a_0,\dots,a_{n-1})$. If the $a_i$'s are chosen uniformly at random
+in a finite set $X \subset \F$, the Lipton-DeMillo-Schwartz-Zippel
+implies that the probability that $\alpha$ be normal is at least
+$1-n/|X|$.
 
 If $G$ is cyclic, \cite{GatGie90} avoid computing a determinant by
 computing the GCD of $S_\alpha := \sum_{i = 0}^{n-1} g_i(\alpha)x^i$
 and $x^n-1$. In effect, this amounts to testing whether $S_\alpha$ is
 invertible in the group ring $\K[G]$, which is isomorphic to
 $\K[x]/\langle x^n-1\rangle$. This is a general fact: for any $G$,
-$\mat M_G(\alpha)$ is the matrix of (left) multiplication by the orbit
+$\mat M_G(\alpha)$ can be seen as the matrix of (left) multiplication by the orbit
 sum
-$$S_\alpha:= \sum_{g \in G} g(\alpha)g \in \K[G],$$ and $\alpha$ being
+$$S_\alpha:= \sum_{g \in G} g(\alpha)g \in \K[G],$$ 
+where we index rows by $g_1,\dots,g_n$ and columns by
+their inverses $g_1^{-1},\dots,g_n^{-1}$. Then, $\alpha$ being
 normal is equivalent to $S_\alpha$ being a unit in $\K[G]$. This point of
 view may make it possible to avoid linear algebra of size $n$ over $\K$,
 but writing $S_\alpha$ itself still involves $\Theta(n^2)$ elements in
 $\F$. The following lemma is the main new ingredient in our algorithm: it
 gives a randomized reduction to testing whether a suitable projection of
 $S_\alpha$ in $\F[G]$ is a unit.
- 
-%% This gives an idea to modify Algorithm \ref{Alg:Naive}. Instead of
-%% writing $M_G(x)$ and test its invertiblity, we can write $\osum{G}{\K}$
-%% and test if it is invertible in $\K[G]$. Although testing the
-%% invertibility of $\osum{G}{\K}$ might be efficient in comparison to
-%% computing the determinant of a matrix in $\K$, we prefer to do the
-%% computations over $\F$ rather than $\K$. The following lemma comes handy
-%% to pass the computations from $\K$ to $\F$.
 
 
 \begin{lemma}
@@ -138,11 +133,12 @@ $\ell_j$'s in $\F$, and $\ell(\mat M_G(\alpha))$ is not invertible for any~$\ell
 Our algorithm can be sketched as follows: choose random
 $\alpha$ in $\K$ and $\ell: \K\to\F$, and let
 \begin{equation}\label{def:s_alpha_ell}
-s_{\alpha,\ell}:=\sum_{g \in G} \ell(g(\alpha))g \in \F[G].  
+s_{\alpha,\ell}:=\sum_{g \in G} \ell(g(\alpha))g \in \F[G].
 \end{equation}
- The
-matrix $\ell(\mat M_G (\alpha))$ is the multiplication matrix by
-$s_{\alpha,\ell}$ in $\F[G]$, so once $s_{\alpha,\ell}$ is known, we
+The matrix $\ell(\mat M_G (\alpha))$ is the multiplication matrix by
+$s_{\alpha,\ell}$ in $\F[G]$, where, as above, we index rows by
+$g_1,\dots,g_n$ and columns by 
+$g_1^{-1},\dots,g_n^{-1}$.  Then, once $s_{\alpha,\ell}$ is known, we
 are left with testing whether it is a unit in $\F[G]$.  In the next
 two sections, we address the respective questions of computing
 $s_{\alpha,\ell}$, and testing its invertibility in $\F[G]$.

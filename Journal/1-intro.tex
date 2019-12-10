@@ -2,11 +2,11 @@
 
 For a finite Galois extension field $\K/\F$, with Galois group $G =
 \mathrm{Gal}(\K/\F)$, an element $\alpha \in \K$ is called
-\emph{normal} if the set of its Galois conjugates $G \cdot \alpha =
-\{ \sigma(\alpha): \sigma\in G\}$ forms a basis for $\K$ as a vector space over
+\emph{normal} if the set of its Galois conjugates $G \cdot \alpha = \{
+g(\alpha): g\in G\}$ forms a basis for $\K$ as a vector space over
 $\F$. The existence of normal element for any finite Galois extension
-is classical, and constructive proofs are provided in most algebra texts
-(see, e.g., \citep[Section 6.13]{Lang}).
+is classical, and constructive proofs are provided in most algebra
+texts (see, e.g., \citep[Section 6.13]{Lang}).
 %\cite{Wae70}, Section~8.11).
  
 While there is a wide range of well-known applications of normal bases in
@@ -37,20 +37,21 @@ with a cost of $O(n^3+n^2\log q)$ operations in $\FF_q$.
 In characteristic zero, \cite{SchSte93} gave an algorithm for finding
 a normal basis of a number field over $\QQ$ with a cyclic Galois group
 of cardinality $n$ which requires $n^{O(1)}$ operations in $\QQ$.
-\cite{Pol94} gives an algorithm for the more general case of finding
-a normal basis in an abelian extension $\K/\F$ which requires
-$n^{O(1)}$ in $\F$.  More generally in characteristic zero, for any
+\cite{Pol94} gives an algorithm for the more general case of finding a
+normal basis in an abelian extension $\K/\F$ which requires $n^{O(1)}$
+operations in $\F$.  More generally in characteristic zero, for any
 Galois extension $\K/\F$ of degree $n$ with Galois group given by a
 collection of $n$ matrices, \cite{Girstmair} gives an algorithm which
 requires $O(n^4)$ operations in $\F$ to construct a normal element in
 $\K$.
 
-In this paper we present a new randomized algorithm for finding a normal
-element for abelian and metacyclic extensions, with a runtime \alg
-in the degree $n$ of the extension. The costs of all algorithms are
-measured by counting \emph{arithmetic operations} in $\F$ at unit cost.
-Questions related to the bit-complexity of our algorithms are challenging,
-and beyond the scope of this paper.
+In this paper we present a new randomized algorithm that decides
+whether a given element in either an abelian or a metacyclic extension
+is normal, with a runtime \alg in the degree $n$ of the extension. The
+costs of all algorithms are measured by counting \emph{arithmetic
+  operations} in $\F$ at unit cost.  Questions related to the
+bit-complexity of our algorithms are challenging, and beyond the scope
+of this paper.
 
 Our main conventions are the following.
 \begin{assumption}
@@ -70,37 +71,33 @@ and $\beta = \sum_{0\leq i<n}\beta_i\xbar^i\in\K$, the fact that $g$ is an
 $\F$-automorphism implies that $g(\beta)$ is equal to $\beta(\gamma)$, the
 polynomial composition of $\beta$ at $\gamma$ (reduced modulo $P$).
 
-Our algorithms combine techniques and ideas
-of~\cite{GatGie90} and \cite{KalSho98}: $\alpha \in \K$ is normal if and only if
-the element $S_\alpha := \sum_{g \in G} g(\alpha)g \in \K[G]$ is
-invertible in the group algebra $\K[G]$. The algorithms choose
-$\alpha$ at random; a generic choice is normal (so we expect $O(1)$
-random trials to be sufficient). However, writing down $S_\alpha$
-involves $\Theta(n^2)$ elements in $\F$, which precludes a
-subquadratic runtime. Instead, knowing $\alpha$, the algorithms use a
-randomized reduction to a similar question in $\F[G]$, that amounts to
-applying a random projection $\ell:\K\to\F$ to all entries of
-$S_\alpha$, giving us an element $s_{\alpha,\ell} \in \F[G]$. For
-that, we adapt algorithms from~\citep{KalSho98} that were developed for
-Galois groups of finite fields.
+Our algorithms combine techniques and ideas of~\cite{GatGie90} and
+\cite{KalSho98}: $\alpha \in \K$ is normal if and only if the element
+$S_\alpha := \sum_{g \in G} g(\alpha)g \in \K[G]$ is invertible in the
+group algebra $\K[G]$.  However, writing down $S_\alpha$ involves
+$\Theta(n^2)$ elements in $\F$, which precludes a subquadratic
+runtime. Instead, knowing $\alpha$, the algorithms use a randomized
+reduction to a similar question in $\F[G]$, that amounts to applying a
+random projection $\ell:\K\to\F$ to all entries of $S_\alpha$, giving
+us an element $s_{\alpha,\ell} \in \F[G]$. For that, we adapt
+algorithms from~\citep{KalSho98} that were developed for Galois groups
+of finite fields.
 
 Having $s_{\alpha,\ell}$ in hand, we need to test its
 invertibility. In order to do so, we present an algorithm in the
 abelian case which relies on the fact that $\F[G]$ is isomorphic to a
 multivariate quotient polynomial ring by an ideal $(x^{e_i}_i-1)_{1
-  \leq i \leq m}$, where $e_i$'s are positive integers. 
-
-For metacyclic groups, two algorithms are introduced to solve the same
-problem; which one is faster depends on the parameters defining our
-group. Both algorithms are based on testing the invertibility of an
-injective homomorphic image of $s_{\alpha,\ell}$ in a matrix algebra
-over a product of fields. These questions are closely related to that
-of Fourier transform over $G$, and it is worth mentioning that there
-is a vast literature on fast algorithms for Fourier transforms (over
-the base field $\C$). Relevant to our current context, consider
-\citep{ClaMu04} and \citep{MaRockWol18} and references therein
-for details. At this stage, it is not clear how we can apply these
-methods in our context.
+  \leq i \leq m}$, where $e_i$'s are positive integers. For metacyclic
+groups, we exploit the block-Hankel structure of the matrix of
+multiplication by $s_{\alpha,\ell}$. Remark that these questions on
+the cost of arithmetic operations in $\F[G]$ are closely related to
+that of Fourier transform over $G$, and it is worth mentioning that
+there is a vast literature on fast algorithms for Fourier transforms
+(over the base field $\C$). Relevant to our current context, consider
+\citep{ClaMu04} and \citep{MaRockWol18} and references therein for
+details. At this stage, it is not clear how we can apply these methods
+in our context (where we work over an arbitrary $\F$, not necessarily 
+algebraically closed).
 
 This paper is written from the point of view of obtaining improved
 asymptotic complexity estimates. Since our main goal is to highlight
@@ -108,37 +105,55 @@ the exponent (in $n$) in our runtime analyses, costs are given using
 the soft-O notation: $S(n)$ is in $\tilde{O}(T(n))$ if it is in
 $O(T(n) \log(T(n))^c)$, for some constant $c$.
 
-The main result of this paper is the following theorem; we use a
+The first main result of this paper is the following theorem; we use a
 constant $\omega(4/3)$ that describes the cost of certain rectangular
 matrix products (see the end of this section).
 \begin{theorem}\label{thm:main}
-  Under Assumption \ref{assum}, a normal element of $\K$ can be found
-  using $\thecost$ operations in $\F$ if $G$ is abelian, with
-  $(3/4)\cdot\omega(4/3)<1.99$.  Moreover, the same problem for
-  metacyclic groups can be solved using $\tilde{O}(\vert G \vert^2)$
+  Under Assumption \ref{assum}, one can test whether $\alpha \in \K$
+  is normal using $\thecost$ operations in $\F$ if $G$ is either
+  abelian or metacyclic, with $(3/4)\cdot\omega(4/3)<1.99$. The
+  algorithms are randomized.
+\end{theorem}
+% Although the cost is quadratic in the size of input for a general
+% metacyclic group, in many cases it will be (slightly) subquadratic,
+% under specific conditions on the parameters defining $G$ (see
+% Section~\ref{sec:invertibility}).
+
+Once $\alpha$ is known to be normal, we also discuss the cost 
+of conversion between the power basis $1,\xbar,\dots,\xbar^{n-1}$
+of $\K$ and its normal basis $G\cdot \alpha$. Again inspired by
+previous work of~\cite{KalSho98}, we obtain the following results.
+\begin{theorem}\label{thm:main2}
+  Under Assumption \ref{assum}, if $G$ is either abelian or metacyclic
+  and $\alpha \in \K$ is known to be normal, we can perform basis
+  conversion between the power basis $1,\xbar,\dots,\xbar^{n-1}$ of
+  $\K$ and its normal basis $G\cdot \alpha$ using $\thecost$
   operations in $\F$. The algorithms are randomized.
 \end{theorem}
-Although the cost is quadratic in the size of input for a general
-metacyclic group, in many cases it will be (slightly) subquadratic,
-under specific conditions on the parameters defining $G$ (see
-Section~\ref{sec:invertibility}).
+In both theorems, the runtime is barely subquadratic, and the exponent
+$1.99$ is obtained through fast matrix multiplication algorithms that
+are most likely impractical for reasonable $n$. However, these results
+show in particular that we can perform basis conversions without
+writing down the normal basis itself (which would require
+$\Theta(n^2)$ elements in $\K$).
 
 Section \ref{sec:pre} of this paper is devoted to definitions and
 preliminary discussions.  In Section \ref{sec:osum}, two
 subquadratic-time algorithms are presented for the randomized reduction
 of our main question to invertibility testing in $\F[G]$, for
-respectively abelian and metacyclic groups.  Finally, in Section
+respectively abelian and metacyclic groups.  In Section
 \ref{sec:invertibility}, we show that the latter problem can be solved
 in quasi-linear time for an abelian group; for metacyclic
-groups, we give a quadratic time algorithm, and discuss cases when
-the cost can be improved.
+groups, we give a subquadratic time algorithm based on structured linear 
+algebra algorithms. Finally, Section~\ref{sec:conversion} proves
+Theorem~\ref{thm:main2}.
 
-Our algorithms make
-extensive of known algorithms for polynomial and matrix arithmetic; in
-particular, we use repeatedly the fact that polynomials of degree $d$ in
-$\F[x]$, for any field $\F$ of characteristic zero, can be multiplied in
-$\tilde{O}(n)$ operations in $\F$~\citep{ScSt71}. As a result, arithmetic 
-operations $(+,\times,\div)$ in $\K$ can all be done using $\tilde{O}(n)$ 
+Our algorithms make extensive of known algorithms for polynomial and
+matrix arithmetic; in particular, we use repeatedly the fact that
+polynomials of degree $d$ in $\F[x]$, for any field $\F$ of
+characteristic zero, can be multiplied in $\tilde{O}(n)$ operations in
+$\F$~\citep{ScSt71}. As a result, arithmetic operations
+$(+,\times,\div)$ in $\K$ can all be done using $\tilde{O}(n)$
 operations in $\F$~\citep{vzGathen13}.
 
 For matrix arithmetic, we will rely on some non-trivial results on
@@ -153,6 +168,10 @@ value is $\omega \le 2.373$ by \citeN{LeGall14}. Over a field, we will
 frequently use the fact that further matrix operations (determinant or
 inverse) can be done in $O(n^\omega)$ base field operations.
 
+
+Part of the results of this paper (Theorem~\ref{thm:main} for abelian
+groups) were already published in the conference
+paper~\citep{GiJaSc19}.
 
 %%% Local Variables:
 %%% mode: latex

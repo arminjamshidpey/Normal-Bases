@@ -14,12 +14,23 @@
 %%% end of personal macros and packages
 
 \usepackage{bbm}
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0,.35,0}
+\definecolor{darkblue}{rgb}{0,0,.5}
+\definecolor{darkred}{rgb}{.6,0,0}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Mark Giesbrecht, Armin Jamshidpey, \'Eric Schost},
+  pdftitle={Quadratic-Time Probabilistic Algorithms for Normal Bases},
+  bookmarksnumbered=true,colorlinks,linkcolor=darkblue,
+ citecolor=darkgreen, urlcolor=darkred}
+% ]{hyperref}
 
 \contact{}% Insert contact email address here.
 \submitted{}% Insert the date on which you made the original
            % submission of your paper to computational complexity,
            % in the format \submitted{8 August 2008}.
-\title{Quadratic-Time Algorithms for Normal Bases}% Insert title here. (Use \\ to split lines.)
+\title{Subquadratic-Time Algorithms for Normal Bases}% Insert title here. (Use \\ to split lines.)
 \titlehead{Normal Bases}% If necessary insert running head title here.
 \author{
 Mark Giesbrecht \\
@@ -51,19 +62,19 @@ Waterloo, ON, Canada  N2L 3G1 \\
 }
 \begin{abstract}
   %% Insert abstract here.
-   For any finite Galois field extension $\K/\F$, with Galois group $G =
-  \mathrm{Gal}(\K/\F)$, there exists an element $\alpha \in \K$ whose
-  orbit $G\cdot\alpha$ forms an $\F$-basis of $\K$. Such an $\alpha$
-  is called a \emph{normal element} and $G\cdot\alpha$ is a
-  \emph{normal basis}. We introduce a probabilistic
-  algorithm for finding a normal element when $G$ is either a finite
-  abelian or a metacyclic group. The algorithm is based on the fact
-  that deciding whether a random element $\alpha \in \K$ is normal can
-  be reduced to deciding whether $\sum_{\sigma \in G}
-  \sigma(\alpha)\sigma \in \K[G]$ is invertible.  Our algorithm
-  requires a quadratic number of operations in the size of $G$ for
-  metacyclic $G$, and a slightly subquadratic number of operations for
-  abelian $G$.
+  For any finite Galois field extension $\K/\F$, with Galois group $G
+  = \mathrm{Gal}(\K/\F)$, there exists an element $\alpha \in \K$
+  whose orbit $G\cdot\alpha$ forms an $\F$-basis of $\K$. Such an
+  $\alpha$ is called a \emph{normal element} and $G\cdot\alpha$ is a
+  \emph{normal basis}. We introduce a probabilistic algorithm for
+  testing whether a given $\alpha \in \K$ is normal, when $G$ is
+  either a finite abelian or a metacyclic group. The algorithm is
+  based on the fact that deciding whether $\alpha$ is normal can be
+  reduced to deciding whether $\sum_{g \in G} g(\alpha)g \in \K[G]$ is
+  invertible; it requires a slightly subquadratic number of
+  operations. Once we know that $\alpha$ is normal, we show how to
+  perform conversions between the working basis of $\K/\F$ and the
+  normal basis with the same asymptotic cost.
 \end{abstract}
 
 \begin{keywords}
@@ -98,7 +109,7 @@ Normal bases; Galois groups; metacyclic groups; fast algorithms
 \newcommand{\osum}[2]{\alpha_{#1,#2}}
 \newcommand{\osumcost}{O(n^{(3/4)\cdot \omega(4/3)})}
 \newcommand{\osumcosttilde}{\tilde{O}(n^{(3/4)\cdot \omega(4/3)})}
-\newcommand{\thecost}{\tilde{O}(\vert G \vert ^{(3/4)\cdot \omega(4/3)})}
+\newcommand{\thecost}{\tilde{O}(n^{(3/4)\cdot \omega(4/3)})}
 
 \newcommand{\FF}{{\mathbb{F}}}
 \newcommand{\xbar}{\xi}
