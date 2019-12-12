@@ -1,12 +1,13 @@
-\section{Testing Invertibility in the Group Algebra}
+\section{Arithmetic in the Group Algebra}
 \label{sec:invertibility}
 
-In this section we consider the problem of invertibility testing in
-$\F[G]$, specifically for abelian and metacyclic groups $G$: given an
-element $\beta$ in $\F[G]$, for a field $\F$ and a group $G$, determine
-whether $\beta$ is a unit in $\F[G]$.  As well as being necessary in our
-application to normal bases, we believe these problems are of independent
-interest.
+In this section we consider the problems of invertibility testing and
+division in $\F[G]$, specifically for abelian and metacyclic groups
+$G$: given elements $\beta,\eta$ in $\F[G]$, for a field $\F$ and a
+group $G$, determine whether $\beta$ is a unit in $\F[G]$, and if so,
+compute $\beta^{-1}\eta$. As well as being necessary in our
+application to normal bases, we believe these problems are of
+independent interest.
 
 Since we are in characteristic zero, Wedderburn's theorem implies the
 existence of an $\F$-algebra isomorphism (which we will refer to as a
@@ -14,15 +15,15 @@ Fourier Transform)
 \[
   \F[G] \to M_{d_1}(D_1) \times \dots \times M_{d_r}(D_r),
 \]
-where all $D_i$'s are division algebras over $\F$. If we were working over
-$\F=\C$, all $D_i$'s would simply be $\C$ itself.  A natural solution
-to test the invertibility of $\beta \in \F[G]$ would then be to compute its
-Fourier transform and test whether all its components
+where all $D_i$'s are division algebras over $\F$. If we were working
+over $\F=\C$, all $D_i$'s would simply be $\C$ itself.  A natural
+solution to test the invertibility of $\beta \in \F[G]$ would then be
+to compute its Fourier transform and test whether all its components
 $\beta_1 \in M_{d_1}(\C),\dots,\beta_r \in M_{d_r}(\C)$ are
 invertible. This boils down to linear algebra over $\C$, and takes
-$O(d_1^\omega + \cdots + d_r^\omega)$ operations.  Since
-$d_1^2 + \cdots + d_r^2 = |G|$, this is $O(|G|^{\omega/2})$ operations in
-$\C$.
+$O(d_1^\omega + \cdots + d_r^\omega)$ operations.  Since $d_1^2 +
+\cdots + d_r^2 = n$, with $n=|G|$, this is $O(n^{\omega/2})$
+operations in $\C$.
 
 However, we do not wish to make such a strong assumption as $\F=\C$. Since
 we measure the cost of our algorithms in $\F$-operations, the direct
@@ -33,19 +34,21 @@ requires we work in a degree $n/2$ extension of $\Q$, implying a quadratic
 runtime.
 
 In this section, we give algorithms for the problem of invertibility
-testing for the families of group seen so far, abelian and metacyclic. For
-the former, we actually prove a stronger result: starting from a suitable
-presentation of $G$, we give a softly linear-time algorithm to find an
-isomorphic image of $\beta \in \F[G]$ in a product of $\F$-algebras of the
-form $\F[z]/\langle P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$
-(recovering $\beta$ from its image is softly-linear time as well). Not only
-does this allow us to test whether $\beta$ is invertible, this would also
-make it possible to find its inverse in $\F[G]$ (or to compute products in
-$\F[G]$) in softly-linear time.  We are not aware of previous results of
-this kind. For metacyclic groups, we describe an injective $\F$-algebra
-homomorphism from $\F[G]$ to a matrix algebras over a cyclotomic ring. The
-codomain is in general of dimension higher than $|G|$, so the algorithm we
-deduce from this is not linear-time.
+testing and division for the families of group seen so far, abelian
+and metacyclic. For the former, starting from a suitable presentation
+of $G$, we give a softly linear-time algorithm to find an isomorphic
+image of $\beta \in \F[G]$ in a product of $\F$-algebras of the form
+$\F[z]/\langle P_i(z)\rangle$, for certain polynomials $P_i \in \F[z]$
+(recovering $\beta$ from its image is softly-linear time as well). Not
+only does this allow us to test whether $\beta$ is invertible, this
+alsos make it possible to find its inverse in $\F[G]$ (or to
+compute products in $\F[G]$) in softly-linear time (we are not aware
+of previous results of this kind). 
+
+For metacyclic groups, we rely on the block-Hankel structure of the
+matrix of multiplication by $\beta$. Through structured linear algebra
+algorithms, this allows us to solve both problems (invertibility and
+division) in subquadratic (albeit not softly-linear time) time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -54,7 +57,9 @@ deduce from this is not linear-time.
 Because an abelian group is a product of cyclic groups, the group
 algebra $\F[G]$ of such a group is the tensor product of cyclic
 algebras. Using this property, given an element $\beta$ in $\F[G]$,
-our goal in this section is to determine whether $\beta$ is a unit.
+our goal in this section is to determine whether $\beta$ is a unit,
+and if so to compute expressions such as $\beta^{-1} \eta$, for
+$\eta$ in $\F[G]$.
 
 The previous property implies that $\F[G]$ admits a description of the
 form $\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$,
@@ -64,19 +69,19 @@ P_1(x_1),\dots,P_t(x_t)\rangle$ is difficult to pin down precisely. For
 general $P_i$'s, the cost of multiplication in $\A$ is known to be
 $O(\dim(\A)^{1+\varepsilon})$, for any $\varepsilon >
 0$~\citep[Theorem~2]{LiMoSc09}. From this it may be possible to deduce
-similar upper bounds on the complexity of invertibility tests,
+similar upper bounds on the complexity of invertibility test or division,
 following~\citep{DaMMMScXi06}, but this seems non-trivial.
 
 Instead, we give an algorithm with softly linear runtime, that uses
 the factorization properties of cyclotomic polynomials and Chinese
 remaindering techniques to transform our problem into that of
-invertibility testing in algebras of the form $\F[z]/\langle P_i(z)
-\rangle$, for various polynomials $P_i$.  \cite{Pol94}
-also discusses the factors of algebras such as
-$\F[x_1,\dots,x_t]/\langle x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, but
-the resulting algorithms are different (and the cost of the
-\citeauthor{Pol94}'s \citeyearpar{Pol94} algorithm is only known to be
-polynomial in $|G|$).
+invertibility test or division in algebras of the form $\F[z]/\langle
+P_i(z) \rangle$, for various polynomials $P_i$.  \cite{Pol94} also
+discusses the factors of algebras such as $\F[x_1,\dots,x_t]/\langle
+x_1^{n_1}-1,\dots,x_t^{n_t}-1\rangle$, but the resulting algorithms
+are different (and the cost of the \citeauthor{Pol94}'s
+\citeyearpar{Pol94} algorithm is only known to be polynomial in
+$n=|G|$).
 
 \smallskip
 
@@ -305,12 +310,12 @@ well-defined, up to the order of the factors.
 
 \smallskip
 
-\noindent{\bf Main result.} Let $G$ be an abelian group.  We can
-write the elementary divisor decomposition of $G$ as $G = G_1 \times
-\cdots \times G_s$, where each $G_i$ is of prime power order
-$p_i^{a_i}$, for pairwise distinct primes $p_1,\dots,p_s$, so that
-$|G| = p_1^{a_1} \cdots p_s^{a_s}$. Each $G_i$ can itself be written
-as a product of cyclic groups, $G_i = G_{i,1} \times \cdots \times
+\noindent{\bf Main result.} Let $G$ be an abelian group.  We can write
+the elementary divisor decomposition of $G$ as $G = G_1 \times \cdots
+\times G_s$, where each $G_i$ is of prime power order $p_i^{a_i}$, for
+pairwise distinct primes $p_1,\dots,p_s$, so that $n = |G|$ writes $n
+= p_1^{a_1} \cdots p_s^{a_s}$. Each $G_i$ can itself be written as a
+product of cyclic groups, $G_i = G_{i,1} \times \cdots \times
 G_{i,t_i}$, where the factor $G_{i,j}$ is cyclic of order
 ${p_i}^{b_{i,j}}$, with $b_{i,1} \le \cdots \le b_{i,t_i}$; this is
 the invariant factor decomposition of $G_i$, with $b_{i,1} + \cdots +
@@ -329,9 +334,18 @@ prime power orders, from which the required decomposition follows.
 \begin{proposition}
   Given $\beta \in \F[G]$, written on the power basis
   $\gamma_{1,1},\dots,\gamma_{s,t_s}$, one can test if $\beta$ is a
-  unit in $\F[G]$ using $\tilde{O}(|G|)$ operations in $\F$.
+  unit in $\F[G]$ using $\tilde{O}(n)$ operations in $\F$.
+  If it is the case, given $\eta$ in $\F[G]$, one can compute
+  $\beta^{-1} \eta$ in the same asymptotic runtime.
 \end{proposition}
-The proof occupies the rest of this paragraph.
+The proof occupies the rest of this paragraph.  Note that together
+with Proposition \ref{prop:abelian}, the claim on the cost of
+invertibility testing proves the first part of Theorem \ref{thm:main};
+the second part of this proposition will allow us to prove
+Theorem~\ref{thm:main2} in the next section.
+
+\smallskip
+
 From the factorization $G = G_1 \times \cdots \times G_s$, we deduce
 that the group algebra $\F[G]$ is the tensor product $\F[G_1]
 \otimes \cdots \otimes \F[G_s]$. Furthermore, the 
@@ -365,7 +379,7 @@ $j_1 =1,\dots,N_1,\dots,j_s=1,\dots,N_s$;
 call $\Gamma$ the isomorphism. Given $B$ in $\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes
 \cdots \otimes \B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$,
 Lemma~\ref{lemma:alg} also implies that $B':=\Gamma(B)$ can be
-computed in softly linear time $\tilde{O}(|G|)$ (apply the isomorphism
+computed in softly linear time $\tilde{O}(n)$ (apply the isomorphism
 corresponding to $\boldsymbol{x}_1$ coordinate-wise with respect to
 all other variables, then deal with $\boldsymbol{x}_2$, etc).
 The codomain in~\eqref{eq:prod} is the product of all $\H_{\boldsymbol{p},\boldsymbol{c}_{\boldsymbol{j}},\boldsymbol{z}}$,
@@ -380,204 +394,279 @@ $$\Gamma': \text{\small $\prod$}_{\boldsymbol{j}}~
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle,$$ for certain integers
 $d_{\boldsymbol{j}}$. The lemma implies that given $B'$,
 $B'':=\Gamma'(B')$ can be computed in softly linear time
-$\tilde{O}(|G|)$ as well. Invertibility of $\beta \in \F[G]$ is
-equivalent to $A''$ being invertible, that is, to all its components
+$\tilde{O}(n)$ as well. Invertibility of $\beta \in \F[G]$ is
+equivalent to $BB''$ being invertible, that is, to all its components
 being invertible in the respective factors $\F[z]/\langle
 \Phi_{d_{\boldsymbol{j}}}(z) \rangle$. Invertibility in such an
 algebra can be tested in softly linear time by applying the fast
-extended GCD algorithm~\citep[Chapter~11]{vzGathen13}, so our conclusion follows. 
+extended GCD algorithm~\citep[Chapter~11]{vzGathen13}, so the first
+part of the proposition follows.
 
-\smallskip
-
-Together with Proposition \ref{prop:abelian}, the above result proves
-the first part of Theorem \ref{thm:main}.
+Given $\eta$ in $\F[G]$, we can similarly compute its image $H''$ in
+$\text{\small $\prod$}_{\boldsymbol{j}} ~\F[z]/\langle
+\Phi_{d_{\boldsymbol{j}}}(z) \rangle,$ with the same asymptotic
+runtime as for $\beta$. If we suppose $\beta$ (and thus $B''$)
+invertible, division in each $\F[z]/\langle
+\Phi_{d_{\boldsymbol{j}}}(z) \rangle$ takes softly linear time in the
+degree $\phi_{d_{\boldsymbol{j}}}$; as a result, we obtain ${B''}^{-1}
+H''$ in time $\tilde{O}(n)$.  One can finally invert all
+isomorphisms we applied, in order to recover $\beta^{-1} \eta$ in
+$\F[G]$; this also takes time $\tilde{O}(n)$. Summing all costs,
+this establishes the second part of the proposition.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Metacyclic Groups}
 
-In this last section, we study the invertibility problem for a
-metacyclic group $G$. Instead of using an $\F$-algebra isomorphism, as
-we did above, we will use an injective homomorphism, whose image will
-be easy to compute. This is the object of the following lemma, where
-the map is inspired by the one used in \citep[\S 47]{Curtis}.
+In this subsection, we study the invertibility and division problems
+for a metacyclic group $G$. A possibility would be to rely on the
+Wedderburn decomposition of $\F[G]$, but the structure of group
+algebras of metacyclic groups is not straightforward to exploit; see
+for instance \citep[\S 47]{Curtis} for algebraically closed $\F$,
+or~\citep{Decomposition} for dihedral and quaternion groups over
+$\F=\Q$. Instead, we will highlight the structure of the
+multiplication matrices in $\F[G]$.
 
 Assume that $G = \langle \sigma , \tau : \sigma^m = 1, \tau^s =
 \sigma^t, \tau^{-1} \sigma \tau = \sigma^r \rangle$, where $r^s = 1
 \bmod m$ and $rt = t \bmod m$; in particular, $n=|G|$ is equal to
-$ms$. Define $\A:=\F[z]/\langle z^m-1\rangle$ and let $\zbar$ be the
-image of $z$ in $\A$.
+$ms$. 
 
-\begin{lemma}\label{prop:metinjection}
-The mapping
-\[
-  \begin{array}{cccc}
-\psi:& \F [G]& \to& M_s(\A) \\
-&\sigma &\mapsto& \mathrm{Diag}(\zbar, \zbar^r , \ldots, \zbar^{r^{s-1}})\\
-&\tau &\mapsto &
-\left[ \begin{array}{l|l}
-0 & \zbar\\
-\hline
-\mat I_{s-1} & 0
-\end{array}
-\right],
-  \end{array}
-\]
-an injective homomorphism of $\F$-algebras.
-\end{lemma}
-\begin{proof}
-It is straightforward to verify that $\psi(\sigma)^m = \mat I_m$,
-$\psi(\tau)^s = \psi(\sigma)^t$ and $\psi_i(\sigma) \psi_i(\tau)
-=\psi(\tau) \psi_i(\sigma)^r$; this shows that $\psi$ is a well-defined $\F$-algebras homomorphism.
+Take $\beta$ in $\F[G]$. In Section~\ref{sec:pre}, we introduced the
+matrix $\mat M_\F(\beta)$ of left multiplication by $\beta$ in
+$\F[G]$, where columns and rows were indexed using an unspecified
+ordering of the group elements. We will now be more specific, and
+reorder the rows and columns of $\mat M_\F(\beta)$ using the two
+presentations of $G$ seen in \eqref{pres1} and~\eqref{pres2},
+in order to highlight its structure.
+In what follows, for non-negative integers $a,b,c$, we will write
+$\beta_{a,b,c}$ for the coefficient of $\tau^a \sigma^b \tau^c$ in 
+the expansion of $\beta$ on the $\F$-basis of $\F[G]$. 
 
-Take $\beta \in \F[G]$, and write it $\beta = \sum_{j = 0}^{s-1}
-\left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j$. For
-$j=0,\dots,s-1$, define $F_j(x) := \sum_{i = 0}^{m-1} b_{i,j}x^i \in
-\F[x]$ and, for $1 \leq i,j \leq s$,
-$$F_{i,j} := F_{i-1}(\zbar^{r^{j-1}}).$$
-Then, $\psi(\beta)$ is the matrix
-\begin{equation}\label{eq:injection}
-\left[\begin{array}{llll}
-F_{1,1} &  \cdots	&	\zbar F_{3,s-1} & \zbar F_{2,1}\\
-F_{2,2} & F_{1,2}& \cdots & \zbar F_{3,s}\\
-\vdots &\ddots & \ddots& \vdots\\
-F_{s,s}& \cdots & F_{2,s}	& F_{1,s}
-\end{array}
-\right].
-\end{equation}
-If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\zbar) =0$, that is,
-$F_i \bmod (z^m-1)=0$, for $0 \leq i < s$. Since all $F_i$'s have degree 
-less than $m$, they are all zero.
-\end{proof}
+We first rewrite $\mat M_\F(\beta)$ by reindexing its columns
+by 
+$$\begin{bmatrix}
+(\sigma^0 \tau^0)^{-1} &  \cdots & (\sigma^{m-1} \tau^0)^{-1} \cdots& (\sigma^0 \tau^{s-1})^{-1} &  \cdots & (\sigma^{m-1} \tau^{s-1})^{-1} 
+\end{bmatrix}$$
+and its rows by
+$$\begin{bmatrix}
+\tau^0 \sigma^0 & \cdots & \tau^0 \sigma^{m-1} & \cdots& \tau^{s-1} \sigma^0 & \cdots&  \tau^{s-1} \sigma^{m-1}
+\end{bmatrix}.
+$$ This matrix displays a $s \times s$
+block structure. Each block has itself size $m \times m$; for $1 \le
+u,v \le s$ and $1 \le a,b \le m$, the entry of index $(a,b)$ in the
+block of index $(u,v)$ is the coefficient of $\tau^u \sigma^a \sigma^b
+\tau^v$ in $\beta$, that is, $\beta_{u,a+b,v}$. In other words,
+all blocks are Hankel matrices.
 
-We conclude this section with two algorithms that test whether
-$\psi(\beta) \in M_s(\A)$ is invertible, for a given $\beta$ in
-$\F[G]$. Minor difficulties will arise as we work over $\A$, since
-$\A$ is not a field, but a product of fields (if the irreducible
-factorization of $z^m-1$ in $\F[z]$ is available, one would simply use
-the Chinese Remainder theorem and work in field extensions of $\F$).
+Using the algorithm of~\cite{BoJeMoSc17} (see
+also~\citep[Appendix~A]{EbGiGiSVi07}), this structure allows us to
+solve a system such as $\mat M_\F(\beta) \boldsymbol x = \boldsymbol
+y$ in Las Vegas time $\tilde{O}(s^{\omega-1} n)$ (or raise an error if
+there is no solution). In addition, if the right-hand side is zero and
+$\mat M_\F(\beta)$ is not invertible, the algorithm returns a non-zero
+kernel element.
+This last remark allows us to test whether $\beta$ is invertible in
+Las Vegas time $\tilde{O}(s^{\omega-1} n)$; if so, given the
+coefficient vector $\boldsymbol y$ of some $\eta$ in $\F[G]$, we can
+compute $\beta^{-1} \eta$ in the same asymptotic runtime.
 
-\begin{corollary}\label{coro:test_meta}
-  Given $\beta$ in $\F[G]$, one can test if $\beta$ is a unit in
-  $\F[G]$ either by a deterministic algorithm that uses
-  $\tilde{O}(s^{2.7} m)$ operations in $\F$, or a Monte Carlo one that
-  uses $\tilde{O}(n^2)$ operations in $\F$.
-\end{corollary}
-The second statement provides the last part of the proof of Theorem
-\ref{thm:main}. Note that the first algorithm gives a better cost in
-many cases. For instance, if $s \leq m$, the first algorithm uses
-$O(n^{1.85})$ operations in $\F$. This happens if $s$ is prime, since
-then the number ${(m- \gcd(m,r-1))}/{s}$ is a positive integer,
-which implies $s \leq m$ (see \citep[Theorem 47.12, Corollary 47.14
-]{Curtis}).
+It is also possible to reorganize the rows and columns of 
+ $\mat M_\F(\beta)$, using indices
+$$\begin{bmatrix}
+(\tau^0 \sigma^0)^{-1} & \cdots & (\tau^0 \sigma^{m-1})^{-1} & \cdots& (\tau^{s-1} \sigma^0)^{-1} & \cdots&  (\tau^{s-1} \sigma^{m-1})^{-1}
+\end{bmatrix}$$
+for its columns and 
+$$\begin{bmatrix}
+\sigma^0 \tau^0 &  \cdots & \sigma^{m-1} \tau^0 \cdots& \sigma^0 \tau^{s-1} &  \cdots & \sigma^{m-1} \tau^{s-1}
+\end{bmatrix}
+$$ for its rows. The resulting matrix has an $m \times m$ block
+structure, where each $s\times s$ block is Hankel. As a result, it
+allows us to solve the problems above, this time using
+$\tilde{O}(m^{\omega-1} n)$ operations in $\F$.  Since we have either
+$s\le \sqrt n$ or $m \le \sqrt n$, this implies the following.
 
-
-\begin{proof}[First algorithm.]
-  The first algorithm uses fast linear algebra algorithms over the ring
-  $\A$. Here, we start from $\beta$ written as $\beta = \sum_{j =
-    0}^{s-1} \left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j
-  \in \F[G]$. Then, the proof of the previous lemma shows an explicit
-  formula for $\psi(\beta)$. In order to compute this matrix, we note
-  that $\zbar^{r^{j-1}} = \zbar^{r^{j-1} \bmod m}$; computing this
-  element and its powers requires no arithmetic operation, so that the
-  coefficients of each $F_{i,j}$ are obtained in linear time $O(m)$.
-  Hence the matrix $\psi(\beta)$ can be computed in time $O(s^2m)$.
-
-  Next, we have to determine whether $\psi(\beta)$ is a unit (the
-  injectivity of $\psi$ implies that this is the case if and only if
-  $\beta$ itself is a unit). This amounts to computing the determinant
-  of this matrix, which can be done in $\tilde{O}(s^{2.7} m)$
-  operations in $\F$, using the determinant algorithm
-  of~\citet[Section~6]{KaVi04}.
-\end{proof}
-
-Before giving our second algorithm, let us point out that matrix-vector
-products by $\psi(\beta)$ can be done fast.
-
-\begin{lemma}\label{lem:multpsi}
-  Given $\beta$ in $\F[G]$ and $\boldsymbol{v}$ in $\A^s$, one can
-  compute $\psi(\beta) \boldsymbol{v} \in \A^s$ using $\tilde{O}(s
-  m^2)$ operations in $\F$.
-\end{lemma}
-\begin{proof}
-  We use the basis of $\F[G]$ given in~\eqref{pres2}, writing $\beta =
-  \sum_{i = 0}^{m-1} \left( \sum_{j = 0}^{s-1}  b_{i,j} \tau^i
-  \right) \sigma^j \in \F[G]$. We rewrite this as $\beta = \sum_{i
-    = 0}^{m-1} B_i(\tau) \sigma^i$, for some $B_0,\dots,B_{m-1}$ in
-  $\F[z]$ of degree less than $s$.
-
- Given $\boldsymbol{v}$ as above, we compute all $B_i(\psi(\tau))
- \psi(\sigma)^i \boldsymbol{v}$ independently, and add them to obtain
- $\psi(\beta) \boldsymbol{v}$. Hence, let us fix an index $i$ in
- $\{0,\dots,m-1\}$.
- The vector $\psi(\sigma)^i \boldsymbol{v}$ can be obtained by
- multiplying each entry of $\boldsymbol{v}$ by a power of $\zbar$;
- this takes $\tilde{O}(sm)$ operations in $\F$. Then, since
- $\psi(\tau)$ is the matrix of multiplication by $y$ in $\A[y]/\langle
- y^s-\zbar\rangle$, $B_i(\psi(\tau))$ is the matrix of multiplication
- by $B_i(y)$ in $\A[y]/\langle y^s-\zbar\rangle$. Thus, applying this
- matrix to a vector also takes softly linear time $\tilde{O}(sm)$.
-
- Adding a factor of $m$ to account for indices $i=0,\dots,m-1$, we get 
- the result.
-\end{proof}
+\begin{proposition}
+  Given $\beta \in \F[G]$, one can test if $\beta$ is a unit in
+  $\F[G]$ using $\tilde{O}(n^{(\omega+1)/2})$ operations in $\F$.  If
+  it is the case, given $\eta$ in $\F[G]$, one can compute $\beta^{-1}
+  \eta$ in the same asymptotic runtime.
+\end{proposition}
+Combined with Proposition~\ref{prop:sum_meta}, the former statement
+provides the last part of the proof of Theorem \ref{thm:main}.
 
 
 
+%% \begin{lemma}\label{prop:metinjection}
+%% The mapping
+%% \[
+%%   \begin{array}{cccc}
+%% \psi:& \F [G]& \to& M_s(\A) \\
+%% &\sigma &\mapsto& \mathrm{Diag}(\zbar, \zbar^r , \ldots, \zbar^{r^{s-1}})\\
+%% &\tau &\mapsto &
+%% \left[ \begin{array}{l|l}
+%% 0 & \zbar\\
+%% \hline
+%% \mat I_{s-1} & 0
+%% \end{array}
+%% \right],
+%%   \end{array}
+%% \]
+%% an injective homomorphism of $\F$-algebras.
+%% \end{lemma}
+%% \begin{proof}
+%% It is straightforward to verify that $\psi(\sigma)^m = \mat I_m$,
+%% $\psi(\tau)^s = \psi(\sigma)^t$ and $\psi_i(\sigma) \psi_i(\tau)
+%% =\psi(\tau) \psi_i(\sigma)^r$; this shows that $\psi$ is a well-defined $\F$-algebras homomorphism.
+
+%% Take $\beta \in \F[G]$, and write it $\beta = \sum_{j = 0}^{s-1}
+%% \left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j$. For
+%% $j=0,\dots,s-1$, define $F_j(x) := \sum_{i = 0}^{m-1} b_{i,j}x^i \in
+%% \F[x]$ and, for $1 \leq i,j \leq s$,
+%% $$F_{i,j} := F_{i-1}(\zbar^{r^{j-1}}).$$
+%% Then, $\psi(\beta)$ is the matrix
+%% \begin{equation}\label{eq:injection}
+%% \left[\begin{array}{llll}
+%% F_{1,1} &  \cdots	&	\zbar F_{3,s-1} & \zbar F_{2,1}\\
+%% F_{2,2} & F_{1,2}& \cdots & \zbar F_{3,s}\\
+%% \vdots &\ddots & \ddots& \vdots\\
+%% F_{s,s}& \cdots & F_{2,s}	& F_{1,s}
+%% \end{array}
+%% \right].
+%% \end{equation}
+%% If $\beta$ is in $\mathrm{Ker}(\psi)$, we get $F_i(\zbar) =0$, that is,
+%% $F_i \bmod (z^m-1)=0$, for $0 \leq i < s$. Since all $F_i$'s have degree 
+%% less than $m$, they are all zero.
+%% \end{proof}
+
+%% We conclude this section with two algorithms that test whether
+%% $\psi(\beta) \in M_s(\A)$ is invertible, for a given $\beta$ in
+%% $\F[G]$. Minor difficulties will arise as we work over $\A$, since
+%% $\A$ is not a field, but a product of fields (if the irreducible
+%% factorization of $z^m-1$ in $\F[z]$ is available, one would simply use
+%% the Chinese Remainder theorem and work in field extensions of $\F$).
+
+%% \begin{corollary}\label{coro:test_meta}
+%%   Given $\beta$ in $\F[G]$, one can test if $\beta$ is a unit in
+%%   $\F[G]$ either by a deterministic algorithm that uses
+%%   $\tilde{O}(s^{2.7} m)$ operations in $\F$, or a Monte Carlo one that
+%%   uses $\tilde{O}(n^2)$ operations in $\F$.
+%% \end{corollary}
+%% The second statement provides the last part of the proof of Theorem
+%% \ref{thm:main}. Note that the first algorithm gives a better cost in
+%% many cases. For instance, if $s \leq m$, the first algorithm uses
+%% $O(n^{1.85})$ operations in $\F$. This happens if $s$ is prime, since
+%% then the number ${(m- \gcd(m,r-1))}/{s}$ is a positive integer,
+%% which implies $s \leq m$ (see \citep[Theorem 47.12, Corollary 47.14
+%% ]{Curtis}).
 
 
-\begin{proof}[Second algorithm for Corollary~\ref{coro:test_meta}.]
-  The second algorithm uses \citeauthor{Wiedemann86}'s
-  \citeyearpar{Wiedemann86} algorithm,
-  and its extension by~\citeN{KaSa91}. Extra care will be needed to
-  accommodate the fact that $\A$ has zero-divisors. Let
-  $F_1,\dots,F_s$ be the (unknown) irreducible factors of $z^m-1$ in
-  $\F[z]$ and define $\A_i := \F[z]/\langle F_i \rangle$ for
-  $i=1,\dots,s$. We write $\pi_i: \A \to\A_i$ for the canonical
-  projection, and extend the notation to matrices over $\A$.
+%% \begin{proof}[First algorithm.]
+%%   The first algorithm uses fast linear algebra algorithms over the ring
+%%   $\A$. Here, we start from $\beta$ written as $\beta = \sum_{j =
+%%     0}^{s-1} \left( \sum_{i = 0}^{m-1} b_{i,j} \sigma^i \right) \tau^j
+%%   \in \F[G]$. Then, the proof of the previous lemma shows an explicit
+%%   formula for $\psi(\beta)$. In order to compute this matrix, we note
+%%   that $\zbar^{r^{j-1}} = \zbar^{r^{j-1} \bmod m}$; computing this
+%%   element and its powers requires no arithmetic operation, so that the
+%%   coefficients of each $F_{i,j}$ are obtained in linear time $O(m)$.
+%%   Hence the matrix $\psi(\beta)$ can be computed in time $O(s^2m)$.
 
-  For $\beta$ in $\F[G]$, $\mat M:=\psi(\beta)$ is invertible if and only
-  if all $\mat M_i := \pi_i(\mat M)$ are. We are going to use the algorithm
-  of~\citet[Section~4]{KaSa91} to compute the rank of all these matrices
-  (these ranks are well-defined, since all $\A_i$'s are fields).  Let
-  $\mat L$ and $\mat U$ be respectively random lower triangular and upper
-  triangular Toeplitz matrices over $\A$, and define
-  $\mat M':=\mat L \mat M \mat U \in M_s(\A)$. Finally, let $\mat M''$ be
-  $\mat M'$, to which we adjoin a bottom row and a rightmost column of
-  zeros (so it has size $s+1$), let $\mat M''_i :=\pi_i(\mat M'')$ and let
-  $r_i :=\text{rank}(\mat M''_i)$, $i=1,\dots,s$. Then, all $r_i$'s are
-  less than $s+1$, and $\mat M$ is invertible if and only if $r_i=s$ for
-  all $i$.
+%%   Next, we have to determine whether $\psi(\beta)$ is a unit (the
+%%   injectivity of $\psi$ implies that this is the case if and only if
+%%   $\beta$ itself is a unit). This amounts to computing the determinant
+%%   of this matrix, which can be done in $\tilde{O}(s^{2.7} m)$
+%%   operations in $\F$, using the determinant algorithm
+%%   of~\citet[Section~6]{KaVi04}.
+%% \end{proof}
 
-  The condition that $\mat M''_i$ has rank less than $s+1$ makes it
-  possible to apply~\cite[Lemma~2]{KaSa91}: for generic
-  $\boldsymbol{u}_i, \boldsymbol{v}_i$ in $\A_i^{s+1}$ and diagonal
-  matrix $\mat X$ in $M_{s+1}(\A_i)$, the minimal polynomial of the
-  sequence $(\boldsymbol{u}_i^T (\mat M''_i \mat X_i)^j
-  \boldsymbol{v}_i)_{j \ge 0}$ has degree $r_i+1$.
+%% Before giving our second algorithm, let us point out that matrix-vector
+%% products by $\psi(\beta)$ can be done fast.
 
-  To compute these degrees without knowing the factorization $z^m-1 =
-  F_1 \cdots F_s$, we choose random $\boldsymbol{u}, \boldsymbol{v}$
-  in $\A^{s+1}$ and diagonal matrix $\mat X$ in $M_{s+1}(\A)$.  Then,
-  we compute $2s$ terms in the sequence $(\gamma_j)_{j\ge 0}$, with
-  $\gamma_j:=\boldsymbol{u}^T (\mat M'' \mat X)^j
-  \boldsymbol{v}$. Since multiplication by $\mat L$, $\mat U$ and
-  $\mat X$ all take quasi-linear time $\tilde{O}(sm)$,
-  Lemma~\ref{lem:multpsi} shows that one product by $\mat M'' \mat X$
-  takes $\tilde{O}(sm^2)$ operations in $\F$. Hence, all required
-  terms can be obtained in $\tilde{O}(s^2m^2)=\tilde{O}(n^2)$
-  operations in $\F$.
+%% \begin{lemma}\label{lem:multpsi}
+%%   Given $\beta$ in $\F[G]$ and $\boldsymbol{v}$ in $\A^s$, one can
+%%   compute $\psi(\beta) \boldsymbol{v} \in \A^s$ using $\tilde{O}(s
+%%   m^2)$ operations in $\F$.
+%% \end{lemma}
+%% \begin{proof}
+%%   We use the basis of $\F[G]$ given in~\eqref{pres2}, writing $\beta =
+%%   \sum_{i = 0}^{m-1} \left( \sum_{j = 0}^{s-1}  b_{i,j} \tau^i
+%%   \right) \sigma^j \in \F[G]$. We rewrite this as $\beta = \sum_{i
+%%     = 0}^{m-1} B_i(\tau) \sigma^i$, for some $B_0,\dots,B_{m-1}$ in
+%%   $\F[z]$ of degree less than $s$.
 
-  Finally, we apply the fast Euclidean algorithm to $\sum_{j=0}^{2s-1}
-  \gamma_j y^j$ and $y^{2s}$ in the ring $\A[y]$ to find the ranks
-  $r_1,\dots,r_s$.  Since $\A$ is not a field, we rely on the
-  algorithms of~\cite{AcCoMa03} and \cite{DaMMMScXi06}. Using $\tilde{O}(sm)$
-  operations in $\F$, it reveals a partial factorization of $z^m-1$ as
-  $G_1 \cdots G_t$ (the factors may not be irreducible) and integers
-  $\rho_j$, $j=1,\dots,t$, such that for all $i \le s$, $j\le t$, if
-  $F_i$ divides $G_j$, then $r_i=\rho_j$. This allows us to determine all
-  $r_i$'s, and thus decide whether $\psi(\beta)$ is singular.
-\end{proof}
+%%  Given $\boldsymbol{v}$ as above, we compute all $B_i(\psi(\tau))
+%%  \psi(\sigma)^i \boldsymbol{v}$ independently, and add them to obtain
+%%  $\psi(\beta) \boldsymbol{v}$. Hence, let us fix an index $i$ in
+%%  $\{0,\dots,m-1\}$.
+%%  The vector $\psi(\sigma)^i \boldsymbol{v}$ can be obtained by
+%%  multiplying each entry of $\boldsymbol{v}$ by a power of $\zbar$;
+%%  this takes $\tilde{O}(sm)$ operations in $\F$. Then, since
+%%  $\psi(\tau)$ is the matrix of multiplication by $y$ in $\A[y]/\langle
+%%  y^s-\zbar\rangle$, $B_i(\psi(\tau))$ is the matrix of multiplication
+%%  by $B_i(y)$ in $\A[y]/\langle y^s-\zbar\rangle$. Thus, applying this
+%%  matrix to a vector also takes softly linear time $\tilde{O}(sm)$.
+
+%%  Adding a factor of $m$ to account for indices $i=0,\dots,m-1$, we get 
+%%  the result.
+%% \end{proof}
+
+
+
+
+
+%% \begin{proof}[Second algorithm for Corollary~\ref{coro:test_meta}.]
+%%   The second algorithm uses \citeauthor{Wiedemann86}'s
+%%   \citeyearpar{Wiedemann86} algorithm,
+%%   and its extension by~\citeN{KaSa91}. Extra care will be needed to
+%%   accommodate the fact that $\A$ has zero-divisors. Let
+%%   $F_1,\dots,F_s$ be the (unknown) irreducible factors of $z^m-1$ in
+%%   $\F[z]$ and define $\A_i := \F[z]/\langle F_i \rangle$ for
+%%   $i=1,\dots,s$. We write $\pi_i: \A \to\A_i$ for the canonical
+%%   projection, and extend the notation to matrices over $\A$.
+
+%%   For $\beta$ in $\F[G]$, $\mat M:=\psi(\beta)$ is invertible if and only
+%%   if all $\mat M_i := \pi_i(\mat M)$ are. We are going to use the algorithm
+%%   of~\citet[Section~4]{KaSa91} to compute the rank of all these matrices
+%%   (these ranks are well-defined, since all $\A_i$'s are fields).  Let
+%%   $\mat L$ and $\mat U$ be respectively random lower triangular and upper
+%%   triangular Toeplitz matrices over $\A$, and define
+%%   $\mat M':=\mat L \mat M \mat U \in M_s(\A)$. Finally, let $\mat M''$ be
+%%   $\mat M'$, to which we adjoin a bottom row and a rightmost column of
+%%   zeros (so it has size $s+1$), let $\mat M''_i :=\pi_i(\mat M'')$ and let
+%%   $r_i :=\text{rank}(\mat M''_i)$, $i=1,\dots,s$. Then, all $r_i$'s are
+%%   less than $s+1$, and $\mat M$ is invertible if and only if $r_i=s$ for
+%%   all $i$.
+
+%%   The condition that $\mat M''_i$ has rank less than $s+1$ makes it
+%%   possible to apply~\cite[Lemma~2]{KaSa91}: for generic
+%%   $\boldsymbol{u}_i, \boldsymbol{v}_i$ in $\A_i^{s+1}$ and diagonal
+%%   matrix $\mat X$ in $M_{s+1}(\A_i)$, the minimal polynomial of the
+%%   sequence $(\boldsymbol{u}_i^T (\mat M''_i \mat X_i)^j
+%%   \boldsymbol{v}_i)_{j \ge 0}$ has degree $r_i+1$.
+
+%%   To compute these degrees without knowing the factorization $z^m-1 =
+%%   F_1 \cdots F_s$, we choose random $\boldsymbol{u}, \boldsymbol{v}$
+%%   in $\A^{s+1}$ and diagonal matrix $\mat X$ in $M_{s+1}(\A)$.  Then,
+%%   we compute $2s$ terms in the sequence $(\gamma_j)_{j\ge 0}$, with
+%%   $\gamma_j:=\boldsymbol{u}^T (\mat M'' \mat X)^j
+%%   \boldsymbol{v}$. Since multiplication by $\mat L$, $\mat U$ and
+%%   $\mat X$ all take quasi-linear time $\tilde{O}(sm)$,
+%%   Lemma~\ref{lem:multpsi} shows that one product by $\mat M'' \mat X$
+%%   takes $\tilde{O}(sm^2)$ operations in $\F$. Hence, all required
+%%   terms can be obtained in $\tilde{O}(s^2m^2)=\tilde{O}(n^2)$
+%%   operations in $\F$.
+
+%%   Finally, we apply the fast Euclidean algorithm to $\sum_{j=0}^{2s-1}
+%%   \gamma_j y^j$ and $y^{2s}$ in the ring $\A[y]$ to find the ranks
+%%   $r_1,\dots,r_s$.  Since $\A$ is not a field, we rely on the
+%%   algorithms of~\cite{AcCoMa03} and \cite{DaMMMScXi06}. Using $\tilde{O}(sm)$
+%%   operations in $\F$, it reveals a partial factorization of $z^m-1$ as
+%%   $G_1 \cdots G_t$ (the factors may not be irreducible) and integers
+%%   $\rho_j$, $j=1,\dots,t$, such that for all $i \le s$, $j\le t$, if
+%%   $F_i$ divides $G_j$, then $r_i=\rho_j$. This allows us to determine all
+%%   $r_i$'s, and thus decide whether $\psi(\beta)$ is singular.
+%% \end{proof}
 
 
 

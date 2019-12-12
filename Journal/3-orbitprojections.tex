@@ -26,17 +26,18 @@ all $L_j:=\ell \circ g^{tj}$ for $0 \leq j <m$, where the $L_j$'s are
 themselves linear mappings $\K \to \F$.  Finally, a matrix product yields
 all values $L_j(G_i)$.
 
-The original algorithm of \cite{KalSho98} relies on the properties of the
-Frobenius mapping to achieve subquadratic runtime. In our case, we cannot
-apply these results directly; instead, we have to revisit the proofs
-of~\cite{KalSho98}, Lemmata 3, 4 and~8, now considering rectangular matrix
-multiplication.  Our exponents involve the constant $\omega(4/3)$, for
-which we have the upper bound $\omega(4/3) < 2.654$: this follows from the
-upper bounds on $\omega(1.3)$ and $\omega(1.4)$ given by~\cite{LeGall}, and
-the fact that $k \mapsto \omega(k)$ is convex~\citep{LoRo83}. In particular,
-$3/4 \cdot \omega(4/3) < 1.99$. Note also the inequality
-$\omega(k) \ge 1+k$ for $k\ge 1$, since $\omega(k)$ describes products with
-input and output size $O(n^{1+k})$.
+The original algorithm of \cite{KalSho98} relies on the properties of
+the Frobenius mapping to achieve subquadratic runtime. In our case, we
+cannot apply these results directly; instead, we have to revisit the
+proofs of~\cite[Lemmata 3 and 4]{KalSho98}, now considering
+rectangular matrix multiplication.  Our exponents involve the constant
+$\omega(4/3)$, for which we have the upper bound $\omega(4/3) <
+2.654$: this follows from the upper bounds on $\omega(1.3)$ and
+$\omega(1.4)$ given by~\cite{LeGall}, and the fact that $k \mapsto
+\omega(k)$ is convex~\citep{LoRo83}. In particular, $3/4 \cdot
+\omega(4/3) < 1.99$. Note also the inequality $\omega(k) \ge 1+k$ for
+$k\ge 1$, since $\omega(k)$ describes products with input and output
+size $O(n^{1+k})$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -93,44 +94,97 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   $(3/4)\cdot\omega(4/3)$.
 \end{proof}
 
+
 \begin{lemma}\label{lem:selfcomp}
-Given $\alpha$ in $\K$, $g_1, \ldots , g_{r}$ in $G =
-\mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
-that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all
-  $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) ,\quad \text{~for~} 0 \leq i_j
-\leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$
-operations in $\F$.
+  Consider $g_1, \ldots g_r$ in $G=\mathrm{Gal}(\K/\F)$, positive
+  integers $(s_1, \ldots s_r)$ and elements $\alpha_{i_1, \dots, i_r}$
+  in $\K$, for $i_m=0,\dots,s_m$, $m=1,\dots,r$. If $\prod_{i = 1}^r s_i
+  = O(\sqrt{n})$, we can compute
+  $$g_r^{i_r}\cdots g_1^{i_1}(\alpha_{i_1, \dots, i_r})
+  \text{~for~} i_m=0,\dots,s_m,\ m=1,\dots,r
+  $$  using $\thecost$ operations in $\F$.
 \end{lemma}
 \begin{proof}
-(Compare \cite[Lemma~4]{KalSho98}.) For a given  $m\in\{1,\dots,r\}$, suppose we have computed 
-  $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
-  i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
-  the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\xbar$, as per our convention).
+  Define $\mathcal I = \{(i_1,\dots,i_r) \mid i_m=0,\dots,s_m
+  \text{~for~} m=1,\dots,r\}$. For $(i_1,\dots,i_r)$ in $\mathcal I$
+  and non-negative integers $\ell_1,\dots,\ell_r$, define
+  $$\alpha_{i_1, \dots, i_r}^{(\ell_1,\dots,\ell_r)} 
+  =g_r^{\ell_r} \cdots g_1^{\ell_1}(\alpha_{i_1, \dots, i_r}).$$  
+  Assume then that
+  for some $t$ in $\{0,\dots,r-1\}$, we know 
+  $$S_t=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t},0, \dots, 0)} \ \mid \ (i_1,\dots,i_r)\in \mathcal I);$$ we show how to compute 
+  $$S_{t+1}=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t+1},0, \dots, 0)}
+  \ \mid \ (i_1,\dots,i_r)\in \mathcal I).$$ Since our input is $S_0$,
+  it will be enough to go through this process $r$ times to obtain the
+  output $S_r$ of the algorithm.
   
- Then, we can obtain $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
- \leq j < m$, and $0 \leq i_m < 2k_m$, by computing
- $\eta(G_{i_1,\dots,i_m})$, for all indices $i_1,\dots,i_m$ available
- to us, that is, $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq
- i_m < k_m$. This can be carried out using $\osumcosttilde$ operations
- in $\F$ by applying Lemma \ref{lem:modcom}. Prior to entering the
- next iteration, we also compute $\eta^2$ by means of one modular
- composition, whose cost is negligible. 
-
- Using the above doubling method for $g_m$, we have to do $O(\log
- s_m)$ steps, for a total cost of $\osumcosttilde$ operations in $\F$.  We
- repeat this procedure for $m=1,\dots,r$; since $r$ is in $O(\log(n))$,
- the cost remains $\osumcosttilde$.
+  For a given index $t$, and for $m \ge 0$
+  define further 
+  $$S_{t,m}=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t},i_{t+1} \bmod 2^m, 0,\dots, 0)} \ \mid \ (i_1,\dots,i_r)\in \mathcal I);$$
+  in particular, $S_{t,0} = S_t$ and $S_{t,\lfloor \log_2(s_{t+1})\rfloor+1} = S_{t+1}$. 
+  Hence, given $S_{t,m}$, it is enough to show how to compute $S_{t,m+1}$,
+  for indices $m=0,\dots,\lfloor \log_2(s_{t+1})\rfloor$.
+  This is done by writing 
+  $$S_{t,m+1}=
+  (\beta_{i_1, \dots,i_r,t,m} \ \mid \ (i_1,\dots,i_r)\in \mathcal I),$$
+  with
+  $$\beta_{i_1, \dots,i_r,t,m}
+  =\begin{cases}
+  \alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t},i_{t+1} \bmod 2^m,0, \dots, 0)}  \text{~if~} 
+  i_{t+1} \bmod 2^{m+1} = i_{t+1} \bmod 2^m \\[2mm]
+  g_{t+1}^{2^{m}}(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t},i_{t+1} \bmod 2^m,0, \dots, 0)}) 
+  \text{~otherwise.}
+  \end{cases}$$
+  The automorphisms $g_{t+1}^{2^m}$ can be computed iteratively by modular
+  composition; the bottleneck is the application of  $g_{t+1}^{2^m}$
+  to a subset of $S_{t,m}$. Using Lemma \ref{lem:modcom}, since 
+  $S_{t,m}$ has $O(\sqrt n)$ elements, this take $\thecost$ 
+  operations in $\F$.
+  
+  For a given index $t$, this is repeated $O(\log(s_{t+1}))$ times;
+  adding up for all such indices, this amounts to $O(\log (s_1 \cdots s_r))$,
+  which is $O(\log(n))$; the conclusion follows.
 \end{proof}
 
-We now present dual versions of the previous two lemmas (
-\cite{KalSho98} also have such a discussion). Seen as an
-$\F$-linear map, the operator $g:\alpha \mapsto g(\alpha)$ admits a
-transpose, which maps an $\F$-linear form $\ell:\K\to\F$ to the
-$\F$-linear form $\ell \circ g: \alpha \mapsto \ell(g(\alpha))$.  The
-{\em transposition principle}~\citep{KaKiBs88,CaKaYa89} implies that if
-a linear map $\F^N \to \F^M$ can be computed in time $T$, its
-transpose can be computed in time $T+O(N+M)$. In particular, given $s$
-linear forms $\ell_1,\dots,\ell_s$ and $g$ in $G$, transposing
+
+%% \begin{lemma}\label{lem:selfcomp}
+%% Given $\alpha$ in $\K$, $g_1, \ldots , g_{r}$ in $G =
+%% \mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
+%% that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all
+%%   $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) ,\quad \text{~for~} 0 \leq i_j
+%% \leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$
+%% operations in $\F$.
+%% \end{lemma}
+%% \begin{proof}
+%% (Compare \cite[Lemma~4]{KalSho98}) For a given  $m\in\{1,\dots,r\}$, suppose we have computed 
+%%   $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
+%%   i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
+%%   the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\xbar$, as per our convention).
+  
+%%  Then, we can obtain $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
+%%  \leq j < m$, and $0 \leq i_m < 2k_m$, by computing
+%%  $\eta(G_{i_1,\dots,i_m})$, for all indices $i_1,\dots,i_m$ available
+%%  to us, that is, $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq
+%%  i_m < k_m$. This can be carried out using $\osumcosttilde$ operations
+%%  in $\F$ by applying Lemma \ref{lem:modcom}. Prior to entering the
+%%  next iteration, we also compute $\eta^2$ by means of one modular
+%%  composition, whose cost is negligible. 
+
+%%  Using the above doubling method for $g_m$, we have to do $O(\log
+%%  s_m)$ steps, for a total cost of $\osumcosttilde$ operations in $\F$.  We
+%%  repeat this procedure for $m=1,\dots,r$; since $r$ is in $O(\log(n))$,
+%%  the cost remains $\osumcosttilde$.
+%% \end{proof}
+
+We now present dual versions of the previous two lemmas
+(\cite{KalSho98} also have such a discussion). Seen as an $\F$-linear
+map, the operator $g:\alpha \mapsto g(\alpha)$ admits a transpose,
+which maps an $\F$-linear form $\ell:\K\to\F$ to the $\F$-linear form
+$\ell \circ g: \alpha \mapsto \ell(g(\alpha))$.  The {\em
+  transposition principle}~\citep{KaKiBs88,CaKaYa89} implies that if a
+linear map $\F^N \to \F^M$ can be computed in time $T$, its transpose
+can be computed in time $T+O(N+M)$. In particular, given $s$ linear
+forms $\ell_1,\dots,\ell_s$ and $g$ in $G$, transposing
 Lemma~\ref{lem:modcom} shows that we can compute $\ell_1 \circ
 g,\dots,\ell_s \circ g$ in time $\osumcosttilde$. The following lemma
 sketches the construction.
@@ -168,24 +222,48 @@ whose proof follows the same pattern.
 
 \begin{lemma}
   \label{lem:transmodcomp}
-  Given $\ell:\K\to F$, $g_1, \ldots , g_{r}$ in $G = \mathrm{Gal}(\K/\F)$
-  and positive integers $(s_1, \ldots s_r)$ such that
-  $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all linear
-  maps
-  \[
-    \ell \circ g_1^{i_1}\cdots g_r^{i_r} ,\quad \text{~for~} 0 \leq i_j
-    \leq s_j,\ 1 \leq j \leq r,
-  \]
-  can be computed in $\osumcosttilde$ operations in $\F$.
+  Consider $g_1, \ldots g_r$ in $G=\mathrm{Gal}(\K/\F)$, positive
+  integers $(s_1, \ldots s_r)$ and $\F$-linear forms $\ell_{i_1,
+    \dots, i_r}$, for $i_m=0,\dots,s_m$, $m=1,\dots,r$. If $\prod_{i =
+    1}^r s_i = O(\sqrt{n})$, we can compute
+  $$\ell_{i_1, \dots, i_r} \circ g_r^{i_r}\cdots g_1^{i_1}
+  \text{~for~} i_m=0,\dots,s_m,\ m=1,\dots,r
+  $$  using $\thecost$ operations in $\F$.
+  %% Given $\ell:\K\to F$, $g_1, \ldots , g_{r}$ in $G = \mathrm{Gal}(\K/\F)$
+  %% and positive integers $(s_1, \ldots s_r)$ such that
+  %% $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all linear
+  %% maps
+  %% \[
+  %%   \ell \circ g_1^{i_1}\cdots g_r^{i_r} ,\quad \text{~for~} 0 \leq i_j
+  %%   \leq s_j,\ 1 \leq j \leq r,
+  %% \]
+  %% can be computed in $\osumcosttilde$ operations in $\F$.
 \end{lemma} 
 \begin{proof}
-(Compare \cite[Lemma~8]{KalSho98}.)
-  We proceed as in Lemma~\ref{lem:selfcomp}. For $m=1,\dots,r$, assume
-  we know $L_{i_1,\dots,i_m}:=\ell \circ (g_1^{i_1}\cdots g_m^{i_m}),$
-  for $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m.$
-  Using the previous lemma, we compute all $L_{i_1,\dots,i_m} \circ
-  {g_m}^{k_m},$ which gives us $L_{i_1,\dots,i_m}$ for indices $0 \le
-  i_m < 2k_m$. The cost analysis is as in Lemma~\ref{lem:selfcomp}.
+  We proceed as in Lemma~\ref{lem:selfcomp}, reversing the order of
+  the steps. Using the same index set $\mathcal I$ as before, define,
+  for $(i_1,\dots,i_r)$ in $\mathcal I$ and non-negative integers
+  $k_1,\dots,k_r$
+  $$\ell_{i_1,\dots,i_r}^{(k_1,\dots,k_r)} =\ell_{i_1,\dots,i_r} \circ g_r^{k_r}\cdots g_1^{k_1}.$$
+  For $t=r,\dots,0$, assuming that
+  we know 
+  $$L_{t+1} = (\ell_{i_1, \dots,i_r}^{(0, \dots, 0,i_{t+1},\dots,i_r)} \ \mid
+  \ (i_1,\dots,i_r)\in \mathcal I),$$ we compute 
+  $$L_{t}=(\ell_{i_1, \dots,i_r}^{(0, \dots, 0,i_{t},i_{t+1},\dots,i_r)}
+  \ \mid \ (i_1,\dots,i_r)\in \mathcal I).$$
+  This time, for $m \ge 0$, we set
+  $$L_{t+1,m} = (\ell_{i_1, \dots,i_r}^{(0, \dots, 0,\lfloor i_{t}
+    \rfloor_m,i_{t+1},\dots,i_r)} \ \mid \ (i_1,\dots,i_r)\in \mathcal
+  I),$$ where for a non-negative integer $x$, $\lfloor x \rfloor_m = x
+  - (x \bmod (2^m-1))$ is obtained by setting to zero the coefficients
+  of $1,2,\dots,2^{m-1}$ in the base-two expansion of $x$.
+
+  Starting from $L_{t+1} = L_{t, \lceil \log_2(s_t) \rceil +1}$, we
+  compute all $L_{t+1,m}$ for $m= \lceil \log_2(s_t) \rceil,\dots,0$,
+  since $L_{t+1,0} = L_{t}$. This is done essentially as in
+  Lemma~\ref{lem:selfcomp}, but using Lemma~\ref{lem:modcomT} this
+  time, in order to do right-composition by $g_t^{2^m}$.
+  The cost analysis is as in Lemma~\ref{lem:selfcomp}.
 \end{proof}
 
 %% At this point we have enough tools to see how the computation is
@@ -237,7 +315,8 @@ elements presented as column vectors. Then, all elements in
 \eqref{eq:abelian} can be computed with the following steps, the sum of whose 
 costs proves the proposition.
 
-\smallskip\noindent \textbf{Step 1.} Apply Lemma \ref{lem:selfcomp} to get 
+\smallskip\noindent \textbf{Step 1.} Apply Lemma \ref{lem:selfcomp},
+with $\alpha_{i_1,\dots,i_r} = \alpha$ for all $i_1,\dots,i_r$, to get
 $$G_{i_1,\dots,i_r}=g_1^{i_1} \cdots g_r^{i_r}(\alpha), \,\, 1\leq m \leq r, 0\leq i_m < s_m,$$
 with cost $\osumcosttilde$.
 
@@ -245,7 +324,8 @@ with cost $\osumcosttilde$.
 this involves $O(\log(n))$ modular compositions, so the cost is negligible
 compared to that of Step~1.
 
-\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp} to compute 
+\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp}
+with $\ell_{i_1,\dots,i_r} = \ell$ for all $i_1,\dots,i_r$, to compute 
 $$L_{j_1,\dots,j_r} = \ell \circ (g_1^{s_1j_1} \cdots
 g_r^{s_rj_s}), \,\, 1\leq m \leq r, 0 \leq j_m < s_m,$$
 with cost $\osumcosttilde$
@@ -295,7 +375,7 @@ Conversion between the two representations involves no operation in $\F$,
 using the commutation relation $\sigma^k \tau^c = \tau^c \sigma^{kr^c}$
 for $k,c \ge 0$.
 
-\begin{proposition}
+\begin{proposition}\label{prop:sum_meta}
   Suppose that $G$ is metacyclic, with notation as above. For $\alpha$
   in $\K$ and $\ell:\K\to\F$, $s_{\alpha,\ell} \in \F[G]$ is
   computable using $\osumcosttilde$ operations in $\F$.
@@ -307,7 +387,8 @@ for $k,c \ge 0$.
   $\ell(\sigma^i\tau^j (\alpha))$, for all $0\leq i < m$ and $0 \leq j
   <s.$ This is accomplished with the following steps.
 
-\smallskip\noindent\textbf{Step 1.} Apply Lemma \ref{lem:selfcomp} to compute
+\smallskip\noindent\textbf{Step 1.} Apply Lemma \ref{lem:selfcomp},
+with $\alpha_{i,j}=\alpha$ for all $i,j$, to compute
 $$G_{i,j} := \sigma^i\tau^j(\alpha),\ 0\leq i < \lceil \sqrt{m/s}
 \rceil,\ 0 \leq j < s.$$ Note that
 $\lceil \sqrt{m/s} \rceil s \leq \lceil \sqrt{sm} \rceil \in O(\sqrt n)$,
@@ -323,8 +404,8 @@ in degree $n$. The cost is no more than that of Step 1.
   L_k := \ell \circ \sigma^{k\lceil \sqrt{m/s} \rceil}, \,\, 0\leq k <
   \lceil \sqrt{sm}\rceil,
 \]
-using Lemma \ref{lem:transmodcomp}.  This takes $\osumcosttilde$ operations
-in~$\F$.
+using Lemma \ref{lem:transmodcomp} (with $\ell_{i,j}=\ell$ for all
+$i,j$).  This takes $\osumcosttilde$ operations in~$\F$.
 
 \smallskip\noindent\textbf{Step 4.} At this point, we compute all
 $$ L_k(s_{i,j}) = \ell(\sigma^{k\lceil \sqrt{m/s} \rceil + i}\tau
@@ -343,18 +424,6 @@ This concludes the proof in the case $s \le m$. When $m \le s$, use the
 presentation~\eqref{pres2} of the elements of $G$ and proceed as above.
 \end{proof}
 
-%% We note the above algorithm works for a class of groups which includes metacyclic case. Since if $G$ is metacyclic, 
-%% $H = \langle \sigma \rangle \unlhd G$ and $G/H = \langle \tau H \rangle$, then both $\tau \sigma \tau^{-1}$ and 
-%% $\tau^{-1} \sigma \tau$ belong to $H$. This implies elements of $G$ can be presented either as $\sigma^i\tau^j$
-%% or $\tau^j\sigma^i$. Thus without loss of generality we can assume the $\textrm{Ord}(\tau) \leq \textrm{Ord}(\sigma)$.
-
-%% Similar to the abelian case the final output of the above algorithm is a $\lceil \sqrt{n} \rceil \times \lceil \sqrt{n} \rceil $
-%% matrix and $l(\osum{G}{K})$ can be calculated in the same way. Hence we have proved the following proposition.
- 
-%% \begin{proposition}
-%% Suppose Assumption \ref{assum} holds and $G$ is a metacyclic group. $l(\osum{K}{G}) \in F[G]$ is computable using $\thecost$ 
-%% operations in $F$.
-%% \end{proposition}
 
 %%% Local Variables:
 %%% mode: latex

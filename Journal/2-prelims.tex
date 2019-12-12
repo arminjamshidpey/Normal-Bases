@@ -17,24 +17,24 @@ $i \in \lbrace 1, \ldots , n\rbrace$, applying $g_i$ to equation
 \begin{equation} \label{eq:otherrow} \sum_{j=1}^n c_j g_i g_j(\alpha)=0.
 \end{equation}
 Using \eqref{eq:fstrow} and \eqref{eq:otherrow}, one can form the linear
-system $\mat{M}_G(\alpha)\boldsymbol{c} = \textbf{0}$,
+system $\mat{M}\boldsymbol{c} = \textbf{0}$,
 with $\boldsymbol{c} = [ c_1~ \cdots~c_n]^T$ and
- where, for $\alpha\in\K$,
-\[
-  \mat M_G(\alpha) =
+where, for $\alpha\in\K$,
+\begin{equation}\label{eqdef:M}
+  \mat M =
   \begin{bmatrix}
     g_1 g_1(\alpha) & g_1 g_2(\alpha) & \cdots & g_1 g_n(\alpha) \\
     g_2 g_1(\alpha) & g_2 g_2(\alpha) & \cdots & g_2 g_n(\alpha) \\
     \vdots		& \vdots	& \vdots & \vdots \\
     g_n g_1(\alpha) & g_n g_2(\alpha) & \cdots & g_n g_n(\alpha) \\
   \end{bmatrix} \in M_n(\K).
-\]
+\end{equation}
 Classical proofs then proceed to show that there exists $\alpha \in \K$
-with $\det(\mat M_G(\alpha))\neq 0$.
+with $\det(\mat M)\neq 0$.
  
 This approach can be used as the basis of a procedure to test if a
 given $\alpha\in\K$ is normal, by computing all the entries of the
-matrix $\mat M_G(\alpha)$ and using linear algebra to compute its
+matrix $\mat M$ and using linear algebra to compute its
 determinant; using fast matrix arithmetic this requires $O(n^\omega)$
 operations in $\K$, that is $\tilde{O}(n^{\omega+1})$ operations in
 $\F$. This is at least cubic in $n$, and only a minor improvement over
@@ -44,10 +44,10 @@ verification.
  
 Before entering that discussion, we briefly comment on the probability
 that $\alpha$ be a normal element: if we write $\alpha = a_0 + \cdots
-+ a_{n-1} \xbar^{n-1}$, the determinant of $\mat M_G(\alpha)$ is a
++ a_{n-1} \xbar^{n-1}$, the determinant of $\mat M$ is a
 (not identically zero) homogeneous polynomial of degree $n$ in
 $(a_0,\dots,a_{n-1})$. If the $a_i$'s are chosen uniformly at random
-in a finite set $X \subset \F$, the Lipton-DeMillo-Schwartz-Zippel
+in a finite set $X \subset \F$, the Lipton-DeMillo-Schwartz-Zippel lemma
 implies that the probability that $\alpha$ be normal is at least
 $1-n/|X|$.
 
@@ -56,92 +56,100 @@ computing the GCD of $S_\alpha := \sum_{i = 0}^{n-1} g_i(\alpha)x^i$
 and $x^n-1$. In effect, this amounts to testing whether $S_\alpha$ is
 invertible in the group ring $\K[G]$, which is isomorphic to
 $\K[x]/\langle x^n-1\rangle$. This is a general fact: for any $G$,
-$\mat M_G(\alpha)$ can be seen as the matrix of (left) multiplication by the orbit
+matrix $\mat M$ above is the matrix of left multiplication by the orbit
 sum
-$$S_\alpha:= \sum_{g \in G} g(\alpha)g \in \K[G],$$ 
-where we index rows by $g_1,\dots,g_n$ and columns by
-their inverses $g_1^{-1},\dots,g_n^{-1}$. Then, $\alpha$ being
-normal is equivalent to $S_\alpha$ being a unit in $\K[G]$. This point of
-view may make it possible to avoid linear algebra of size $n$ over $\K$,
-but writing $S_\alpha$ itself still involves $\Theta(n^2)$ elements in
-$\F$. The following lemma is the main new ingredient in our algorithm: it
-gives a randomized reduction to testing whether a suitable projection of
+$$S_\alpha:= \sum_{g \in G} g(\alpha)g \in \K[G],$$ where we index
+rows by $g_1,\dots,g_n$ and columns by their inverses
+$g_1^{-1},\dots,g_n^{-1}$. In terms of notation, for any field
+$\mathsf L$ (typically, we will take either $\mathsf L = \F$ or
+$\mathsf L = \K$), and $\beta$ in $\mathsf L[G]$, we will write $\mat
+M_{\mathsf L}(\beta)$ for the left multiplication matrix by $\beta$ in
+$\mathsf L[G]$, using the two bases shown above.  In other words, the
+matrix $\mat M$ of~\eqref{eqdef:M} is $\mat M_\K(S_\alpha)$.
+
+The previous discussion shows that $\alpha$ being normal is equivalent
+to $S_\alpha$ being a unit in $\K[G]$. This point of view may make it
+possible to avoid linear algebra of size $n$ over $\K$, but writing
+$S_\alpha$ itself still involves $\Theta(n^2)$ elements in $\F$. The
+following lemma is the main new ingredient in our algorithm: it gives
+a randomized reduction to testing whether a suitable projection of
 $S_\alpha$ in $\F[G]$ is a unit.
 
 
 \begin{lemma}
   \label{Lem:Proj}
-  For $\alpha \in \K$, $\mat M_G(\alpha)$ is invertible if and only
-  if $$\ell(\mat M_G(\alpha)) := [\ell(g_ig_j(\alpha))]_{ij} \in M_n(\F)$$
+  For $\alpha \in \K$, $\mat M_\K(S_\alpha)$ is invertible if and only
+  if $$\ell(\mat M_\K(S_\alpha)) := [\ell(g_ig_j(\alpha))]_{ij} \in M_n(\F)$$
   is invertible, for a generic $\F$-linear projection $\ell: \K \to \F$.
 \end{lemma}
 \begin{proof}
   $(\Rightarrow)$ For a fixed $\alpha\in\K$, any entry of
-  $\mat M_G(\alpha)$ can be written as
+  $\mat M_\K(S_\alpha)$ can be written as
   \begin{equation}\label{Eq:PrimElm}
     \sum_{k= 0}^{n-1} a_{ijk}\xbar^k,
   \end{equation}
   and for $\ell: \K \to \F$, the corresponding entry in $\ell(\mat
-  M_G(\alpha))$ can be written $\sum_{k= 0}^{n-1} a_{ijk}\ell_k$, with
+  M_\K(S_\alpha))$ can be written $\sum_{k= 0}^{n-1} a_{ijk}\ell_k$, with
   $\ell_k = \ell(\xbar^k)$. Replacing these $\ell_k$'s by
   indeterminates $L_k$'s, the determinant becomes a polynomial in $P
   \in \F[L_1, \ldots, L_n].$ Viewing $P$ in $\K[L_1, \ldots, L_n]$, we
-  have $ P(1, \xbar, \ldots, \xbar^{n-1})$ $= \det(\mat M_G(\alpha))$,
+  have $ P(1, \xbar, \ldots, \xbar^{n-1})$ $= \det(\mat M_\K(S_\alpha))$,
   which is non-zero by assumption. Hence, $P$ is not identically zero,
   and the conclusion follows.
   
-  $(\Leftarrow)$ Assume $\mat M_G(\alpha)$ is not invertible. Following the
+  $(\Leftarrow)$ Assume $\mat M_\K(S_\alpha)$ is not invertible. Following the
   proof of \citet[Lemma 4]{Jam18}, we first show that there exists a
-  non-zero $\boldsymbol{u} \in \F^n$ in the kernel of $\mat M_G(\alpha)$.
+  non-zero $\boldsymbol{u} \in \F^n$ in the kernel of $\mat M_\K(S_\alpha)$.
   
-  The elements of $G$ act on rows of $\mat M_G(\alpha)$ entrywise and the
+  The elements of $G$ act on rows of $\mat M_\K(S_\alpha)$ entrywise and the
   action permutes the rows the matrix. Assume
   $\varphi : G \to \mathfrak{S}_n$ is the group homomorphism such that
   $g(\mat M_i) = \mat M_{\varphi(g)(i)}$ for all $i$, where $\mat M_i$ is
-  the $i$-th row of $\mat M_G(\alpha)$.
+  the $i$-th row of $\mat M_\K(S_\alpha)$.
   
-  Since $\mat M_G(\alpha)$ is singular, there exists a non-zero
-  $\boldsymbol{v} \in \K^n$ such that $\mat M_G(\alpha)\boldsymbol{v} = 0$;
+  Since $\mat M_\K(S_\alpha)$ is singular, there exists a non-zero
+  $\boldsymbol{v} \in \K^n$ such that $\mat M_\K(S_\alpha)\boldsymbol{v} = 0$;
   we choose $\boldsymbol{v}$ having the minimum number of non-zero
   entries. Let $i \in \lbrace 1, \ldots , n \rbrace$ such that
   $v_i \neq 0$. Define $\boldsymbol{u} = 1/v_i\boldsymbol{v}$. Then,
-  $\mat M_G(\alpha)\boldsymbol{u} = 0,$ which means
+  $\mat M_\K(S_\alpha)\boldsymbol{u} = 0,$ which means
   $\mat M_j \boldsymbol{u} = 0 $ for $j \in \lbrace 1, \ldots, n
   \rbrace$. For $g \in G$, we have
   $g(\mat M_j \boldsymbol{u}) = \mat M_{\varphi(g)(j)} g(\boldsymbol{u})=
   0.$ Since this holds for any $j$, we conclude that
-  $\mat M_G(\alpha)g(\boldsymbol{u})= 0$, hence
+  $\mat M_\K(S_\alpha)g(\boldsymbol{u})= 0$, hence
   $g(\boldsymbol{u})-\boldsymbol{u}$ is in the kernel of
-  $\mat M_G(\alpha)$. On the other hand since the $i$-th entry of
+  $\mat M_\K(S_\alpha)$. On the other hand since the $i$-th entry of
   $\boldsymbol{u}$ is one, the $i$-th entry of
   $g(\boldsymbol{u}) -\boldsymbol{u}$ is zero. Thus the minimality
   assumption on $\textbf{v}$ shows that
   $g(\boldsymbol{u}) -\boldsymbol{u} = 0$, equivalently
   $g(\boldsymbol{u})=\boldsymbol{u}$, and hence $\boldsymbol{u} \in \F^n$.
   
-  Now we show that $\ell(\mat M_G(\alpha))$ is not invertible for all
+  Now we show that $\ell(\mat M_\K(S_\alpha))$ is not invertible for all
   choices of $\ell$. By Equation \eqref{Eq:PrimElm}, we can write
-  $$\mat M_G(\alpha) = \sum_{j = 0}^{n-1} \mat M^{(j)} \xbar^j, \quad 
+  $$\mat M_\K(S_\alpha) = \sum_{j = 0}^{n-1} \mat M^{(j)} \xbar^j, \quad 
   \mat M^{(j)} \in M_{n}(\F) \text{~for all $j$}.$$ 
   Since $\boldsymbol{u}$ has entries in $\F$,
-  $\mat M_G(\alpha) \boldsymbol{u} =0$ yields
+  $\mat M_\K(S_\alpha) \boldsymbol{u} =0$ yields
   $\mat M^{(j)}\boldsymbol{u} = 0$ for
   $j \in \lbrace 1, \ldots , n \rbrace$. Hence,
 $$\sum_{j = 0}^{n-1} \mat M^{(j)} \ell_j \boldsymbol{u} = 0$$ for any 
-$\ell_j$'s in $\F$, and $\ell(\mat M_G(\alpha))$ is not invertible for any~$\ell$.
+$\ell_j$'s in $\F$, and $\ell(\mat M_\K(S_\alpha))$ is not invertible for any~$\ell$.
 \end{proof} 
 Our algorithm can be sketched as follows: choose random
 $\alpha$ in $\K$ and $\ell: \K\to\F$, and let
 \begin{equation}\label{def:s_alpha_ell}
 s_{\alpha,\ell}:=\sum_{g \in G} \ell(g(\alpha))g \in \F[G].
 \end{equation}
-The matrix $\ell(\mat M_G (\alpha))$ is the multiplication matrix by
+Note $\ell(\mat M_\K(S_\alpha))$ is equal to $\mat
+M_\F(s_{\alpha,\ell})$, that is, the multiplication matrix by
 $s_{\alpha,\ell}$ in $\F[G]$, where, as above, we index rows by
-$g_1,\dots,g_n$ and columns by 
-$g_1^{-1},\dots,g_n^{-1}$.  Then, once $s_{\alpha,\ell}$ is known, we
-are left with testing whether it is a unit in $\F[G]$.  In the next
-two sections, we address the respective questions of computing
-$s_{\alpha,\ell}$, and testing its invertibility in $\F[G]$.
+$g_1,\dots,g_n$ and columns by $g_1^{-1},\dots,g_n^{-1}$.  Thus, once
+$s_{\alpha,\ell}$ is known, we are left with testing whether it is a
+unit in $\F[G]$.  In the next two sections, we address the respective
+questions of computing $s_{\alpha,\ell}$, and testing its
+invertibility in $\F[G]$.
 
 
 %%% Local Variables:
