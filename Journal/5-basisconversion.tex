@@ -30,61 +30,95 @@ The transposition principle would then allow us to derive runtime
 estimates for the conversion problem; below, we present explicit
 procedures to solve this problem for abelian and metacyclic~$G$.
 
-(\'E: stopping here)
-
-\paragraph{Abelian extensions.} Under Assumption \ref{assum}, suppose $G$
-is given by \eqref{eq:abeliangrp}, $\alpha$ is a normal element and $u
-= \begin{bmatrix} u_1 \cdots u_n \end{bmatrix}^t \in F^n$ is an
-element of $K$. Moreover, let $\prod s_i = O(\lceil \sqrt{n}
-\rceil)$. The basis conversion from normal to power basis is
-equivalent of computing \eqref{eq:norm2pwrpol} and the later problem
-can be solved in three steps. Before presenting the algorithm, note
-that \eqref{eq:norm2pwrpol} can be written as
-$$\sum_{\substack{1 \leq j \leq r\\ 0 \leq i_j < e_j}} u_{i_1 \cdots
-  i_r} g_1^{i_1} \cdots g_r^{i_r}(\alpha) = \sum_{\substack{1 \leq j
-    \leq r\\ 0 \leq i_j \leq s_j}} \overline{g_1}^{i_1} \cdots
-\overline{g_r}^{i_r} (h_{i_1 \cdots i_r}),$$ where $$h_{i_1 \cdots
+\paragraph{Abelian extensions.} Under Assumption \ref{assum}, suppose
+$G$ is given by \eqref{eq:abeliangrp}, that is,
+\[ 
+ G= \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
+  \rangle.
+\]
+We are given a normal element $\alpha$ and $u$ in $\K$.  For
+$i=1,\dots,r$, let $s_i = \lceil \sqrt{e_i} \rceil$, so that $s_1
+\cdots s_r = O(\lceil \sqrt{n} \rceil)$. Before presenting the
+algorithm, note that
+the relation $u=\sum_{i=1}^n u_i g_i(\alpha)$ can be rewritten as
+$$u=\sum_{\substack{1 \leq j \leq r\\ 0 \leq i_j < e_j}} u_{i_1 \cdots
+  i_r} g_1^{i_1} \cdots g_r^{i_r}(\alpha).$$
+Using the same decomposition as in Section~\ref{ssec:proj_abelian},
+this becomes
+$$u
+ = \sum_{\substack{1 \leq j
+    \leq r\\ 0 \leq i_j \leq s_j}} G_1^{i_1} \cdots
+G_r^{i_r} (\alpha_{i_1,\dots,i_r}),$$ where $$\alpha_{i_1, \dots,
   i_r} = \sum_{\substack{1 \leq k \leq r\\ 0 \leq j_k < s_k}} u^{(i_1
   \cdots i_r)}_{j_1 \cdots j_r} g_1^{j_1} \cdots g_r^{j_r}(\alpha)$$
-and $\overline{g_j} = g_j^{s_j}$.
+and $G_j = g_j^{s_j}$ for all $j$.
 
-\smallskip\noindent\textbf{Step 1.} We begin the process by
-computing $$g_1^{i_1} \cdots g_r^{i_r}(\alpha), \, 1 \leq j \leq r, 0
-\leq i_j \leq s_i.$$ Using Lemma \ref{lem:selfcomp}, this can be done
-using $\osumcosttilde$ operations in $F$.
+\smallskip\noindent\textbf{Step 1.} Compute $$g_1^{i_1} \cdots
+g_r^{i_r}(\alpha), \, 1 \leq j \leq r,\ 0 \leq i_j \leq s_i.$$ Using
+Lemma \ref{lem:selfcomp}, this can be done using $\osumcosttilde$
+operations in $\F$.
 
-\smallskip\noindent\textbf{Step 2.} In order to get $h_{i_1 \cdots
-  i_r}$ multiply the matrix with rows $g_1^{i_1} \cdots
-g_r^{i_r}(\alpha)$ by the matrix with columns the coefficients of
-$h_{i_1 \cdots i_r}$. This operation can be done in $O(n^{1/2 \cdot
-  \omega(2)})$.
+\smallskip\noindent\textbf{Step 2.} In order to get all $\alpha_{i_1,
+  \dots, i_r}$, multiply the matrix whose rows are the coefficients of
+all $g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ by the matrix with columns
+the coefficients of all $\alpha_{i_1, \dots, i_r}$. This operation can
+be done in $O(n^{1/2 \cdot \omega(2)})$ operations in $\F$.
 
-\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:hornerrep} to
-compute \eqref{eq:norm2pwrpol}.
+\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:selfcomp} to
+compute all $ G_1^{i_1} \cdots G_r^{i_r} (\alpha_{i_1,\dots,i_r})$
+(this takes $\osumcosttilde$ operations in $\F$) and sum them to
+obtain $u$. MISSING: computing the $G_i$'s.
 
-\paragraph{Metacyclic extension.} with the same assumptions as in the
-abelian case, suppose $G$ is given by \eqref{eq:metacyclic}. In this
-case \eqref{eq:norm2pwrpol} can be rewritten as
-$$\sum_{i = 0}^m \sum_{0}^s u_{ij}\sigma^i \tau^j(\alpha) = \sum_{i =
-  0}^{\lceil \sqrt{m} \rceil} \overline{\sigma}^i(h_i),$$ where $h_i =
-\sum_{j = 0}^{\sqrt{m}/\sqrt{s}}\sum_{k =0}^{s} a_{jk}^{(i)}\sigma^j
-\tau^k (\alpha)$ and $\overline{\sigma} = \sigma^{\lceil \sqrt{ms}
-  \rceil}$.  Note that without loss of generality we can assume $s
-\leq m$. Similar to the abelian case, we can do the computation in
-three steps.
+\smallskip
 
-\smallskip\noindent\textbf{Step 1.} Compute $\sigma^i\tau^j(\alpha)$
-for $0 \leq i \leq \lceil \sqrt{m} /\sqrt{s} \rceil$ and $0 \leq j <
-s$.  Using Lemma \ref{lem:selfcomp}, this can be done using
-$\osumcosttilde$ operations in $F$.
+Summing the costs of all steps results in a runtime of
+$\osumcosttilde$ operations in $\F$ for conversion from
+normal to power basis for abelian groups.
 
-\smallskip\noindent\textbf{Step 2.} In order to get $h_{i}$ multiply
-the matrix with rows $\sigma^i\tau^j(\alpha)$ by the matrix with
-columns the coefficients of $h_{i}$. This operation can be done in
-$O((ms)^{1/2 \cdot \omega(2)})$.
+\paragraph{Metacyclic extensions.} Suppose now that $G$ is given by
+\eqref{eq:metacyclic}, that is,
+\begin{equation*}
+G=  \langle \sigma,\tau: \sigma^m = 1,  \tau^s = \sigma^t, \tau^{-1}\sigma \tau = \sigma^r \rangle.
+\end{equation*}
+In what follows, we assume $s \leq m$ and we use the presentation
+of $G$ from~\eqref{pres1}. The case $m \le s$ is dealt with similarly,
+using~\eqref{pres2} instead.
 
-\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:hornerrep} to
-compute \eqref{eq:norm2pwrpol}.
+The relation $u=\sum_{i=1}^n u_i g_i(\alpha)$ can be rewritten as
+$$u=\sum_{i = 0}^{m-1} \sum_{j=0}^{s-1} u_{i,j}\sigma^i \tau^j(\alpha).$$
+We use the decomposition from the proof of Proposition~\ref{prop:sum_meta}.
+
+\smallskip\noindent\textbf{Step 1.}
+For $i=0,\dots,\lceil \sqrt{m/s}
+\rceil-1$ and $j=0,\dots,s-1$, compute
+$$G_{i,j}=\sigma^i\tau^j(\alpha).$$
+Using Lemma \ref{lem:selfcomp}, takes $\osumcosttilde$ operations
+in~$\F$.
+
+\'E: stopping here
+
+% $$u = \sum_{i =
+%   0}^{\lceil \sqrt{m} \rceil} S^i(\alpha_i),$$ where
+%  $S =
+% \sigma^{\lceil \sqrt{ms} \rceil}$ and 
+% for $i=0,\dots,\lceil \sqrt{m}\rceil -1$,  
+% $$\alpha_i =
+% \sum_{j = 0}^{\lceil\sqrt{m/s}\rceil}\sum_{j =0}^{s-1}
+% a_{jk}^{(i)}\sigma^j \tau^j (\alpha).$$  As in the abelian case, we do the
+% computation in three steps.
+
+% \smallskip\noindent\textbf{Step 1.} Compute $\sigma^i\tau^j(\alpha)$
+% for $0 \leq i \leq \lceil \sqrt{m} /\sqrt{s} \rceil$ and $0 \leq j <
+% s$.  Using Lemma \ref{lem:selfcomp}, this can be done using
+% $\osumcosttilde$ operations in $F$.
+
+% \smallskip\noindent\textbf{Step 2.} In order to get $h_{i}$ multiply
+% the matrix with rows $\sigma^i\tau^j(\alpha)$ by the matrix with
+% columns the coefficients of $h_{i}$. This operation can be done in
+% $O((ms)^{1/2 \cdot \omega(2)})$.
+
+% \smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:hornerrep} to
+% compute \eqref{eq:norm2pwrpol}.
 
 \subsection{Power basis to normal basis.}
 
