@@ -301,33 +301,55 @@ polynomials $\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r}
 \begin{proof}
 Our goal is to compute
 \begin{equation}\label{eq:abelian}
-  \ell (g_1^{i_1},  \ldots, g_r^{i_r}(\alpha)), \, 1 \leq j \leq r, 0 \leq i_j \leq e_j,
+  \ell (g_1^{i_1},  \ldots, g_r^{i_r}(\alpha)), \, 1 \leq j \leq r, 0 \leq i_j < e_j,
 \end{equation}
 where $\ell$ is an $\F$-linear projection $\K\to \F$.  For $ 1\leq i
-\leq r$, define $s_i:=\lceil\sqrt{e_i} \rceil$. As we sketched in the
+\leq r$ and (appropriate) $1 \leq s_i, t_i \leq e_i$, as we sketched in the
 cyclic case, the elements in \eqref{eq:abelian} can be expressed as
 $L_{j_1,\dots, j_r} (G_{i_1,\dots,i_r})$, 
-for $1\leq m \leq r, 0\leq i_m < s_m, 0 \leq j_m < s_m$.
-Here, $L_{j_1,\dots,j_r} :=\ell \circ (g_1^{s_1j_1} \cdots
-g_r^{s_rj_s})$ are linear projections presented as row vectors and
+for $1\leq m \leq r, 0\leq i_m < s_m, 0 \leq j_m < t_m$.
+Here, $L_{j_1,\dots,j_r} :=\ell \circ (g_1^{j_1} \cdots
+g_r^{j_s})$ are linear projections presented as row vectors and
 $G_{i_1,\dots,i_r}:=g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ are field
-elements presented as column vectors. Then, all elements in
+elements presented as column vectors. Define $z$ to be the unique index such that 
+$\prod_{i = 1}^{z} e_i < \lceil \sqrt{n} \rceil$ and 
+$\prod_{i = 1}^{z+1} e_i \geq \lceil \sqrt{n} \rceil.$ 
+%Moreover, let 
+%\begin{equation*}
+%\begin{array}{cc}
+%s_i = \begin{cases}
+% e_i & 1 \leq i \leq z \\
+% \lceil \frac{\sqrt{n}}{e_1 \cdots e_z} \rceil & i = z+1\\
+% 1 & z+2 \leq i \leq r
+%\end{cases} & t_i = \begin{cases}
+% 1 & 1 \leq i \leq z \\
+% \lceil \frac{e_{z+1}}{s_i} \rceil & i = z+1\\
+% e_i & z+2 \leq i \leq r
+%\end{cases} 
+%\end{array}
+%\end{equation*}
+Then, all elements in
 \eqref{eq:abelian} can be computed with the following steps, the sum of whose 
 costs proves the proposition.
 
 \smallskip\noindent \textbf{Step 1.} Apply Lemma \ref{lem:selfcomp},
 with $\alpha_{i_1,\dots,i_r} = \alpha$ for all $i_1,\dots,i_r$, to get
-$$G_{i_1,\dots,i_r}=g_1^{i_1} \cdots g_r^{i_r}(\alpha), \,\, 1\leq m \leq r, 0\leq i_m < s_m,$$
+$$
+G_{i_1,\dots,i_r}=g_1^{i_1} \cdots g_z^{i_z}(\alpha),$$
+$$
+ 1\leq m \leq z-1, 0\leq i_m < e_m,
+0\leq i_z < \Big\lceil \frac{\sqrt{n}}{e_1 \cdots e_z} \Big\rceil,
+$$
 with cost $\osumcosttilde$.
 
-\smallskip\noindent\textbf{Step 2.} Compute all $g_i^{s_i}$, $i=1,\dots,r$;
-this involves $O(\log(n))$ modular compositions, so the cost is negligible
-compared to that of Step~1.
+\smallskip\noindent\textbf{Step 2.} Compute all $g_z^{s_z}$.
 
 \smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp}
 with $\ell_{i_1,\dots,i_r} = \ell$ for all $i_1,\dots,i_r$, to compute 
-$$L_{j_1,\dots,j_r} = \ell \circ (g_1^{s_1j_1} \cdots
-g_r^{s_rj_s}), \,\, 1\leq m \leq r, 0 \leq j_m < s_m,$$
+$$L_{j_1,\dots,j_r} = \ell \circ (g_{z}^{s_z j_z}
+g_{z+1}^{j_{z+1}}\cdots g_r^{j_s}),$$
+$$
+0 \leq j_{z} <  \Big\lceil \frac{e_{z+1}}{s_i} \Big\rceil , z+1\leq m \leq r, 0 \leq j_m < e_m,$$
 with cost $\osumcosttilde$
 
 \smallskip\noindent\textbf{Step 4.} Multiply the matrix with rows the
