@@ -138,17 +138,18 @@ writing down the normal basis itself (which would require
 $\Theta(n^2)$ elements in $\K$).
 
 Section \ref{sec:pre} of this paper is devoted to definitions and
-preliminary discussions.  In Section \ref{sec:osum}, two
-subquadratic-time algorithms are presented for the randomized reduction
+preliminary discussions.  In Section \ref{sec:osum}, a
+subquadratic-time algorithm is presented for the randomized reduction
 of our main question to invertibility testing in $\F[G]$, for
-respectively abelian and metacyclic groups.  In Section
+a finite polycyclic group. In particular the mentioned algorithm works
+for abelian and metacyclic groups. In Section
 \ref{sec:invertibility}, we show that the latter problem can be solved
 in quasi-linear time for an abelian group; for metacyclic
 groups, we give a subquadratic time algorithm based on structured linear 
 algebra algorithms. Finally, Section~\ref{sec:conversion} proves
 Theorem~\ref{thm:main2}.
 
-Our algorithms make extensive of known algorithms for polynomial and
+Our algorithms make extensive use of known algorithms for polynomial and
 matrix arithmetic; in particular, we use repeatedly the fact that
 polynomials of degree $d$ in $\F[x]$, for any field $\F$ of
 characteristic zero, can be multiplied in $\tilde{O}(n)$ operations in

@@ -1,8 +1,37 @@
 \section{Computing projections of the orbit sum}
 \label{sec:osum}
 
-In this section we present algorithms to compute $s_{\alpha,\ell}$,
-when $G$ is either abelian or metacyclic. We start by sketching our
+In this section we present an algorithm to compute $s_{\alpha,\ell}$,
+when $G$ is polycyclic. We briefly present a definition of polycyclic 
+groups and well known results on them while we refer the reader to
+see ~\cite[Chapter 8]{HoEiOb05} for more details.
+
+A group $G$ is called polycyclic if it has a normal series 
+$$G = G_1 \unrhd G_2 \unrhd \cdots \unrhd G_n \unrhd G_{n+1} = 1,$$
+where $G_j/G_{j+1}$ is cyclic. Finitely generated nilpotent or 
+abelian groups are polycyclic. In general any finite solvable group is 
+polycyclic.
+
+For our purposes, the most interesting property of a finite polycyclic 
+group is the fact that each element can be written as 
+$$g_1^{i_1} \cdots g_n^{i_n}, 1 \leq j \leq n, 0 \leq i_j < r_j,$$
+where $G_j/G_{j+1} = \langle g_jG_{j+1} \rangle$ and 
+$\vert G_j/G_{j+1}\vert = r_j$.
+
+Since abelian and metacyclic groups are particular cases that we focus on,
+it is worth to take a closer look at presentations of these families.
+We assume an abelian group $G$ is presented as 
+\[ \label{eq:abeliangrp}
+  \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
+  \rangle,
+\]
+where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n = e_1 \cdots
+e_r$.  Without loss of generality, we assume $e_i \ge 2$ for all $i$,
+so that $r$ is in $O(\log n)$. Elements of $\F[G]$ are written as
+polynomials $\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r}
+{g_1}^{e_1} \cdots {g_r}^{e_r}$, with $0\le i_j < e_j$ for all~$j$.
+
+We start by sketching our
 ideas in simplest case, cyclic groups.  We will see that they follow
 closely ideas used by \cite{KalSho98} over finite fields.
 
