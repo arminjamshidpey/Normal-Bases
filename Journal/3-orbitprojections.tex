@@ -1,75 +1,12 @@
 \section{Computing projections of the orbit sum}
 \label{sec:osum}
 
-In this section we present an algorithm to compute $s_{\alpha,\ell}$,
-when $G$ is polycyclic. We briefly present a definition of polycyclic 
-groups and well known results on them while we refer the reader to
-see ~\cite[Chapter 8]{HoEiOb05} for more details.
-
-A group $G$ is called polycyclic if it has a normal series 
-$$G = G_{r} \unrhd G_{r-1} \unrhd \cdots \unrhd G_1 \unrhd G_{0} = 1,$$
-where $G_{j}/G_{j-1}$ is cyclic. Finitely generated nilpotent or 
-abelian groups are polycyclic. In general any finite solvable group is 
-polycyclic.
-
-For our purposes, the most interesting property of a finite polycyclic 
-group is the fact that each element can be written as 
-\[\label{eq:polycyclicgrp}
-g_r^{i_r} \cdots g_1^{i_1}, 1 \leq j \leq r, 0 \leq i_j < e_j,
-\]
-where $G_{j}/G_{j-1} = \langle g_{j}G_{j-1} \rangle$ and 
-$\vert G_{j}/G_{j-1}\vert = e_j$.
-
-Since abelian and metacyclic groups are particular cases that we focus on,
-it is worth to take a closer look at presentations of these families.
-We assume an abelian group $G$ is presented as 
-\[ \label{eq:abeliangrp}
-  \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
-  \rangle,
-\]
-where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n = e_1 \cdots
-e_r$.  Without loss of generality, we assume $e_i \ge 2$ for all $i$,
-so that $r$ is in $O(\log n)$. Elements of $\F[G]$ are written as
-polynomials $\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r}
-{g_r}^{i_r} \cdots {g_1}^{i_1}$, with $0\le i_j < e_j$ for all~$j$.
-
-A group $G$ is metacyclic if it has a normal cyclic subgroup $H$ such that
-$G/H$ is cyclic; for instance, any group with a squarefree order is
-metacyclic. See \citep[p.~88]{Johnson} or \citep[p.~334]{Curtis} for more
-background. A metacyclic group can always be presented~as
-\begin{equation}
-  \label{eq:metacyclic}
-  \langle \sigma,\tau: \sigma^m = 1,  \tau^s = \sigma^t, \tau^{-1}\sigma \tau = \sigma^r \rangle,
-\end{equation}
-for some integers $m,t,r,s$, with $r,t \leq m$ and
-$r^s = 1 \bmod t, rt = t \bmod m$. For example, the dihedral group
-$$D_{2m} = \langle \sigma,\tau: \sigma^m =1, \tau^2 = 1, \tau^{-1}
-\sigma \tau = \sigma^{m-1} \rangle, $$ is metacyclic, with
-$s=2$. Generalized quaternion groups, which can be presented as
-$$Q_m = \langle \sigma,\tau: \sigma^{2m} =1, \tau^2 = \sigma^m,
-\tau^{-1} \sigma \tau = \sigma^{2m-1} \rangle,$$ are metacyclic, with
-$s=2$ as well.
-
-Using the notation of~\eqref{eq:metacyclic}, $n=|G|$ is equal to $ms$, and
-all elements in a metacyclic group can be presented uniquely as either
-\begin{equation}\label{pres1}
-\{\sigma^i \tau^j,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}  
-\end{equation}
-or
-\begin{equation}\label{pres2}
-\{ \tau^j\sigma^i,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}.
-\end{equation}
-Accordingly, elements in the group algebra $\F[G]$ can be written as 
-either 
-$$\sum_{\substack{i <m\\ j< s}} c_{i,j} \sigma^i \tau^j \quad\text{or}\quad
-\sum_{\substack{i <m\\ j< s}} c'_{i,j} \tau^j \sigma^i.$$
-Conversion between the two representations involves no operation in $\F$,
-using the commutation relation $\sigma^k \tau^c = \tau^c \sigma^{kr^c}$
-for $k,c \ge 0$.
-
-We start by sketching our
-ideas in simplest case, cyclic groups.  We will see that they follow
-closely ideas used by \cite{KalSho98} over finite fields.
+In this section we present an algorithm to compute $s_{\alpha,\ell}$
+when $G=\{g_1,\dots,g_n\}$ is {\em polycyclic} (we give a definition
+of this family of groups and recall some well known results about them
+in Subsection~\ref{ssec:proj_abelian}). To motivate our algorithm,
+we start by the simple case of a {\em cyclic} group.  We will see that
+they follow closely ideas used by \cite{KalSho98} over finite fields.
 
 Suppose $G = \langle g \rangle$, so that given $\alpha$ in $\K$ and
 $\ell: \K \to \F$, our goal is to compute
@@ -110,15 +47,17 @@ size $O(n^{1+k})$.
 
 The key to the algorithms below is the remark following
 Assumption~\ref{assum}, which reduces automorphism evaluation to
-modular composition of polynomials.  Over finite fields, this idea goes back
-to~\cite{GaSh92}, where it was credited to Kaltofen.
+modular composition of polynomials.  Over finite fields, this idea
+goes back to~\cite{GaSh92}, where it was credited to Kaltofen.
 
 For instance, given $g \in G$ (by means of $\gamma:=g(\xbar)$), we can
 deduce $g^2 \in G$ (again, by means of its image at $\xbar$) as
 $\gamma(\gamma)$; this can be done with $\tilde{O}(n^{(\omega+1)/2})$
 operations in $\F$ using Brent and Kung's modular composition
-algorithm~\citep{BrKu78}. The algorithms below describe similar operations
-along these lines, involving several simultaneous evaluations.
+algorithm~\citep{BrKu78}. The algorithms below describe similar
+operations along these lines, involving several simultaneous
+evaluations. In this subsection, we work under Assumption~\ref{assum}
+and we make no special assumption on $G$.
 
 \begin{lemma}
   \label{lem:modcom}
@@ -163,8 +102,8 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
 \begin{lemma}\label{lem:selfcomp}
   Consider $g_1, \ldots g_r$ in $G=\mathrm{Gal}(\K/\F)$, positive
   integers $(s_1, \ldots s_r)$ and elements $\alpha_{i_1, \dots, i_r}$
-  in $\K$, for $i_m=0,\dots,s_m$, $m=1,\dots,r$. If $\prod_{i = 1}^r s_i
-  = O(\sqrt{n})$, we can compute
+  in $\K$, for $i_m=0,\dots,s_m$, $m=1,\dots,r$. If $\prod_{i = 1}^r
+  s_i = O(\sqrt{n})$, we can compute
   $$g_r^{i_r}\cdots g_1^{i_1}(\alpha_{i_1, \dots, i_r})
   \text{~for~} i_m=0,\dots,s_m,\ m=1,\dots,r
   $$  using $\thecost$ operations in $\F$.
@@ -178,10 +117,10 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   Assume then that
   for some $t$ in $\{0,\dots,r-1\}$, we know 
   $$S_t=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t},0, \dots, 0)} \ \mid \ (i_1,\dots,i_r)\in \mathcal I);$$ we show how to compute 
-  $$S_{t+1}=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t+1},0, \dots, 0)}
-  \ \mid \ (i_1,\dots,i_r)\in \mathcal I).$$ Since our input is $S_0$,
-  it will be enough to go through this process $r$ times to obtain the
-  output $S_r$ of the algorithm.
+  $$S_{t+1}=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t+1},0, \dots,
+    0)} \ \mid \ (i_1,\dots,i_r)\in \mathcal I).$$ Since our input is
+  $S_0$, it will be enough to go through this process for all values
+  of $r$ to obtain the output $S_r$ of the algorithm.
   
   For a given index $t$, and for $m \ge 0$
   define further 
@@ -203,7 +142,7 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   The automorphisms $g_{t+1}^{2^m}$ can be computed iteratively by modular
   composition; the bottleneck is the application of  $g_{t+1}^{2^m}$
   to a subset of $S_{t,m}$. Using Lemma \ref{lem:modcom}, since 
-  $S_{t,m}$ has $O(\sqrt n)$ elements, this take $\thecost$ 
+  $S_{t,m}$ has $O(\sqrt n)$ elements, this takes $\thecost$ 
   operations in $\F$.
   
   For a given index $t$, this is repeated $O(\log(s_{t+1}))$ times;
@@ -211,38 +150,8 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   which is $O(\log(n))$; the conclusion follows.
 \end{proof}
 
-
-%% \begin{lemma}\label{lem:selfcomp}
-%% Given $\alpha$ in $\K$, $g_1, \ldots , g_{r}$ in $G =
-%% \mathrm{Gal}(\K/\F)$ and positive integers $(s_1, \ldots s_r)$ such
-%% that $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all
-%%   $$g_1^{i_1}\cdots g_r^{i_r}(\alpha) ,\quad \text{~for~} 0 \leq i_j
-%% \leq s_j,\ 1 \leq j \leq r$$ can be computed in $\osumcosttilde$
-%% operations in $\F$.
-%% \end{lemma}
-%% \begin{proof}
-%% (Compare \cite[Lemma~4]{KalSho98}) For a given  $m\in\{1,\dots,r\}$, suppose we have computed 
-%%   $$G_{i_1,\dots,i_m}:=g_m^{i_m}\cdots g_1^{i_1}(\alpha)$$ for $0 \leq
-%%   i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq i_m < k_m,$ as well as
-%%   the automorphism $\eta:={g_m}^{k_m}$ (by means of its value at $\xbar$, as per our convention).
-  
-%%  Then, we can obtain $G_{i_1,\dots,i_m}$ for $0 \leq i_j \leq s_j$ if $1
-%%  \leq j < m$, and $0 \leq i_m < 2k_m$, by computing
-%%  $\eta(G_{i_1,\dots,i_m})$, for all indices $i_1,\dots,i_m$ available
-%%  to us, that is, $0 \leq i_j \leq s_j$ if $1 \leq j < m$, and $0 \leq
-%%  i_m < k_m$. This can be carried out using $\osumcosttilde$ operations
-%%  in $\F$ by applying Lemma \ref{lem:modcom}. Prior to entering the
-%%  next iteration, we also compute $\eta^2$ by means of one modular
-%%  composition, whose cost is negligible. 
-
-%%  Using the above doubling method for $g_m$, we have to do $O(\log
-%%  s_m)$ steps, for a total cost of $\osumcosttilde$ operations in $\F$.  We
-%%  repeat this procedure for $m=1,\dots,r$; since $r$ is in $O(\log(n))$,
-%%  the cost remains $\osumcosttilde$.
-%% \end{proof}
-
-We now present dual versions of the previous two lemmas
-(\cite{KalSho98} also have such a discussion). Seen as an $\F$-linear
+We now present dual versions of the previous two lemmas (note that
+\cite{KalSho98} also have such a discussion). Seen as an $\F$-linear
 map, the operator $g:\alpha \mapsto g(\alpha)$ admits a transpose,
 which maps an $\F$-linear form $\ell:\K\to\F$ to the $\F$-linear form
 $\ell \circ g: \alpha \mapsto \ell(g(\alpha))$.  The {\em
@@ -287,22 +196,13 @@ whose proof follows the same pattern.
 
 \begin{lemma}
   \label{lem:transmodcomp}
-  Consider $g_1, \ldots g_r$ in $G=\mathrm{Gal}(\K/\F)$, positive
-  integers $(s_1, \ldots s_r)$ and $\F$-linear forms $\ell_{i_1,
+  Consider $g_1, \ldots, g_r$ in $G=\mathrm{Gal}(\K/\F)$, positive
+  integers $(s_1, \ldots, s_r)$ and $\F$-linear forms $\ell_{i_1,
     \dots, i_r}$, for $i_m=0,\dots,s_m$, $m=1,\dots,r$. If $\prod_{i =
     1}^r s_i = O(\sqrt{n})$, we can compute
   $$\ell_{i_1, \dots, i_r} \circ g_r^{i_r}\cdots g_1^{i_1}
   \text{~for~} i_m=0,\dots,s_m,\ m=1,\dots,r
   $$  using $\thecost$ operations in $\F$.
-  %% Given $\ell:\K\to F$, $g_1, \ldots , g_{r}$ in $G = \mathrm{Gal}(\K/\F)$
-  %% and positive integers $(s_1, \ldots s_r)$ such that
-  %% $\prod_{i = 1}^r s_i = O(\sqrt{n})$ and $r \in O(\log(n))$, all linear
-  %% maps
-  %% \[
-  %%   \ell \circ g_1^{i_1}\cdots g_r^{i_r} ,\quad \text{~for~} 0 \leq i_j
-  %%   \leq s_j,\ 1 \leq j \leq r,
-  %% \]
-  %% can be computed in $\osumcosttilde$ operations in $\F$.
 \end{lemma} 
 \begin{proof}
   We proceed as in Lemma~\ref{lem:selfcomp}, reversing the order of
@@ -331,33 +231,41 @@ whose proof follows the same pattern.
   The cost analysis is as in Lemma~\ref{lem:selfcomp}.
 \end{proof}
 
-%% At this point we have enough tools to see how the computation is
-%% done in the cyclic case. Moreover, we can use the above lemmas to
-%% give an algorithm for a more general case, namely the abelian
-%% case. With a little bit more work we can state an algorithm which
-%% solves the automorphism projection problem when $G = \lbrace a^ib^j
-%% \rbrace$ where $m \leq n$. As an specific case this solves the
-%% problem for metacyclic groups.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{An algorithm to compute the orbit sum projection for polycyclic groups}
+\subsection{Computing the orbit sum projection for polycyclic groups}
 \label{ssec:proj_abelian}
 
-%The first main result in this section is the following proposition.
-%Assume $G$ is an abelian group presented as 
-%\[ \label{eq:abeliangrp}
-%  \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
-%  \rangle,
-%\]
-%where $ e_i \in \mathbb{N}$ is the order of $g_i$ and $n = e_1 \cdots
-%e_r$.  Without loss of generality, we assume $e_i \ge 2$ for all $i$,
-%so that $r$ is in $O(\log n)$. 
-Assume elements of a polycyclic group $G$ are presented as in 
-\eqref{eq:polycyclicgrp}. Then elements of $\F[G]$ are written as
-polynomials $$\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r}
-{g_r}^{i_r} \cdots {g_1}^{e_1},$$ with $0\le i_j < e_j$ for all~$j$.
+Our main algorithm in this section applies to a family of group known
+as {\em polycyclic}; see~\cite[Chapter 8]{HoEiOb05} for more details
+on such groups.
 
+Our group $G$ is called polycyclic if it has a normal series
+$$G = G_{r} \unrhd G_{r-1} \unrhd \cdots \unrhd G_1 \unrhd G_{0} =
+1,$$ where $G_{j}/G_{j-1}$ is cyclic; without loss of generality, we
+assume that $G_{j-1 } \ne G_{j}$ holds for all $j$, so that $r$ is
+$O(\log(n))$, with $n=|G|$. Finitely generated nilpotent or abelian
+groups are polycyclic. In general any finite solvable group is
+polycyclic; our key families of examples in the next section will be
+abelian and metacyclic groups.
+
+If $G$ is polycyclic then, up to renumbering, its 
+elements can be written as
+\[\label{eq:polycyclicgrp}
+g_r^{i_r} \cdots g_1^{i_1}, \text{~with~} 0 \leq i_j < e_j
+\text{~for~} 1 \leq j \leq r,\
+\]
+where $G_{j}/G_{j-1} = \langle g_{j}G_{j-1} \rangle$ and $e_j=\vert
+G_{j}/G_{j-1}\vert$. Elements of $\K[G]$, or $\F[G]$ are written as
+polynomials $\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r} {g_r}^{i_r} \cdots
+{g_1}^{i_1}$, with $0\le i_j < e_j$ for all~$j$, and coefficients 
+in either $\K$ or $\F$.
+
+
+%% Assume elements of a polycyclic group $G$ are presented as in
+%% \eqref{eq:polycyclicgrp}, so that elements of $\F[G]$ are written as
+%% polynomials $$\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r} {g_r}^{i_r}
+%% \cdots {g_1}^{e_1},$$ with $0\le i_j < e_j$ for all~$j$.
 
 \begin{proposition}\label{prop:polycyclic}
   Suppose that $G$ is polycyclic, with notation as above. For $\alpha$ in
@@ -368,151 +276,80 @@ polynomials $$\sum_{i_1,\dots,i_r} c_{i_1,\dots,i_r}
 \begin{proof}
 Our goal is to compute
 \begin{equation} \label{eq:polycyclic}
-  \ell (g_r^{i_r}  \ldots g_1^{i_1}(\alpha)), \, 1 \leq j \leq r, 0 \leq i_j < e_j,
+  \ell (g_r^{i_r}  \ldots g_1^{i_1}(\alpha)),
 \end{equation}
-where $\ell$ is an $\F$-linear projection $\K\to \F$.  For $ 1\leq i
-\leq r$ and (appropriate) $1 \leq s_i, t_i \leq e_i$, as we sketched in the
-cyclic case, the elements in \eqref{eq:polycyclic} can be expressed as
-$L_{j_r,\dots, j_1} (G_{i_r,\dots,i_1})$, 
-for $1\leq m \leq r, 0\leq i_m < s_m, 0 \leq j_m < t_m$.
-Here, $L_{j_r,\dots,j_1} :=\ell \circ (g_r^{j_r} \cdots
-g_1^{j_1})$ are linear projections presented as row vectors and
-$G_{i_r,\dots,i_1}:=g_r^{i_r} \cdots g_1^{i_1}(\alpha)$ are field
-elements presented as column vectors. Define $z$ to be the unique index such that 
-$\prod_{i = 1}^{z} e_i < \lceil \sqrt{n} \rceil$ and 
-$\prod_{i = 1}^{z+1} e_i \geq \lceil \sqrt{n} \rceil.$ 
-%Moreover, let 
-%\begin{equation*}
-%\begin{array}{cc}
-%s_i = \begin{cases}
-% e_i & 1 \leq i \leq z \\
-% \lceil \frac{\sqrt{n}}{e_1 \cdots e_z} \rceil & i = z+1\\
-% 1 & z+2 \leq i \leq r
-%\end{cases} & t_i = \begin{cases}
-% 1 & 1 \leq i \leq z \\
-% \lceil \frac{e_{z+1}}{s_i} \rceil & i = z+1\\
-% e_i & z+2 \leq i \leq r
-%\end{cases} 
-%\end{array}
-%\end{equation*}
-Then, all elements in
-\eqref{eq:polycyclic} can be computed with the following steps, the sum of whose 
-costs proves the proposition.
+for all indices such that $0 \leq i_j < e_j$ holds for $1 \leq j \leq
+r$; here, $\ell$ is an $\F$-linear projection $\K\to \F$.
+
+Our construction is inspired by that sketched in the cyclic case.
+Define $z$ to be the unique index in $\{1,\dots,r\}$ such that
+$e_1\cdots e_{z-1} < \sqrt{n}$ and $e_1 \cdots e_{z} \geq
+\sqrt{n}.$ Then, all elements in \eqref{eq:polycyclic} can be computed
+with the following steps, the sum of whose costs proves the
+proposition.
 
 \smallskip\noindent \textbf{Step 1.} Apply Lemma \ref{lem:selfcomp},
 with $\alpha_{i_1,\dots,i_r} = \alpha$ for all $i_1,\dots,i_r$, to get
-$$
-G_{0, \ldots, 0,i_z,\dots,i_1}=g_z^{i_z} \cdots g_1^{i_1}(\alpha),$$
-$$
- 1\leq m \leq z-1, 0\leq i_m < e_m,
-0\leq i_z < \Big\lceil \frac{\sqrt{n}}{e_1 \cdots e_z} \Big\rceil,
-$$
-with cost $\osumcosttilde$.
+$$ G_{i_z,\dots,i_1}=g_z^{i_z} \cdots
+g_1^{i_1}(\alpha),$$ for all indices $i_1,\dots,i_z$ such that $0\leq
+i_m < e_m$ holds for $m=1,\dots,z-1$ and $0\leq i_z <
+\lceil{\sqrt{n}}/(e_1 \cdots e_{z-1})\rceil$.  This amounts to taking
+$s_1=e_1,\dots,s_{z-1}=e_{z-1}$, $s_z=\lceil {\sqrt{n}}/(e_1 \cdots
+e_{z-1})\rceil$ and $s_m = 1$ for $m > z$ in the lemma.  For the lemma to
+apply, we have to check that the product of these indices
+$s_1,\dots,s_r$ is $O(\sqrt n)$. 
+Indeed, this product is at most 
+\begin{align*}
+e_1\cdots e_{z-1} \left ( \frac{\sqrt n}{e_1\cdots e_{z-1}} + 1\right )
+& \le \sqrt n + e_1\cdots e_{z-1} \le 2 \sqrt n.
+\end{align*}
+Hence, the lemma applies, and the cost of this step is $\osumcosttilde$.
 
-\smallskip\noindent\textbf{Step 2.} Compute all $g_z^{s_z}$.
+\smallskip\noindent\textbf{Step 2.} Compute $G=g_z^{s_z}$, for $s_z$
+as above. The cost is that of $O(\log(n))$ modular compositions, which
+is negligible compared to the cost of the previous step.
 
 \smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp}
 with $\ell_{i_r,\dots,i_1} = \ell$ for all $i_1,\dots,i_r$, to compute 
-$$L_{j_r,\dots,j_z, 0, \ldots,0} = \ell \circ (
-g_{r}^{j_{r}}\cdots g_{z+1}^{j_{z+1}}g_{z}^{s_z j_z}),$$
-$$
-0 \leq j_{z} <  \Big\lceil \frac{e_{z+1}}{s_i} \Big\rceil , z+1\leq m \leq r, 0 \leq j_m < e_m,$$
-with cost $\osumcosttilde$
+\begin{align*}
+L_{j_r,\dots,j_z} &= \ell \circ (g_{r}^{j_{r}}\cdots g_{z+1}^{j_{z+1}}G^{j_z})\\ 
+&= \ell \circ (g_{r}^{j_{r}}\cdots g_{z+1}^{j_{z+1}}g_{z}^{s_z j_z}),
+\end{align*}
+for all indices $0 \leq j_{z} < \lceil {e_{z}}/{s_z}\rceil$ and $0
+\leq j_m < e_m$ for $m > z$. This amounts to using the lemma with
+indices $s'_1=\cdots=s'_{z-1}=1$, $s'_z = \lceil {e_{z}}/{s_z}\rceil$
+and $s'_m = e_m$ for $m > z$. Again, we have to verify that $s'_1
+\cdots s'_r$ is $O(\sqrt n)$.  Indeed, we have
+\begin{align*}
+s'_1 \cdots s'_r   \left \lceil \frac{e_{z}}{s_z}\right \rceil e_{z+1} \cdots e_r
+&\le \left (\frac{e_{z}}{s_z} +1 \right) e_{z+1} \cdots e_r\\
+&\le \frac{e_{z} \cdots e_r}{s_z} + e_{z+1} \cdots e_r.
+\end{align*}
+By definition, we have $s_z \ge \sqrt{n}/(e_1\cdots e_{z-1})$, so
+$e_z \cdots e_r/s_z \le e_1 \cdots e_r /\sqrt{n} =\sqrt{n}$.
+Because we assume $e_1 \cdots e_{z} \geq \sqrt{n}$, the second term is
+also at most $\sqrt{n}$, so the product $s'_1 \cdots s'_r$ is at most
+$2 \sqrt{n}$. Hence, Lemma \ref{lem:transmodcomp} applies, and computes
+all $L_{j_r,\dots,j_z}$ using $\osumcosttilde$ operations
+in $\F$.
 
 \smallskip\noindent\textbf{Step 4.} Multiply the matrix with rows the
-coefficients of all $L_{j_r,\dots,j_z, 0, \ldots, 0}$ by the matrix with columns the
-coefficients of all $G_{0, \ldots, 0,i_z,\dots,i_1}$; this yields all required
-values. We compute this product in $O(n^{(1/2)\cdot\omega(2)})$
-operations in $\F$, which is in $\osumcost$.
+coefficients of all $L_{j_r,\dots,j_z}$ by the matrix whose columns
+are the coefficients of all $G_{i_z,\dots,i_1}$. This yields the
+values
+$$\ell( 
+g_{r}^{j_{r}}\cdots g_{z+1}^{j_{z+1}}g_{z}^{s_z j_z+i_z} g_{z-1}^{i_{z-1}}\cdots
+g_1^{i_1}(\alpha)),$$
+for indices as follows:
+\begin{itemize}
+\item[$\bullet$] $0 \le i_m < e_m$ for $m=0,\dots,z-1$;
+\item[$\bullet$] $0 \le i_z < s_z$ and $0 \le j_z< \lceil  e_z/s_z\rceil$;
+\item[$\bullet$] $0 \le j_m < e_m$ for $m=z+1,\dots,r$.
+\end{itemize}
+This shows that we obtain all required values. We compute this product
+in $O(n^{(1/2)\cdot\omega(2)})$ operations in $\F$, which is in
+$\osumcost$.
 \end{proof}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\subsection{Metacyclic Groups}
-%
-%A group $G$ is metacyclic if it has a normal cyclic subgroup $H$ such that
-%$G/H$ is cyclic; for instance, any group with a squarefree order is
-%metacyclic. See \citep[p.~88]{Johnson} or \citep[p.~334]{Curtis} for more
-%background. A metacyclic group can always be presented~as
-%\begin{equation}
-%  \label{eq:metacyclic}
-%  \langle \sigma,\tau: \sigma^m = 1,  \tau^s = \sigma^t, \tau^{-1}\sigma \tau = \sigma^r \rangle,
-%\end{equation}
-%for some integers $m,t,r,s$, with $r,t \leq m$ and
-%$r^s = 1 \bmod t, rt = t \bmod m$. For example, the dihedral group
-%$$D_{2m} = \langle \sigma,\tau: \sigma^m =1, \tau^2 = 1, \tau^{-1}
-%\sigma \tau = \sigma^{m-1} \rangle, $$ is metacyclic, with
-%$s=2$. Generalized quaternion groups, which can be presented as
-%$$Q_m = \langle \sigma,\tau: \sigma^{2m} =1, \tau^2 = \sigma^m,
-%\tau^{-1} \sigma \tau = \sigma^{2m-1} \rangle,$$ are metacyclic, with
-%$s=2$ as well.
-%
-%Using the notation of~\eqref{eq:metacyclic}, $n=|G|$ is equal to $ms$, and
-%all elements in a metacyclic group can be presented uniquely as either
-%\begin{equation}\label{pres1}
-%\{\sigma^i \tau^j,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}  
-%\end{equation}
-%or
-%\begin{equation}\label{pres2}
-%\{ \tau^j\sigma^i,\,\,\, 0\leq i \leq m-1,\ 0\leq j \leq s-1\}.
-%\end{equation}
-%Accordingly, elements in the group algebra $\F[G]$ can be written as 
-%either 
-%$$\sum_{\substack{i <m\\ j< s}} c_{i,j} \sigma^i \tau^j \quad\text{or}\quad
-%\sum_{\substack{i <m\\ j< s}} c'_{i,j} \tau^j \sigma^i.$$
-%Conversion between the two representations involves no operation in $\F$,
-%using the commutation relation $\sigma^k \tau^c = \tau^c \sigma^{kr^c}$
-%for $k,c \ge 0$.
-%
-%\begin{proposition}\label{prop:sum_meta}
-%  Suppose that $G$ is metacyclic, with notation as above. For $\alpha$
-%  in $\K$ and $\ell:\K\to\F$, $s_{\alpha,\ell} \in \F[G]$ is
-%  computable using $\osumcosttilde$ operations in $\F$.
-%\end{proposition}
-%\begin{proof}
-%  Suppose first that $s \le m$; then, we use the
-%  presentation~\eqref{pres1} of the elements of $G$. Take $\alpha$ in
-%  $\K$ and $\ell:\K \to \F$; the goal is to compute
-%  $\ell(\sigma^i\tau^j (\alpha))$, for all $0\leq i < m$ and $0 \leq j
-%  <s.$ This is accomplished with the following steps.
-%
-%\smallskip\noindent\textbf{Step 1.} Apply Lemma \ref{lem:selfcomp},
-%with $\alpha_{i,j}=\alpha$ for all $i,j$, to compute
-%$$G_{i,j} := \sigma^i\tau^j(\alpha),\ 0\leq i < \lceil \sqrt{m/s}
-%\rceil,\ 0 \leq j < s.$$ Note that
-%$\lceil \sqrt{m/s} \rceil s \leq \lceil \sqrt{sm} \rceil \in O(\sqrt n)$,
-%so we are under the assumptions of the lemma. This takes $\osumcosttilde$
-%operations in~$\F$.
-%
-%\smallskip\noindent\textbf{Step 2.} Compute
-%$\sigma^{\lceil \sqrt{m/s} \rceil}$, in $O(\log(n))$ modular compositions
-%in degree $n$. The cost is no more than that of Step 1.
-%
-%\smallskip\noindent\textbf{Step 3.} Compute
-%\[
-%  L_k := \ell \circ \sigma^{k\lceil \sqrt{m/s} \rceil}, \,\, 0\leq k <
-%  \lceil \sqrt{sm}\rceil,
-%\]
-%using Lemma \ref{lem:transmodcomp} (with $\ell_{i,j}=\ell$ for all
-%$i,j$).  This takes $\osumcosttilde$ operations in~$\F$.
-%
-%\smallskip\noindent\textbf{Step 4.} At this point, we compute all
-%$$ L_k(s_{i,j}) = \ell(\sigma^{k\lceil \sqrt{m/s} \rceil + i}\tau
-%^j(\alpha)),$$ for $0\le k < \lceil \sqrt{sm}\rceil$,
-%$0\le i< \lceil \sqrt{m/s}\rceil$ and $0 \leq j < s;$ these are precisely
-%the values we needed.
-%
-%This can be carried out by multiplying the matrix with rows the
-%coefficients of all $L_k$ by the matrix with columns the coefficients of
-%all $G_{i,j}$; this yields all required values, as pointed out above. There
-%are $O(\sqrt{sm})=O(\sqrt{n})$ linear forms $L_k$'s, and $O(\sqrt{n})$
-%field elements $G_{i,j}$'s, so we can compute this product in
-%$O(n^{(1/2)\cdot\omega(2)})$ operations in $\F$, which is $\osumcost$.
-%
-%This concludes the proof in the case $s \le m$. When $m \le s$, use the
-%presentation~\eqref{pres2} of the elements of $G$ and proceed as above.
-%\end{proof}
-
 
 %%% Local Variables:
 %%% mode: latex

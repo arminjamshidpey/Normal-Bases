@@ -26,143 +26,100 @@ Kaltofen and Shoup, this shows that conversion from normal to power
 basis is the transpose problem of computing the ``projected'' orbit
 sum $s_{\alpha,\ell}$, which we solved in Section \ref{sec:osum}. 
 
-The transposition principle would then allow us to derive runtime
-estimates for the conversion problem; below, we present explicit
-procedures to solve this problem for abelian and metacyclic~$G$.
-
-\paragraph{Abelian extensions.} Under Assumption \ref{assum}, suppose
-$G$ is given by \eqref{eq:abeliangrp}, that is,
-\[ 
- G= \langle g_1, \ldots , g_r: g_{1}^{e_1} = \cdots = g_{r}^{e_r} = 1
-  \rangle.
+The transposition principle then allows us to derive runtime estimates
+for the conversion problem; below, we present an explicit procedure
+derived from the algorithm in Subsection~\ref{ssec:proj_abelian}.  As
+in that section, we give the algorithm in the general case of a
+polycyclic group $G$ presented as
+\[
+G =\{ g_r^{i_r} \cdots g_1^{i_1}, \text{~with~}  0 \leq i_j < e_j \text{~for~} 1 \leq j \leq r\}.
 \]
-We are given a normal element $\alpha$ and $u$ in $\K$.  For
-$i=1,\dots,r$, let $s_i = \lceil \sqrt{e_i} \rceil$, so that $s_1
-\cdots s_r = O(\lceil \sqrt{n} \rceil)$. Before presenting the
-algorithm, note that
-the relation $u=\sum_{i=1}^n u_i g_i(\alpha)$ can be rewritten as
-$$u=\sum_{\substack{1 \leq j \leq r\\ 0 \leq i_j < e_j}} u_{i_1 \cdots
-  i_r} g_1^{i_1} \cdots g_r^{i_r}(\alpha).$$
-Using the same decomposition as in Section~\ref{ssec:proj_abelian},
-this becomes
-$$u
- = \sum_{\substack{1 \leq j
-    \leq r\\ 0 \leq i_j \leq s_j}} G_1^{i_1} \cdots
-G_r^{i_r} (\alpha_{i_1,\dots,i_r}),$$ where $$\alpha_{i_1, \dots,
-  i_r} = \sum_{\substack{1 \leq k \leq r\\ 0 \leq j_k < s_k}} u^{(i_1
-  \cdots i_r)}_{j_1 \cdots j_r} g_1^{j_1} \cdots g_r^{j_r}(\alpha)$$
-and $G_j = g_j^{s_j}$ for all $j$.
+With indices $i_1,\dots,i_r$ as above, we are given a family of 
+coefficients $u_{i_1,\dots,i_r}$ in $F$, and we expand the sum
+$u=\sum_{i_1,\dots,i_r} u_{i_1,\dots,i_r} g_r^{i_r} \cdots g_1^{i_1}(\alpha)$
+on the power basis of $\K/\F$. For this, we let $z \in\{1,\dots,r\}$ be the index
+defined in Subsection~\ref{ssec:proj_abelian}.
 
-\smallskip\noindent\textbf{Step 1.} Compute $$g_1^{i_1} \cdots
-g_r^{i_r}(\alpha), \, 1 \leq j \leq r,\ 0 \leq i_j \leq s_i.$$ Using
-Lemma \ref{lem:selfcomp}, this can be done using $\osumcosttilde$
-operations in $\F$.
+\smallskip\noindent \textbf{Step 1.} Apply Lemma \ref{lem:selfcomp},
+with $\alpha_{i_1,\dots,i_r} = \alpha$ for all $i_1,\dots,i_r$, to get
+$$ G_{i_z,\dots,i_1}=g_z^{i_z} \cdots
+g_1^{i_1}(\alpha),$$ for all indices $i_1,\dots,i_z$ such that $0\leq
+i_m < e_m$ holds for $m=1,\dots,z-1$ and $0\leq i_z <s_z=
+\lceil{\sqrt{n}}/(e_1 \cdots e_{z-1})\rceil$.  As in
+Subsection~\ref{ssec:proj_abelian}, the cost of this step is
+$\osumcosttilde$.
 
-\smallskip\noindent\textbf{Step 2.} In order to get all $\alpha_{i_1,
-  \dots, i_r}$, multiply the matrix whose rows are the coefficients of
-all $g_1^{i_1} \cdots g_r^{i_r}(\alpha)$ by the matrix with columns
-the coefficients of all $\alpha_{i_1, \dots, i_r}$. This operation can
-be done in $O(n^{1/2 \cdot \omega(2)})$ operations in $\F$.
+\smallskip\noindent\textbf{Step 2.} Compute $G=g_z^{s_z}$, for $s_z$
+as above. The cost is is negligible compared to the cost of the
+previous step.
 
-\smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:selfcomp} to
-compute all $ G_1^{i_1} \cdots G_r^{i_r} (\alpha_{i_1,\dots,i_r})$
-(this takes $\osumcosttilde$ operations in $\F$) and sum them to
-obtain $u$. MISSING: computing the $G_i$'s.
+\smallskip\noindent\textbf{Step 3.} Compute the matrix product 
+$\mat U \mat \Gamma$, where
+\begin{itemize}
+\item[$\bullet$] $\mat U$ is the matrix over $\F$ having $\lceil
+  e_z/s_z\rceil e_{z+1} \cdots e_r$ rows and $e_1 \cdots e_{z-1} s_z$
+  columns built as follows. Rows are indexed by $(j_z,\dots,j_r)$,
+  with $0\le j_z < \lceil e_z/s_z\rceil$ and $0 \le j_m < e_m$ for all
+  other indices; columns are indexed by $(i_1,\dots,i_z)$, with $0\le
+  i_z < s_z$ and $0 \le i_m < e_m$ for all other indices; the entry at
+  rows $(j_z,\dots,j_r)$ and column $(i_1,\dots,i_z)$ is
+  $u_{i_1,\dots,i_z + s_z j_z, j_{z+1},\dots,j_r}$.
+\item[$\bullet$] $\mat \Gamma$ is the matrix with $e_1 \cdots e_{z-1}
+  s_z$ rows (indexed in the same way as the columns of $\mat U$) and $n$
+  columns, whose row of index $(i_1,\dots,i_z)$ contains the
+  coefficients of $ G_{i_z,\dots,i_1}$ (on the power basis of $\K$)
+\end{itemize}
+As established in Subsection~\ref{ssec:proj_abelian}, the row and column
+dimensions of $\mat U$ are $O(\sqrt n)$, so this product can 
+be computed in $O(n^{(1/2)\cdot\omega(2)})$ operations in $\F$. The rows of 
+the resulting matrix give the coefficients of 
+$$ H_{j_{z+1},\dots,j_r} = \sum_{i_1,\dots,i_z} u_{i_1,\dots,i_z+s_z j_z,\dots,j_r} g_z^{i_z} \cdots
+g_1^{i_1}(\alpha),$$
+for all indices $(j_z,\dots,j_r)$ and $(i_1,\dots,i_z)$ as above.
 
-\smallskip
+\smallskip\noindent\textbf{Step 4.} Compute and add all
+$$g_r^{j_1} \cdots g_{z+1}^{j_{z+1}} G^{j_z} ( H_{j_{z+1},\dots,j_r}
+),$$ for indices $(j_z,\dots,j_r)$ as above; their sum is precisely
+the input element $u=\sum_{i_1,\dots,i_r} u_{i_1,\dots,i_r} g_r^{i_r}
+\cdots g_1^{i_1}(\alpha)$, written on the power basis.
 
-Summing the costs of all steps results in a runtime of
-$\osumcosttilde$ operations in $\F$ for conversion from
-normal to power basis for abelian groups.
+This is done by a second call to Lemma \ref{lem:selfcomp}, for the same
+asymptotic cost as in Step 1. Summing all costs, we arrive
+at an overall runtime of $\osumcosttilde$ operations in $\F$ for
+the conversion from normal to power basis. This proves the first 
+half of Theorem~\ref{thm:main2}.
 
-\paragraph{Metacyclic extensions.} Suppose now that $G$ is given by
-\eqref{eq:metacyclic}, that is,
-\begin{equation*}
-G=  \langle \sigma,\tau: \sigma^m = 1,  \tau^s = \sigma^t, \tau^{-1}\sigma \tau = \sigma^r \rangle.
-\end{equation*}
-In what follows, we assume $s \leq m$ and we use the presentation
-of $G$ from~\eqref{pres1}. The case $m \le s$ is dealt with similarly,
-using~\eqref{pres2} instead.
-
-The relation $u=\sum_{i=1}^n u_i g_i(\alpha)$ can be rewritten as
-$$u=\sum_{i = 0}^{m-1} \sum_{j=0}^{s-1} u_{i,j}\sigma^i \tau^j(\alpha).$$
-We use the decomposition from the proof of Proposition~\ref{prop:sum_meta}.
-
-\smallskip\noindent\textbf{Step 1.}
-For $i=0,\dots,\lceil \sqrt{m/s}
-\rceil-1$ and $j=0,\dots,s-1$, compute
-$$G_{i,j}=\sigma^i\tau^j(\alpha).$$
-Using Lemma \ref{lem:selfcomp}, takes $\osumcosttilde$ operations
-in~$\F$.
-
-\'E: stopping here
-
-% $$u = \sum_{i =
-%   0}^{\lceil \sqrt{m} \rceil} S^i(\alpha_i),$$ where
-%  $S =
-% \sigma^{\lceil \sqrt{ms} \rceil}$ and 
-% for $i=0,\dots,\lceil \sqrt{m}\rceil -1$,  
-% $$\alpha_i =
-% \sum_{j = 0}^{\lceil\sqrt{m/s}\rceil}\sum_{j =0}^{s-1}
-% a_{jk}^{(i)}\sigma^j \tau^j (\alpha).$$  As in the abelian case, we do the
-% computation in three steps.
-
-% \smallskip\noindent\textbf{Step 1.} Compute $\sigma^i\tau^j(\alpha)$
-% for $0 \leq i \leq \lceil \sqrt{m} /\sqrt{s} \rceil$ and $0 \leq j <
-% s$.  Using Lemma \ref{lem:selfcomp}, this can be done using
-% $\osumcosttilde$ operations in $F$.
-
-% \smallskip\noindent\textbf{Step 2.} In order to get $h_{i}$ multiply
-% the matrix with rows $\sigma^i\tau^j(\alpha)$ by the matrix with
-% columns the coefficients of $h_{i}$. This operation can be done in
-% $O((ms)^{1/2 \cdot \omega(2)})$.
-
-% \smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:hornerrep} to
-% compute \eqref{eq:norm2pwrpol}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Power basis to normal basis.}
 
-Now assume $u \in K$ is given in power basis. The goal is to find $c_i$'s in $F$ such that, 
-$$u = \sum_{i = 0}^{n-1} c_i g_i(\alpha).$$
-Then for any element $g_j$ of $G$ we have
-$$g_j(u) = \sum_{i = 0}^{n-1} c_i g_jg_i(\alpha).$$
-On the other hand if $l$ is a random projection of $K$ to $F$, we get 
-$$l(g_j(u)) = \sum_{i = 0}^{n-1} c_i l(g_jg_i(\alpha)).$$
-Hence, in order to find $c_i$'s it is enough to solve the linear system
-\begin{equation}\label{eq:convlinsys}
-l(M_G(\alpha)) \textbf{x} = \begin{bmatrix} l(g_i(u)) \end{bmatrix}_{0 \leq i <n}
-\end{equation}
-Hence the conversion problem can be solved in 2 steps 
+Now assume $u \in \K$ is given in the power basis. Still writing the
+elements of $G$ as $g_1,\dots,g_n$, the goal is to find coefficients
+$c_i$'s in $\F$ such that
+$$ \sum_{i = 1}^{n} c_i g_i(\alpha) = u.$$ Starting from this
+equality, for any element $g_j$ of $G$, we have
+$$ \sum_{i = 1}^{n} c_i g_jg_i(\alpha) = g_j(u).$$
+Then, if $\ell$ is a random $\F$-linear projection $\K\to\F$, we get 
+$$\sum_{i = 1}^{n} c_i \ell(g_jg_i(\alpha)) = \ell(g_j(u)), \quad  1 \le j \le n.$$
+Introducing 
+$$u'= \sum_{i=1}^{n} c_i g_i^{-1} \in \F[G]$$
+and writing as before
+$$s_{\alpha,\ell}=\sum_{j=1}^{n} \ell(g_j(\alpha))g_j
+\quad\text{and}\quad
+s_{u,\ell} = \sum_{j=1}^{n}\ell(g_j(u)) g_j \quad\text{in~} \F[G],$$ the
+$n$ equations above are equivalent to the equality
+$s_{\alpha,\ell}\ u' = s_{u,\ell}$ in $\F[G]$.
 
-\smallskip\noindent\textbf{Step 1.} compute $\begin{bmatrix} l(g_i(u)) \end{bmatrix}_{0 \leq i <n}$ which can be done using
-the algorithms of Section \ref{sec:osum}. This can be carried out using $\thecost$ operations in $F$.
-
-\smallskip\noindent\textbf{Step 2.} compute $l(M_G(\alpha))$ and then solving the linear system \eqref{eq:convlinsys}.
-
-\paragraph{Abelian extension.}
-It is already mentioned that multiplying by $l(M_G(\alpha))$ is equivalent of multiplication in a multivariate ring, by 
-$s_{\alpha, \ell}$. Hence by considering the group algebra version of \eqref{eq:convlinsys} we have to solve $$s_{\alpha,\ell} x 
-= s_u$$ for $x$ 
-in $F[G]$. This can be done by using the tools provided in Section ?. Computing the inverse of $s_{\alpha,\ell}$ costs the same 
-as testing its invertiblity. Having the inverse we get the solution with a single multiplication in $F[G]$.
-
-\paragraph{Metacyclic extension.}
-
-In order to solve \eqref{eq:convlinsys}, in the metacyclic case, we start with understanding the structure of $M_G(\alpha)$. 
-Assume the first row of $M_G(\alpha)$ is 
-$$\begin{bmatrix}
-\sigma^0 \tau^0 &  \cdots & \sigma^{n-1} \tau^0 & \sigma^0 \tau &  \cdots & \sigma^{n-1} \tau & \sigma^0 \tau^s &  \cdots & 
-\sigma^{n-1} \tau^s 
-\end{bmatrix}$$
-Now by considering the actions (respectively) of
-$$\tau^0 \sigma^1, \ldots , \tau^0 \sigma^{n-1}, \tau^1 \sigma^0, \ldots , \tau^1 \sigma^{n-1} , \cdots \tau^s \sigma^0, \ldots 
-, \tau^s \sigma^{n-1}$$
-on the first row we get $M_G(\alpha)$.
-Note that here we are using both presentation of elements in $G$ as $\sigma^i\tau^j$ and $\tau^j\sigma^i$. Using above argument 
-it is not hard to see $M_G(\alpha)$ as a block matrix with blocks generated by the action of $\tau^l \sigma^1, \ldots , \tau^l 
-\sigma^{n-1}$ on $\sigma^0 \tau^k ,  \ldots , \sigma^{n-1} \tau^k$. In other word the $lk$-th block of $M$ is 
-$\left( \tau^l \sigma^{(i-1)+(j-1)} \tau^k \right)_{ij}$ for $1 \leq i,j \leq n$. This shows that each block is a Hankel $n \times n$ matrix.
-
+We use the algorithm of Section~\ref{sec:osum} to compute both
+$s_{\alpha,\ell}$ and $s_{u,\ell}$; this takes $\osumcosttilde$
+operations in $\F$, for $G$ polycyclic. If $\alpha$ is normal,
+$s_{\alpha,\ell}$ is a unit for a generic $\ell$. Then, if we further
+assume that $G$ is either abelian or metacyclic, it suffices to apply
+the division algorithms given in the previous section to recover $u'$,
+and thus all coefficients $c_1,\dots,c_n$. In both cases, the runtime
+of the division is negligible compared to the cost $\osumcosttilde$ of
+the first step. Altogether, this finishes the proof of
+Theorem~\ref{thm:main2}.
 
 
 %%% Local Variables:

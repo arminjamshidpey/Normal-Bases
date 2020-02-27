@@ -1,6 +1,6 @@
 \section{Introduction}
 
-For a finite Galois extension field $\K/\F$, with Galois group $G =
+For a finite Galois field extension $\K/\F$, with Galois group $G =
 \mathrm{Gal}(\K/\F)$, an element $\alpha \in \K$ is called
 \emph{normal} if the set of its Galois conjugates $G \cdot \alpha = \{
 g(\alpha): g\in G\}$ forms a basis for $\K$ as a vector space over
@@ -17,22 +17,24 @@ related Galois extension, a normal basis is useful in computing the
 multiplicative invariants explicitly~\citep{Jam18}.
 
 A number of algorithms are available for finding a normal element in
-characteristic zero fields and finite fields.  Because of their immediate
-applications in finite fields, algorithms for determining normal elements
-in this case are most commonly seen.  A fast randomized algorithm for
-determining a normal element in a finite field $\FF_{q^n}/\FF_q$, where
-$\FF_{q^n}$ is the finite field with $q^n$ elements for any prime power $q$
-and integer $n>1$, is presented by \citeN{GatGie90}, with a cost of
-$O(n^2+n\log q)$ operations in $\FF_q$.  A faster randomized algorithm is
-introduced by \citeN{KalSho98}, with a cost of $O(n^{1.815}\log q)$
-operations in $\FF_q$.  In the bit complexity model, Kedlaya and Umans showed
-how to reduce the exponent of $n$ to $1.5+\varepsilon$ (for any
-$\varepsilon > 0$), by leveraging their quasi-linear time algorithm for
-{\em modular composition}~\citep{KeUm11}. \cite{LenstraNormal} introduced a
-deterministic algorithm to construct a normal element which uses $n^{O(1)}$
-operations in $\FF_{q^n}/\FF_q$.  To the best of our knowledge, the
-algorithm of \cite{AugCam94} is the most efficient deterministic method,
-with a cost of $O(n^3+n^2\log q)$ operations in $\FF_q$.
+characteristic zero and in finite fields.  Because of their immediate
+applications in finite fields, algorithms for determining normal
+elements in this case are most commonly seen.  A fast randomized
+algorithm for determining a normal element in a finite field
+$\FF_{q^n}/\FF_q$, where $\FF_{q^n}$ is the finite field with $q^n$
+elements for any prime power $q$ and integer $n>1$, is presented by
+\citeN{GatGie90}, with a cost of $O(n^2+n\log q)$ operations in
+$\FF_q$.  A faster randomized algorithm is introduced by
+\citeN{KalSho98}, with a cost of $O(n^{1.82}\log q)$ operations in
+$\FF_q$.  In the bit complexity model, Kedlaya and Umans showed how to
+reduce the exponent of $n$ to $1.63$, by leveraging their quasi-linear
+time algorithm for {\em modular
+  composition}~\citep{KeUm11}. \cite{LenstraNormal} introduced a
+deterministic algorithm to construct a normal element which uses
+$n^{O(1)}$ operations in $\FF_{q^n}/\FF_q$.  To the best of our
+knowledge, the algorithm of \cite{AugCam94} is the most efficient
+deterministic method, with a cost of $O(n^3+n^2\log q)$ operations in
+$\FF_q$.
 
 In characteristic zero, \cite{SchSte93} gave an algorithm for finding
 a normal basis of a number field over $\QQ$ with a cyclic Galois group
@@ -47,11 +49,11 @@ $\K$.
 
 In this paper we present a new randomized algorithm that decides
 whether a given element in either an abelian or a metacyclic extension
-is normal, with a runtime \alg in the degree $n$ of the extension. The
-costs of all algorithms are measured by counting \emph{arithmetic
-  operations} in $\F$ at unit cost.  Questions related to the
-bit-complexity of our algorithms are challenging, and beyond the scope
-of this paper.
+is normal, with a runtime subquadratic in the degree $n$ of the
+extension. The costs of all algorithms are measured by counting
+\emph{arithmetic operations} in $\F$ at unit cost.  Questions related
+to the bit-complexity of our algorithms are challenging, and beyond
+the scope of this paper.
 
 Our main conventions are the following.
 \begin{assumption}
@@ -86,18 +88,19 @@ of finite fields.
 Having $s_{\alpha,\ell}$ in hand, we need to test its
 invertibility. In order to do so, we present an algorithm in the
 abelian case which relies on the fact that $\F[G]$ is isomorphic to a
-multivariate quotient polynomial ring by an ideal $(x^{e_i}_i-1)_{1
-  \leq i \leq m}$, where $e_i$'s are positive integers. For metacyclic
+multivariate polynomial ring modulo an ideal $(x^{e_i}_i-1)_{1 \leq i
+  \leq m}$, where $e_i$'s are positive integers. For metacyclic
 groups, we exploit the block-Hankel structure of the matrix of
-multiplication by $s_{\alpha,\ell}$. Remark that these questions on
-the cost of arithmetic operations in $\F[G]$ are closely related to
-that of Fourier transform over $G$, and it is worth mentioning that
-there is a vast literature on fast algorithms for Fourier transforms
-(over the base field $\C$). Relevant to our current context, consider
-\citep{ClaMu04} and \citep{MaRockWol18} and references therein for
-details. At this stage, it is not clear how we can apply these methods
-in our context (where we work over an arbitrary $\F$, not necessarily 
-algebraically closed).
+multiplication by $s_{\alpha,\ell}$. 
+
+These latter questions on the cost of arithmetic operations in $\F[G]$
+are closely related to that of Fourier transform over $G$, and it is
+worth mentioning that there is a vast literature on fast algorithms
+for Fourier transforms (over the base field $\C$). Relevant to our
+current context, consider \citep{ClaMu04} and \citep{MaRockWol18} and
+references therein for details. At this stage, it is not clear how we
+can apply these methods in our context (where we work over an
+arbitrary $\F$, not necessarily algebraically closed).
 
 This paper is written from the point of view of obtaining improved
 asymptotic complexity estimates. Since our main goal is to highlight
@@ -109,16 +112,11 @@ The first main result of this paper is the following theorem; we use a
 constant $\omega(4/3)$ that describes the cost of certain rectangular
 matrix products (see the end of this section).
 \begin{theorem}\label{thm:main}
-  Under Assumption \ref{assum}, one can test whether $\alpha \in \K$
-  is normal using $\thecost$ operations in $\F$ if $G$ is either
-  abelian or metacyclic, with $(3/4)\cdot\omega(4/3)<1.99$. The
-  algorithms are randomized.
+  Under Assumption \ref{assum}, if $G$ is either abelian or
+  metacyclic, one can test whether $\alpha \in \K$ is normal using
+  $\thecost$ operations in $\F$, with
+  $(3/4)\cdot\omega(4/3)<1.99$. The algorithms are randomized.
 \end{theorem}
-% Although the cost is quadratic in the size of input for a general
-% metacyclic group, in many cases it will be (slightly) subquadratic,
-% under specific conditions on the parameters defining $G$ (see
-% Section~\ref{sec:invertibility}).
-
 Once $\alpha$ is known to be normal, we also discuss the cost 
 of conversion between the power basis $1,\xbar,\dots,\xbar^{n-1}$
 of $\K$ and its normal basis $G\cdot \alpha$. Again inspired by
@@ -140,14 +138,13 @@ $\Theta(n^2)$ elements in $\K$).
 Section \ref{sec:pre} of this paper is devoted to definitions and
 preliminary discussions.  In Section \ref{sec:osum}, a
 subquadratic-time algorithm is presented for the randomized reduction
-of our main question to invertibility testing in $\F[G]$, for
-a finite polycyclic group. In particular the mentioned algorithm works
-for abelian and metacyclic groups. In Section
-\ref{sec:invertibility}, we show that the latter problem can be solved
-in quasi-linear time for an abelian group; for metacyclic
-groups, we give a subquadratic time algorithm based on structured linear 
-algebra algorithms. Finally, Section~\ref{sec:conversion} proves
-Theorem~\ref{thm:main2}.
+of our main question to invertibility testing in $\F[G]$; this
+algorithm applies to any finite polycyclic group, and in particular to
+abelian and metacyclic groups. In Section \ref{sec:invertibility}, we
+show that the latter problem can be solved in quasi-linear time for an
+abelian group; for metacyclic groups, we give a subquadratic time
+algorithm based on structured linear algebra algorithms. Finally,
+Section~\ref{sec:conversion} proves Theorem~\ref{thm:main2}.
 
 Our algorithms make extensive use of known algorithms for polynomial and
 matrix arithmetic; in particular, we use repeatedly the fact that

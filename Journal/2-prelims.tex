@@ -58,7 +58,7 @@ invertible in the group ring $\K[G]$, which is isomorphic to
 $\K[x]/\langle x^n-1\rangle$. This is a general fact: for any $G$,
 matrix $\mat M$ above is the matrix of left multiplication by the orbit
 sum
-$$S_\alpha:= \sum_{g \in G} g(\alpha)g \in \K[G],$$ where we index
+$$S_\alpha:= \sum_{i=1}^n g_i(\alpha)g_i \in \K[G],$$ where we index
 rows by $g_1,\dots,g_n$ and columns by their inverses
 $g_1^{-1},\dots,g_n^{-1}$. In terms of notation, for any field
 $\mathsf L$ (typically, we will take either $\mathsf L = \F$ or
@@ -137,19 +137,26 @@ $S_\alpha$ in $\F[G]$ is a unit.
 $$\sum_{j = 0}^{n-1} \mat M^{(j)} \ell_j \boldsymbol{u} = 0$$ for any 
 $\ell_j$'s in $\F$, and $\ell(\mat M_\K(S_\alpha))$ is not invertible for any~$\ell$.
 \end{proof} 
-Our algorithm can be sketched as follows: choose random
-$\alpha$ in $\K$ and $\ell: \K\to\F$, and let
+Our algorithm can be sketched as follows: given $\alpha$ in $\K$,
+choose a random $\ell: \K\to\F$, and let
 \begin{equation}\label{def:s_alpha_ell}
-s_{\alpha,\ell}:=\sum_{g \in G} \ell(g(\alpha))g \in \F[G].
+s_{\alpha,\ell}:=\sum_{i=1}^n \ell(g_i(\alpha))g_i \in \F[G].
 \end{equation}
 Note $\ell(\mat M_\K(S_\alpha))$ is equal to $\mat
 M_\F(s_{\alpha,\ell})$, that is, the multiplication matrix by
 $s_{\alpha,\ell}$ in $\F[G]$, where, as above, we index rows by
-$g_1,\dots,g_n$ and columns by $g_1^{-1},\dots,g_n^{-1}$.  Thus, once
-$s_{\alpha,\ell}$ is known, we are left with testing whether it is a
-unit in $\F[G]$.  In the next two sections, we address the respective
-questions of computing $s_{\alpha,\ell}$, and testing its
-invertibility in $\F[G]$.
+$g_1,\dots,g_n$ and columns by $g_1^{-1},\dots,g_n^{-1}$.  Then,
+the previous lemma can be rephrased as follows:
+\begin{lemma}
+  \label{Lem:Proj-bis}
+  For $\alpha \in \K$, $\alpha$ is normal if and only if
+  $s_{\alpha,\ell}$ is invertible in $\F[G]$ for a generic
+  $\F$-linear projection $\ell: \K \to \F$.
+\end{lemma}
+Thus, once $s_{\alpha,\ell}$ is known, we are left with testing
+whether it is a unit in $\F[G]$. In the next two sections, we address
+the respective questions of computing $s_{\alpha,\ell}$, and testing
+its invertibility in $\F[G]$.
 
 
 %%% Local Variables:
