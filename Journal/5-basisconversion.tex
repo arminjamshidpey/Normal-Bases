@@ -14,7 +14,7 @@ $u $ in the power basis, we have to compute the matrix-vector
 product
 \begin{equation}\label{eq:norm2pwrmat}
 \left[\begin{array}{ccc}
-\boldsymbol \gamma_1 & \cdots & \boldsymbol \gamma_n 
+\boldsymbol{ \gamma_1} & \cdots & \boldsymbol{ \gamma_n }
 \end{array}\right]\cdot 
 \begin{bmatrix}
 u_1 \\ \vdots \\ u_n
@@ -22,7 +22,7 @@ u_1 \\ \vdots \\ u_n
 \end{equation}
 where for $i=1,\dots,n$, $\boldsymbol \gamma_i \in \F^{n\times 1}$ is
 the coefficient vector of $g_i(\alpha)$. As already pointed out by
-Kaltofen and Shoup, this shows that conversion from normal to power
+Kaltofen and Shoup for finite fields, this shows that conversion from normal to power
 basis is the transpose problem of computing the ``projected'' orbit
 sum $s_{\alpha,\ell}$, which we solved in Section \ref{sec:osum}. 
 
@@ -49,7 +49,7 @@ i_m < e_m$ holds for $m=1,\dots,z-1$ and $0\leq i_z <s_z=
 Subsection~\ref{ssec:proj_abelian}, the cost of this step is
 $\osumcosttilde$.
 
-\smallskip\noindent\textbf{Step 2.} Compute $G=g_z^{s_z}$, for $s_z$
+\smallskip\noindent\textbf{Step 2.} Compute $G_z=g_z^{s_z}$, for $s_z$
 as above. The cost is is negligible compared to the cost of the
 previous step.
 
@@ -78,7 +78,7 @@ g_1^{i_1}(\alpha),$$
 for all indices $(j_z,\dots,j_r)$ and $(i_1,\dots,i_z)$ as above.
 
 \smallskip\noindent\textbf{Step 4.} Compute and add all
-$$g_r^{j_1} \cdots g_{z+1}^{j_{z+1}} G^{j_z} ( H_{j_{z+1},\dots,j_r}
+$$g_r^{j_1} \cdots g_{z+1}^{j_{z+1}} G_z^{j_z} ( H_{j_{z+1},\dots,j_r}
 ),$$ for indices $(j_z,\dots,j_r)$ as above; their sum is precisely
 the input element $u=\sum_{i_1,\dots,i_r} u_{i_1,\dots,i_r} g_r^{i_r}
 \cdots g_1^{i_1}(\alpha)$, written on the power basis.

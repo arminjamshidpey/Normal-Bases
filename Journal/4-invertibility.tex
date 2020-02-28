@@ -34,7 +34,7 @@ cyclic of order $n=2^k$, computing the Fourier Transform of $\beta$
 requires we work in a degree $n/2$ extension of $\Q$, implying a quadratic
 runtime.
 
-In this section, we give algorithms for the problem of invertibility
+In this section, we give algorithms for the problems of invertibility
 testing and division for the two particular families of polycyclic
 group mentioned so far, namely abelian and metacyclic. For the former,
 starting from a suitable presentation of $G$, we give a softly
@@ -348,12 +348,12 @@ us to prove Theorem~\ref{thm:main2} in the next section.
 
 \smallskip
 
-The proof occupies the rest of this paragraph.  From the factorization
-$G = G_1 \times \cdots \times G_s$, we deduce that the group algebra
-$\F[G]$ is the tensor product $\F[G_1] \otimes \cdots \otimes
-\F[G_s]$. Furthermore, the factorization $G_i = G_{i,1} \times \cdots
-\times G_{i,t_i}$ implies that $\F[G_i]$ is isomorphic, as an
-$\F$-algebra, to
+The proof of the proposition occupies the rest of this paragraph.
+From the factorization $G = G_1 \times \cdots \times G_s$, we deduce
+that the group algebra $\F[G]$ is the tensor product $\F[G_1] \otimes
+\cdots \otimes \F[G_s]$. Furthermore, the factorization $G_i = G_{i,1}
+\times \cdots \times G_{i,t_i}$ implies that $\F[G_i]$ is isomorphic,
+as an $\F$-algebra, to
 $$\F[x_{i,1},\dots,x_{i,t_i}]/\left \langle
 x_{i,1}^{p_i^{b_{1}}}-1,\dots,x_{i,t_i}^{p_i^{b_{i,t_i}}}-1\right\rangle
 =\B_{p_i,\boldsymbol{b}_i,\boldsymbol{x}_i},$$ with $\boldsymbol{b}_i
@@ -377,7 +377,7 @@ the product of algebras
 \text{\small $\prod$}_{\boldsymbol{j}}~ \F[z_1,\dots,z_s]/
 \langle \Phi_{{p_1}^{c_{1,j_1}}}(z_1),\dots, \Phi_{{p_s}^{c_{s,j_s}}}(z_s) \rangle,   
  \end{equation}
-for all indices $\boldsymbol{j}=(j_1,\dots,j_s)$, with
+for indices $\boldsymbol{j}=(j_1,\dots,j_s)$, with
 $j_1 =1,\dots,N_1,\dots,j_s=1,\dots,N_s$;
 call $\Gamma$ the isomorphism. Given $B$ in $\B_{p_1,\boldsymbol{b}_1,\boldsymbol{x}_1} \otimes
 \cdots \otimes \B_{p_s,\boldsymbol{b}_s,\boldsymbol{x}_s}$,
@@ -422,18 +422,24 @@ this establishes the second part of the proposition.
 \subsection{Metacyclic Groups}
 
 In this subsection, we study the invertibility and division problems
-for a metacyclic group $G$ (see \citep[p.~88]{Johnson} or
-\citep[p.~334]{Curtis} for more background). A group $G$ is metacyclic
-if it has a normal cyclic subgroup $H$ such that $G/H$ is cyclic (this
-is the case $r=2$ in the definition we gave of polycyclic groups); for
-instance, any group with a squarefree order is metacyclic. A
-metacyclic group can always be presented~as
+for a metacyclic group $G$. A group $G$ is metacyclic if it has a
+normal cyclic subgroup $H$ such that $G/H$ is cyclic: this is the case
+$r=2$ in the definition we gave of polycyclic groups. For instance,
+any group with a squarefree order is metacyclic (see
+\citep[p.~88]{Johnson} or \citep[p.~334]{Curtis} for more
+background). 
+
+For such groups, we will use a standard specific notation, rather than
+the general one introduced in~\eqref{eq:polycyclicgrp} for arbitrary
+polycyclic ones: we will write $(\sigma,\tau)$ instead of $(g_1,g_2)$
+and $(m,s)$ instead of $(e_1,e_2)$. Then, a metacyclic group $G$ can
+be presented~as
 \begin{equation}
   \label{eq:metacyclic}
   \langle \sigma,\tau: \sigma^m = 1,  \tau^s = \sigma^t, \tau^{-1}\sigma \tau = \sigma^u \rangle,
 \end{equation}
-for some integers $m,t,u,s$, with $u,t \leq m$ and
-$u^s = 1 \bmod t$, $ut = t \bmod m$. For example, the dihedral group
+for integers $m,t,u,s$, with $u,t \leq m$ and $u^s = 1 \bmod t$, $ut =
+t \bmod m$. For example, the dihedral group
 $$D_{2m} = \langle \sigma,\tau: \sigma^m =1, \tau^2 = 1, \tau^{-1}
 \sigma \tau = \sigma^{m-1} \rangle, $$ is metacyclic, with
 $s=2$. Generalized quaternion groups, which can be presented as
@@ -467,10 +473,10 @@ matrices in $\F[G]$.
 
 Take $\beta$ in $\F[G]$. In eq.~\eqref{eqdef:M}, we introduced the
 matrix $\mat M_\F(\beta)$ of left multiplication by $\beta$ in
-$\F[G]$, where columns and rows were indexed using a specific ordering
+$\F[G]$, where columns and rows were indexed using an arbitrary ordering
 of the group elements. We will now reorder the rows and columns of
 $\mat M_\F(\beta)$ using the two presentations of $G$ seen in
-\eqref{pres1} and~\eqref{pres2}, in order to highlight its structure.
+\eqref{pres1} and~\eqref{pres2}, in order to highlight its block structure.
 In what follows, for non-negative integers $a,b,c$, we will write
 $\beta_{a,b,c}$ for the coefficient of $\tau^a \sigma^b \tau^c$ in the
 expansion of $\beta$ on the $\F$-basis of $\F[G]$.

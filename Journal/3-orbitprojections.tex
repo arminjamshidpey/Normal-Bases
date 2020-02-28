@@ -103,7 +103,7 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   Consider $g_1, \ldots g_r$ in $G=\mathrm{Gal}(\K/\F)$, positive
   integers $(s_1, \ldots s_r)$ and elements $\alpha_{i_1, \dots, i_r}$
   in $\K$, for $i_m=0,\dots,s_m$, $m=1,\dots,r$. If $\prod_{i = 1}^r
-  s_i = O(\sqrt{n})$, we can compute
+  s_i = O(\sqrt{n})$ and $r = O(\log(n))$, we can compute
   $$g_r^{i_r}\cdots g_1^{i_1}(\alpha_{i_1, \dots, i_r})
   \text{~for~} i_m=0,\dots,s_m,\ m=1,\dots,r
   $$  using $\thecost$ operations in $\F$.
@@ -120,15 +120,16 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   $$S_{t+1}=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t+1},0, \dots,
     0)} \ \mid \ (i_1,\dots,i_r)\in \mathcal I).$$ Since our input is
   $S_0$, it will be enough to go through this process for all values
-  of $r$ to obtain the output $S_r$ of the algorithm.
+  of $t$ to obtain the output $S_r$ of the algorithm.
   
   For a given index $t$, and for $m \ge 0$
   define further 
-  $$S_{t,m}=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t},i_{t+1} \bmod 2^m, 0,\dots, 0)} \ \mid \ (i_1,\dots,i_r)\in \mathcal I);$$
-  in particular, $S_{t,0} = S_t$ and $S_{t,\lfloor \log_2(s_{t+1})\rfloor+1} = S_{t+1}$. 
-  Hence, given $S_{t,m}$, it is enough to show how to compute $S_{t,m+1}$,
-  for indices $m=0,\dots,\lfloor \log_2(s_{t+1})\rfloor$.
-  This is done by writing 
+  $$S_{t,m}=(\alpha_{i_1, \dots,i_r}^{(i_1, \dots, i_{t},i_{t+1} \bmod
+    2^m, 0,\dots, 0)} \ \mid \ (i_1,\dots,i_r)\in \mathcal I);$$ in
+  particular, $S_{t,0} = S_t$ and $S_{t,\lfloor
+    \log_2(s_{t+1})\rfloor+1} = S_{t+1}$.  Hence, given $S_{t,m}$, it
+  is enough to show how to compute $S_{t,m+1}$, for indices
+  $m=0,\dots,\lfloor \log_2(s_{t+1})\rfloor$.  This is done by writing
   $$S_{t,m+1}=
   (\beta_{i_1, \dots,i_r,t,m} \ \mid \ (i_1,\dots,i_r)\in \mathcal I),$$
   with
@@ -145,9 +146,11 @@ $$\alpha_i = \sum_{0 \leq j < m} a_{i,j}\xbar^{tj},$$ where the
   $S_{t,m}$ has $O(\sqrt n)$ elements, this takes $\thecost$ 
   operations in $\F$.
   
-  For a given index $t$, this is repeated $O(\log(s_{t+1}))$ times;
-  adding up for all such indices, this amounts to $O(\log (s_1 \cdots s_r))$,
-  which is $O(\log(n))$; the conclusion follows.
+  For a given index $t$, this is repeated $\lfloor
+  \log_2(s_{t+1})\rfloor \le \log_2(s_{t+1}) + 1$ times. Adding up for
+  all indices $t$, this amounts to $O(\log (s_1 \cdots s_r)+r)$
+  repetitions, which is $O(\log(n))$ by assumption; the conclusion
+  follows.
 \end{proof}
 
 We now present dual versions of the previous two lemmas (note that
@@ -167,15 +170,15 @@ sketches the construction.
   \label{lem:modcomT}
   Given $\F$-linear forms $\ell_1,\dots,\ell_s:\K\to \F$ and $g$ in $G =
   \mathrm{Gal}(\K/\F)$, with $s = O(\sqrt{n})$, we can compute
-  $\ell_1\circ g,\dots,\ell_s \circ g$ in time $\tilde
-  O(n^{{3}/{4}\omega({4}/{3})})$.
+  $\ell_1\circ g,\dots,\ell_s \circ g$ 
+ using $\thecost$ operations in $\F$.
 \end{lemma}
 \begin{proof}
   Given $\ell_i$ by its values on the power basis $1,\xbar,\dots,\xbar^{n-1}$, $\ell_i \circ g$ is represented by its values at
   $1,\gamma,\dots,\gamma^{n-1}$, with $\gamma := g(\xbar)$. 
 
   Let $t,m$ and $\gamma_0,\dots,\gamma_t$ be as in the proof of
-  Lemma~\ref{lem:modcom}. Next, compute the ``giant steps''
+  Lemma~\ref{lem:modcom}. Compute the ``giant steps''
   $\gamma_t^j = \gamma^{tj}$, $j=0,\dots,m-1$ and for $i=1,\dots,s$
   and $j=0,\dots,m-1$, deduce the linear forms $L_{i,j}$ defined by
   $L_{i,j}(\alpha) := \ell_i(\gamma^{tj}\alpha)$ for all $\alpha$ in
@@ -199,7 +202,7 @@ whose proof follows the same pattern.
   Consider $g_1, \ldots, g_r$ in $G=\mathrm{Gal}(\K/\F)$, positive
   integers $(s_1, \ldots, s_r)$ and $\F$-linear forms $\ell_{i_1,
     \dots, i_r}$, for $i_m=0,\dots,s_m$, $m=1,\dots,r$. If $\prod_{i =
-    1}^r s_i = O(\sqrt{n})$, we can compute
+    1}^r s_i = O(\sqrt{n})$ and $r = O(\log(n))$, we can compute
   $$\ell_{i_1, \dots, i_r} \circ g_r^{i_r}\cdots g_1^{i_1}
   \text{~for~} i_m=0,\dots,s_m,\ m=1,\dots,r
   $$  using $\thecost$ operations in $\F$.
@@ -246,8 +249,8 @@ $$G = G_{r} \unrhd G_{r-1} \unrhd \cdots \unrhd G_1 \unrhd G_{0} =
 assume that $G_{j-1 } \ne G_{j}$ holds for all $j$, so that $r$ is
 $O(\log(n))$, with $n=|G|$. Finitely generated nilpotent or abelian
 groups are polycyclic. In general any finite solvable group is
-polycyclic; our key families of examples in the next section will be
-abelian and metacyclic groups.
+polycyclic; our key families of examples in the next section (abelian
+and metacyclic groups) thus fit into this category.
 
 If $G$ is polycyclic then, up to renumbering, its 
 elements can be written as
@@ -270,7 +273,7 @@ in either $\K$ or $\F$.
 \begin{proposition}\label{prop:polycyclic}
   Suppose that $G$ is polycyclic, with notation as above. For $\alpha$ in
   $\K$ and $\ell:\K\to\F$, $s_{\alpha,\ell} \in \F[G]$, as defined
-  in~\eqref{def:s_alpha_ell}, is computable using $\osumcosttilde$
+  in~\eqref{def:s_alpha_ell}, can be computed using $\osumcosttilde$
   operations in $\F$.
 \end{proposition}
 \begin{proof}
@@ -305,14 +308,14 @@ e_1\cdots e_{z-1} \left ( \frac{\sqrt n}{e_1\cdots e_{z-1}} + 1\right )
 \end{align*}
 Hence, the lemma applies, and the cost of this step is $\osumcosttilde$.
 
-\smallskip\noindent\textbf{Step 2.} Compute $G=g_z^{s_z}$, for $s_z$
+\smallskip\noindent\textbf{Step 2.} Compute $G_z =g_z^{s_z}$, for $s_z$
 as above. The cost is that of $O(\log(n))$ modular compositions, which
 is negligible compared to the cost of the previous step.
 
 \smallskip\noindent\textbf{Step 3.} Use Lemma \ref{lem:transmodcomp}
 with $\ell_{i_r,\dots,i_1} = \ell$ for all $i_1,\dots,i_r$, to compute 
 \begin{align*}
-L_{j_r,\dots,j_z} &= \ell \circ (g_{r}^{j_{r}}\cdots g_{z+1}^{j_{z+1}}G^{j_z})\\ 
+L_{j_r,\dots,j_z} &= \ell \circ (g_{r}^{j_{r}}\cdots g_{z+1}^{j_{z+1}}G_z^{j_z})\\ 
 &= \ell \circ (g_{r}^{j_{r}}\cdots g_{z+1}^{j_{z+1}}g_{z}^{s_z j_z}),
 \end{align*}
 for all indices $0 \leq j_{z} < \lceil {e_{z}}/{s_z}\rceil$ and $0
@@ -321,7 +324,7 @@ indices $s'_1=\cdots=s'_{z-1}=1$, $s'_z = \lceil {e_{z}}/{s_z}\rceil$
 and $s'_m = e_m$ for $m > z$. Again, we have to verify that $s'_1
 \cdots s'_r$ is $O(\sqrt n)$.  Indeed, we have
 \begin{align*}
-s'_1 \cdots s'_r   \left \lceil \frac{e_{z}}{s_z}\right \rceil e_{z+1} \cdots e_r
+s'_1 \cdots s'_r  = \left \lceil \frac{e_{z}}{s_z}\right \rceil e_{z+1} \cdots e_r
 &\le \left (\frac{e_{z}}{s_z} +1 \right) e_{z+1} \cdots e_r\\
 &\le \frac{e_{z} \cdots e_r}{s_z} + e_{z+1} \cdots e_r.
 \end{align*}

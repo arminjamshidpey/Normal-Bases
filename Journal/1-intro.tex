@@ -133,7 +133,7 @@ $1.99$ is obtained through fast matrix multiplication algorithms that
 are most likely impractical for reasonable $n$. However, these results
 show in particular that we can perform basis conversions without
 writing down the normal basis itself (which would require
-$\Theta(n^2)$ elements in $\K$).
+$\Theta(n^2)$ elements in $\F$).
 
 Section \ref{sec:pre} of this paper is devoted to definitions and
 preliminary discussions.  In Section \ref{sec:osum}, a
@@ -141,9 +141,11 @@ subquadratic-time algorithm is presented for the randomized reduction
 of our main question to invertibility testing in $\F[G]$; this
 algorithm applies to any finite polycyclic group, and in particular to
 abelian and metacyclic groups. In Section \ref{sec:invertibility}, we
-show that the latter problem can be solved in quasi-linear time for an
-abelian group; for metacyclic groups, we give a subquadratic time
-algorithm based on structured linear algebra algorithms. Finally,
+show that the problems of testing invertibility in $\F[G]$ and
+performing divisions can be solved in quasi-linear time for an abelian
+group; for metacyclic groups, we give a subquadratic time algorithm
+based on structured linear algebra algorithms (this will finish the
+proof of Theorem~\ref{thm:main}). Finally,
 Section~\ref{sec:conversion} proves Theorem~\ref{thm:main2}.
 
 Our algorithms make extensive use of known algorithms for polynomial and
@@ -155,16 +157,16 @@ $(+,\times,\div)$ in $\K$ can all be done using $\tilde{O}(n)$
 operations in $\F$~\citep{vzGathen13}.
 
 For matrix arithmetic, we will rely on some non-trivial results on
-rectangular matrix multiplication initiated by \cite{LoRo83}. For $k \in
-\mathbb{R}$, we denote by $\omega(k)$ a constant such that over any
-ring, matrices of sizes $(n,n)$ by $(n,\lceil n^k \rceil)$ can be
+rectangular matrix multiplication initiated by \cite{LoRo83}. For $k
+\in \mathbb{R}$, we denote by $\omega(k)$ a constant such that over
+any ring, matrices of sizes $(n,n)$ by $(n,\lceil n^k \rceil)$ can be
 multiplied in $O(n^{\omega(k)})$ ring operations (so $\omega(1)$ is
 the usual exponent of square matrix multiplication, which we simply
 write $\omega$).  The sharpest values known to date for most
 rectangular formats are by~\cite{LeGall}; for $k=1$, the best known
-value is $\omega \le 2.373$ by \citeN{LeGall14}. Over a field, we will
-frequently use the fact that further matrix operations (determinant or
-inverse) can be done in $O(n^\omega)$ base field operations.
+value is $\omega \le 2.373$ by \citeN{LeGall14}.  Over a field,
+further matrix operations (such as inversion) can also be done in
+$O(n^\omega)$ base field operations.
 
 
 Part of the results of this paper (Theorem~\ref{thm:main} for abelian
