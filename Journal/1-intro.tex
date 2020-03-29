@@ -4,17 +4,17 @@ For a finite Galois field extension $\K/\F$, with Galois group $G =
 \mathrm{Gal}(\K/\F)$, an element $\alpha \in \K$ is called
 \emph{normal} if the set of its Galois conjugates $G \cdot \alpha = \{
 g(\alpha): g\in G\}$ forms a basis for $\K$ as a vector space over
-$\F$. The existence of normal element for any finite Galois extension
+$\F$. The existence of a normal element for any finite Galois extension
 is classical, and constructive proofs are provided in most algebra
 texts (see, e.g., \citep[Section 6.13]{Lang}).
 %\cite{Wae70}, Section~8.11).
  
 While there is a wide range of well-known applications of normal bases in
-finite fields, such as fast exponentiation~\citep{GaGaPaSh00}, there also
+finite fields, such as fast exponentiation~(e.g., \citep{GaGaPaSh00}), there also
 exist applications of normal elements in characteristic zero.  For instance,
 in multiplicative invariant theory, for a given permutation lattice and
 related Galois extension, a normal basis is useful in computing the
-multiplicative invariants explicitly~\citep{Jam18}.
+multiplicative invariants explicitly~\citep*{Jam18}.
 
 A number of algorithms are available for finding a normal element in
 characteristic zero and in finite fields.  Because of their immediate
@@ -114,7 +114,7 @@ matrix products (see the end of this section).
 \begin{theorem}\label{thm:main}
   Under Assumption \ref{assum}, if $G$ is either abelian or
   metacyclic, one can test whether $\alpha \in \K$ is normal using
-  $\thecost$ operations in $\F$, with
+  $\thecost$ operations in $\F$, where
   $(3/4)\cdot\omega(4/3)<1.99$. The algorithms are randomized.
 \end{theorem}
 Once $\alpha$ is known to be normal, we also discuss the cost 
