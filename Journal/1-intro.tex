@@ -115,7 +115,7 @@ matrix products (see the end of this section).
   Under Assumption \ref{assum}, if $G$ is either abelian or
   metacyclic, one can test whether $\alpha \in \K$ is normal using
   $\thecost$ operations in $\F$, where
-  $(3/4)\cdot\omega(4/3)<1.99$. The algorithms are randomized.
+  $(3/4)\cdot\omega(4/3)<1.99$. The algorithms are randomized of the Monte Carlo type.
 \end{theorem}
 Once $\alpha$ is known to be normal, we also discuss the cost 
 of conversion between the power basis $1,\xbar,\dots,\xbar^{n-1}$
@@ -126,7 +126,7 @@ previous work of~\cite{KalSho98}, we obtain the following results.
   and $\alpha \in \K$ is known to be normal, we can perform basis
   conversion between the power basis $1,\xbar,\dots,\xbar^{n-1}$ of
   $\K$ and its normal basis $G\cdot \alpha$ using $\thecost$
-  operations in $\F$. The algorithms are randomized.
+  operations in $\F$. The algorithms are randomized of the Monte Carlo type.
 \end{theorem}
 In both theorems, the runtime is barely subquadratic, and the exponent
 $1.99$ is obtained through fast matrix multiplication algorithms that
@@ -135,9 +135,7 @@ show in particular that we can perform basis conversions without
 writing down the normal basis itself (which would require
 $\Theta(n^2)$ elements in $\F$).
 \begin{remark}
-Both above algorithms are Monte Carlo. We also use Las Vegas algorithms
- to solve linear systems in this paper. For definitions of such 
-randomized algorithms see~\cite[Section 6.5]{vzGathen13}.
+Both above algorithms are randomized of the Monte Carlo type.  That is, they are allowed to generate random bits at unit cost, and for a control parameter $\epsilon$, produce the correct answer with probability greater than $1-\epsilon$ at the cost of a multiplicative factor of $\log(1/\epsilon)$ in the complexity.
 \end{remark}
 
 Section \ref{sec:pre} of this paper is devoted to definitions and
