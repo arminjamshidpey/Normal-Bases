@@ -136,6 +136,11 @@ $S_\alpha$ in $\F[G]$ is a unit.
 $$\sum_{j = 0}^{n-1} \mat M^{(j)} \ell_j \boldsymbol{u} = 0$$ for any 
 $\ell_j$'s in $\F$, and $\ell(\mat M_\K(S_\alpha))$ is not invertible for any~$\ell$.
 \end{proof} 
+\begin{remark}\label{rmk:mc-epsilon}
+We have already seen that an $\alpha \in K$ is normal with probability 
+$1 - n/|X|$, where $X$ is a finite subset of $F$. Similarly, using the above lemma and the Lipton-DeMillo-Schwartz-Zippel lemma one can conclude 
+that the $\epsilon$ in Remark \ref{rmk:mc-prob}, can be equal to $n/|x|$.
+\end{remark}
 Our algorithm can be sketched as follows: given $\alpha$ in $\K$,
 choose a random $\ell: \K\to\F$, and let
 \begin{equation}\label{def:s_alpha_ell}
@@ -156,6 +161,8 @@ Thus, once $s_{\alpha,\ell}$ is known, we are left with testing
 whether it is a unit in $\F[G]$. In the next two sections, we address
 the respective questions of computing $s_{\alpha,\ell}$, and testing
 its invertibility in $\F[G]$.
+
+
 
 
 %%% Local Variables:
