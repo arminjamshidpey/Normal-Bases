@@ -135,7 +135,7 @@ show in particular that we can perform basis conversions without
 writing down the normal basis itself (which would require
 $\Theta(n^2)$ elements in $\F$).
 \begin{remark}\label{rmk:mc-prob}
-Both above algorithms are randomized of the Monte Carlo type.  That is, they are allowed to generate random bits at unit cost, and for a control parameter $\epsilon$, produce the correct answer with probability greater than $1-\epsilon$ at the cost of a multiplicative factor of $\log(1/\epsilon)$ in the complexity. See Lemma \ref{Lem:Proj} and Remark 
+Both above algorithms are randomized of the Monte Carlo type.  That is, they are allowed to generate random bits at unit cost, and for a control parameter $\epsilon$, produce the correct answer with probability greater than $1-\epsilon$. See Lemma \ref{Lem:Proj} and Remark 
 \ref{rmk:mc-epsilon} for more detail on $\epsilon$.
 \end{remark}
 
@@ -158,7 +158,8 @@ polynomials of degree $n$ in $\F[x]$, for any field $\F$ of
 characteristic zero, can be multiplied in $\tilde{O}(n)$ operations in
 $\F$~\citep{ScSt71}. As a result, arithmetic operations
 $(+,\times,\div)$ in $\K$ can all be done using $\tilde{O}(n)$
-operations in $\F$~\citep{vzGathen13}.
+operations in $\F$~\citep{vzGathen13}. We also assume that choosing
+random elements from $\F$ takes constant time.
 
 For matrix arithmetic, we will rely on some non-trivial results on
 rectangular matrix multiplication initiated by \cite{LoRo83}. For $k
@@ -171,7 +172,6 @@ rectangular formats are by~\cite{LeGall}; for $k=1$, the best known
 value is $\omega \le 2.373$ by \citeN{LeGall14}.  Over a field,
 further matrix operations (such as inversion) can also be done in
 $O(n^\omega)$ base field operations.
-
 
 Part of the results of this paper (Theorem~\ref{thm:main} for abelian
 groups) were already published in the conference
