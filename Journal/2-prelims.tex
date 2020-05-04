@@ -141,7 +141,7 @@ choose a random $\ell: \K\to\F$, and let
 \begin{equation}\label{def:s_alpha_ell}
 s_{\alpha,\ell}:=\sum_{i=1}^n \ell(g_i(\alpha))g_i \in \F[G].
 \end{equation}
-Note that $\ell(\mat M_\K(S_\alpha))$ is equal to $\mat
+Note thatw $\ell(\mat M_\K(S_\alpha))$ is equal to $\mat
 M_\F(s_{\alpha,\ell})$, that is, the multiplication matrix by
 $s_{\alpha,\ell}$ in $\F[G]$, where, as above, we index rows by
 $g_1,\dots,g_n$ and columns by $g_1^{-1},\dots,g_n^{-1}$.  Then,
@@ -157,11 +157,17 @@ whether it is a unit in $\F[G]$. In the next two sections, we address
 the respective questions of computing $s_{\alpha,\ell}$, and testing
 its invertibility in $\F[G]$.
 \begin{remark}\label{rmk:mc-epsilon}
-The polynomial $P$ in the proof of Lemma \ref{Lem:Proj}, is a homogeneous 
-polynomial of degree $n$ in $(L_1, \ldots , L_n)$. By Lipton-DeMillo-
-Schwartz-Zippel lemma (if we choose $L_i$'s uniformly at random in any 
-fixed finite subset $X \subset \F$) one can conclude that $P$ is zero with 
-probability less than $n/|X|$ and this implies that the $\epsilon$ in Remark \ref{rmk:mc-prob}, can be equal to $n/|X|$.
+If $\alpha$ is not normal, $S_\alpha$ is not a unit. In this case, the
+proof of Lemma \ref{Lem:Proj} established that $s_{\alpha,\ell}$ is
+not a unit for {\em any} $\ell$, so our algorithm always returns the
+correct answer in this case.
+
+If $\alpha$ is normal, the polynomial $P$ in the proof of Lemma
+\ref{Lem:Proj}, is a homogeneous polynomial of degree $n$ in $(L_1,
+\ldots , L_n)$. Thus, if we choose the coefficients of $\ell$ uniformly at
+random in any fixed finite subset $X \subset \F$, by the
+Lipton-DeMillo- Schwartz-Zippel lemma, we return the correct 
+answer probability at least $1-n/|X|$. 
 \end{remark}
 
 

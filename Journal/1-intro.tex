@@ -135,8 +135,11 @@ show in particular that we can perform basis conversions without
 writing down the normal basis itself (which would require
 $\Theta(n^2)$ elements in $\F$).
 \begin{remark}\label{rmk:mc-prob}
-Both above algorithms are randomized of the Monte Carlo type.  That is, they are allowed to generate random bits at unit cost, and for a control parameter $\epsilon$, produce the correct answer with probability greater than $1-\epsilon$. See Lemma \ref{Lem:Proj} and Remark 
-\ref{rmk:mc-epsilon} for more detail on $\epsilon$.
+  Both above algorithms are randomized of the Monte Carlo type. In our
+  model, this means that they are allowed to draw random elements for a
+  prescribed subset of $\K$, and for a control parameter $\epsilon$,
+  produce the correct answer with probability greater than
+  $1-\epsilon$ (see Remark \ref{rmk:mc-epsilon}).
 \end{remark}
 
 Section \ref{sec:pre} of this paper is devoted to definitions and
