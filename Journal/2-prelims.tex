@@ -85,7 +85,7 @@ $S_\alpha$ in $\F[G]$ is a unit.
   $(\Rightarrow)$ For a fixed $\alpha\in\K$, any entry of
   $\mat M_\K(S_\alpha)$ can be written as
   \begin{equation}\label{Eq:PrimElm}
-    \sum_{k= 0}^{n-1} a_{ijk}\xbar^k,
+    \sum_{k= 0}^{n-1} a_{ijk}\xbar^k, \; a_{ijk} \in F
   \end{equation}
   and for $\ell: \K \to \F$, the corresponding entry in $\ell(\mat
   M_\K(S_\alpha))$ can be written $\sum_{k= 0}^{n-1} a_{ijk}\ell_k$, with
@@ -102,7 +102,7 @@ $S_\alpha$ in $\F[G]$ is a unit.
   
   The elements of $G$ act on rows of $\mat M_\K(S_\alpha)$ entrywise and the
   action permutes the rows the matrix. Assume
-  $\varphi : G \to \mathfrak{S}_n$ is the group homomorphism such that
+  $\varphi : G \to \mathfrak{S}_n$ (where $\mathfrak{S}_n$ is the full symmetric group) is the group homomorphism such that
   $g(\mat M_i) = \mat M_{\varphi(g)(i)}$ for all $i$, where $\mat M_i$ is
   the $i$-th row of $\mat M_\K(S_\alpha)$.
   
@@ -110,7 +110,7 @@ $S_\alpha$ in $\F[G]$ is a unit.
   $\boldsymbol{v} \in \K^n$ such that $\mat M_\K(S_\alpha)\boldsymbol{v} = 0$;
   we choose $\boldsymbol{v}$ having the minimum number of non-zero
   entries. Let $i \in \lbrace 1, \ldots , n \rbrace$ such that
-  $v_i \neq 0$. Define $\boldsymbol{u} = 1/v_i\boldsymbol{v}$. Then,
+  $v_i \neq 0$. Define $\boldsymbol{u} = v_i^{-1}\boldsymbol{v}$. Then,
   $\mat M_\K(S_\alpha)\boldsymbol{u} = 0,$ which means
   $\mat M_j \boldsymbol{u} = 0 $ for $j \in \lbrace 1, \ldots, n
   \rbrace$. For $g \in G$, we have
@@ -125,8 +125,7 @@ $S_\alpha$ in $\F[G]$ is a unit.
   $g(\boldsymbol{u}) -\boldsymbol{u} = 0$, equivalently
   $g(\boldsymbol{u})=\boldsymbol{u}$, and hence $\boldsymbol{u} \in \F^n$.
   
-  Now we show that $\ell(\mat M_\K(S_\alpha))$ is not invertible for all
-  choices of $\ell$. By Equation \eqref{Eq:PrimElm}, we can write
+  Now we show that for all choices of $\ell$, $\ell(\mat M_\K(S_\alpha))$ is not invertible. By Equation \eqref{Eq:PrimElm}, we can write
   $$\mat M_\K(S_\alpha) = \sum_{j = 0}^{n-1} \mat M^{(j)} \xbar^j, \quad 
   \mat M^{(j)} \in M_{n}(\F) \text{~for all $j$}.$$ 
   Since $\boldsymbol{u}$ has entries in $\F$,

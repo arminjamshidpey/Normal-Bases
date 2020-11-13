@@ -102,6 +102,13 @@ references therein for details. At this stage, it is not clear how we
 can apply these methods in our context (where we work over an
 arbitrary $\F$, not necessarily algebraically closed).
 
+We would like to thank 
+the referee for pointing out that~\cite{BuClSh97} addresses lower and 
+upper bounds for multiplying in associative algebras and there is a 
+possibility for these results being applicable to our problem of 
+testing invertibility in $\F[G]$. However, application of such bounds 
+in our problem is not clear to us. 
+
 This paper is written from the point of view of obtaining improved
 asymptotic complexity estimates. Since our main goal is to highlight
 the exponent (in $n$) in our runtime analyses, costs are given using
@@ -119,7 +126,9 @@ matrix products (see the end of this section).
 \end{theorem}
 Once $\alpha$ is known to be normal, we also discuss the cost 
 of conversion between the power basis $1,\xbar,\dots,\xbar^{n-1}$
-of $\K$ and its normal basis $G\cdot \alpha$. Again inspired by
+of $\K$ and its normal basis $G\cdot \alpha$. The conversion problem between normal and 
+power bases are discussed in~\cite{KalSho98} (randomized) and~\cite{Sergeev} 
+(deterministic) with different assumptions. Inspired by
 previous work of~\cite{KalSho98}, we obtain the following results.
 \begin{theorem}\label{thm:main2}
   Under Assumption \ref{assum}, if $G$ is either abelian or metacyclic
@@ -137,7 +146,7 @@ $\Theta(n^2)$ elements in $\F$).
 \begin{remark}\label{rmk:mc-prob}
   Both above algorithms are randomized of the Monte Carlo type. In our
   model, this means that they are allowed to draw random elements for a
-  prescribed subset of $\K$, and for a control parameter $\epsilon$,
+  prescribed subset of $\F$, and for a control parameter $\epsilon$,
   produce the correct answer with probability greater than
   $1-\epsilon$ (see Remark \ref{rmk:mc-epsilon}).
 \end{remark}
